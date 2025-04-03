@@ -1,5 +1,5 @@
 ---
-title: 'Tutorial: Using Thymeleaf'
+title: 'Tutorial: Usando Thymeleaf'
 author: Thymeleaf
 version: @documentVersion@
 thymeleafVersion: @projectVersion@
@@ -8,213 +8,227 @@ thymeleafVersion: @projectVersion@
 
 
 
-1 Introducing Thymeleaf
+1 Presentando Thymeleaf
 =======================
 
 
 
-1.1 What is Thymeleaf?
+1.1 ¿Qué es Thymeleaf?
 ----------------------
 
-Thymeleaf is a Java library. It is an XML/XHTML/HTML5 template engine able to
-apply a set of transformations to template files in order to display data and/or
-text produced by your applications.
+Thymeleaf es una biblioteca Java. Es un motor de plantillas XML/XHTML/HTML5 
+capaz de aplicar un conjunto de transformaciones a los archivos de plantilla 
+para mostrar los datos o el texto generados por sus aplicaciones.
 
-It is better suited for serving XHTML/HTML5 in web applications, but it can
-process any XML file, be it in web or in standalone applications.
+Es más adecuado para servir XHTML/HTML5 en aplicaciones web, pero puede procesar 
+cualquier archivo XML, ya sea en aplicaciones web o independientes.
 
-The main goal of Thymeleaf is to provide an elegant and well-formed way of
-creating templates. In order to achieve this, it is based on XML tags and
-attributes that define the execution of predefined logic on the _DOM (Document Object Model)_,
-instead of explicitly writing that logic as code inside the template.
+El objetivo principal de Thymeleaf es proporcionar una forma elegante y bien 
+estructurada de crear plantillas. Para lograrlo, se basa en etiquetas y 
+atributos XML que definen la ejecución de la lógica predefinida en el DOM 
+(Modelo de Objetos del Documento), en lugar de escribir explícitamente dicha 
+lógica como código dentro de la plantilla.
 
-Its architecture allows a fast processing of templates, relying on intelligent
-caching of parsed files in order to use the least possible amount of I/O
-operations during execution.
+Su arquitectura permite un procesamiento rápido de plantillas, basándose en el 
+almacenamiento en caché inteligente de los archivos analizados para minimizar 
+las operaciones de E/S durante la ejecución.
 
-And last but not least, Thymeleaf has been designed from the beginning with XML
-and Web standards in mind, allowing you to create fully validating templates if
-that is a need for you.
+Y por último, pero no menos importante, Thymeleaf se diseñó desde el principio 
+teniendo en cuenta los estándares XML y web, lo que permite crear plantillas con 
+validación completa si es necesario.
 
 
 
-1.2 What kind of templates can Thymeleaf process?
--------------------------------------------------
+1.2 ¿Qué clase de plantillas puede procesar Thymeleaf?
+------------------------------------------------------
 
-Out-of-the-box, Thymeleaf allows you to process six kinds of templates, each of
-which is called a Template Mode:
+De fábrica, Thymeleaf le permite procesar seis tipos de plantillas, cada una de 
+las cuales se denomina Modo de plantilla:
 
  * XML
- * Valid XML
+ * XML válido
  * XHTML
- * Valid XHTML
+ * XHTML válido
  * HTML5
- * Legacy HTML5
+ * HTML5 heredado
 
-All of these modes refer to well-formed XML files except the _Legacy HTML5_ mode,
-which allows you to process HTML5 files with features such as standalone (not
-closed) tags, tag attributes without a value or not written between quotes. In
-order to process files in this specific mode, Thymeleaf will first perform a
-transformation that will convert your files to well-formed XML files which are
-still perfectly valid HTML5 (and are in fact the recommended way to create HTML5
-code)^[Given the fact that XHTML5 is just XML-formed HTML5 served with the
-application/xhtml+xml content type, we could also say that Thymeleaf supports
-XHTML5.].
+Todos estos modos se refieren a archivos XML bien formados, excepto el modo 
+_HTML5 heredado_, que permite procesar archivos HTML5 con características como 
+etiquetas independientes (no cerradas), atributos de etiqueta sin valor o sin 
+comillas. Para procesar archivos en este modo específico, Thymeleaf primero 
+realiza una transformación que convierte los archivos en archivos XML bien 
+formados, que siguen siendo HTML5 perfectamente válidos (y, de hecho, son la 
+forma recomendada de crear código HTML5). [Dado que XHTML5 es simplemente 
+HTML5 en formato XML, servido con el tipo de contenido application/xhtml+xml, 
+también podríamos decir que Thymeleaf es compatible con XHTML5].
 
-Also note that validation is only available for XML and XHTML templates.
+Tenga en cuenta también que la validación solo está disponible para plantillas 
+XML y XHTML.
 
-Nevertheless, these are not the only types of template that Thymeleaf can
-process, and the user is always able to define his/her own mode by specifying
-both a way to _parse_ templates in this mode and a way to _write_ the results.
-This way, anything that can be modelled as a DOM tree (be it XML or not) could
-effectively be processed as a template by Thymeleaf.
+Sin embargo, estos no son los únicos tipos de plantilla que Thymeleaf puede 
+procesar, y el usuario siempre puede definir su propio modo especificando tanto 
+la forma de analizar las plantillas en este modo como la de escribir los 
+resultados. De esta forma, cualquier elemento que pueda modelarse como un árbol 
+DOM (ya sea XML o no) podrá ser procesado eficazmente como plantilla por 
+Thymeleaf.
 
 
 
-1.3 Dialects: The Standard Dialect
+1.3 Dialectos: El dialecto estándar
 ----------------------------------
 
-Thymeleaf is an extremely extensible template engine (in fact it should be
-better called a _template engine framework_) that allows you to completely
-define the DOM nodes that will be processed in your templates and also how they
-will be processed.
+Thymeleaf es un motor de plantillas extremadamente extensible (de hecho, debería 
+llamarse mejor _framework de motor de plantillas_) que le permite definir 
+completamente los nodos DOM que se procesarán en sus plantillas y también cómo 
+se procesarán.
 
-An object that applies some logic to a DOM node is called a _processor_, and a
-set of these processors ---plus some extra artifacts--- is called a dialect, of
-which Thymeleaf's core library provides one out-of-the-box called the _Standard Dialect_,
-which should be enough for the needs of a big percent of users.
+Un objeto que aplica alguna lógica a un nodo DOM se llama _procesador_, y un 
+conjunto de estos procesadores ---más algunos artefactos extra--- se llama 
+dialecto, de los cuales la biblioteca principal de Thymeleaf proporciona uno 
+listo para usar llamado _Dialecto estándar_, que debería ser suficiente para las 
+necesidades de un gran porcentaje de usuarios.
 
-_The Standard Dialect is the dialect this tutorial covers_. Every attribute and
-syntax feature you will learn about in the following pages is defined by this
-dialect, even if that isn't explicitly mentioned.
+_El dialecto estándar es el que se describe en este tutorial_. Todos los 
+atributos y características sintácticas que aprenderá en las siguientes páginas 
+están definidos por este dialecto, incluso si no se menciona explícitamente.
 
-Of course, users may create their own dialects (even extending the Standard one)
-if they want to define their own processing logic while taking advantage of the
-library's advanced features. A Template Engine can be configured several
-dialects at a time.
+Por supuesto, los usuarios pueden crear sus propios dialectos (incluso 
+ampliando el Estándar) si desean definir su propia lógica de procesamiento y 
+aprovechar las funciones avanzadas de la biblioteca. Un motor de plantillas 
+permite configurar varios dialectos a la vez.
 
-> The official thymeleaf-spring3 and thymeleaf-spring4 integration packages 
-> both define a dialect called the "SpringStandard Dialect", mostly equivalent 
-> to the Standard Dialect but with small adaptations to make better use of some 
-> features in Spring Framework (for example, by using Spring Expression Language 
-> instead of Thymeleaf's standard OGNL). So if you are a Spring MVC user you are 
-> not wasting your time, as almost everything you learn here will be of use in 
-> your Spring applications.
+> Los paquetes de integración oficiales thymeleaf-spring3 y thymeleaf-spring4 
+> definen un dialecto llamado "SpringStandard Dialect", prácticamente 
+> equivalente al Dialecto Estándar, pero con pequeñas adaptaciones para 
+> optimizar algunas características de Spring Framework (por ejemplo, usando el 
+> lenguaje de expresiones Spring en lugar del OGNL estándar de Thymeleaf). Así 
+> que, si usas Spring MVC, no estás perdiendo el tiempo, ya que casi todo lo que 
+> aprendas aquí te será útil en tus aplicaciones Spring.
 
-The Thymeleaf Standard Dialect can process templates in any mode, but is
-especially suited for web-oriented template modes (XHTML and HTML5 ones).
-Besides HTML5, it specifically supports and validates the following XHTML
-specifications: _XHTML 1.0 Transitional_, _XHTML 1.0 Strict_, _XHTML 1.0 Frameset_,
-and _XHTML 1.1_.
+El Dialecto Estándar de Thymeleaf puede procesar plantillas en cualquier modo, 
+pero es especialmente adecuado para los modos de plantilla orientados a la web 
+(XHTML y HTML5). Además de HTML5, admite y valida específicamente las siguientes 
+especificaciones XHTML: _XHTML 1.0 Transitional_, _XHTML 1.0 Strict_, 
+_XHTML 1.0 Frameset_ y _XHTML 1.1_.
 
-Most of the processors of the Standard Dialect are _attribute processors_. This
-allows browsers to correctly display XHTML/HTML5 template files even before
-being processed, because they will simply ignore the additional attributes. For
-example, while a JSP using tag libraries could include a fragment of code not
-directly displayable by a browser like:
+La mayoría de los procesadores del Dialecto Estándar son _procesadores de 
+atributos_. Esto permite a los navegadores mostrar correctamente los archivos de 
+plantilla XHTML/HTML5 incluso antes de procesarlos, ya que ignoran los atributos 
+adicionales. Por ejemplo, una JSP que utiliza bibliotecas de etiquetas podría 
+incluir un fragmento de código que un navegador no puede mostrar directamente, 
+como:
 
 ```html
 <form:inputText name="userName" value="${user.name}" />
 ```
 
-...the Thymeleaf Standard Dialect would allow us to achieve the same
-functionality with:
+...el Dialecto Estándar de Thymeleaf nos permitiría lograr la misma 
+funcionalidad con:
 
 ```html
 <input type="text" name="userName" value="James Carrot" th:value="${user.name}" />
 ```
 
-Which not only will be correctly displayed by browsers, but also allow us to
-(optionally) specify a value attribute in it ("James Carrot", in this case) that
-will be displayed when the prototype is statically opened in a browser, and that
-will be substituted by the value resulting from the evaluation of `${user.name}`
-during Thymeleaf processing of the template.
+Que no sólo se mostrará correctamente en los navegadores, sino que también nos 
+permitirá (opcionalmente) especificar en él un atributo de valor 
+("James Carrot", en este caso) que se mostrará cuando el prototipo se abra 
+estáticamente en un navegador, y que será sustituido por el valor resultante de 
+la evaluación de `${user.name}` durante el procesamiento de Thymeleaf de la 
+plantilla.
 
-If needed, this will allow your designer and developer to work on the very same
-template file and reduce the effort required to transform a static prototype
-into a working template file. The ability to do this is a feature usually called
-_Natural Templating_.
+Si es necesario, esto permitirá que el diseñador y el desarrollador trabajen en 
+el mismo archivo de plantilla y reducirá el esfuerzo necesario para transformar 
+un prototipo estático en un archivo de plantilla funcional. Esta capacidad se 
+conoce comúnmente como _Plantillas Naturales_.
 
 
 
-1.4 Overall Architecture
+1.4 Arquitectura general
 ------------------------
 
-Thymeleaf's core is a DOM processing engine. Specifically, it uses its own
-high-performance DOM implementation ---not the standard DOM API--- for building
-in-memory tree representations of your templates, on which it later operates by
-traversing their nodes and executing processors on them that modify the DOM
-according to the current _configuration_ and the set of data that is passed to
-the template for its representation ---known as the context.
+El núcleo de Thymeleaf es un motor de procesado del DOM. Específicamente, usa su 
+propia implementación de alto rendimiento del DOM --- no es la IPA estándar del 
+DOM--- para la construcción de representaciones en árbol en memoria de sus 
+plantillas, sobre las cuales opera más tarde recorriendo sus nodos y ejecutando 
+procesardores en ellos que modifican el DOM de acuero a la _configuración_ 
+actual y el conjunto de datos que se le pasa a la plantilla para su 
+representación ---conocidos como el contexto.
 
-The use of a DOM template representation makes it very well suited for web
-applications because web documents are very often represented as object trees
-(in fact DOM trees are the way browsers represent web pages in memory). Also,
-building on the idea that most web applications use only a few dozen templates,
-that these are not big files and that they don't normally change while the
-application is running, Thymeleaf's usage of an in-memory cache of parsed
-template DOM trees allows it to be fast in production environments, because very
-little I/O is needed (if any) for most template processing operations. 
+El uso de una representación de plantilla DOM hace que se ajuste muy bien a las 
+aplicaciones web porque los documentos web son representados muy a menudoc como 
+árboles de objetos (en realida los árboles DOM son la forma en la que los 
+navegadores representan las páginas web en memoria). Además, construir sobre la 
+idea de que la mayoría de las aplicaciones web usan solo unas pocas docenas de 
+plantillas, que estas no son archivos grandes y que no cambian normalmente 
+mientras se ejecuta la aplicación, el uso de Thymelea de una caché en memoria de 
+de árboles DOM de plantillas le permite ser rápido en entornos de producción, 
+porque se necesita muy poca E/S (si existe alguna) para la mayoría de las 
+operaciones de procesado de plantilla.
 
-> If you want more detail, later in this tutorial there is an entire chapter
-> dedicated to caching and to the way Thymeleaf optimizes memory and resource
-> usage for faster operation.
+> Si quiere más detalles, más tarde en este tutorial hay un capítulo entero 
+> dedicado al tamponado (caching) y a la forma en que Thymeleaf optimiza la 
+> memoria y el uso de recursos para unas operaciones más rápidas.
 
-Nevertheless, there is a restriction: this architecture also requires the use of
-bigger amounts of memory space for each template execution than other template parsing/processing approaches, which means that you should not use the library for creating big data XML documents (as opposed to web documents). As a general rule of thumb (and always depending on the memory size of your JVM), if you are generating XML files with sizes around the tens of megabytes in a single template execution, you probably should not be using Thymeleaf.
+Sin embargo, hay una restricción: esta arquitectura también requiere el uso 
+de grandes cantidades de espacio de memoria para cada ejecución de plantilla que 
+otras aproximaciones de análisis/procesado de plantillas, lo que significa que 
+no debería usar la librería para crear documentos XML grandes de datos (en 
+oposición a los documentos web). Como regla general (y siempre dependiendo del 
+tamaño de memoria de su MVJ), si está generando archivos XML con tamaños 
+alrededor de las decenas de megabytes en una única ejecución de plantilla, 
+probablemente no debería estar usando Thymeleaf.
 
-> The reason we consider this restriction only applies to data XML files and not
-> web XHTML/HTML5 is that you should never generate web documents so big that
-> your users' browsers set ablaze and/or explode -- remember that these browsers
-> will also have to create DOM trees for your pages!
+> La razón por la que consideramos esta restrcción solo aplica a los archivos de 
+> datos XML y no a la web con XHTML/HTML5 es que no debería nunca generar 
+> documentos web tan grandes que los navegadores de sus usuarios se bloqueen y/o 
+> exploten -- ¡recuerde que estos navegadores también tendrán que crar los árboles 
+> DOM de sus páginas!
 
 
-
-1.5 Before going any further, you should read...
+1.5 Antes de continuar, deberías leer...
 ------------------------------------------------
 
-Thymeleaf is especially suited for working in web applications. And web
-applications are based on a series of standards that everyone should know very
-well but few do -- even if they have been working with them for years.
+Thymeleaf es especialmente adecuado para trabajar con aplicaciones web. Estas 
+aplicaciones se basan en una serie de estándares que todos deberían conocer muy 
+bien, pero pocos lo hacen, incluso si llevan años trabajando con ellos.
 
-With the advent of HTML5, the state of the art in web standards today is more
-confusing than ever... _are we going back from XHTML to HTML? Will we abandon
-XML syntax? Why is nobody talking about XHTML 2.0 anymore?_
+Con la llegada de HTML5, el estado del arte de los estándares web es más confuso 
+que nunca... ¿Volveremos de XHTML a HTML? ¿Abandonaremos la sintaxis XML? ¿Por 
+qué ya nadie habla de XHTML 2.0?
 
-So before going any further in this tutorial, you are strongly advised to read
-an article on Thymeleaf's web site called _"From HTML to HTML (via HTML)"_,
-which you can find at this address:
+Antes de continuar con este tutorial, le recomendamos leer el artículo "De HTML 
+a HTML (vía HTML)" en el sitio web de Thymeleaf, disponible en:
 [http://www.thymeleaf.org/doc/articles/fromhtmltohtmlviahtml.html](http://www.thymeleaf.org/doc/articles/fromhtmltohtmlviahtml.html)
 
 
 
+2 La tienda de comestibles virtual Good Thymes
+==============================================
 
-2 The Good Thymes Virtual Grocery
-=================================
-
-The source code for the examples shown in this and future chapters of this guide
-can be found in the [Good Thymes Virtual Grocery GitHub repository](https://github.com/thymeleaf/thymeleafexamples-gtvg).
+El código fuente de los ejemplos que se muestran en este y futuros capítulos de 
+esta guía se puede encontrar en el 
+[repositorio de GitHub de Good Thymes Virtual Grocery](https://github.com/thymeleaf/thymeleafexamples-gtvg).
 
 
-2.1 A website for a grocery
----------------------------
+2.1 Un sitio web para una tienda de comestibles
+-----------------------------------------------
 
-In order to better explain the concepts involved in processing templates with
-Thymeleaf, this tutorial will use a demo application you can download from the
-project web site.
+Para explicar mejor los conceptos involucrados en el procesamiento de plantillas 
+con Thymeleaf, este tutorial utilizará una aplicación de demostración que puede 
+descargar del sitio web del proyecto.
 
-This application represents the web site of an imaginary virtual grocery, and
-will provide us with the adequate scenarios to exemplify diverse Thymeleaf
-features.
+Esta aplicación representa el sitio web de una tienda de comestibles virtual 
+imaginaria, y nos proporcionará los escenarios adecuados para ejemplificar 
+diversas características de Thymeleaf.
 
-We will need a quite simple set of model entities for our application: `Products`
-which are sold to `Customers` by creating `Orders`. We will also be managing `Comments`
-about those `Products`:
+Necesitaremos un conjunto bastante simple de entidades modelo para nuestra 
+aplicación: «Productos», que se venden a «Clientes» mediante la creación de 
+«Pedidos». También gestionaremos los «Comentarios» sobre estos «Productos».
 
-![Example application model](images/usingthymeleaf/gtvg-model.png)
+![Modelo de aplicación de ejemplo](images/usingthymeleaf/gtvg-model.png)
 
-Our small application will also have a very simple service layer, composed by `Service`
-objects containing methods like:
+Nuestra pequeña aplicación también tendrá una capa de servicio muy simple, 
+compuesta por objetos `Servicio` que contienen métodos como:
 
 
 ```java
@@ -233,8 +247,9 @@ public class ProductService {
 }
 ```
 
-Finally, at the web layer our application will have a filter that will delegate
-execution to Thymeleaf-enabled commands depending on the request URL:
+Finalmente, en la capa web nuestra aplicación tendrá un filtro que delegará la 
+ejecución a comandos habilitados para Thymeleaf dependiendo de la URL de la 
+solicitud:
 
 ```java
 private boolean process(HttpServletRequest request, HttpServletResponse response)
@@ -243,21 +258,22 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
     try {
             
         /*
-         * Query controller/URL mapping and obtain the controller
-         * that will process the request. If no controller is available,
-         * return false and let other filters/servlets process the request.
+         * Consultar la asignación de controlador/URL y obtener el controlador
+         * que procesará la solicitud. Si no hay ningún controlador disponible,
+         * devolver falso y permitir que otros filtros/servlets procesen la 
+         * solicitud.
          */
         IGTVGController controller = GTVGApplication.resolveControllerForRequest(request);
         if (controller == null) {
             return false;
         }
         /*
-         * Obtain the TemplateEngine instance.
+         * Obtener la instancia de TemplateEngine.
          */
         TemplateEngine templateEngine = GTVGApplication.getTemplateEngine();
             
         /*
-         * Write the response headers
+         * Escribe los encabezados de respuesta
          */
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Pragma", "no-cache");
@@ -265,8 +281,8 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
         response.setDateHeader("Expires", 0);
 
         /*
-         * Execute the controller and process view template,
-         * writing the results to the response writer.
+         * Ejecutar el controlador y la plantilla de vista de proceso,
+         * escribir los resultados en el generador de respuestas.
          */
         controller.process(
                 request, response, this.servletContext, templateEngine);
@@ -280,7 +296,7 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
 }    
 ```
 
-This is our `IGTVGController` interface:
+Este es nuestro interfaz `IGTVGController`:
 
 ```java
 public interface IGTVGController {
@@ -292,32 +308,33 @@ public interface IGTVGController {
 }
 ```
 
-All we have to do now is create implementations of the `IGTVGController`
-interface, retrieving data from the services and processing templates using the
-`TemplateEngine` object.
+Todo lo que tenemos que hacer ahora es crear implementaciones de la interfaz 
+`IGTVGController`, recuperar datos de los servicios y procesar plantillas 
+utilizando el objeto `TemplateEngine`.
 
-In the end, it will look like this:
+Al final se verá así:
 
-![Example application home page](images/usingthymeleaf/gtvg-view.png)
+![Ejemplo de página de inicio de la aplicación](images/usingthymeleaf/gtvg-view.png)
 
-But first let's see how that template engine is initialized.
+Pero primero veamos cómo se inicializa ese motor de plantillas.
 
 
 
-2.2 Creating and configuring the Template Engine
-------------------------------------------------
+2.2 Creación y configuración del Motor de Plantillas
+----------------------------------------------------
 
-The _process(...)_ method in our filter contained this sentence:
+El método _process(...)_ en nuestro filtro contenía esta sentencia:
 
 ```java
 TemplateEngine templateEngine = GTVGApplication.getTemplateEngine();
 ```
 
-Which means that the _GTVGApplication_ class is in charge of creating and
-configuring one of the most important objects in a Thymeleaf-enabled
-application: The `TemplateEngine` instance.
+Lo que significa que la clase _GTVGApplication_ está a cargo de crear y 
+configurar uno de los objetos más importantes en una aplicación habilitada para 
+Thymeleaf: la instancia `TemplateEngine`.
 
-Our `org.thymeleaf.TemplateEngine` object is initialized like this:
+Nuestro objeto `org.thymeleaf.TemplateEngine` se inicializa de la siguiente 
+manera:
 
 ```java
 public class GTVGApplication {
@@ -339,12 +356,14 @@ public class GTVGApplication {
         
         ServletContextTemplateResolver templateResolver = 
             new ServletContextTemplateResolver();
-        // XHTML is the default mode, but we set it anyway for better understanding of code
+        // XHTML es el modo predeterminado, pero lo configuramos de todos modos 
+        // para una mejor comprensión del código.
         templateResolver.setTemplateMode("XHTML");
-        // This will convert "home" to "/WEB-INF/templates/home.html"
+        // Esto convertirá "home" a "/WEB-INF/templates/home.html"
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
-        // Template cache TTL=1h. If not set, entries would be cached until expelled by LRU
+        // Tiempo de vida de la caché de plantillas: 1 h. Si no se configura, 
+        // las entradas se almacenarán en caché hasta que LRU las expulse.
         templateResolver.setCacheTTLMs(3600000L);
         
         templateEngine = new TemplateEngine();
@@ -357,20 +376,21 @@ public class GTVGApplication {
 }
 ```
 
-Of course there are many ways of configuring a `TemplateEngine` object, but for
-now these few lines of code will teach us enough about the steps needed.
+Por supuesto, hay muchas formas de configurar un objeto `TemplateEngine`, pero 
+por ahora estas pocas líneas de código nos enseñarán lo suficiente sobre los 
+pasos necesarios.
 
 
-### The Template Resolver
+### El Solucionador de Plantillas (Template Resolver)
 
-Let's start with the Template Resolver:
+Comencemos con el solucionador de plantillas (Template Resolver):
 
 ```java
 ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
 ```
 
-Template Resolvers are objects that implement an interface from the Thymeleaf
-API called `org.thymeleaf.templateresolver.ITemplateResolver`: 
+Los solucionadores de plantillas son objetos que implementan una interfaz de la 
+API de Thymeleaf llamada `org.thymeleaf.templateresolver.ITemplateResolver`:
 
 ```java
 public interface ITemplateResolver {
@@ -378,103 +398,109 @@ public interface ITemplateResolver {
     ...
   
     /*
-     * Templates are resolved by String name (templateProcessingParameters.getTemplateName())
-     * Will return null if template cannot be handled by this template resolver.
-     */
+    * Las plantillas se resuelven por el nombre de la cadena (templateProcessingParameters.getTemplateName())
+    * Devolverá un valor nulo si este solucionador de plantillas no puede procesar la plantilla.
+    */
     public TemplateResolution resolveTemplate(
             TemplateProcessingParameters templateProcessingParameters);
 
 }
 ```
 
-These objects are in charge of determining how our templates will be accessed,
-and in this GTVG application, the `org.thymeleaf.templateresolver.ServletContextTemplateResolver`
-implementation that we are using specifies that we are going to retrieve our
-template files as resources from the _Servlet Context_: an application-wide `javax.servlet.ServletContext`
-object that exists in every Java web application, and that resolves resources
-considering the web application root as the root for resource paths.
+Estos objetos se encargan de determinar cómo se accederá a nuestras plantillas 
+y, en esta aplicación GTVG, la implementación 
+`org.thymeleaf.templateresolver.ServletContextTemplateResolver` que estamos 
+usando especifica que vamos a recuperar nuestros archivos de plantilla como 
+recursos del _Servlet Context_: un objeto `javax.servlet.ServletContext` de toda 
+la aplicación que existe en todas las aplicaciones web Java y que resuelve 
+recursos considerando la raíz de la aplicación web como la raíz de las rutas de 
+recursos.
 
-But that's not all we can say about the template resolver, because we can set
-some configuration parameters on it. First, the template mode, one of the
-standard ones:
+Pero eso no es todo lo que podemos decir sobre el solucionador de plantillas, ya 
+que podemos configurarlo. Primero, el modo de plantilla, uno de los estándar:
 
 ```java
 templateResolver.setTemplateMode("XHTML");
 ```
 
-XHTML is the default template mode for `ServletContextTemplateResolver`, but it
-is good practice to establish it anyway so that our code documents clearly what
-is going on.
+XHTML es el modo de plantilla predeterminado para 
+`ServletContextTemplateResolver`, pero es una buena práctica establecerlo de 
+todos modos para que nuestro código documente claramente lo que está sucediendo.
 
 ```java
 templateResolver.setPrefix("/WEB-INF/templates/");
 templateResolver.setSuffix(".html");
 ```
 
-These _prefix_ and _suffix_ do exactly what it looks like: modify the template
-names that we will be passing to the engine for obtaining the real resource
-names to be used.
+Estos _prefix_ y _suffix_ hacen exactamente lo que parecen: modifican los 
+nombres de las plantillas que pasaremos al motor para obtener los nombres de los 
+recursos reales que se utilizarán.
 
-Using this configuration, the template name _"product/list"_ would correspond to:
+Usando esta configuración, el nombre de la plantilla _"product/list"_ 
+correspondería a:
 
 ```java
 servletContext.getResourceAsStream("/WEB-INF/templates/product/list.html")
 ```
-
-Optionally, the amount of time that a parsed template living in cache will be
-considered valid can be configured at the Template Resolver by means of the _cacheTTLMs_
-property:
+De manera opcional, la cantidad de tiempo que una plantilla analizada que se 
+encuentra en caché se considerará válida se puede configurar en el solucionador 
+de plantillas mediante la propiedad _cacheTTLMs_:
 
 ```java
 templateResolver.setCacheTTLMs(3600000L);
 ```
 
-Of course, a template can be expelled from cache before that TTL is reached if
-the max cache size is reached and it is the oldest entry currently cached.
+Por supuesto, una plantilla puede ser expulsada de la memoria caché antes de que 
+se alcance ese TTL si se alcanza el tamaño máximo de memoria caché y es la 
+entrada más antigua almacenada en caché actualmente.
 
-> Cache behaviour and sizes can be defined by the user by implementing the `ICacheManager`
-> interface or simply modifying the `StandardCacheManager` object set to manage
-> caches by default.
+> El usuario puede definir el comportamiento y el tamaño del caché implementando 
+> la interfaz `ICacheManager` o simplemente modificando el objeto 
+> `StandardCacheManager` configurado para administrar los cachés de forma 
+> predeterminada.
 
-We will learn more about template resolvers later. Now let's have a look at the
-creation of our Template Engine object.
+Aprenderemos más sobre los solucionadores de plantillas más adelante. Ahora 
+veamos la creación de nuestro objeto Motor de Plantillas.
 
 
-### The Template Engine
+### El Motor de Plantillas (Template Engine)
 
-Template Engine objects are of class _org.thymeleaf.TemplateEngine_, and these
-are the lines that created our engine in the current example:
+Los objetos de Template Engine son de la clase _org.thymeleaf.TemplateEngine_, y 
+estas son las líneas que crearon nuestro motor en el ejemplo actual:
 
 ```java
 templateEngine = new TemplateEngine();
 templateEngine.setTemplateResolver(templateResolver);
 ```
 
-Rather simple, isn't it? All we need is to create an instance and set the
-Template Resolver to it.
+Bastante sencillo, ¿verdad? Solo necesitamos crear una instancia y configurarla 
+como solucionador de plantillas.
 
-A template resolver is the only required parameter a `TemplateEngine` needs,
-although of course there are many others that will be covered later (message
-resolvers, cache sizes, etc). For now, this is all we need.
+Un solucionador de plantillas es el único parámetro obligatorio que necesita un 
+`TemplateEngine`, aunque, por supuesto, hay muchos otros que se abordarán más 
+adelante (solucionadores de mensajes, tamaño de caché, etc.). Por ahora, esto es 
+todo lo que necesitamos.
 
-Our Template Engine is now ready and we can start creating our pages using
-Thymeleaf.
-
-
-
-
-3 Using Texts
-=============
+Nuestro motor de plantillas ya está listo y podemos comenzar a crear nuestras 
+páginas usando Thymeleaf.
 
 
 
-3.1 A multi-language welcome
-----------------------------
 
-Our first task will be to create a home page for our grocery site.
+3 Uso de textos
+===============
 
-The first version we will write of this page will be extremely simple: just a
-title and a welcome message. This is our `/WEB-INF/templates/home.html` file:
+
+
+3.1 Una bienvenida en varios idiomas
+------------------------------------
+
+Nuestra primera tarea será crear una página de inicio para nuestro sitio de 
+comestibles.
+
+La primera versión que escribiremos de esta página será extremadamente sencilla: 
+solo un título y un mensaje de bienvenida. Este es nuestro archivo 
+`/WEB-INF/templates/home.html`:
 
 ```html
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
@@ -483,7 +509,7 @@ title and a welcome message. This is our `/WEB-INF/templates/home.html` file:
       xmlns:th="http://www.thymeleaf.org">
 
   <head>
-    <title>Good Thymes Virtual Grocery</title>
+    <title>Tienda de comestibles virtual Good Thymes</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
@@ -491,39 +517,43 @@ title and a welcome message. This is our `/WEB-INF/templates/home.html` file:
 
   <body>
   
-    <p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+    <p th:text="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
   
   </body>
 
 </html>
 ```
 
-The first thing you will notice here is that this file is XHTML that can be
-correctly displayed by any browser, because it does not include any non-XHTML
-tags (and browsers ignore all attributes they don't understand, like `th:text`).
-Also, browsers will display it in standards mode (not in quirks mode), because
-it has a well-formed `DOCTYPE` declaration.
+Lo primero que notará es que este archivo es XHTML y cualquier navegador puede 
+mostrarlo correctamente, ya que no incluye etiquetas que no sean XHTML (y los 
+navegadores ignoran todos los atributos que no comprenden, como `th:text`). 
+Además, los navegadores lo mostrarán en modo estándar (no en modo peculiar), ya 
+que tiene una declaración `DOCTYPE` bien formada.
 
-Next, this is also _valid_ XHTML^[Note that, although this template is valid
-XHTML, we earlier selected template mode "XHTML" and not "VALIDXHTML". For now,
-it will be OK for us to just have validation turned off -- but at the same time
-we don't want our IDE to complain too much.], because we have specified a
-Thymeleaf DTD which defines attributes like `th:text` so that your templates can
-be considered valid. And even more: once the template is processed (and all `th:*`
-attributes are removed), Thymeleaf will automatically substitute that DTD
-declaration in the `DOCTYPE` clause by a standard `XHTML 1.0 Strict` one (we
-will leave this DTD translation features for a later chapter).
 
-A thymeleaf namespace is also being declared for `th:*` attributes:
+Además, esto también es XHTML _válido_^[Tenga en cuenta que, aunque esta 
+plantilla es XHTML válido, anteriormente seleccionamos el modo de plantilla 
+"XHTML" y no "VALIDXHTML". Por ahora, podemos desactivar la validación, pero no 
+queremos que nuestro IDE genere demasiados problemas.], ya que hemos 
+especificado una DTD de Thymeleaf que define atributos como `th:text` para que 
+sus plantillas se consideren válidas. Además, una vez procesada la plantilla (y 
+eliminados todos los atributos `th:*`), Thymeleaf sustituirá automáticamente 
+esa declaración de DTD en la cláusula `DOCTYPE` por una declaración estándar 
+`XHTML 1.0 Strict` (dejaremos estas funciones de traducción de DTD para un 
+capítulo posterior).
+
+También se declara un espacio de nombres thymeleaf para los atributos `th:*`:
 
 ```html
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 ```
 
-Note that, if we hadn't cared about our template's validity or well-formedness
-at all, we could have simply specified a standard `XHTML 1.0 Strict DOCTYPE`,
-along with no xmlns namespace declarations:
+Tenga en cuenta que, si no nos hubiéramos preocupado en absoluto por la validez 
+o la correcta formación de nuestra plantilla, podríamos haber especificado 
+simplemente un `XHTML 1.0 Strict DOCTYPE` estándar, sin declaraciones de 
+espacios de nombres xmlns:
+
 
 ```html
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -531,7 +561,7 @@ along with no xmlns namespace declarations:
 <html>
 
   <head>
-    <title>Good Thymes Virtual Grocery</title>
+    <title>Tienda de comestibles virtual Good Thymes</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
@@ -539,22 +569,22 @@ along with no xmlns namespace declarations:
 
   <body>
   
-    <p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+    <p th:text="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
   
   </body>
 
 </html>
 ```
 
-...and this would still be perfectly processable by Thymeleaf in the XHTML mode
-(although probably our IDE would make our life quite miserable showing warnings
-everywhere).
+...y esto aún sería perfectamente procesable por Thymeleaf en el modo XHTML 
+(aunque probablemente nuestro IDE nos haría la vida imposible mostrando 
+advertencias por todas partes).
 
-But enough about validation. Now for the really interesting part of the template:
-let's see what that `th:text` attribute is about.
+Pero ya basta de validación. Ahora, la parte realmente interesante de la 
+plantilla: veamos qué hace el atributo `th:text`.
 
 
-### Using th:text and externalizing text
+### Usando th:text y externalizando texto
 
 Externalizing text is extracting fragments of template code out of template
 files so that they can be kept in specific separate files (typically `.properties`
@@ -614,7 +644,7 @@ This is all we need for making Thymeleaf process our template. Let's create our
 Home controller then.
 
 
-### Contexts
+### Contextos (Contexts)
 
 In order to process our template, we will create a `HomeController` class
 implementing the `IGTVGController` interface we saw before:
@@ -707,7 +737,7 @@ be used from within your templates:
    this template.
 
 
-### Executing the template engine
+### Ejecución del motor de plantillas
 
 With our context object ready, all we need is executing the template engine
 specifying the template name and the context, and passing on the response writer
@@ -742,11 +772,11 @@ Let's see the results of this using the Spanish locale:
 
 
 
-3.2 More on texts and variables
+3.2 Más sobre textos y variables
 -------------------------------
 
 
-### Unescaped Text
+### Texto no escapado
 
 The simplest version of our Home page seems to be ready now, but there is
 something we have not thought about... what if we had a message like this?
@@ -775,7 +805,7 @@ This will output our message just like we wanted it:
 ```
 
 
-### Using and displaying variables
+### Uso y visualización de variables
 
 Now let's add some more contents to our home page. For example, we could want to
 display the date below our welcome message, like this:

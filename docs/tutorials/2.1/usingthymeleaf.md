@@ -6,8 +6,6 @@ thymeleafVersion: @projectVersion@
 ---
 
 
-
-
 1 Presentando Thymeleaf
 =======================
 
@@ -178,7 +176,7 @@ tamaño de memoria de su MVJ), si está generando archivos XML con tamaños
 alrededor de las decenas de megabytes en una única ejecución de plantilla, 
 probablemente no debería estar usando Thymeleaf.
 
-> La razón por la que consideramos esta restrcción solo aplica a los archivos de 
+> La razón por la que consideramos esta restricción solo aplica a los archivos de 
 > datos XML y no a la web con XHTML/HTML5 es que no debería nunca generar 
 > documentos web tan grandes que los navegadores de sus usuarios se bloqueen y/o 
 > exploten -- ¡recuerde que estos navegadores también tendrán que crar los árboles 
@@ -531,7 +529,7 @@ Además, los navegadores lo mostrarán en modo estándar (no en modo peculiar), 
 que tiene una declaración `DOCTYPE` bien formada.
 
 
-Además, esto también es XHTML _válido_^[Tenga en cuenta que, aunque esta 
+Además, esto también es XHTML _válido_ ^[Tenga en cuenta que, aunque esta 
 plantilla es XHTML válido, anteriormente seleccionamos el modo de plantilla 
 "XHTML" y no "VALIDXHTML". Por ahora, podemos desactivar la validación, pero no 
 queremos que nuestro IDE genere demasiados problemas.], ya que hemos 
@@ -586,68 +584,63 @@ plantilla: veamos qué hace el atributo `th:text`.
 
 ### Usando th:text y externalizando texto
 
-Externalizing text is extracting fragments of template code out of template
-files so that they can be kept in specific separate files (typically `.properties`
-files) and that they can be easily substituted by equivalent texts written in
-other languages (a process called internationalization or simply _i18n_).
-Externalized fragments of text are usually called "messages".
+Externalizar texto consiste en extraer fragmentos de código de plantilla de los archivos de plantilla 
+para guardarlos en archivos separados específicos (normalmente archivos `.properties`) 
+y poder sustituirlos fácilmente por textos equivalentes escritos en otros idiomas (un proceso 
+denominado internacionalización o simplemente _i18n_). Los fragmentos de texto externalizados suelen 
+denominarse "mensajes".
 
-Messages have always a key that identifies them, and Thymeleaf allows you to
-specify that a text should correspond to a specific message with the `#{...}`
-syntax:
+Los mensajes tiene siempre una clave que los identifica, y Thymeleaf le permite 
+especificar que un texto debe corresponder a un mensaje expecífico con la sintaxis `#{...}`: 
+
 
 ```html
-<p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+<p th:text="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
 ```
 
-What we can see here are in fact two different features of the Thymeleaf
-Standard Dialect:
+Lo que podemos ver aquí son, de hecho, dos características diferentes del Dialecto Estándar de Thymeleaf:
 
- * The `th:text` attribute, which evaluates its value expression and sets the
-   result of this evaluation as the body of the tag it is in, effectively
-   substituting that "Welcome to our grocery store!" text we see in the code.
- * The `#{home.welcome}` expression, specified in the _Standard Expression Syntax_,
-   specifying that the text to be used by the `th:text` attribute should be the
-   message with the `home.welcome` key corresponding to whichever locale we are
-   processing the template with.
+ * El atributo `th:text`, el cual evalúa su expresión de valor y establece el resultado de esta evaluación como el 
+   cuerpo de la etiqueta en la que se encuentra, substituyendo así el texto "¡Bienvenido a nuestra tienda de 
+   comestibles!" que vemos en el código. 
+ * La expresión `#{home.welcome}`, especificada en la _Sintaxis de Expresión Estándar_, que especifica que el
+   texto que utilizará el atributo `th:text` debe ser el mensaje con la clave `home.welcome` correspondiente 
+   a la configuración regiional con la que estemos procesando la plantilla.
 
-Now, where is this externalized text?
+Ahora bien, ¿dónde está este texto externalizado?
 
-The location of externalized text in Thymeleaf is fully configurable, and it
-will depend on the specific `org.thymeleaf.messageresolver.IMessageResolver`
-implementation being used. Normally, an implementation based on `.properties`
-files will be used, but we could create our own implementations if we wanted,
-for example, to obtain messages from a database.
+La ubicación del texto externalizado en Thymeleaf es completamente configurable, y dependerá de la implementación 
+específica de `org.thymeleaf.messageresolver.IMessageResolver` utilizada. Normalmente, una implementación basada 
+en archivos `.properties` será la utilizada, aunque podríamos crear nuestras propias implementaciones si quisiéramos, 
+por ejemplo, obtener mensajes de una base de datos.
 
-However, we have not specified a message resolver to our Template Engine during
-initialization, and that means that our application is using the _Standard Message Resolver_,
-implemented by class `org.thymeleaf.messageresolver.StandardMessageResolver`.
+Sin embargo, no hemos especificado un solucionador de mensajes en nuestro Motor de Plantillas durante la 
+inicialización, y eso significa que nuestra aplicación está usando el _Solucionador Estándar de Mensajes_, implementado 
+por la clase `org.thymeleaf.messageresolver.StandardMessageResolver`.
 
-This standard message resolver expects to find messages for `/WEB-INF/templates/home.html`
-in .properties files in the same folder and with the same name as the template,
-like:
+Este solucionador estándar de mensajes espera encontrar los mensajes para `/WEB-INF/templates/home.html` en archivos
+.properties en la misma carpeta y con el mismo nombre que la plantilla como:
 
- * `/WEB-INF/templates/home_en.properties` for English texts.
- * `/WEB-INF/templates/home_es.properties` for Spanish language texts.
- * `/WEB-INF/templates/home_pt_BR.properties` for Portuguese (Brazil) language
-   texts.
- * `/WEB-INF/templates/home.properties` for default texts (if locale is not
-   matched).
 
-Let's have a look at our `home_es.properties` file:
+ * `/WEB-INF/templates/home_en.properties` para textos en inglés.
+ * `/WEB-INF/templates/home_es.properties` para textos en español.
+ * `/WEB-INF/templates/home_pt_BR.properties` para textos en portugués (Brasil).
+ * `/WEB-INF/templates/home.properties` para textos predeterminados (si no se coincide con la configuración regional).
+
+Echemos un vistazo a nuestro archivo `home_es.properties`:
 
 ```
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
 ```
 
-This is all we need for making Thymeleaf process our template. Let's create our
-Home controller then.
+Esto es todo lo que necesitamos para hacer que Thymeleaf procese nuestra plantilla. Ahora, creemos nuestro controlador 
+de inicio.
 
 
 ### Contextos (Contexts)
 
-In order to process our template, we will create a `HomeController` class
-implementing the `IGTVGController` interface we saw before:
+Para procesar nuestra plantilla, crearemos una clase `HomeController` que implemente la interfaz `IGTVGController` que 
+vimos antes:
 
 ```java
 public class HomeController implements IGTVGController {
@@ -665,11 +658,10 @@ public class HomeController implements IGTVGController {
 }
 ```
 
-The first thing we can see here is the creation of a context. A Thymeleaf
-context is an object implementing the `org.thymeleaf.context.IContext` interface.
-Contexts should contain all the data required for an execution of the Template
-Engine in a variables map, and also reference the Locale that must be used for
-externalized messages.
+Lo primero que vemos aquí es la creación de un contexto. Un contexto de Thymeleaf es un objeto que implementa la 
+interfaz `org.thymeleaf.context.IContext`. Los contextos deben contener todos los datos necesarios para la ejecución 
+del motor de plantillas en un mapa de variables, así como la configuración regional que debe utilizarse para los 
+mensajes externalizados.
 
 ```java
 public interface IContext {
@@ -681,7 +673,7 @@ public interface IContext {
 }
 ```
 
-There is a specialized extension of this interface, `org.thymeleaf.context.IWebContext`:
+Hay una extensión especializada de esta interfaz, `org.thymeleaf.context.IWebContext`:
 
 ```java
 public interface IWebContext extends IContext {
@@ -698,56 +690,51 @@ public interface IWebContext extends IContext {
 }
 ```
 
-The Thymeleaf core library offers an implementation of each of these interfaces:
+La biblioteca principal de Thymeleaf ofrece una implementación de cada una de estas interfaces:
 
- * `org.thymeleaf.context.Context` implements `IContext`
- * `org.thymeleaf.context.WebContext` implements `IWebContext`
+ * `org.thymeleaf.context.Context` implementa `IContext`
+ * `org.thymeleaf.context.WebContext` implementa `IWebContext`
 
-And as you can see in the controller code, `WebContext` is the one we will use.
-In fact we have to, because the use of a `ServletContextTemplateResolver`
-requires that we use a context implementing `IWebContext`.
+Como pueden ver en el código del controlador, usaremos `WebContext`. De hecho, es obligatorio, ya que el uso de 
+`ServletContextTemplateResolver` requiere un contexto que implemente `IWebContext`.
 
 ```java
 WebContext ctx = new WebContext(request, servletContext, request.getLocale());
 ```
 
-Only two of those three constructor arguments are required, because the default
-locale for the system will be used if none is specified (although you should
-never let this happen in real applications).
+Solo se requieren dos de esos tres argumentos del constructor, porque se utilizará la configuración regional 
+predeterminada del sistema si no se especifica ninguna (aunque nunca debe permitir que esto suceda en aplicaciones 
+reales).
 
-From the interface definition we can tell that `WebContext` will offer
-specialized methods for obtaining the request parameters and request, session
-and application attributes . But in fact `WebContext` will do a little bit more
-than just that:
+Según la definición de la interfaz, podemos ver que `WebContext` ofrecerá métodos especializados para obtener los 
+parámetros de la solicitud y los atributos de la solicitud, la sesión y la aplicación. Pero, de hecho, `WebContext` 
+hará algo más que eso:
 
- * Add all the request attributes to the context variables map.
- * Add a context variable called `param` containing all the request parameters.
- * Add a context variable called `session` containing all the session attributes.
- * Add a context variable called `application` containing all the ServletContext attributes.
+ * Agrega todos los atributos de la petición al mapa de variables del contexto.
+ * Agrega una variable de contexto llamada `param` que contiene todos los parámetros de la petición.
+ * Agrega una variable de contexto llamada `session` que contiene todos los atributos de la sesión.
+ * Agrega una variable de contexto llamada `application` que contiene todos los atributos del ServletContext.
 
-Just before execution, a special variable is set into all context objects 
-(implementations of `IContext`), including both `Context` and `WebContext`, 
-called the execution info (`execInfo`). This variable contains two pieces of data that can
-be used from within your templates:
+Justo antes de la ejecución, se establece una variable especial en todos los objetos de contexto 
+(implementaciones de `IContext`), incluyendo `Context` y `WebContext`, llamada información de ejecución (`execInfo`). 
+Esta variable contiene dos datos que se pueden usar desde las plantillas:
 
- * The template name (`${execInfo.templateName}`), the name specified for engine
-   execution, and corresponding to the template being executed.
- * The current date and time (`${execInfo.now}`), a `Calendar` object
-   corresponding to the moment the template engine started its execution for
-   this template.
+ * El nombre de la plantilla (`${execInfo.templateName}`), el nombre especificado para la ejecución del motor y 
+   correspondiente a la plantilla que se está ejecutando.
+ * La fecha y hora actuales (`${execInfo.now}`), un objeto `Calendar` correspondiente al momento en que el motor 
+   de plantillas inició su ejecución para esta plantilla.
 
 
 ### Ejecución del motor de plantillas
 
-With our context object ready, all we need is executing the template engine
-specifying the template name and the context, and passing on the response writer
-so that the response can be written to it:
+Con nuestro objeto de contexto listo, solo necesitamos ejecutar el motor de plantillas, especificar el nombre de la 
+plantilla y el contexto, y pasar el generador de respuestas para que la respuesta se pueda escribir en él:
 
 ```java
 templateEngine.process("home", ctx, response.getWriter());
 ```
 
-Let's see the results of this using the Spanish locale:
+Veamos los resultados de esto usando la configuración regional española:
 
 ```html
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -778,46 +765,44 @@ Let's see the results of this using the Spanish locale:
 
 ### Texto no escapado
 
-The simplest version of our Home page seems to be ready now, but there is
-something we have not thought about... what if we had a message like this?
+La versión más sencilla de nuestra página de inicio parece estar lista ya, pero hay algo en lo que no hemos pensado... 
+¿qué pasaría si tuviéramos un mensaje como este?
 
 ```java
-home.welcome=Welcome to our <b>fantastic</b> grocery store!
+home.welcome=¡Bienvenido a nuestra <b>fántastica</b> tienda de comestibles!
 ```
 
-If we execute this template like before, we will obtain:
+Si ejecutamos esta plantilla como antes, obtendremos:
 
 ```html
-<p>Welcome to our &lt;b&gt;fantastic&lt;/b&gt; grocery store!</p>
+<p>¡Bienvenido a nuestra &lt;b&gt;fantástica&lt;/b&gt; grocery store!</p>
 ```
 
-Which is not exactly what we expected, because our `<b>` tag has been escaped
-and therefore it will be displayed at the browser.
+Esto no es exactamente lo que esperábamos, porque nuestra etiqueta `<b>` ha sido escapada y, por lo tanto, se mostrará 
+en el navegador.
 
-This is the default behaviour of the th:text attribute. If we want Thymeleaf to
-respect our XHTML tags and not escape them, we will have to use a different
-attribute: `th:utext` (for "unescaped text"):
+Este es el comportamiento predeterminado del atributo th:text. Si queremos que Thymeleaf respete nuestras 
+etiquetas XHTML y no las escape, tendremos que usar un atributo diferente: `th:utext` (para "texto sin escape").
 
 ```html
-<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
-This will output our message just like we wanted it:
-<p>Welcome to our <b>fantastic</b> grocery store!</p>
+<p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
+Esto mostrará nuestro mensaje tal como lo queríamos:
+<p>¡Bienvenidos a nuestra <b>fantástica</b> tienda de comestibles!</p>
 ```
 
 
 ### Uso y visualización de variables
 
-Now let's add some more contents to our home page. For example, we could want to
-display the date below our welcome message, like this:
+Ahora, añadamos más contenido a nuestra página de inicio. Por ejemplo, podríamos mostrar la fecha debajo del mensaje 
+de bienvenida, así:
 
 ```
-Welcome to our fantastic grocery store!
+¡Bienvenidos a nuestra fantástica tienda de comestibles!
 
-Today is: 12 july 2010
+Hoy es: 12 julio 2010
 ```
 
-First of all, we will have to modify our controller so that we add that date as
-a context variable:
+En primer lugar, tendremos que modificar nuestro controlador para que agreguemos esa fecha como variable de contexto:
 
 ```java
 public void process(
@@ -836,39 +821,35 @@ public void process(
 }
 ```
 
-We have added a `String` today variable to our context, and now we can display
-it in our template:
+Hemos agregado una variable today de tipo `String` a nuestro contexto, y ahora podemos visualizarla en nuestra 
+plantilla:
 
 ```html
 <body>
 
-  <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
+  <p th:utext="#{home.welcome}">¡Bienvenidos a nuestra fantástica tienda de comestibles!</p>
 
-  <p>Today is: <span th:text="${today}">13 February 2011</span></p>
+  <p>Hoy es: <span th:text="${today}">13 febrero 2011</span></p>
   
 </body>
 ```
 
-As you can see, we are still using the `th:text` attribute for the job (and
-that's correct, because we want to substitute the tag's body), but the syntax is
-a little bit different this time and instead of a `#{...}` expression value, we
-are using a `${...}` one. This is a variable expression value, and it contains
-an expression in a language called _OGNL (Object-Graph Navigation Language)_
-that will be executed on the context variables map.
+Como pueden ver, seguimos usando el atributo `th:text` para el trabajo (correcto, ya que queremos sustituir el cuerpo 
+de la etiqueta), pero la sintaxis es ligeramente diferente esta vez: en lugar de un valor de expresión `#{...}`, 
+usamos uno `${...}`. Este valor de expresión variable contiene una expresión en un lenguaje llamado 
+_OGNL (Lenguaje de Navegación de Objetos-Gráficos)_ que se ejecutará en el mapa de variables de contexto.
 
-The `${today}` expression simply means "get the variable called today", but
-these expressions could be more complex (like `${user.name}` for "get the
-variable called user, and call its `getName()` method").
+La expresión `${today}` simplemente significa "obtén la variable llamada today", pero estas expresiones pueden ser 
+más complejas (como `${user.name}` para "obtén una variable llamda user, y llama a su método `getName()`).
 
-There are quite a lot of possibilities in attribute values: messages, variable
-expressions... and quite a lot more. Next chapter will show us what all these
-possibilities are.
+Existen muchas posibilidades en los valores de los atributos: mensajes, expresiones de variables... y mucho más. El 
+próximo capítulo nos mostrará cuáles son todas estas posibilidades.
 
 
 
 
-4 Standard Expression Syntax
-============================
+4 Sintaxis de expresiones estándar
+==================================
 
 We will make a small break in the development of our grocery virtual store to
 learn about one of the most important parts of the Thymeleaf Standard Dialect:
@@ -923,7 +904,7 @@ All these features can be combined and nested:
 
 
 
-4.1 Messages
+4.1 Mensajes
 ------------
 
 As we already know, `#{...}` message expressions allow us to link this:
@@ -1048,7 +1029,7 @@ ${person.createCompleteNameWithSeparator('-')}
 ```
 
 
-### Expression Basic Objects
+### Objetos básicos de expresión
 
 When evaluating OGNL expressions on the context variables, some objects are made
 available to expressions for higher flexibility. These objects will be
@@ -1070,7 +1051,7 @@ You can read the full reference of these objects in the
 [Appendix A](#appendix-a-expression-basic-objects).
 
 
-### Expression Utility Objects
+### Objetos de utilidad de expresión
 
 Besides these basic objects, Thymeleaf will offer us a set of utility objects
 that will help us perform common tasks in our expressions.
@@ -1098,7 +1079,7 @@ You can check what functions are offered by each of these utility objects in the
 [Appendix B](#appendix-b-expression-utility-objects).
 
 
-### Reformatting dates in our home page
+### Reformateando las fechas en nuestra página de inicio
 
 Now we know about these utility objects, we could use them to change the way in
 which we show the date in our home page. Instead of doing this in our `HomeController`:
@@ -1132,8 +1113,8 @@ templateEngine.process("home", ctx, response.getWriter());
 
 
 
-4.3 Expressions on selections (asterisk syntax)
------------------------------------------------
+4.3 Expresiones en selecciones (sintaxis de asterisco)
+------------------------------------------------------
 
 Variable expressions not only can be written in `${...}` expressions, but also
 in `*{...}` ones.
@@ -1198,8 +1179,8 @@ are exactly equivalent.
 
 
 
-4.4 Link URLs
--------------
+4.4 Enlaces a URLs
+------------------
 
 Because of their importance, URLs are first-class citizens in web application
 templates, and the _Thymeleaf Standard Dialect_ has a special syntax for them,
@@ -1263,7 +1244,7 @@ result of evaluating another expression:
 ```
 
 
-### A menu for our home page
+### Un menú para nuestra página de inicio
 
 Now we know how to create link URLs, what about adding a small menu in our home
 for some of the other pages in the site?
@@ -1279,7 +1260,7 @@ for some of the other pages in the site?
 ```
 
 
-### Server root relative URLs
+### URLs relativas a la raíz del servidor
 
 An additional syntax can be used to create server-root-relative (instead of context-root-relative)
 URLs in order to link to different contexts in the same server. These URLs will be specified like
@@ -1287,8 +1268,8 @@ URLs in order to link to different contexts in the same server. These URLs will 
 
 
 
-4.5 Literals
-------------
+4.5 Literales
+-------------
 
 ###Text literals
 
@@ -1358,8 +1339,8 @@ instead of:
 
 
 
-4.6 Appending texts
--------------------
+4.6 Añadir textos
+-----------------
 
 Texts, no matter whether they are literals or the result of evaluating variable or message expressions, can be easily appended using the `+` operator:
 
@@ -1370,8 +1351,8 @@ th:text="'The name of the user is ' + ${user.name}"
 
 
 
-4.7 Literal substitutions
--------------------------
+4.7 Sustituciones de literales
+------------------------------
 
 Literal substitutions allow the easy formatting of strings containing values from variables without the need to append literals with `'...' + '...'`.
 
@@ -1398,8 +1379,8 @@ Literal substitutions can be combined with other types of expressions:
 
 
 
-4.8 Arithmetic operations
--------------------------
+4.8 Operaciones aritméticas
+---------------------------
 
 Some arithmetic operations are also available: `+`, `-`, `*`, `/` and `%`.
 
@@ -1418,8 +1399,8 @@ th:with="isEven=${prodStat.count % 2 == 0}"
 Note that textual aliases exist for some of these operators: `div` (`/`), `mod` (`%`).
 
 
-4.9 Comparators and Equality
-----------------------------
+4.9 Comparadores e igualdad
+---------------------------
 
 Values in expressions can be compared with the `>`, `<`, `>=` and `<=` symbols,
 as usual, and also the `==` and `!=` operators can be used to check equality (or
@@ -1437,8 +1418,8 @@ Note that textual aliases exist for some of these operators: `gt` (`>`), `lt` (`
 
 
 
-4.10 Conditional expressions
----------------------------
+4.10 Expresiones condicionales
+------------------------------
 
 _Conditional expressions_ are meant to evaluate only one of two expressions
 depending on the result of evaluating a condition (which is itself another
@@ -1476,8 +1457,8 @@ the condition is false:
 
 
 
-4.11 Default expressions (Elvis operator)
------------------------------------------
+4.11 Expresiones predeterminadas (operador Elvis)
+-------------------------------------------------
 
 A _default expression_ is a special kind of conditional value without a _then_
 part. It is equivalent to the _Elvis operator_ present in some languages like
@@ -1513,8 +1494,8 @@ parentheses:
 
 
 
-4.12 Preprocessing
-------------------
+4.12 Preprocesamiento
+---------------------
 
 In addition to all these features for expression processing, Thymeleaf offers to
 us the possibility of _preprocessing_ expressions.
@@ -1559,8 +1540,8 @@ The preprocessing String `__` can be escaped in attributes using `\_\_`.
 
 
 
-5 Setting Attribute Values
-==========================
+5 Establecer valores de atributos
+=================================
 
 This chapter will explain the way in which we can set (or modify) values of
 attributes in our markup tags, possibly the next most basic feature we will need
@@ -1568,8 +1549,8 @@ after setting the tag body content.
 
 
 
-5.1 Setting the value of any attribute
---------------------------------------
+5.1 Establecer el valor de cualquier atributo
+---------------------------------------------
 
 Say our website publishes a newsletter, and we want our users to be able to
 subscribe to it, so we create a `/WEB-INF/templates/subscribe.html` template
@@ -1636,8 +1617,8 @@ Given the required messages files, this will output:
 
 
 
-5.2 Setting value to specific attributes
-----------------------------------------
+5.2 Establecer valores para atributos específicos
+-------------------------------------------------
 
 By now, you might be thinking that something like:
 
@@ -1678,50 +1659,48 @@ exactly this same kind of attributes:
 There are quite a lot of attributes like these, each of them targeting a
 specific XHTML or HTML5 attribute:
 
-<div class="table-scroller">
----------------------- ---------------------- -----------------------
-`th:abbr`              `th:accept`            `th:accept-charset`    
-`th:accesskey`         `th:action`            `th:align`             
-`th:alt`               `th:archive`           `th:audio`             
-`th:autocomplete`      `th:axis`              `th:background`        
-`th:bgcolor`           `th:border`            `th:cellpadding`       
-`th:cellspacing`       `th:challenge`         `th:charset`           
-`th:cite`              `th:class`             `th:classid`           
-`th:codebase`          `th:codetype`          `th:cols`              
-`th:colspan`           `th:compact`           `th:content`           
-`th:contenteditable`   `th:contextmenu`       `th:data`              
-`th:datetime`          `th:dir`               `th:draggable`         
-`th:dropzone`          `th:enctype`           `th:for`               
-`th:form`              `th:formaction`        `th:formenctype`       
-`th:formmethod`        `th:formtarget`        `th:frame`             
-`th:frameborder`       `th:headers`           `th:height`            
-`th:high`              `th:href`              `th:hreflang`          
-`th:hspace`            `th:http-equiv`        `th:icon`              
-`th:id`                `th:keytype`           `th:kind`              
-`th:label`             `th:lang`              `th:list`              
-`th:longdesc`          `th:low`               `th:manifest`          
-`th:marginheight`      `th:marginwidth`       `th:max`               
-`th:maxlength`         `th:media`             `th:method`            
-`th:min`               `th:name`              `th:optimum`           
-`th:pattern`           `th:placeholder`       `th:poster`            
-`th:preload`           `th:radiogroup`        `th:rel`               
-`th:rev`               `th:rows`              `th:rowspan`           
-`th:rules`             `th:sandbox`           `th:scheme`            
-`th:scope`             `th:scrolling`         `th:size`              
-`th:sizes`             `th:span`              `th:spellcheck`        
-`th:src`               `th:srclang`           `th:standby`           
-`th:start`             `th:step`              `th:style`             
-`th:summary`           `th:tabindex`          `th:target`            
-`th:title`             `th:type`              `th:usemap`            
-`th:value`             `th:valuetype`         `th:vspace`            
-`th:width`             `th:wrap`              `th:xmlbase`           
-`th:xmllang`           `th:xmlspace`                                 
----------------------- ---------------------- -----------------------
-</div>
+|                      |                  |                     |
+|:---------------------|:-----------------|:--------------------|
+| `th:abbr`            | `th:accept`      | `th:accept-charset` |
+| `th:accesskey`       | `th:action`      | `th:align`          |
+| `th:alt`             | `th:archive`     | `th:audio`          |
+| `th:autocomplete`    | `th:axis`        | `th:background`     |
+| `th:bgcolor`         | `th:border`      | `th:cellpadding`    |
+| `th:cellspacing`     | `th:challenge`   | `th:charset`        |
+| `th:cite`            | `th:class`       | `th:classid`        |
+| `th:codebase`        | `th:codetype`    | `th:cols`           |
+| `th:colspan`         | `th:compact`     | `th:content`        |
+| `th:contenteditable` | `th:contextmenu` | `th:data`           |
+| `th:datetime`        | `th:dir`         | `th:draggable`      |
+| `th:dropzone`        | `th:enctype`     | `th:for`            |
+| `th:form`            | `th:formaction`  | `th:formenctype`    |
+| `th:formmethod`      | `th:formtarget`  | `th:frame`          |
+| `th:frameborder`     | `th:headers`     | `th:height`         |
+| `th:high`            | `th:href`        | `th:hreflang`       |
+| `th:hspace`          | `th:http-equiv`  | `th:icon`           |
+| `th:id`              | `th:keytype`     | `th:kind`           |
+| `th:label`           | `th:lang`        | `th:list`           |
+| `th:longdesc`        | `th:low`         | `th:manifest`       |
+| `th:marginheight`    | `th:marginwidth` | `th:max`            |
+| `th:maxlength`       | `th:media`       | `th:method`         |
+| `th:min`             | `th:name`        | `th:optimum`        |
+| `th:pattern`         | `th:placeholder` | `th:poster`         |
+| `th:preload`         | `th:radiogroup`  | `th:rel`            |
+| `th:rev`             | `th:rows`        | `th:rowspan`        |
+| `th:rules`           | `th:sandbox`     | `th:scheme`         |
+| `th:scope`           | `th:scrolling`   | `th:size`           |
+| `th:sizes`           | `th:span`        | `th:spellcheck`     |
+| `th:src`             | `th:srclang`     | `th:standby`        |
+| `th:start`           | `th:step`        | `th:style`          |
+| `th:summary`         | `th:tabindex`    | `th:target`         |
+| `th:title`           | `th:type`        | `th:usemap`         |
+| `th:value`           | `th:valuetype`   | `th:vspace`         |
+| `th:width`           | `th:wrap`        | `th:xmlbase`        |
+| `th:xmllang`         | `th:xmlspace`    |                     |
 
 
-5.3 Setting more than one value at a time
------------------------------------------
+5.3 Establecer más de un valor a la vez
+---------------------------------------
 
 There are two rather special attributes called `th:alt-title` and `th:lang-xmllang`
 which can be used for setting two attributes to the same value at the same time.
@@ -1753,8 +1732,8 @@ For our GTVG home page, this will allow us to substitute this:
 
 
 
-5.4 Appending and prepending
-----------------------------
+5.4 Anexar y anteponer
+----------------------
 
 Working in an equivalent way to `th:attr`, Thymeleaf offers the `th:attrappend`
 and `th:attrprepend` attributes, which append (suffix) or prepend (prefix) the
@@ -1789,8 +1768,8 @@ we will talk about it later.)
 
 
 
-5.5 Fixed-value boolean attributes
-----------------------------------
+5.5 Atributos booleanos de valor fijo
+-------------------------------------
 
 Some XHTML/HTML5 attributes are special in that, either they are present in
 their elements with a specific and fixed value, or they are not present at all.
@@ -1816,22 +1795,20 @@ set to its fixed value, and if evaluated to false, the attribute will not be set
 
 The following fixed-value boolean attributes exist in the Standard Dialect:
 
-<div class="table-scroller">
-------------------- ------------------- -------------------
-`th:async`          `th:autofocus`      `th:autoplay`      
-`th:checked`        `th:controls`       `th:declare`       
-`th:default`        `th:defer`          `th:disabled`      
-`th:formnovalidate` `th:hidden`         `th:ismap`         
-`th:loop`           `th:multiple`       `th:novalidate`    
-`th:nowrap`         `th:open`           `th:pubdate`       
-`th:readonly`       `th:required`       `th:reversed`      
-`th:scoped`         `th:seamless`       `th:selected`      
-------------------- ------------------- -------------------
-</div>
+|     Fixed-value     |    boolean     |   Attributes    |
+|:-------------------:|:--------------:|:---------------:|
+|     `th:async`      | `th:autofocus` |  `th:autoplay`  |
+|    `th:checked`     | `th:controls`  |  `th:declare`   |
+|    `th:default`     |   `th:defer`   |  `th:disabled`  |
+| `th:formnovalidate` |  `th:hidden`   |   `th:ismap`    |
+|      `th:loop`      | `th:multiple`  | `th:novalidate` |
+|     `th:nowrap`     |   `th:open`    |  `th:pubdate`   |
+|    `th:readonly`    | `th:required`  |  `th:reversed`  |
+|     `th:scoped`     | `th:seamless`  |  `th:selected`  |
 
 
-5.6 Support for HTML5-friendly attribute and element names
-----------------------------------------------------------
+5.6 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
+-----------------------------------------------------------------------------
 
 It is also possible to use a completely different syntax to apply processors to your templates, more HTML5-friendly.
 
@@ -2918,40 +2895,29 @@ as expected.
 So, all Thymeleaf attributes define a numeric precedence, which establishes the
 order in which they are executed in the tag. This order is:
 
-<div class="table-scroller">
------------------------------------------------------------------
-Order   Feature                            Attributes
-------- ---------------------------------- ----------------------
-      1 Fragment inclusion                 `th:include`\
-                                           `th:replace`
+|  Order | Feature                            | Attributes             |
+|-------:|:-----------------------------------|:-----------------------|
+|      1 | Fragment inclusion                 | `th:include`\          |
+|        |                                    | `th:replace`           |
+|      2 | Fragment iteration                 | `th:each`              |
+|      3 | Conditional evaluation             | `th:if`\               |
+|        |                                    | `th:unless`\           |
+|        |                                    | `th:switch`\           |
+|        |                                    | `th:case`              |
+|      4 | Local variable definition          | `th:object`\           |
+|        |                                    | `th:with`              |
+|      5 | General attribute modification     | `th:attr`\             |
+|        |                                    | `th:attrprepend`\      |
+|        |                                    | `th:attrappend`        |
+|      6 | Specific attribute modification    | `th:value`\            |
+|        |                                    | `th:href`\             |
+|        |                                    | `th:src`\              |
+|        |                                    | `...`                  |
+|      7 | Text (tag body modification)       | `th:text`\             |
+|        |                                    | `th:utext`             |
+|      8 | Fragment specification             | `th:fragment`          |
+|      9 | Fragment removal                   | `th:remove`            |
 
-      2 Fragment iteration                 `th:each`
-
-      3 Conditional evaluation             `th:if`\
-                                           `th:unless`\
-                                           `th:switch`\
-                                           `th:case`
-
-      4 Local variable definition          `th:object`\
-                                           `th:with`
-
-      5 General attribute modification     `th:attr`\
-                                           `th:attrprepend`\
-                                           `th:attrappend`
-
-      6 Specific attribute modification    `th:value`\
-                                           `th:href`\
-                                           `th:src`\
-                                           `...`
-
-      7 Text (tag body modification)       `th:text`\
-                                           `th:utext`
-
-      8 Fragment specification             `th:fragment`
-
-      9 Fragment removal                   `th:remove`
------------------------------------------------------------------
-</div>
 
 This precedence mechanism means that the above iteration fragment will give
 exactly the same results if the attribute position is inverted (although it would be
@@ -3885,8 +3851,8 @@ templateEngine.clearTemplateCacheFor("/users/userList");
 
 
 
-17 Appendix A: Expression Basic Objects
-=======================================
+## 17 Appendix A: Expression Basic Objects {#appendix-a-expression-basic-objects} 
+
 
 Some objects and variable maps are always available to be invoked at variable expressions (executed by OGNL or SpringEL). Let's see them:
 
@@ -4865,4 +4831,4 @@ Will look for a `th:fragment="myfrag"` fragment signature. But would also look f
 <div th:replace="mytemplate :: .myfrag">...</div>
 ```
 
-which will actually look for any elements with `class="myfrag"`, without caring about `th:fragment` signatures. 
+which will actually look for any elements with `class="myfrag"`, without caring about `th:fragment` signatures.

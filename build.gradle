@@ -19,6 +19,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAccessor
 
 /**
  * Gradle build script for the Thymeleaf Docs project, converts the
@@ -117,7 +118,7 @@ tasks.register('copyResources') {
 				// Property filtering, this will replace all @gradle-properties@ (mainly used in markdown metadata)
 				var documentMetadataForVersion = documentMetadata[(thymeleafVersion)]
 				if (documentMetadataForVersion) {
-					def documentVersion = DateTimeFormatter.ofPattern('yyyyMMdd - dd MMMM yyyy', Locale.ENGLISH).format(documentMetadataForVersion.date)
+					def documentVersion = DateTimeFormatter.ofPattern('yyyyMMdd - dd MMMM yyyy', Locale.ENGLISH).format(documentMetadataForVersion.date as TemporalAccessor)
 					def projectVersion = documentMetadataForVersion.version
 
 					filter(ReplaceTokens, tokens: [
@@ -164,7 +165,7 @@ tasks.register('generateDocsHTML') {
 				def outputFile = file("${outputDir}/${docName}.html")
 				file(outputFile.parent).mkdirs()
 				exec {
-					commandLine = "pandoc"
+					commandLine = "c:/Program Files/Pandoc/pandoc.exe"
 					args = [
 						"--write=html5",
 						"--template=" + file("${templatesDir.path}/${docType}.html"),
@@ -213,7 +214,7 @@ tasks.register('generateDocsEbook') {
 				exec {
 					// We need to set the working dir in order for pandoc to find images
 					workingDir = file(inputFile.parent)
-					commandLine = "pandoc"
+					commandLine = "c:/Program Files/Pandoc/pandoc.exe"
 					args = [
 						"--write=epub",
 						"--template=" + file("${templatesDir.path}/${docType}.epub"),
@@ -244,7 +245,7 @@ tasks.register('generateDocsEbook') {
 tasks.register('startServer', ExecFork) {
 	dependsOn 'war'
 
-	commandLine = './gradlew'
+	commandLine = './gradlew.bat'
 	args = ['appStartWar']
 	waitForOutput = 'Run \'gradle appStop\' to stop the server'
 }
@@ -261,7 +262,7 @@ tasks.register('generateDocsPDF') {
 
 	doLast {
 		// Generate the PDF documents from the modified HTML documents
-		fileTree(outputDir) { include '*/**/*.html' }.each { docFile ->
+		fileTree(outputDir) { include '*/**/*.html' as Closure }.each { docFile ->
 
 			def folderBase = relativePath(file(outputDir))
 			def docName = (relativePath(docFile).substring(folderBase.length() + 1) - ".html")
@@ -271,7 +272,7 @@ tasks.register('generateDocsPDF') {
 				println "Generating PDF doc for ${docName} (${docType})..."
 
 				exec {
-					commandLine = 'wkhtmltopdf'
+					commandLine = 'D:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'
 					args = [
 						"--print-media-type",
 						"--dpi", "300",

@@ -1,111 +1,109 @@
 ---
-title: From HTML to HTML (via HTML)
+title: De HTML a HTML (vía HTML)
 ---
 
 
-Knowing the internals of the HTML family of web standards is quite
-important when you are using software such as Thymeleaf. At least if you
-want to understand what you are doing.
+Conocer los fundamentos de la familia de estándares web HTML es fundamental al 
+utilizar software como Thymeleaf. Al menos si se quiere comprender lo que se 
+está haciendo.
 
-The problem is that many people know the technologies they are using for
-creating webs, but don't really know where these technologies come from.
-It has been a long way since the inception of the first web interfaces,
-and since then every new technology has been changing the way we
-developed for the web by deprecating a good amount of our work and,
-especially, our knowledge.
+El problema es que mucha gente conoce las tecnologías que utiliza para crear 
+sitios web, pero desconoce su origen. Ha transcurrido un largo camino desde la 
+creación de las primeras interfaces web, y desde entonces, cada nueva tecnología 
+ha cambiado la forma en que desarrollamos para la web, desvalorizando gran parte 
+de nuestro trabajo y, sobre todo, nuestros conocimientos.
 
-And now, with the arrival of HTML5, things have become even more
-complicated. *What's it?* *Why is it HTML instead of XHTML?* *Wasn't the
-HTML tag soup considered harmful?*
+Y ahora, con la llegada de HTML5, las cosas se han complicado aún más. 
+*¿Qué es?* *¿Por qué es HTML en lugar de XHTML?* *¿No se consideraba perjudicial 
+la sopa de etiquetas HTML?*
 
-So let's take a step back, and see how we arrived where we are now, and
-why.
+Así que demos un paso atrás y veamos cómo llegamos a donde estamos ahora y por 
+qué.
 
 
-Back in the 90s, there was HTML...
+En los años 90, existía el HTML...
 ----------------------------------
 
-...and HTML was a standard (or more correctly, a *recommendation*)
-maintained by the *World Wide Web Consortium* (a.k.a. W3C). Extending
-from a language called SGML, HTML defined a tag-based markup language
-for writing rich hyper-text documents, highly coupled to the protocol
-that was used for serving them and their related resources across the
-network: the *Hyper-Text Transfer Protocol* (HTTP).
+...y HTML era un estándar (o más correctamente, una *recomendación*) mantenido 
+por el *Consorcio World Wide Web* (también conocido como W3C). A partir de un 
+lenguaje llamado SGML, HTML definió un lenguaje de marcado basado en etiquetas 
+para escribir documentos de hipertexto enriquecidos, altamente acoplado al 
+protocolo utilizado para servirlos y sus recursos relacionados a través de la 
+red: el *Protocolo de Transferencia de Hipertexto* (HTTP).
 
-HTTP used text *headers* for defining what was being served to clients
-and how, one of which was extremely important: the `Content-Type`
-header. This header explained to browsers what type of content was being
-served to them in a language called *MIME (Multipurpose Internet Mail
-Extensions)*. And the MIME type used for serving HTML documents was
+HTTP utilizaba *encabezados* de texto para definir qué se servía a los clientes 
+y cómo. Uno de ellos era extremadamente importante: el encabezado 
+`Content-Type`. Este encabezado explicaba a los navegadores el tipo de contenido 
+que se les servía en un lenguaje llamado *MIME (Extensiones Multipropósito de 
+Correo de Internet)*. El tipo MIME utilizado para servir documentos HTML era 
 `text/html`:
 
 ```html
     Content-Type: text/html
 ```
 
-HTML also defined a way to check whether a document was *valid*. Being
-valid basically meant that the document was written according to the
-HTML rules that dictated what attributes a tag could have, where a tag
-could appear in the document, etc.
+HTML también definió una forma de comprobar si un documento era *válido*. Ser 
+válido significaba básicamente que el documento se había escrito según las 
+reglas HTML que dictaban qué atributos podía tener una etiqueta, dónde podía 
+aparecer en el documento, etc.
 
-These validity rules were specified using a language for defining the
-structure of SGML documents called *Document Type Definition* or DTD. A
-Standard DTD was created for each version of HTML, and HTML documents
-had to declare the DTD (and therefore the version of HTML) they
-conformed to by means of a clause that should appear as their first
-line, the *Document Type Declaration* or `DOCTYPE` clause:
+Estas reglas de validez se especificaron mediante un lenguaje para definir la 
+estructura de los documentos SGML llamado *Definición de Tipo de Documento* o 
+DTD. Se creó una DTD estándar para cada versión de HTML, y los documentos HTML 
+debían declarar la DTD (y, por lo tanto, la versión de HTML) a la que se 
+ajustaban mediante una cláusula que debía aparecer en su primera línea: la 
+*Declaración de Tipo de Documento* o cláusula `DOCTYPE`:
 
 ```html
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 ```
 
 
-The Document Object Model and the tag soup
-------------------------------------------
+El modelo de objetos de documento y la sopa de etiquetas
+--------------------------------------------------------
 
-HTML was meant for displaying documents in browsers, and back in the
-late 90s browsers were made by fiercely competing companies that wanted
-to offer the maximum amount of cool features to their users. Given that
-HTML only defined rules for document formatting, many other features
-were left to the browser developers' imagination.
+HTML se diseñó para mostrar documentos en navegadores, y a finales de los 90, 
+estos navegadores eran desarrollados por empresas que competían ferozmente y que 
+buscaban ofrecer el máximo número de funciones interesantes a sus usuarios. Dado 
+que HTML solo definía reglas para el formato de documentos, muchas otras 
+funciones quedaron a la imaginación de los desarrolladores de navegadores.
 
-And one of the most interesting ideas that appeared in browsers was
-*client-side interactivity*. This interactivity was achieved by
-executing *scripts* -- in languages such as JavaScript -- inside the
-browser itself, and giving these scripts the ability to handle, modify
-and even execute events on parts of the document being displayed. For
-this, browsers had to model HTML documents as in-memory trees of
-objects, each of them with state and events, and thus the *Document
-Object Model* (DOM) was born.
+Una de las ideas más interesantes que surgieron en los navegadores fue la 
+*interactividad del lado del cliente*. Esta interactividad se logró ejecutando 
+*scripts*, en lenguajes como JavaScript, dentro del propio navegador, y dándoles 
+la capacidad de manejar, modificar e incluso ejecutar eventos en partes del 
+documento mostrado. Para ello, los navegadores tuvieron que modelar los 
+documentos HTML como árboles de objetos en memoria, cada uno con su estado y 
+eventos, y así nació el *Modelo de Objetos del Documento* (DOM).
 
-The problem was that HTML rules for well-formedness were quite loose
-whereas DOM trees were strictly hierarchical structures, and this meant
-that different interpretations of HTML tag positions and sequences could
-lead to different DOM object trees in different browsers. Add to this
-the fact that these different browsers modelled the API of DOM nodes in
-different ways (different names, events, etc) and you will start to get
-the idea of how difficult it was to create cross-browser interactivity
-back then.
+El problema residía en que las reglas HTML para la correcta formación eran 
+bastante laxas, mientras que los árboles DOM eran estructuras estrictamente 
+jerárquicas. Esto implicaba que las diferentes interpretaciones de las 
+posiciones y secuencias de las etiquetas HTML podían generar distintos árboles 
+de objetos DOM en distintos navegadores. Si a esto le sumamos que estos 
+distintos navegadores modelaban la API de los nodos DOM de distintas maneras 
+(con distintos nombres, eventos, etc.), empezaremos a hacernos una idea de lo 
+difícil que era crear interactividad entre navegadores en aquel entonces.
 
-What's more: while all this was happening, browsers had been growing
-quite forgiving with HTML authors, allowing them to write HTML documents
-that were not well formed (*tag soups*) by automagically correcting
-their errors. This lead HTML authors to create even worse formed
-documents, and then browsers to allow even more errors in format, adding
-to a quite destructive cycle. And guess what: each browser was
-correcting all these errors in a different way. Hooray.
+Es más: mientras todo esto sucedía, los navegadores se habían vuelto bastante 
+indulgentes con los autores de HTML, permitiéndoles escribir documentos HTML mal 
+formados (*sopa de etiquetas*) corrigiendo automáticamente sus errores. Esto 
+llevó a los autores de HTML a crear documentos aún peor formados, y luego a los 
+navegadores a permitir aún más errores de formato, lo que contribuyó a un ciclo 
+bastante destructivo. Y adivina qué: cada navegador corregía todos estos errores 
+de forma diferente. ¡Genial!
 
-The W3C finally standardized the DOM API and a language for scripting in
-web browsers: JavaScript (although for some complex reasons they
-insisted on calling it ECMAScript). But the damage done by the world of
-tag soups coupled with the slow adoption of these standards in full by
-browser makers -- in many cases fearing they would damage backwards
-compatibility -- produced effects that are still influencing the way we
-create web applications today.
+El W3C finalmente estandarizó la API DOM y un lenguaje para scripting en 
+navegadores web: JavaScript (aunque por razones complejas insistieron en 
+llamarlo ECMAScript). Sin embargo, el daño causado por el mundo de las sopas 
+de etiquetas, sumado a la lenta adopción total de estos estándares por parte de 
+los desarrolladores de navegadores —en muchos casos por temor a que perjudicaran 
+la compatibilidad con versiones anteriores—, tuvo consecuencias que aún influyen 
+en la forma en que creamos aplicaciones web hoy en día.
 
 
-Enter XML
----------
+Introducir XML
+--------------
 
 Some time after HTML became a widely spread language, the W3C developed
 a new specification called XML (*eXtensible Markup Language*), aimed at

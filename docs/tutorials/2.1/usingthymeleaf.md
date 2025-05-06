@@ -851,12 +851,11 @@ próximo capítulo nos mostrará cuáles son todas estas posibilidades.
 4 Sintaxis de expresiones estándar
 ==================================
 
-We will make a small break in the development of our grocery virtual store to
-learn about one of the most important parts of the Thymeleaf Standard Dialect:
-the Thymeleaf Standard Expression syntax.
+Haremos una breve pausa en el desarrollo de nuestra tienda virtual de comestibles para aprender sobre una de las partes 
+más importantes del dialecto estándar de Thymeleaf: la sintaxis de las expresiones estándar de Thymeleaf.
 
-We have already seen two types of valid attribute values expressed in this
-syntax: message and variable expressions:
+Ya hemos visto dos tipos de valores de atributo válidos expresados en esta sintaxis: mensaje y expresiones de variable:
+
 
 ```html
 <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
@@ -864,39 +863,38 @@ syntax: message and variable expressions:
 <p>Today is: <span th:text="${today}">13 february 2011</span></p>
 ```
 
-But there are more types of value we don't know yet, and more interesting detail
-to know about the ones we already know. First, let's see a quick summary of the
-Standard Expression features:
+Pero hay más tipos de valores que aún desconocemos, y más detalles interesantes sobre los que ya conocemos. Primero, 
+veamos un breve resumen de las características de las expresiones estándar:
 
- * Simple expressions:
-    * Variable Expressions: `${...}`
-    * Selection Variable Expressions: `*{...}`
-    * Message Expressions: `#{...}`
-    * Link URL Expressions: `@{...}`
- * Literals
-    * Text literals: `'one text'`, `'Another one!'`,...
-    * Number literals: `0`, `34`, `3.0`, `12.3`,...
-    * Boolean literals: `true`, `false`
-    * Null literal: `null`
-    * Literal tokens: `one`, `sometext`, `main`,...
- * Text operations: 
-    * String concatenation: `+`
-    * Literal substitutions: `|The name is ${name}|`
- * Arithmetic operations:
-    * Binary operators: `+`, `-`, `*`, `/`, `%`
-    * Minus sign (unary operator): `-`
- * Boolean operations:
-    * Binary operators: `and`, `or`
-    * Boolean negation (unary operator): `!`, `not`
- * Comparisons and equality:
-    * Comparators: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
-    * Equality operators: `==`, `!=` (`eq`, `ne`)
- * Conditional operators:
+ * Expresiones simples:
+    * Expresiones de variables: `${...}`
+    * Expresiones de variables de selección: `*{...}`
+    * Expresiones de mensajes: `#{...}`
+    * Expresiones de enlaces URL: `@{...}`
+ * Literales
+    * Literales de Texto: `'one text'`, `'Another one!'`,...
+    * Literales numéricos: `0`, `34`, `3.0`, `12.3`,...
+    * Literales booleanos: `true`, `false`
+    * Literal null: `null`
+    * Tokens literales: `one`, `sometext`, `main`,...
+ * Operaciones de texto: 
+    * Concatenación de cadenas: `+`
+    * Sustituciones literales: `|The name is ${name}|`
+ * Operaciones aritméticas:
+    * Operadores binarios: `+`, `-`, `*`, `/`, `%`
+    * Signo menos (operador unario): `-`
+ * Operaciones booleanas:
+    * Operadores binarios: `and`, `or`
+    * Negación booleana (operador unario): `!`, `not`
+ * Comparaciones e igualdad:
+    * Comparadores: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
+    * Operadores de igualdad: `==`, `!=` (`eq`, `ne`)
+ * Operadores condicionales:
     * If-then: `(if) ? (then)`
     * If-then-else: `(if) ? (then) : (else)`
     * Default: `(value) ?: (defaultvalue)`
 
-All these features can be combined and nested:
+Todas estas características se pueden combinar y anidar:
 
 ```html
 'User is of type ' + (${user.isAdmin()} ? 'Administrator' : (${user.type} ?: 'Unknown'))
@@ -907,38 +905,35 @@ All these features can be combined and nested:
 4.1 Mensajes
 ------------
 
-As we already know, `#{...}` message expressions allow us to link this:
+Como ya sabemos, las expresiones de mensaje `#{...}` nos permiten vincular esto:
 
 ```html
 <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
 ```
 
-...to this:
+...a esto:
 
 ```html
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
 ```
-
-But there's one aspect we still haven't thought of: what happens if the message
-text is not completely static? What if, for example, our application knew who is
-the user visiting the site at any moment and we wanted to greet him/her by name?
+Pero hay un aspecto que aún no hemos considerado: ¿qué ocurre si el texto del mensaje no es completamente estático? 
+¿Qué sucedería si, por ejemplo, nuestra aplicación supiera quién es el usuario que visita el sitio en cualquier momento 
+y quisiéramos saludarlo por su nombre?
 
 ```html
 <p>¡Bienvenido a nuestra tienda de comestibles, John Apricot!</p>
 ```
 
-This means we would need to add a parameter to our message. Just like this:
+Esto significa que necesitaríamos agregar un parámetro a nuestro mensaje. Algo como esto:
 
 ```html
 home.welcome=¡Bienvenido a nuestra tienda de comestibles, {0}!
 ```
 
-Parameters are specified according to the `java.text.MessageFormat` standard
-syntax, which means you could add format to numbers and dates as specified in
-the API docs for that class.
+Los parámetros se especifican de acuerdo con la sintaxis estándar `java.text.MessageFormat`, lo que significa que puede 
+agregar formato a números y fechas como se especifica en la documentación de API para esa clase.
 
-In order to specify a value for our parameter, and given an HTTP session
-attribute called `user`, we would have:
+Para especificar un valor para nuestro parámetro, y dado un atributo de sesión HTTP llamado `usuario`, tendríamos:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
@@ -946,8 +941,8 @@ attribute called `user`, we would have:
 </p>
 ```
 
-If needed, several parameters could be specified, separated by commas. In fact,
-the message key itself could come from a variable:
+Si es necesario, se pueden especificar varios parámetros, separados por comas. De hecho, la clave del mensaje podría 
+provenir de una variable:
 
 ```html
 <p th:utext="#{${welcomeMsgKey}(${session.user.name})}">
@@ -959,28 +954,25 @@ the message key itself could come from a variable:
 
 4.2 Variables
 -------------
+Ya mencionamos que las expresiones `${...}` son en realidad expresiones OGNL (Object-Graph Navigation Language) 
+ejecutadas en el mapa de variables contenidas en el contexto.
 
-We already mentioned that `${...}` expressions are in fact OGNL (Object-Graph
-Navigation Language) expressions executed on the map of variables contained in
-the context.
+> Para información detallada sobre la sintaxis y capacidades de OGNL, debería leer la Guía del Lenguaje OGNL en:
+> [http://commons.apache.org/ognl/](http://commons.apache.org/ognl/)
 
-> For detailed info about OGNL syntax and features, you should read the OGNL
-> Language Guide at: [http://commons.apache.org/ognl/](http://commons.apache.org/ognl/)
-
-From OGNL's syntax, we know that this:
+De la sintaxis de OGNL, sabemos que esto:
 
 ```html
 <p>Today is: <span th:text="${today}">13 february 2011</span>.</p>
 ```
 
-...is in fact equivalent to this:
+...es de hecho equivalente a esto:
 
 ```java
 ctx.getVariables().get("today");
 ```
 
-But OGNL allows us to create quite more powerful expressions, and that's how
-this:
+Pero OGNL nos permite crear expresiones mucho más potentes, y así es como funciona esto:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
@@ -988,41 +980,40 @@ this:
 </p>
 ```
 
-...does in fact obtain the user name by executing:
+...de hecho obtiene el nombre de usuario ejecutando:
 
 ```java
 ((User) ctx.getVariables().get("session").get("user")).getName();
 ```
 
-But getter method navigation is just one of OGNL's features. Let's see some more:
+Pero la navegación por métodos getter es solo una de las características de OGNL. Veamos más:
 
 ```java
 /*
- * Access to properties using the point (.). Equivalent to calling property getters.
+ * Acceso a las propiedades usando el punto (.). Es el equivalente a llamar a los métodos get de la propiedad
  */
 ${person.father.name}
 
 /*
- * Access to properties can also be made by using brackets ([]) and writing 
- * the name of the property as a variable or between single quotes.
+ * Se puede acceder a las propieades también utilizando los corchetes ([]) y escribiendo el nombre de la propiedad como 
+ * una variable o entre comillas simples.
  */
 ${person['father']['name']}
 
 /*
- * If the object is a map, both dot and bracket syntax will be equivalent to 
- * executing a call on its get(...) method.
+ * Si el objeto es un mapa, tanto el punto como la sintaxis de corchetes serán equivalemntes a ejecutar una llamada 
+ * a un método get(...).
  */
 ${countriesByCode.ES}
 ${personsByName['Stephen Zucchini'].age}
 
 /*
- * Indexed access to arrays or collections is also performed with brackets, 
- * writing the index without quotes.
+ * El acceso indexado a matrices o colecciones también se realiza con corchetes, escribiendo el índice sin comillas.
  */
 ${personsArray[0].name}
 
 /*
- * Methods can be called, even with arguments.
+ * Se pueden llamar a los métodos, incluso con argumentos.
  */
 ${person.createCompleteName()}
 ${person.createCompleteNameWithSeparator('-')}

@@ -1022,58 +1022,62 @@ ${person.createCompleteNameWithSeparator('-')}
 
 ### Objetos básicos de expresión
 
-When evaluating OGNL expressions on the context variables, some objects are made
-available to expressions for higher flexibility. These objects will be
-referenced (per OGNL standard) starting with the `#` symbol:
+Al evaluar las expresiones OGNL en las variables de contexto, algunos objetos se
+ponen a disposición de las expresiones para mayor flexibilidad. Estos objetos se 
+referenciarán (según el estandar OGNL) comenzando con el símbolo `#`:
 
- * `#ctx`: the context object.
- * `#vars:` the context variables.
- * `#locale`: the context locale.
- * `#httpServletRequest`: (only in Web Contexts) the `HttpServletRequest` object.
- * `#httpSession`: (only in Web Contexts) the `HttpSession` object.
+ * `#ctx`: el objeto context (el contexto, en español).
+ * `#vars:` las variables contenidas en context.
+ * `#locale`: la configuración regional de context.
+ * `#httpServletRequest`: (solo en Contextos de Web) el objeto 
+    `HttpServletRequest`.
+ * `#httpSession`: (solo en Contextos de Web) el objeto `HttpSession`.
 
-So we can do this:
+Así que podemos hacer esto:
 
 ```html
 Established locale country: <span th:text="${#locale.country}">US</span>.
 ```
 
-You can read the full reference of these objects in the
-[Appendix A](#appendix-a-expression-basic-objects).
+Puede leer la referencia completa de estos objetos en el 
+[Apéndice A](#apendice-a-expresión-objetos-basicos).
+
 
 
 ### Objetos de utilidad de expresión
 
-Besides these basic objects, Thymeleaf will offer us a set of utility objects
-that will help us perform common tasks in our expressions.
+Además de estos objetos básicos, Thymeleaf nos ofrecerá un conjunto de objetos 
+de utilidad que nos ayudarán a realizar tareas comunes en nuestras expresiones.
 
- * `#dates`: utility methods for `java.util.Date` objects: formatting, component
-   extraction, etc.
- * `#calendars`: analogous to `#dates`, but for `java.util.Calendar` objects.
- * `#numbers`: utility methods for formatting numeric objects.
- * `#strings`: utility methods for `String` objects: contains, startsWith,
-   prepending/appending, etc.
- * `#objects`: utility methods for objects in general.
- * `#bools`: utility methods for boolean evaluation.
- * `#arrays`: utility methods for arrays.
- * `#lists`: utility methods for lists.
- * `#sets`: utility methods for sets.
- * `#maps`: utility methods for maps.
- * `#aggregates`: utility methods for creating aggregates on arrays or
-   collections.
- * `#messages`: utility methods for obtaining externalized messages inside
-   variables expressions, in the same way as they would be obtained using #{...} syntax.
- * `#ids`: utility methods for dealing with id attributes that might be repeated
-   (for example, as a result of an iteration).
+ * `#dates`: métodos de utilidad para los objetos `java.util.Date`: formateo, 
+    extracción de componentes, etc.
+ * `#calendars`: análogo a `#dates`, pero para los objetos `java.util.Calendar`.
+ * `#numbers`: métodos de utilidad para dar formato a los objetos numéricos.
+ * `#strings`: métodos de utilidad para los objetos `String`: contains, 
+    startsWith, prepending/appending, etc.
+ * `#objects`: métodos de utilidad para todos los objetos en general.
+ * `#bools`: métodos de utilidad para la evaluación booleana.
+ * `#arrays`: métodos de utilidad para matrices (arrays en inglés).
+ * `#lists`: métodos de utilidad para las listas (list en inglés).
+ * `#sets`: métodos de utilidad para los conjuntos (sets en inglés).
+ * `#maps`: métodos de utilidad para los mapas (maps en inglés).
+ * `#aggregates`: Métodos de utilidad para crear agregados en matrices o 
+    colecciones.
+ * `#messages`: métodos de utilidad para obtener mensajes externalizados dentro 
+    de expresiones variables, de la misma manera que se obtendrían utilizando la 
+    sintaxis #{...}.
+ * `#ids`: Métodos de utilidad para gestionar atributos de identificación que 
+    puedan repetirse (por ejemplo, como resultado de una iteración).
 
-You can check what functions are offered by each of these utility objects in the
-[Appendix B](#appendix-b-expression-utility-objects).
+Puede comprobar qué funciones se ofrecen para cada uno de estos objetos de 
+utilidad en el [Apéndice B](#apendice-b-expresion-objetos-de-utilidad).
 
 
 ### Reformateando las fechas en nuestra página de inicio
 
-Now we know about these utility objects, we could use them to change the way in
-which we show the date in our home page. Instead of doing this in our `HomeController`:
+Ahora que conocemos estos objetos de utilidad, podemos usarlos para cambiar la 
+forma en que mostramos la fecha en nuestra página de inicio. En lugar de hacerlo 
+en nuestro `HomeController`:
 
 ```java
 SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
@@ -1085,7 +1089,7 @@ ctx.setVariable("today", dateFormat.format(cal.getTime()));
 templateEngine.process("home", ctx, response.getWriter());
 ```
 
-...we can do just this:
+...Podemos hacer precisamente esto:
 
 ```java
 WebContext ctx = new WebContext(request, servletContext, request.getLocale());
@@ -1094,11 +1098,11 @@ ctx.setVariable("today", Calendar.getInstance());
 templateEngine.process("home", ctx, response.getWriter());
 ```
 
-...and then perform date formatting in the view layer itself:
+...y luego realizar el formato de fecha en la propia capa de vista:
 
 ```html
 <p>
-  Today is: <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
+  Hoy es: <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 Mayo 2011</span>
 </p>
 ```
 
@@ -1107,64 +1111,65 @@ templateEngine.process("home", ctx, response.getWriter());
 4.3 Expresiones en selecciones (sintaxis de asterisco)
 ------------------------------------------------------
 
-Variable expressions not only can be written in `${...}` expressions, but also
-in `*{...}` ones.
+Las expresiones variables no sólo se pueden escribir en expresiones `${...}`, 
+sino también en expresiones `*{...}`.
 
-There is an important difference, though: the asterisk syntax evaluates
-expressions on selected objects rather than on the whole context variables map.
-This is: as long as there is no selected object, the dollar and the asterisk 
-syntaxes do exactly the same.
+Sin embargo, existe una diferencia importante: la sintaxis de asterisco evalúa 
+las expresiones en los objetos seleccionados, en lugar de en todo el mapa de 
+variables de contexto. Es decir, mientras no haya ningún objeto seleccionado, 
+las sintaxis de dólar y de asterisco hacen exactamente lo mismo.
 
-And what is that object selection thing? A `th:object` attribute. Let's use it
-in our user profile (`userprofile.html`) page:
+¿Y qué es esa selección de objetos? Un atributo `th:object`. Usémoslo en nuestra 
+página de perfil de usuario (`userprofile.html`):
 
 ```html
   <div th:object="${session.user}">
-    <p>Name: <span th:text="*{firstName}">Sebastian</span>.</p>
-    <p>Surname: <span th:text="*{lastName}">Pepper</span>.</p>
-    <p>Nationality: <span th:text="*{nationality}">Saturn</span>.</p>
+    <p>Nombre: <span th:text="*{firstName}">Sebastian</span>.</p>
+    <p>Apellido: <span th:text="*{lastName}">Pepper</span>.</p>
+    <p>Nacionalidad: <span th:text="*{nationality}">Saturno</span>.</p>
   </div>
 ```
 
-Which is exactly equivalent to:
+Lo cual es exactamente equivalente a:
 
 ```html
 <div>
-  <p>Name: <span th:text="${session.user.firstName}">Sebastian</span>.</p>
-  <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>
-  <p>Nationality: <span th:text="${session.user.nationality}">Saturn</span>.</p>
+  <p>Nombre: <span th:text="${session.user.firstName}">Sebastian</span>.</p>
+  <p>Apellido: <span th:text="${session.user.lastName}">Pepper</span>.</p>
+  <p>Nacionalidad: <span th:text="${session.user.nationality}">Saturno</span>.</p>
 </div>
 ```
 
-Of course, dollar and asterisk syntax can be mixed:
+Por supuesto, la sintaxis dólar y asterisco se pueden mezclar:
 
 ```html
 <div th:object="${session.user}">
-  <p>Name: <span th:text="*{firstName}">Sebastian</span>.</p>
-  <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>
-  <p>Nationality: <span th:text="*{nationality}">Saturn</span>.</p>
+  <p>Nombre: <span th:text="*{firstName}">Sebastian</span>.</p>
+  <p>Apellido: <span th:text="${session.user.lastName}">Pepper</span>.</p>
+  <p>Nacionalidad: <span th:text="*{nationality}">Saturno</span>.</p>
 </div>
 ```
 
-When an object selection is in place, the selected object will be also available
-to dollar expressions as the `#object` expression variable:
+Cuando hay una selección de objetos en su lugar, el objeto seleccionado también 
+estará disponible para las expresiones dólares como la variable de expresión 
+`#object`:
 
 ```html
 <div th:object="${session.user}">
-  <p>Name: <span th:text="${#object.firstName}">Sebastian</span>.</p>
-  <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>
-  <p>Nationality: <span th:text="*{nationality}">Saturn</span>.</p>
+  <p>Nombre: <span th:text="${#object.firstName}">Sebastian</span>.</p>
+  <p>Apellido: <span th:text="${session.user.lastName}">Pepper</span>.</p>
+  <p>Nacionalidad: <span th:text="*{nationality}">Saturno</span>.</p>
 </div>
 ```
 
-As said, if no object selection has been performed, dollar and asterisk syntaxes
-are exactly equivalent.
+Como se dijo, si no se ha realizado ninguna selección de objetos, las sintaxis 
+de dólar y asterisco son exactamente equivalentes.
 
 ```html
 <div>
-  <p>Name: <span th:text="*{session.user.name}">Sebastian</span>.</p>
-  <p>Surname: <span th:text="*{session.user.surname}">Pepper</span>.</p>
-  <p>Nationality: <span th:text="*{session.user.nationality}">Saturn</span>.</p>
+  <p>Nombre: <span th:text="*{session.user.name}">Sebastian</span>.</p>
+  <p>Apellido: <span th:text="*{session.user.surname}">Pepper</span>.</p>
+  <p>Nacionalidad: <span th:text="*{session.user.nationality}">Saturno</span>.</p>
 </div>
 ```
 
@@ -1173,88 +1178,94 @@ are exactly equivalent.
 4.4 Enlaces a URLs
 ------------------
 
-Because of their importance, URLs are first-class citizens in web application
-templates, and the _Thymeleaf Standard Dialect_ has a special syntax for them,
-the `@` syntax: `@{...}`
+Debido a su importancia, las URL son ciudadanos de primera clase en las 
+plantillas de aplicaciones web, y el dialecto estándar de Thymeleaf tiene una 
+sintaxis especial para ellas, la sintaxis `@`: `@{...}`
 
-There are different types of URLs:
+Existen diferentes tipos de URL:
 
- * Absolute URLs, like `http://www.thymeleaf.org`
- * Relative URLs, which can be:
-    * Page-relative, like `user/login.html`
-    * Context-relative, like `/itemdetails?id=3` (context name in server will be
-      added automatically)
-    * Server-relative, like `~/billing/processInvoice` (allows calling URLs in
-      another context (= application) in the same server.
-    * Protocol-relative URLs, like `//code.jquery.com/jquery-2.0.3.min.js`
+ * URLs absolutas, como `http://www.thymeleaf.org`
+ * URLs relativas, las cuales pueden ser:
+    * relativas a una página, como `user/login.html`
+    * relativas al contexto, como `/itemdetails?id=3` (el nombre del contexto en 
+      el servidor se agregará automáticamente)
+    * relativas al servidor, como `~/billing/processInvoice` (permiten la 
+      llamada de URLs en otros contextos (= application) en el mismo servidor).
+    * URL relativas al protocolo, como `//code.jquery.com/jquery-2.0.3.min.js`
 
-Thymeleaf can handle absolute URLs in any situation, but for relative ones it
-will require you to use a context object that implements the `IWebContext`
-interface, which contains some info coming from the HTTP request and needed to
-create relative links.
+Thymeleaf puede manejar URL absolutas en cualquier situación, pero para las 
+relativas requerirá que utilice un objeto de contexto que implemente la interfaz 
+`IWebContext`, que contiene información proveniente de la solicitud HTTP y 
+necesaria para crear enlaces relativos.
 
-Let's use this new syntax. Meet the `th:href` attribute:
+Usemos esta nueva sintaxis. Conozcamos el atributo `th:href`:
 
 ```html
-<!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) -->
+<!-- Producirá 'http://localhost:8080/gtvg/order/details?orderId=3' (mas reescritura) -->
 <a href="details.html" 
-   th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>
+   th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">vista</a>
 
-<!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) -->
-<a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
+<!-- Producirá '/gtvg/order/details?orderId=3' (mas reescritura) -->
+<a href="details.html" th:href="@{/order/details(orderId=${o.id})}">vista</a>
 
-<!-- Will produce '/gtvg/order/3/details' (plus rewriting) -->
-<a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">view</a>
+<!-- Producirá '/gtvg/order/3/details' (mas reescritura) -->
+<a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">vista</a>
 ```
 
-Some things to note here:
+Aspectos a tener en cuenta:
 
- * `th:href` is an attribute modifier attribute: once processed, it will compute
-   the link URL to be used and set the href attribute of the `<a>` tag to this
-   URL.
- * We are allowed to use expressions for URL parameters (as you can see in `orderId=${o.id}`).
-   The required URL-encoding operations will also be automatically performed.
- * If several parameters are needed, these will be separated by commas like `@{/order/process(execId=${execId},execType='FAST')}`
- * Variable templates are also allowed in URL paths, like `@{/order/{orderId}/details(orderId=${orderId})}`
- * Relative URLs starting with `/` (like `/order/details`) will be automatically
-   prefixed the application context name.
- * If cookies are not enabled or this is not yet known, a `";jsessionid=..."`
-   suffix might be added to relative URLs so that session is preserved. This is called _URL Rewriting_,
-   and Thymeleaf allows you to plug in your own rewriting filters by using the `response.encodeURL(...)`
-   mechanism from the Servlet API for every URL.
- * The `th:href` tag allowed us to (optionally) have a working static `href`
-   attribute in our template, so that our template links remained navigable by a
-   browser when opened directly for prototyping purposes.
+* `th:href` es un atributo modificador de atributo: una vez procesado, calculará 
+  la URL del enlace que se utilizará y asignará el atributo href de la etiqueta 
+  `<a>` a esta URL.
+* Se permiten expresiones para los parámetros de URL (como se puede ver en 
+  `orderId=${o.id}`). Las operaciones de codificación de URL necesarias también 
+  se realizarán automáticamente.
+* Si se necesitan varios parámetros, estos se separarán con comas, como 
+  `@{/order/process(execId=${execId},execType='FAST')}`.
+* También se permiten plantillas de variables en las rutas de URL, como 
+  `@{/order/{orderId}/details(orderId=${orderId})}`.
+* Las URL relativas que empiezan por `/` (como `/order/details`) se prefijarán 
+  automáticamente con el nombre del contexto de la aplicación. * Si las cookies 
+  no están habilitadas o aún no se conoce, se podría añadir un sufijo 
+  `";jsessionid=..."` a las URL relativas para preservar la sesión. Esto se 
+  denomina _Reescritura de URL_, y Thymeleaf permite incorporar filtros de 
+  reescritura propios mediante el mecanismo `response.encodeURL(...)` de la API 
+  de Servlets para cada URL.
+* La etiqueta `th:href` nos permitió (opcionalmente) tener un atributo `href` 
+  estático funcional en nuestra plantilla, de modo que los enlaces de la 
+  plantilla permanecieran navegables en un navegador al abrirse directamente 
+  para fines de prototipado.
 
-As was the case with the message syntax (`#{...}`), URL bases can also be the
-result of evaluating another expression:
+Como fue el caso con la sintaxis del mensaje (`#{...}`), las bases de URL 
+también pueden ser el resultado de evaluar otra expresión:
 
 ```html
-<a th:href="@{${url}(orderId=${o.id})}">view</a>
-<a th:href="@{'/details/'+${user.login}(orderId=${o.id})}">view</a>
+<a th:href="@{${url}(orderId=${o.id})}">vista</a>
+<a th:href="@{'/details/'+${user.login}(orderId=${o.id})}">vista</a>
 ```
 
 
 ### Un menú para nuestra página de inicio
 
-Now we know how to create link URLs, what about adding a small menu in our home
-for some of the other pages in the site?
+Ahora que sabemos cómo crear URL de enlaces, ¿qué tal si agregamos un pequeño 
+menú en nuestra página de inicio para algunas de las otras páginas del sitio?
 
 ```html
-<p>Please select an option</p>
+<p>Por favor, seleccione una opción</p>
 <ol>
-  <li><a href="product/list.html" th:href="@{/product/list}">Product List</a></li>
-  <li><a href="order/list.html" th:href="@{/order/list}">Order List</a></li>
-  <li><a href="subscribe.html" th:href="@{/subscribe}">Subscribe to our Newsletter</a></li>
-  <li><a href="userprofile.html" th:href="@{/userprofile}">See User Profile</a></li>
+  <li><a href="product/list.html" th:href="@{/product/list}">Lista de Productos</a></li>
+  <li><a href="order/list.html" th:href="@{/order/list}">Lista de Pedidos</a></li>
+  <li><a href="subscribe.html" th:href="@{/subscribe}">Suscríbete a Nuestro Boletín Informativo</a></li>
+  <li><a href="userprofile.html" th:href="@{/userprofile}">Ver Perfil de Usuario</a></li>
 </ol>
 ```
 
 
 ### URLs relativas a la raíz del servidor
 
-An additional syntax can be used to create server-root-relative (instead of context-root-relative)
-URLs in order to link to different contexts in the same server. These URLs will be specified like
+Se puede usar una sintaxis adicional para crear URL relativas a la raíz del 
+servidor (en lugar de las relativas a la raíz del contexto) para enlazar a 
+diferentes contextos en el mismo servidor. Estas URL se especificarán como 
 `@{~/path/to/something}`
 
 
@@ -3842,8 +3853,8 @@ templateEngine.clearTemplateCacheFor("/users/userList");
 
 
 
-## 17 Appendix A: Expression Basic Objects {#appendix-a-expression-basic-objects} 
-
+## 17 Apéndice A: Objetos básicos de expresión {#apendice-a-expresión-objetos-basicos} 
+=========================================
 
 Some objects and variable maps are always available to be invoked at variable expressions (executed by OGNL or SpringEL). Let's see them:
 
@@ -4011,7 +4022,7 @@ Thymeleaf also allows accessing beans registered at your Spring Application Cont
 
 
 
-18 Appendix B: Expression Utility Objects
+## 18 Apéndice B: Objetos de utilidad de expresión  {#apendice-b-expresion-objetos-de-utilidad}
 =========================================
 
 ### Dates

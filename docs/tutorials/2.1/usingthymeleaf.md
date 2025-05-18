@@ -1273,67 +1273,71 @@ diferentes contextos en el mismo servidor. Estas URL se especificarán como
 4.5 Literales
 -------------
 
-###Text literals
+### Literales de texto
 
-Text literals are just character strings specified between single quotes. They can include any character, but you should escape any single quotes inside them as `\'`.
+Los literales de texto son cadenas de caracteres entre comillas simples. Pueden 
+incluir cualquier carácter, pero las comillas simples que los contienen deben 
+escaparse con `\`.
 
 ```html
 <p>
-  Now you are looking at a <span th:text="'working web application'">template file</span>.
+  Ahora estás viendo un <span th:text="'aplicación web funcional'">archivo de plantilla</span>.
 </p>
 ```
 
-###Number literals
+### Literales numéricos
 
-Numeric literals look exactly like what they are: numbers.
+Los literales numéricos se ven exactamente como lo que son: números.
 
 ```html
-<p>The year is <span th:text="2013">1492</span>.</p>
-<p>In two years, it will be <span th:text="2013 + 2">1494</span>.</p>
+<p>El año es <span th:text="2013">1492</span>.</p>
+<p>En dos años, será <span th:text="2013 + 2">1494</span>.</p>
 ```
 
 
-###Boolean literals
+### Literales booleanos
 
-The boolean literals are `true` and `false`. For example:
+Los literales booleano son `true` y `false`. Por ejemplo:
 
 ```html
-<div th:if="${user.isAdmin()} == false"> ...
+<div th:if="${usuario.esAdmin()} == false"> ...
 ```
 
-Note that in the above example, the `== false` is written outside the braces, and thus
-it is Thymeleaf itself who takes care of it. If it were written inside the braces, it would
-be the responsibility of the OGNL/SpringEL engines:
+Tenga en cuenta que, en el ejemplo anterior, el `== false` se escribe fuera de 
+las llaves, por lo que es Thymeleaf quien se encarga de ello. Si se escribiera 
+dentro de las llaves, sería responsabilidad de los motores OGNL/SpringEL:
 
 ```html
-<div th:if="${user.isAdmin() == false}"> ...
-```
-
-
-###The null literal
-
-The `null` literal can be also used:
-
-```html
-<div th:if="${variable.something} == null"> ...
+<div th:if="${usuario.esAdmin() == false}"> ...
 ```
 
 
-###Literal tokens
+### El literal null (nulo)
 
-Numeric, boolean and null literals are in fact a particular case of _literal tokens_.
+El literal `null` también se puede utilizar:
 
-These tokens allow a little bit of simplification in Standard Expressions. They work exactly the same as text literals (`'...'`), but they only allow letters (`A-Z` and `a-z`),
-numbers (`0-9`), brackets (`[` and `]`), dots (`.`), hyphens (`-`) and underscores (`_`).
-So no whitespaces, no commas, etc.
+```html
+<div th:if="${variable.algo} == null"> ...
+```
 
-The nice part? Tokens don't need any quotes surrounding them. So we can do this:
+
+### Literales de identificadores (tokens)
+
+Los literales numéricos, booleanos y nulos son de hecho un caso particular de 
+_literales de identificadores_.
+
+Estos identificadores permiten simplificar ligeramente las expresiones estándar. 
+Funcionan igual que los literales de texto (`'...'`), pero solo admiten letras 
+(`A-Z` y `a-z`), números (`0-9`), corchetes (`[` y `]`), puntos (`.`), guiones 
+(`-`) y guiones bajos (`_`). Por lo tanto, no se permiten espacios, comas, etc.
+
+¿Lo bueno? Los tokens no necesitan comillas. Así que podemos hacer esto:
 
 ```html
 <div th:class="content">...</div>
 ```
 
-instead of:
+en lugar de:
 
 ```html
 <div th:class="'content'">...</div>
@@ -1341,13 +1345,14 @@ instead of:
 
 
 
-4.6 Añadir textos
+4.6 Agregar textos
 -----------------
 
-Texts, no matter whether they are literals or the result of evaluating variable or message expressions, can be easily appended using the `+` operator:
+Los textos, sin importar si son literales o el resultado de evaluar expresiones 
+variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
 
 ```html
-th:text="'The name of the user is ' + ${user.name}"
+th:text="'El nombre del usuario es ' + ${usuario.nombre}"
 ```
 
 
@@ -1356,27 +1361,30 @@ th:text="'The name of the user is ' + ${user.name}"
 4.7 Sustituciones de literales
 ------------------------------
 
-Literal substitutions allow the easy formatting of strings containing values from variables without the need to append literals with `'...' + '...'`.
+Las sustituciones literales permiten formatear fácilmente cadenas que contienen 
+valores de variables sin la necesidad de agregar literales con '...' + '...'`.
 
-These substitutions must be surrounded by vertical bars (`|`), like:
-
-```html
-<span th:text="|Welcome to our application, ${user.name}!|">
-```
-
-Which is actually equivalent to:
+Estas sustituciones deben estar rodeadas de barras verticales (`|`), como:
 
 ```html
-<span th:text="'Welcome to our application, ' + ${user.name} + '!'">
+<span th:text="|Bienvenido a nuestra aplicación, ${usuario.nombre}!|">
 ```
 
-Literal substitutions can be combined with other types of expressions:
+Lo cual en realidad es equivalente a:
 
 ```html
-<span th:text="${onevar} + ' ' + |${twovar}, ${threevar}|">
+<span th:text="'Bienvenido a nuestra aplicación, ' + ${usuario.nombre} + '!'">
 ```
 
-**Note:** only variable expressions (`${...}`) are allowed inside `|...|` literal substitutions. No other literals (`'...'`), boolean/numeric tokens, conditional expressions etc. are. 
+Las sustituciones literales se pueden combinar con otros tipos de expresiones:
+
+```html
+<span th:text="${varuno} + ' ' + |${vardos}, ${vartres}|">
+```
+
+**Nota:** Solo se permiten expresiones variables (`${...}`) dentro de las 
+sustituciones literales `|...|`. No se permiten otros literales (`'...'`), 
+identificadores, booleanos/numéricos, expresiones condicionales, etc.
 
 
 
@@ -1384,75 +1392,78 @@ Literal substitutions can be combined with other types of expressions:
 4.8 Operaciones aritméticas
 ---------------------------
 
-Some arithmetic operations are also available: `+`, `-`, `*`, `/` and `%`.
+También están disponibles algunas operaciones aritméticas: `+`, `-`, `*`, `/` 
+y `%`.
 
 ```html
-th:with="isEven=(${prodStat.count} % 2 == 0)"
+th:with="esPar=(${prodStat.cuenta} % 2 == 0)"
 ```
 
-Note that these operators can also be applied inside OGNL variable expressions
-themselves (and in that case will be executed by OGNL instead of the Thymeleaf
-Standard Expression engine):
+Tenga en cuenta que estos operadores también se pueden aplicar dentro de las 
+expresiones de variables OGNL (y en ese caso serán ejecutados por OGNL en lugar 
+del motor de expresiones estándar de Thymeleaf):
 
 ```html
-th:with="isEven=${prodStat.count % 2 == 0}"
+th:with="esPar=${prodStat.cuenta % 2 == 0}"
 ```
 
-Note that textual aliases exist for some of these operators: `div` (`/`), `mod` (`%`).
+Tenga en cuenta que existen alias textuales para algunos de estos operadores: 
+`div` (`/`), `mod` (`%`).
 
 
 4.9 Comparadores e igualdad
 ---------------------------
 
-Values in expressions can be compared with the `>`, `<`, `>=` and `<=` symbols,
-as usual, and also the `==` and `!=` operators can be used to check equality (or
-the lack of it). Note that XML establishes that the `<` and `>` symbols should
-not be used in attribute values, and so they should be substituted by `&lt;` and
-`&gt;`.
+Los valores de las expresiones se pueden comparar con los símbolos `>`, `<`, 
+`>=` y `<=`, como es habitual, y también se pueden usar los operadores `==` y 
+`!=` para comprobar la igualdad (o la falta de ella). Tenga en cuenta que XML 
+establece que los símbolos `<` y `>` no deben usarse en valores de atributos, 
+por lo que deben sustituirse por `&lt;` y `&gt;`.
 
 ```html
 th:if="${prodStat.count} &gt; 1"
-th:text="'Execution mode is ' + ( (${execMode} == 'dev')? 'Development' : 'Production')"
+th:text="'El modo de ejecución es ' + ( (${execMode} == 'dev')? 'Desarrollo' : 'Producción')"
 ```
 
-Note that textual aliases exist for some of these operators: `gt` (`>`), `lt` (`<`), `ge`
-(`>=`), `le` (`<=`), `not` (`!`). Also `eq` (`==`), `neq`/`ne` (`!=`).
+Tenga en cuenta que existen alias textuales para algunos de estos operadores: 
+`gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), `not` (`!`). También 
+`eq` (`==`), `neq`/`ne` (`!=`).
 
 
 
 4.10 Expresiones condicionales
 ------------------------------
 
-_Conditional expressions_ are meant to evaluate only one of two expressions
-depending on the result of evaluating a condition (which is itself another
-expression).
+Las _expresiones condicionales_ están destinadas a evaluar solo una de dos 
+expresiones dependiendo del resultado de evaluar una condición (que es en sí 
+otra expresión).
 
-Let's have a look at an example fragment (introducing another _attribute modifier_,
-this time `th:class`):
+Echemos un vistazo a un fragmento de ejemplo (que introduce otro modificador de 
+atributo, esta vez `the:class`):
 
 ```html
-<tr th:class="${row.even}? 'even' : 'odd'">
+<tr th:class="${fila.par}? 'par' : 'impar'">
   ...
 </tr>
 ```
 
-All three parts of a conditional expression (`condition`, `then` and `else`) are
-themselves  expressions, which means that they can be variables (`${...}`, `*{...}`),
-messages (`#{...}`), URLs (`@{...}`) or literals (`'...'`).
+Las tres partes de una expresión condicional (`condition`, `then` y `else`) son 
+en sí mismas expresiones, lo que significa que pueden ser variables (`${...}`, 
+`*{...}`), mensajes (`#{...}`), URL (`@{...}`) o literales (`'...'`).
 
-Conditional expressions can also be nested using parentheses:
+Las expresiones condicionales también se pueden anidar mediante paréntesis:
 
 ```html
-<tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">
+<tr th:class="${fila.par}? (${fila.primera}? 'primera' : 'par') : 'impar'">
   ...
 </tr>
 ```
 
-Else expressions can also be omitted, in which case a null value is returned if
-the condition is false:
+Las expresiones else también se pueden omitir, en cuyo caso se devuelve un valor 
+nulo si la condición es falsa:
 
 ```html
-<tr th:class="${row.even}? 'alt'">
+<tr th:class="${fila.par}? 'alt'">
   ...
 </tr>
 ```
@@ -1462,34 +1473,34 @@ the condition is false:
 4.11 Expresiones predeterminadas (operador Elvis)
 -------------------------------------------------
 
-A _default expression_ is a special kind of conditional value without a _then_
-part. It is equivalent to the _Elvis operator_ present in some languages like
-Groovy, and allows to specify two  expressions, being the second one evaluated
-only in the case of the first one returning null.
+Una _expresión predeterminada_ es un tipo especial de valor condicional sin la 
+parte _then_. Equivale al _operador Elvis_, presente en lenguajes como Groovy, y 
+permite especificar dos expresiones; la segunda solo se evalúa si la primera 
+devuelve un valor nulo.
 
-Let's see it in action in our user profile page:
+Veámoslo en acción en nuestra página de perfil de usuario:
 
 ```html
-<div th:object="${session.user}">
+<div th:object="${sesion.usuario}">
   ...
-  <p>Age: <span th:text="*{age}?: '(no age specified)'">27</span>.</p>
+  <p>Edad: <span th:text="*{age}?: '(sin edad especificada)'">27</span>.</p>
 </div>
 ```
 
-As you can see, the operator is `?:`, and we use it here to specify a default
-value for a name (a literal value, in this case) only if the result of
-evaluating `*{age}` is null. This is therefore equivalent to:
+Como puede ver, el operador es `?:`, y lo usamos aquí para especificar un valor 
+predeterminado para un nombre (un valor literal, en este caso) solo si el 
+resultado de evaluar `*{age}` es nulo. Por lo tanto, esto equivale a:
 
 ```html
-<p>Age: <span th:text="*{age != null}? *{age} : '(no age specified)'">27</span>.</p>
+<p>Edad: <span th:text="*{age != null}? *{age} : '(sin edad especificada)'">27</span>.</p>
 ```
 
-As with conditional values, they can contain nested expressions between
-parentheses:
+Al igual que los valores condicionales, pueden contener expresiones anidadas 
+entre paréntesis:
 
 ```html
 <p>
-  Name: 
+  Nombre: 
   <span th:text="*{firstName}?: (*{admin}? 'Admin' : #{default.username})">Sebastian</span>
 </p>
 ```
@@ -1499,45 +1510,44 @@ parentheses:
 4.12 Preprocesamiento
 ---------------------
 
-In addition to all these features for expression processing, Thymeleaf offers to
-us the possibility of _preprocessing_ expressions.
+Además de todas estas funcionalidades para el procesamiento de expresiones, 
+Thymeleaf nos ofrece la posibilidad de _preprocesar_ expresiones.
 
-And what is that preprocessing thing? It is an execution of the expressions done
-before the normal one, that allows the modification of the actual expression
-that will be eventually executed.
+¿Y qué es el preprocesamiento? Es una ejecución de las expresiones antes de la 
+normal, que permite modificar la expresión que finalmente se ejecutará.
 
-Preprocessed expressions are exactly like normal ones, but appear surrounded by
-a double underscore symbol (like `__${expression}__`).
+Las expresiones preprocesadas son exactamente como las normales, pero aparecen 
+rodeadas por un símbolo de doble guión bajo (como `__${expresion}__`).
 
-Let's imagine we have an i18n `Messages_fr.properties` entry containing an OGNL
-expression calling a language-specific static method, like:
+Imaginemos que tenemos una entrada i18n `Messages_fr.properties` que contiene 
+una expresión OGNL que llama a un método estático específico del lenguaje, como:
 
 ```java
 article.text=@myapp.translator.Translator@translateToFrench({0})
 ```
 
-...and a `Messages_es.properties equivalent`:
+...y un `Messages_es.properties equivalente`:
 
 ```java
 article.text=@myapp.translator.Translator@translateToSpanish({0})
 ```
 
-We can create a fragment of markup that evaluates one expression or the other
-depending on the locale. For this, we will first select the expression (by
-preprocessing) and then let Thymeleaf execute it:
+Podemos crear un fragmento de marcado que evalúe una u otra expresión según la 
+configuración regional. Para ello, primero seleccionaremos la expresión 
+(mediante preprocesamiento) y luego dejaremos que Thymeleaf la ejecute:
 
 ```html
-<p th:text="${__#{article.text('textVar')}__}">Some text here...</p>
+<p th:text="${__#{article.text('textVar')}__}">Algún texto aquí...</p>
 ```
 
-Note that the preprocessing step for a French locale will be creating the
-following equivalent:
+Tenga en cuenta que el paso de preprocesamiento para una configuración regional 
+francesa será la creación del siguiente equivalente:
 
 ```html
-<p th:text="${@myapp.translator.Translator@translateToFrench(textVar)}">Some text here...</p>
+<p th:text="${@myapp.translator.Translator@translateToFrench(textVar)}">Algún texto aquí...</p>
 ```
 
-The preprocessing String `__` can be escaped in attributes using `\_\_`.
+La cadena de preprocesamiento `__` se puede escapar en atributos usando `\_\_`.
 
 
 
@@ -1545,49 +1555,52 @@ The preprocessing String `__` can be escaped in attributes using `\_\_`.
 5 Establecer valores de atributos
 =================================
 
-This chapter will explain the way in which we can set (or modify) values of
-attributes in our markup tags, possibly the next most basic feature we will need
-after setting the tag body content.
+Este capítulo explicará la forma en que podemos establecer (o modificar) valores 
+de atributos en nuestras etiquetas de marcado, posiblemente la siguiente 
+característica más básica que necesitaremos después de establecer el contenido 
+del cuerpo de la etiqueta.
 
 
 
 5.1 Establecer el valor de cualquier atributo
 ---------------------------------------------
 
-Say our website publishes a newsletter, and we want our users to be able to
-subscribe to it, so we create a `/WEB-INF/templates/subscribe.html` template
-with a form:
+Digamos que nuestro sitio web publica un boletín informativo y queremos que 
+nuestros usuarios puedan suscribirse a él, por lo que creamos una plantilla 
+`/WEB-INF/templates/subscribe.html` con un formulario:
 
 ```html
 <form action="subscribe.html">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="Subscribe me!" />
+    <input type="submit" value="¡Suscribeme!" />
   </fieldset>
 </form>
 ```
 
-It looks quite OK, but the fact is that this file looks more like a static XHTML
-page than a template for a web application. First, the action attribute in our
-form statically links to the template file itself, so that there is no place
-for useful URL rewriting. Second, the value attribute in the submit button makes
-it display a text in English, but we'd like it to be internationalized.
+Parece bastante correcto, pero lo cierto es que este archivo se parece más a una 
+página XHTML estática que a una plantilla para una aplicación web. En primer 
+lugar, el atributo "action" de nuestro formulario enlaza estáticamente al 
+archivo de plantilla, lo que impide la reescritura de URLs. En segundo lugar, el 
+atributo "value" del botón de envío hace que muestre un texto en inglés, pero 
+nos gustaría que estuviera internacionalizado.
 
-Enter then the `th:attr` attribute, and its ability to change the value of
-attributes of the tags it is set in:
+Ingrese entonces el atributo `th:attr` y su capacidad para cambiar el valor de 
+los atributos de las etiquetas en las que está configurado:
 
 ```html
 <form action="subscribe.html" th:attr="action=@{/subscribe}">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="Subscribe me!" th:attr="value=#{subscribe.submit}"/>
+    <input type="submit" value="¡Suscribeme!" th:attr="value=#{subscribe.submit}"/>
   </fieldset>
 </form>
 ```
 
-The concept is quite straightforward: `th:attr` simply takes an expression that
-assigns a value to an attribute. Having created the corresponding controller and
-messages files, the result of processing this file will be as expected:
+El concepto es bastante sencillo: `th:attr` simplemente toma una expresión que 
+asigna un valor a un atributo. Tras crear los archivos de controlador y mensajes 
+correspondientes, el resultado del procesamiento de este archivo será el 
+esperado:
 
 ```html
 <form action="/gtvg/subscribe">
@@ -1598,20 +1611,20 @@ messages files, the result of processing this file will be as expected:
 </form>
 ```
 
-Besides the new attribute values, you can also see that the application context
-name has been automatically prefixed to the URL base in `/gtvg/subscribe`, as
-explained in the previous chapter.
+Además de los nuevos valores de atributos, también puedes ver que el nombre del 
+contexto de la aplicación se ha prefijado automáticamente a la base de la URL en 
+`/gtvg/subscribe`, como se explicó en el capítulo anterior.
 
-But what if we wanted to set more than one attribute at a time? XML rules do not
-allow you to set an attribute twice in a tag, so `th:attr` will take a
-comma-separated list of assignments, like:
+¿Pero qué sucede si queremos configurar más de un atributo a la vez? Las reglas 
+XML no permiten configurar un atributo dos veces en una etiqueta, por lo que 
+`th:attr` tomará una lista de asignaciones separadas por comas, como:
 
 ```html
 <img src="../../images/gtvglogo.png" 
      th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
 ```
 
-Given the required messages files, this will output:
+Dados los archivos de mensajes requeridos, esto generará:
 
 ```html
 <img src="/gtgv/images/gtvglogo.png" title="Logo de Good Thymes" alt="Logo de Good Thymes" />

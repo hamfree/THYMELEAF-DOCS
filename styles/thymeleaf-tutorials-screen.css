@@ -17,11 +17,11 @@
  */
 
 /**
- * Tutorial styles for the screen (HTML) form
+ * Estilos de tutorial para el formulario de pantalla (HTML)
  */
 
 
-/* ELEMENT SELECTORS */
+/* SELECTORES DE ELEMENTO */
 /* ========================================================================== */
 
 @media (min-width: 43.75em) {
@@ -35,7 +35,7 @@ section.level1 {
 }
 
 
-/* COMPONENTS */
+/* COMPONENTES */
 /* ========================================================================== */
 
 @media (min-width: 43.75rem) {
@@ -109,7 +109,7 @@ section.level1 {
 }
 
 
-/* Table of contents */
+/* Tabla de contenido */
 /* -------------------------------------------------------------------------- */
 
 @media (min-width: 43.75rem) {
@@ -203,7 +203,7 @@ section.level1 {
 }
 
 
-/* Content */
+/* Contenido */
 /* -------------------------------------------------------------------------- */
 
 .content-wrapper {

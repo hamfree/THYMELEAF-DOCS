@@ -17,14 +17,14 @@
  */
 
 /**
- * Tutorial styles for both screen (HTML) and print (PDF) forms
+ * Estilos de tutorial para formularios de pantalla (HTML) e impresión (PDF)
  */
 
-/* ELEMENT SELECTORS */
+/* SELECTORES DE ELEMENTOS */
 /* ========================================================================== */
 
 h2 {
-	margin-top: 0.5em;	/* Resets what was done in the main CSS for some reason */
+	margin-top: 0.5em;	/* Restablece lo que se hizo en el CSS principal por alguna razón */
 	margin-left: -2em;
 	padding-left: 2em;
 }
@@ -44,7 +44,7 @@ section.level1 {
 }
 
 
-/* COMPONENTS */
+/* COMPONENTES */
 /* ========================================================================== */
 
 @media (min-width: 43.75rem) {

@@ -17,10 +17,10 @@
  */
 
 /**
- * Tutorial styles for the print (PDF) form
+ * Estilos de tutorial para el formulario de impresión (PDF)
  */
 
-/* ELEMENT SELECTORS */
+/* SELECTORES DE ELEMENTO */
 /* ========================================================================== */
 
 body {
@@ -33,7 +33,7 @@ blockquote {
 }
 
 
-/* COMPONENTS */
+/* COMPONENTES */
 /* ========================================================================== */
 
 .hero-header-title {
@@ -56,7 +56,7 @@ blockquote {
 	font-size: 1em;
 }
 
-/* Content */
+/* Contenido */
 /* -------------------------------------------------------------------------- */
 
 #content .level1 {
@@ -64,14 +64,14 @@ blockquote {
 }
 
 /**
- * This removes the links at the end of each footnote. These link are rendered
- * by Pandoc with a U+21A9 unicode character, which does not exist in the
- * downloaded fonts. This causes WebKit to default to Lucida Sans Unicode for
- * rendering this char, and therefore the entire Lucida Sans Unicode font to be
- * included in the PDF output files, just for rendering one char. Given these
- * links are in fact useless in PDFs, it is better to just remove the links
- * completely by setting display to none.
- */
+* Esto elimina los enlaces al final de cada nota al pie. Estos enlaces son
+* renderizados por Pandoc con un carácter Unicode U+21A9, que no existe en las
+* fuentes descargadas. Esto hace que WebKit utilice Lucida Sans Unicode de
+* forma predeterminada para renderizar este carácter y, por lo tanto, toda la
+* fuente Lucida Sans Unicode se  incluya en los archivos PDF de salida, solo
+* para renderizar un carácter. Dado que estos enlaces son inútiles en los PDF,
+* es mejor eliminarlos por completo configurando la visualización en "ninguno".
+*/
 .footnotes a {
 	display: none;
 }

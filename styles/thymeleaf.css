@@ -17,7 +17,7 @@
  */
 
 
-/* ELEMENT SELECTORS */
+/* SELECTORES DE ELEMENTOS */
 /* ========================================================================== */
 
 * {
@@ -191,7 +191,7 @@ th, td {
 }
 
 
-/* COMMON COMPONENTS */
+/* COMPONENTES COMUNES */
 /* ========================================================================== */
 
 .fluid-container {
@@ -214,7 +214,7 @@ th, td {
 	margin: 1em 0 1.5em;
 }
 
-/* Toolbar component */
+/* Componente de la barra de herramientas */
 /* -------------------------------------------------------------------------- */
 
 .toolbar-container {
@@ -303,7 +303,7 @@ th, td {
 	}
 }
 
-/* Hero image/title */
+/* Imagen/título del héroe */
 /* -------------------------------------------------------------------------- */
 
 .hero-container {
@@ -364,7 +364,7 @@ th, td {
 	}
 }
 
-/* Footer component */
+/* Componente de pié de página */
 /* -------------------------------------------------------------------------- */
 
 .footer-container {
@@ -413,10 +413,10 @@ th, td {
 }
 
 
-/* PAGE-SPECIFIC COMPONENTS */
+/* COMPONENTES ESPECÍFICOS DE LA PÁGINA */
 /* ========================================================================== */
 
-/* News items */
+/* Noticias */
 /* -------------------------------------------------------------------------- */
 
 .news {
@@ -427,17 +427,17 @@ th, td {
 	text-align: center;
 }
 
-/* Table scroller */
+/* Desplazador de la tabla */
 /* -------------------------------------------------------------------------- */
-/* TODO: I'm not really happy with this solution for squeezing a table down to
-         a mobile device.  I should change how the information is presented
-         instead to be better responsive. */
+/* TODO: No estoy muy satisfecho con esta solución para reducir el tamaño de
+    una tabla a un dispositivo móvil. Debería cambiar la forma en que se
+    presenta la información para que sea más ágil. */
 
 .table-scroller {
 	overflow-x: auto;
 }
 
-/* Our tools component */
+/* Nuestro componente de herramientas */
 /* -------------------------------------------------------------------------- */
 
 .our-tools {
@@ -474,7 +474,7 @@ th, td {
 	}
 }
 
-/* Who is using Thymeleaf component */
+/* ¿Quién utiliza el componente Thymeleaf? */
 /* -------------------------------------------------------------------------- */
 
 .thymeleaf-users,
@@ -560,7 +560,7 @@ th, td {
 }
 
 
-/* ID SELECTORS */
+/* SELECTORES DE ID */
 /* ========================================================================== */
 
 #site-nav-links {
@@ -607,7 +607,7 @@ th, td {
 }
 
 
-/* CODE SECTIONS */
+/* SECCIONES DE CÓDIGO */
 /* ========================================================================== */
 
 p > code,

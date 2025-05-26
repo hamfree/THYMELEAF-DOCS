@@ -196,7 +196,7 @@ tasks.register('generateDocsHTML') {
  * Genera libros electrónicos de la documentación de Thymeleaf.
  */
 tasks.register('generateDocsEbook') {
-	description "Genera libros electrónicos a partir de los documentos de rebajas de Thymeleaf"
+	description "Genera libros electrónicos a partir de los documentos markdown de Thymeleaf"
 	dependsOn 'copyResources'
 
 	doLast {

@@ -1,23 +1,23 @@
 @charset "UTF-8";
 
-/*
+/* 
  * Copyright 2011-2016, The Thymeleaf Project (http://www.thymeleaf.org/)
- *
- * Licenciado bajo la Licencia Apache, Versión 2.0 (la "Licencia");
- * No puede usar este archivo excepto de conformidad con la Licencia.
- * Puede obtener una copia de la Licencia en
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Salvo que lo exija la legislación aplicable o se acuerde por escrito, el software
- * distribuido bajo la Licencia se distribuye "TAL CUAL",
- * SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ni expresas ni implícitas.
- * Consulte la Licencia para conocer el idioma específico que rige los permisos y las
- * limitaciones de la Licencia.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 
-/* SELECTORES DE ELEMENTOS */
+/* ELEMENT SELECTORS */
 /* ========================================================================== */
 
 * {
@@ -191,7 +191,7 @@ th, td {
 }
 
 
-/* COMPONENTES COMUNES */
+/* COMMON COMPONENTS */
 /* ========================================================================== */
 
 .fluid-container {
@@ -214,7 +214,7 @@ th, td {
 	margin: 1em 0 1.5em;
 }
 
-/* Componente de la barra de herramientas */
+/* Toolbar component */
 /* -------------------------------------------------------------------------- */
 
 .toolbar-container {
@@ -303,7 +303,7 @@ th, td {
 	}
 }
 
-/* Imagen/título del héroe */
+/* Hero image/title */
 /* -------------------------------------------------------------------------- */
 
 .hero-container {
@@ -364,7 +364,7 @@ th, td {
 	}
 }
 
-/* Componente de pié de página */
+/* Footer component */
 /* -------------------------------------------------------------------------- */
 
 .footer-container {
@@ -413,10 +413,10 @@ th, td {
 }
 
 
-/* COMPONENTES ESPECÍFICOS DE LA PÁGINA */
+/* PAGE-SPECIFIC COMPONENTS */
 /* ========================================================================== */
 
-/* Noticias */
+/* News items */
 /* -------------------------------------------------------------------------- */
 
 .news {
@@ -427,17 +427,17 @@ th, td {
 	text-align: center;
 }
 
-/* Desplazador de la tabla */
+/* Table scroller */
 /* -------------------------------------------------------------------------- */
-/* TODO: No estoy muy satisfecho con esta solución para reducir el tamaño de
-    una tabla a un dispositivo móvil. Debería cambiar la forma en que se
-    presenta la información para que sea más ágil. */
+/* TODO: I'm not really happy with this solution for squeezing a table down to
+         a mobile device.  I should change how the information is presented
+         instead to be better responsive. */
 
 .table-scroller {
 	overflow-x: auto;
 }
 
-/* Nuestro componente de herramientas */
+/* Our tools component */
 /* -------------------------------------------------------------------------- */
 
 .our-tools {
@@ -474,7 +474,7 @@ th, td {
 	}
 }
 
-/* ¿Quién utiliza el componente Thymeleaf? */
+/* Who is using Thymeleaf component */
 /* -------------------------------------------------------------------------- */
 
 .thymeleaf-users,
@@ -517,7 +517,7 @@ th, td {
 .thymeleaf-user-logo img {
 	display: block;
 	margin: 0 auto;
-	max-width: 10.5rem;
+	max-width: 12.5rem;
 }
 
 .thymeleaf-user-blurb {
@@ -560,7 +560,7 @@ th, td {
 }
 
 
-/* SELECTORES DE ID */
+/* ID SELECTORS */
 /* ========================================================================== */
 
 #site-nav-links {
@@ -607,7 +607,7 @@ th, td {
 }
 
 
-/* SECCIONES DE CÓDIGO */
+/* CODE SECTIONS */
 /* ========================================================================== */
 
 p > code,

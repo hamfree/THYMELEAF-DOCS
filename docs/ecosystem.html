@@ -2,230 +2,230 @@
 
 <html lang="en">
 
-<head>
-	<title>Ecosistema - Thymeleaf</title>
-	<meta charset="UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <head>
+        <title>Ecosistema - Thymeleaf</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	<link rel="icon" href="images/favicon.ico"/>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.3/normalize.min.css" media="screen"/>
-	<link rel="stylesheet" href="styles/thymeleaf.css" media="screen"/>
+        <link rel="icon" href="images/favicon.ico"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.3/normalize.min.css" media="screen"/>
+        <link rel="stylesheet" href="styles/thymeleaf.css" media="screen"/>
 
-	<script src="https://unpkg.com/dumb-query-selector@3.0.0/dumb-query-selector.js" defer></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js" data-manual
-		defer integrity="sha256-HWJnMZHGx7U1jmNfxe4yaQedmpo/mtxWSIXvcJkLIf4=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/unescaped-markup/prism-unescaped-markup.js"
-		defer integrity="sha256-THYQfN3ZkC8QQ5I4JxslpEaXIT7tUakaV9/e69MYEuU=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"
-		defer integrity="sha256-abVQckxqXkWO8NiZk8TBPHzv3/LObzIqzzQWz0kV0F0=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/line-numbers/prism-line-numbers.js"
-		defer integrity="sha256-ISWqAwOAxClmLCu22st3+xU4+kVYHrE8jdn6ONzjg5Q=" crossorigin="anonymous"></script>
-	<script src="scripts/thymeleaf.js" defer></script>
-</head>
+        <script src="https://unpkg.com/dumb-query-selector@3.0.0/dumb-query-selector.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js" data-manual
+        defer integrity="sha256-HWJnMZHGx7U1jmNfxe4yaQedmpo/mtxWSIXvcJkLIf4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/unescaped-markup/prism-unescaped-markup.js"
+        defer integrity="sha256-THYQfN3ZkC8QQ5I4JxslpEaXIT7tUakaV9/e69MYEuU=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"
+        defer integrity="sha256-abVQckxqXkWO8NiZk8TBPHzv3/LObzIqzzQWz0kV0F0=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/line-numbers/prism-line-numbers.js"
+        defer integrity="sha256-ISWqAwOAxClmLCu22st3+xU4+kVYHrE8jdn6ONzjg5Q=" crossorigin="anonymous"></script>
+        <script src="scripts/thymeleaf.js" defer></script>
+    </head>
 
-<body id="thymeleaf-ecosystem">
+    <body id="thymeleaf-ecosystem">
 
-	<div class="fluid-container toolbar-container">
-		<nav class="fluid-block toolbar">
-			<div class="toolbar-menu">
-				<div class="toolbar-menu-location">Inicio</div>
-				<button id="site-menu-button" type="button" class="toolbar-menu-button">Menú del sitio</button>
-			</div>
-			<div id="site-menu" class="toolbar-menu-items">
-				<ul class="toolbar-links">
-					<li><a href="index.html" class="toolbar-link">Inicio</a></li>
-					<li><a href="download.html" class="toolbar-link">Descargar</a></li>
-					<li><a href="documentation.html" class="toolbar-link">Documentos</a></li>
-					<li class="selected"><a href="ecosystem.html" class="toolbar-link">Ecosistema</a></li>
-					<li><a href="faq.html" class="toolbar-link">Preguntas Frecuentes</a></li>
-				</ul>
-				<ul id="site-nav-links" class="toolbar-links">
-					<li><a href="https://bsky.app/profile/thymeleaf.org" class="toolbar-link">Bluesky</a></li>
-					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+        <div class="fluid-container toolbar-container">
+            <nav class="fluid-block toolbar">
+                <div class="toolbar-menu">
+                    <div class="toolbar-menu-location">Inicio</div>
+                    <button id="site-menu-button" type="button" class="toolbar-menu-button">Menú del sitio</button>
+                </div>
+                <div id="site-menu" class="toolbar-menu-items">
+                    <ul class="toolbar-links">
+                        <li><a href="index.html" class="toolbar-link">Inicio</a></li>
+                        <li><a href="download.html" class="toolbar-link">Descargar</a></li>
+                        <li><a href="documentation.html" class="toolbar-link">Documentos</a></li>
+                        <li class="selected"><a href="ecosystem.html" class="toolbar-link">Ecosistema</a></li>
+                        <li><a href="faq.html" class="toolbar-link">Preguntas Frecuentes</a></li>
+                    </ul>
+                    <ul id="site-nav-links" class="toolbar-links">
+                        <li><a href="https://bsky.app/profile/thymeleaf.org" class="toolbar-link">Bluesky</a></li>
+                        <li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
-	<div class="hero-container fluid-container">
-		<header class="hero-header fluid-block">
-			<div class="hero-header-text">
-				<h1 class="hero-header-title">Thymeleaf</h1>
-			</div>
-			<div class="hero-header-image">
-				<img src="images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
-			</div>
-		</header>
-	</div>
+        <div class="hero-container fluid-container">
+            <header class="hero-header fluid-block">
+                <div class="hero-header-text">
+                    <h1 class="hero-header-title">Thymeleaf</h1>
+                </div>
+                <div class="hero-header-image">
+                    <img src="images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
+                </div>
+            </header>
+        </div>
 
-	<div class="fluid-container">
-		<main class="fluid-block">
-			<section class="description">
-				<p>El <strong>ecosistema de Thymeleaf</strong> se compone de herramientas y extensiones de dos tipos:
-				</p>
-				<ul>
-					<li><em>Extensiones oficiales</em> (t.c.c. <em>Extras de Thymeleaf</em>): creadas por el
-						<a href="team.html">Equipo de Thymeleaf</a> y mantenidas como parte del proyecto.</li>
-					<li><em>No oficiales</em> o <em>Extensiones de la Comunidad</em>: vinculadas desde esta página pero
-						desarrolladas y mantenidas por usuarios de Thymeleaf fuera del Proyecto Thymeleaf y distribuidas
-						bajo sus propias licencias y términos de soporte.</li>
-				</ul>
-			</section>
+        <div class="fluid-container">
+            <main class="fluid-block">
+                <section class="description">
+                    <p>El <strong>ecosistema de Thymeleaf</strong> se compone de herramientas y extensiones de dos tipos:
+                    </p>
+                    <ul>
+                        <li><em>Extensiones oficiales</em> (t.c.c. <em>Extras de Thymeleaf</em>): creadas por el
+                            <a href="team.html">Equipo de Thymeleaf</a> y mantenidas como parte del proyecto.</li>
+                        <li><em>No oficiales</em> o <em>Extensiones de la Comunidad</em>: vinculadas desde esta página pero
+                            desarrolladas y mantenidas por usuarios de Thymeleaf fuera del Proyecto Thymeleaf y distribuidas
+                            bajo sus propias licencias y términos de soporte.</li>
+                    </ul>
+                </section>
 
-			<section>
-				<header>
-					<h2>
-						<a id="official-tools-extensions" href="#official-tools-extensions" class="anchor"></a>
-						Herramientas Oficiales y Extensiones
-					</h2>
-				</header>
+                <section>
+                    <header>
+                        <h2>
+                            <a id="official-tools-extensions" href="#official-tools-extensions" class="anchor"></a>
+                            Herramientas Oficiales y Extensiones
+                        </h2>
+                    </header>
 
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-testing-library" href="#thymeleaf-testing-library" class="anchor"></a>
-							Biblioteca de pruebas de Thymeleaf
-						</h3>
-					</header>
-					<p>
-						<a href="https://github.com/thymeleaf/thymeleaf-testing">
-							https://github.com/thymeleaf/thymeleaf-testing</a>
-					</p>
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-testing-library" href="#thymeleaf-testing-library" class="anchor"></a>
+                                Biblioteca de pruebas de Thymeleaf
+                            </h3>
+                        </header>
+                        <p>
+                            <a href="https://github.com/thymeleaf/thymeleaf-testing">
+                                https://github.com/thymeleaf/thymeleaf-testing</a>
+                        </p>
 
-					<p>
-						La biblioteca de pruebas de Thymeleaf permite a los desarrolladores crear pruebas automatizadas
-						para aplicaciones y extensiones de Thymeleaf de forma sencilla y declarativa. Entre sus
-						características se encuentran:
-					</p>
-					<ul>
-						<li>
-							Funciona como una biblioteca independiente, <strong>invocable desde múltiples marcos de
-							prueba</strong> como, por ejemplo, JUnit.
-						</li>
-						<li>
-							<strong>Prueba sólo la capa de vista</strong>: procesamiento de la plantilla y su resultado.
-						</li>
-						<li>
-							Permite especificar la entrada de prueba como fragmentos de marcado y también como enlaces a
-							los archivos de plantilla de una aplicación basada en Thymeleaf que se está desarrollando,
-							para <strong>probar fácilmente su capa de vista</strong>.
-						</li>
-						<li>
-							Artefactos de pruebas versátiles: secuencias de pruebas, iteración, ejecución concurrente...
-						</li>
-						<li>
-							Integración de <strong>Spring Framework</strong> y <strong>Spring Security</strong>.
-						</li>
-					</ul>
+                        <p>
+                            La biblioteca de pruebas de Thymeleaf permite a los desarrolladores crear pruebas automatizadas
+                            para aplicaciones y extensiones de Thymeleaf de forma sencilla y declarativa. Entre sus
+                            características se encuentran:
+                        </p>
+                        <ul>
+                            <li>
+                                Funciona como una biblioteca independiente, <strong>invocable desde múltiples marcos de
+                                    prueba</strong> como, por ejemplo, JUnit.
+                            </li>
+                            <li>
+                                <strong>Prueba sólo la capa de vista</strong>: procesamiento de la plantilla y su resultado.
+                            </li>
+                            <li>
+                                Permite especificar la entrada de prueba como fragmentos de marcado y también como enlaces a
+                                los archivos de plantilla de una aplicación basada en Thymeleaf que se está desarrollando,
+                                para <strong>probar fácilmente su capa de vista</strong>.
+                            </li>
+                            <li>
+                                Artefactos de pruebas versátiles: secuencias de pruebas, iteración, ejecución concurrente...
+                            </li>
+                            <li>
+                                Integración de <strong>Spring Framework</strong> y <strong>Spring Security</strong>.
+                            </li>
+                        </ul>
 
-					<p>Las especificaciones de prueba pueden ser tan simples como esto:</p>
+                        <p>Las especificaciones de prueba pueden ser tan simples como esto:</p>
 
-					<pre><code class="language-html">
-						<!--
-						%TEMPLATE_MODE HTML5
-						# ------------ separator comment -----------
-						%CONTEXT
-						onevar = "Goodbye,"
-						# ------------------------------------------
-						%MESSAGES
-						one.msg = Crisis
-						# ------------------------------------------
-						%INPUT
-						<!DOCTYPE html>
-						<html>
-							<body>
-								<span th:text="${onevar}">Hello,</span>
-								<span th:text="#{one.msg}">World!</span>
-							</body>
-						</html>
-						# ------------------------------------------
-						%OUTPUT
-						<!DOCTYPE html>
-						<html>
-						<body>
-							<span>Goodbye,</span>
-							<span>Crisis</span>
-						</body>
-						</html>
-						-->
-					</code></pre>
-				</section>
+                        <pre><code class="language-html">
+                            <!--
+                            %TEMPLATE_MODE HTML5
+                            # ------------ separator comment -----------
+                            %CONTEXT
+                            onevar = "Goodbye,"
+                            # ------------------------------------------
+                            %MESSAGES
+                            one.msg = Crisis
+                            # ------------------------------------------
+                            %INPUT
+                            <!DOCTYPE html>
+                            <html>
+                                    <body>
+                                            <span th:text="${onevar}">Hello,</span>
+                                            <span th:text="#{one.msg}">World!</span>
+                                    </body>
+                            </html>
+                            # ------------------------------------------
+                            %OUTPUT
+                            <!DOCTYPE html>
+                            <html>
+                            <body>
+                                    <span>Goodbye,</span>
+                                    <span>Crisis</span>
+                            </body>
+                            </html>
+                            -->
+			</code></pre>
+                    </section>
 
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-eclipse-plugin" href="#thymeleaf-eclipse-plugin" class="anchor"></a>
-							Complemento para Eclipse de Thymeleaf
-						</h3>
-					</header>
-					<p>
-						<a href="https://github.com/thymeleaf/thymeleaf-extras-eclipse-plugin">
-							https://github.com/thymeleaf/thymeleaf-extras-eclipse-plugin</a>
-					</p>
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-eclipse-plugin" href="#thymeleaf-eclipse-plugin" class="anchor"></a>
+                                Complemento para Eclipse de Thymeleaf
+                            </h3>
+                        </header>
+                        <p>
+                            <a href="https://github.com/thymeleaf/thymeleaf-extras-eclipse-plugin">
+                                https://github.com/thymeleaf/thymeleaf-extras-eclipse-plugin</a>
+                        </p>
 
-					<p>
-						El complemento Thymeleaf para Eclipse IDE agrega funciones de
-						<strong>asistencia de contenido</strong> que hacen que trabajar en plantillas de Thymeleaf sea
-						más agradable y mucho más cómodo.
-					</p>
-					<ul>
-						<li>
-							Completado de código de los <strong>procesadores de atributos Thymeleaf</strong>.
-						</li>
-						<li>
-							Explicaciones detalladas para cada atributo.
-						</li>
-						<li>
-							Asistencia de contenido dentro de expresiones: <strong>objetos de utilidad de expresión</strong>.
-						</li>
-					</ul>
+                        <p>
+                            El complemento Thymeleaf para Eclipse IDE agrega funciones de
+                            <strong>asistencia de contenido</strong> que hacen que trabajar en plantillas de Thymeleaf sea
+                            más agradable y mucho más cómodo.
+                        </p>
+                        <ul>
+                            <li>
+                                Completado de código de los <strong>procesadores de atributos Thymeleaf</strong>.
+                            </li>
+                            <li>
+                                Explicaciones detalladas para cada atributo.
+                            </li>
+                            <li>
+                                Asistencia de contenido dentro de expresiones: <strong>objetos de utilidad de expresión</strong>.
+                            </li>
+                        </ul>
 
-					<figure>
-						<img src="images/ecosystem_official_image_eclipse_plugin.png" alt="ejemplo"/>
-					</figure>
-				</section>
+                        <figure>
+                            <img src="images/ecosystem_official_image_eclipse_plugin.png" alt="ejemplo"/>
+                        </figure>
+                    </section>
 
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-apache-tiles-2" href="#thymeleaf-apache-tiles-2" class="anchor"></a>
-							Thymeleaf + Apache Tiles 2
-						</h3>
-					</header>
-					<p>
-						<a href="https://github.com/thymeleaf/thymeleaf-extras-tiles2">
-						https://github.com/thymeleaf/thymeleaf-extras-tiles2</a>
-					</p>
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-apache-tiles-2" href="#thymeleaf-apache-tiles-2" class="anchor"></a>
+                                Thymeleaf + Apache Tiles 2
+                            </h3>
+                        </header>
+                        <p>
+                            <a href="https://github.com/thymeleaf/thymeleaf-extras-tiles2">
+                                https://github.com/thymeleaf/thymeleaf-extras-tiles2</a>
+                        </p>
 
-					<p>
-						La biblioteca Thymeleaf Extras Tiles 2 proporciona un dialecto que permite usar Apache Tiles 2
-						como método de diseño para aplicaciones basadas en Thymeleaf. Características:
-					</p>
-					<ul>
-						<li>
-							Utilice <strong>plantillas Thymeleaf</strong> en las definiciones de Tiles.
-						</li>
-						<li>
-							Utilice fragmentos de plantillas de Thymeleaf en las definiciones de diseño,
-							¡<strong>plantillas naturales</strong> posibles con Tiles!
-						</li>
-						<li>
-							<strong>Mezcle plantillas JSP y Thymeleaf</strong> en el mismo diseño si es necesario.
-						</li>
-						<li>
-							Integraciones opcionales de <strong>Spring MVC 3</strong> y
-							<strong>Spring Web Flow 2.3</strong>.
-						</li>
-					</ul>
+                        <p>
+                            La biblioteca Thymeleaf Extras Tiles 2 proporciona un dialecto que permite usar Apache Tiles 2
+                            como método de diseño para aplicaciones basadas en Thymeleaf. Características:
+                        </p>
+                        <ul>
+                            <li>
+                                Utilice <strong>plantillas Thymeleaf</strong> en las definiciones de Tiles.
+                            </li>
+                            <li>
+                                Utilice fragmentos de plantillas de Thymeleaf en las definiciones de diseño,
+                                ¡<strong>plantillas naturales</strong> posibles con Tiles!
+                            </li>
+                            <li>
+                                <strong>Mezcle plantillas JSP y Thymeleaf</strong> en el mismo diseño si es necesario.
+                            </li>
+                            <li>
+                                Integraciones opcionales de <strong>Spring MVC 3</strong> y
+                                <strong>Spring Web Flow 2.3</strong>.
+                            </li>
+                        </ul>
 
-					<p>
-						Con esta biblioteca, las definiciones de Tiles pueden especificar plantillas de Thymeleaf, o
-						incluso solo fragmentos de ellas (en la notación <code>th:include</code> habitual):
-					</p>
+                        <p>
+                            Con esta biblioteca, las definiciones de Tiles pueden especificar plantillas de Thymeleaf, o
+                            incluso solo fragmentos de ellas (en la notación <code>th:include</code> habitual):
+                        </p>
 
-					<pre><code class="language-xml"><!--
+                        <pre><code class="language-xml"><!--
 						<tiles-definitions>
 							...
 							<definition name="main" template="basic_layout">
@@ -240,12 +240,12 @@
 						</tiles-definitions>
 					--></code></pre>
 
-					<p>
-						...y las plantillas pueden usar el dialecto Thymeleaf Tiles para incluir otras partes del
-						diseño:
-					</p>
+                        <p>
+                            ...y las plantillas pueden usar el dialecto Thymeleaf Tiles para incluir otras partes del
+                            diseño:
+                        </p>
 
-					<pre><code class="language-html"><!--
+                        <pre><code class="language-html"><!--
 						<html xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 						...
 						<body>
@@ -257,646 +257,646 @@
 						</body>
 						</html>
 					--></code></pre>
-				</section>
+                    </section>
 
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-spring-security" href="#thymeleaf-spring-security" class="anchor"></a>
-							Thymeleaf + Spring Security
-						</h3>
-					</header>
-					<p>
-						<a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity">
-							https://github.com/thymeleaf/thymeleaf-extras-springsecurity</a>
-					</p>
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-spring-security" href="#thymeleaf-spring-security" class="anchor"></a>
+                                Thymeleaf + Spring Security
+                            </h3>
+                        </header>
+                        <p>
+                            <a href="https://github.com/thymeleaf/thymeleaf-extras-springsecurity">
+                                https://github.com/thymeleaf/thymeleaf-extras-springsecurity</a>
+                        </p>
 
-					<p>
-						La biblioteca Thymeleaf Extras de Spring Security proporciona un dialecto que permite integrar
-						diversos aspectos de autorización y autenticación de Spring Security (versiones 3.x, 4.x y 5.x)
-						en aplicaciones basadas en Thymeleaf. Características:
-					</p>
-					<ul>
-						<li>
-							<strong>
-								Equivalente basado en Thymeleaf a la biblioteca de etiquetas JSP de Spring Security
-							</strong>.
-						</li>
-						<li>
-							Agrega nuevos objetos de utilidad de expresión como <code>#authentication</code> y
-							<code>#authorization</code> para <strong>integrar las capacidades de Spring Security en las
-							expresiones de Thymeleaf</strong>.
-						</li>
-						<li>
-							Agrega nuevos atributos como <code>sec:authentication</code> y <code>sec:authorized</code>
-							para una configuración más sencilla de la seguridad.
-						</li>
-					</ul>
+                        <p>
+                            La biblioteca Thymeleaf Extras de Spring Security proporciona un dialecto que permite integrar
+                            diversos aspectos de autorización y autenticación de Spring Security (versiones 3.x, 4.x y 5.x)
+                            en aplicaciones basadas en Thymeleaf. Características:
+                        </p>
+                        <ul>
+                            <li>
+                                <strong>
+                                    Equivalente basado en Thymeleaf a la biblioteca de etiquetas JSP de Spring Security
+                                </strong>.
+                            </li>
+                            <li>
+                                Agrega nuevos objetos de utilidad de expresión como <code>#authentication</code> y
+                                <code>#authorization</code> para <strong>integrar las capacidades de Spring Security en las
+                                    expresiones de Thymeleaf</strong>.
+                            </li>
+                            <li>
+                                Agrega nuevos atributos como <code>sec:authentication</code> y <code>sec:authorized</code>
+                                para una configuración más sencilla de la seguridad.
+                            </li>
+                        </ul>
 
-					<p>
-						Con esta biblioteca, se pueden usar fácilmente las restricciones de acceso basadas en roles
-						definidas en Spring Security:
-					</p>
+                        <p>
+                            Con esta biblioteca, se pueden usar fácilmente las restricciones de acceso basadas en roles
+                            definidas en Spring Security:
+                        </p>
 
-					<pre><code class="language-xml"><!--
+                        <pre><code class="language-xml"><!--
 						<div sec:authorize="hasRole('ROLE_ADMIN')">
 							Esto solo se mostrará si el usuario autenticado tiene el rol ROLE_ADMIN.
 						</div>
 					--></code></pre>
 
-					<p>
-						Los objetos relacionados con la seguridad también se pueden incluir en las expresiones normales
-						de Thymeleaf:
-					</p>
+                        <p>
+                            Los objetos relacionados con la seguridad también se pueden incluir en las expresiones normales
+                            de Thymeleaf:
+                        </p>
 
-					<pre><code class="language-html"><!--
+                        <pre><code class="language-html"><!--
 						<div th:text="${#authentication.name}">
 							El valor de la propiedad "name" del objeto de autenticación debe aparecer aquí.
 						</div>
 					--></code></pre>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-conditional-comments" href="#thymeleaf-conditional-comments" class="anchor"></a>
-							Thymeleaf + Comentarios Condicionales IE
-						</h3>
-					</header>
-					<p><a href="https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments">
-						https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments</a>
-					</p>
-
-					<p>
-						La biblioteca de comentarios condicionales de Thymeleaf Extras proporciona soporte para los
-						<em>comentarios condicionales</em> de Internet Explorer en las plantillas de Thymeleaf.
-					</p>
-					<ul>
-						<li>
-							Procesar los <strong>procesadores de atributos</strong> de Thymeleaf dentro de los
-							comentarios condicionales.
-						</li>
-						<li>
-							Admite toda la sintaxis de los comentarios condicionales.
-						</li>
-					</ul>
-
-					<p>Los comentarios condicionales de IE se ven así:</p>
-
-					<script type="text/plain" class="language-html">
-						<!--[if lt IE 8]>
-						<link rel="stylesheet" th:href="@{/resources/blueprint/ie.css}"
-							type="text/css" media="screen, projection">
-						<![endif]-->
-					</script>
-
-					<p>...y gracias a esta librería se ejecutan correctamente como:</p>
-
-					<script type="text/plain" class="language-html">
-						<!--[if lt IE 8]>
-						<link rel="stylesheet" href="/myapp/resources/blueprint/ie.css"
-							type="text/css" media="screen, projection">
-						<![endif]-->
-					</script>
-				</section>
-
-			</section>
-
-			<section>
-				<header>
-					<h2>
-						<a id="community-dialects" href="#community-dialects" class="anchor"></a>
-						Dialectos comunitarios
-					</h2>
-				</header>
-				<p>
-					Desarrollado y mantenido por usuarios de Thymeleaf fuera del Proyecto Thymeleaf y distribuido bajo
-					su propia licencia y términos de soporte.
-				</p>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-layout-dialect" href="#thymeleaf-layout-dialect" class="anchor"></a>
-							Dialecto de diseño de Thymeleaf
-						</h3>
-					</header>
-					<p class="community-authors">por Emanuel Rabina</p>
-					<p><a href="https://github.com/ultraq/thymeleaf-layout-dialect">https://github.com/ultraq/thymeleaf-layout-dialect</a></p>
-
-					<p>
-						Un dialecto para Thymeleaf que te permite <strong>usar plantillas de diseño/decoración para dar
-						estilo a tu contenido</strong>, así como pasar elementos de fragmentos completos a las páginas
-						incluidas, todo para mejorar la reutilización del código. Si alguna vez has usado SiteMesh para
-						tus JSP o Facelets con JSF, los conceptos de esta biblioteca te resultarán familiares.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="dandelion" href="#dandelion" class="anchor"></a>
-							Proyecto Dandelion (N.d.T:  Diente de León, en español)
-						</h3>
-					</header>
-					<p class="community-authors">Por Thibault Duchateau y Romain Lespinasse</p>
-					<p><a href="https://dandelion.github.io">https://dandelion.github.io</a></p>
-
-					<p>
-						Dandelion es un framework Java gratuito y de código abierto cuyo objetivo es simplificar el
-						desarrollo web en entornos basados en JVM.
-					</p>
-
-					<p>
-						Ayuda a <strong>gestionar los recursos web (JS, CSS)</strong> de diversas maneras: permite una
-						buena organización y optimizaciones clásicas como la minimización, la fusión, la compresión o el
-						almacenamiento en caché. También facilita la integración de potentes bibliotecas de JavaScript
-						gracias a un conjunto de componentes extensibles.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="pages-dialect" href="#pages-dialect" class="anchor"></a>
-							PagesDialect
-						</h3>
-					</header>
-					<p class="community-authors">Por Jos&eacute; Samper</p>
-					<p><a href="http://pagesdialect.sourceforge.net/">http://pagesdialect.sourceforge.net/</a></p>
-
-					<p>
-						PagesDialect es un dialecto personalizado que proporciona algunas utilidades de procesamiento de
-						colecciones, como paginación, clasificación o exportación.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-with-dialect" href="#thymeleaf-with-dialect" class="anchor"></a>
-							Thymeleaf Con Dialect
-						</h3>
-					</header>
-					<p class="community-authors">Por Martin Frey</p>
-					<p>
-						<a href="https://github.com/Antibrumm/thymeleaf-extras-with-dialect">
-							https://github.com/Antibrumm/thymeleaf-extras-with-dialect</a>
-					</p>
-
-					<p>
-						Un dialecto para Thymeleaf que permite usar atributos con el prefijo "with" para evitar
-						expresiones <code>th:with</code> largas.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-cache-dialect" href="#thymeleaf-with-dialect" class="anchor"></a>
-							Thymeleaf Cache Dialect
-						</h3>
-					</header>
-					<p class="community-authors">Por Martin Frey</p>
-					<p>
-						<a href="https://github.com/Antibrumm/thymeleaf-extras-cache-dialect">
-							https://github.com/Antibrumm/thymeleaf-extras-cache-dialect</a>
-					</p>
-
-					<p>
-						Algunas partes de nuestra página web no cambiarán con frecuencia durante la vida útil de la
-						aplicación o solo dependerán de una sesión de usuario.
-					</p>
-
-					<p>
-						Este dialecto almacenará en caché la salida resultante del elemento en el que se declara y lo
-						reemplazará si se produce un acceso a la caché.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="html5-validation-dialect" href="#html5-validation-dialect" class="anchor"></a>
-							HTML5 Validation Dialect
-						</h3>
-					</header>
-					<p class="community-authors">Por Francisco P&eacute;rez and Jos&eacute; Samper</p>
-					<p><a href="http://html5valdialect.sourceforge.net/">http://html5valdialect.sourceforge.net/</a></p>
-
-					<p>
-						Este dialecto lee las anotaciones <em>JSR-303</em> y modifica el código HTML introduciendo
-						código de validación de formulario HTML5 que coincide con las anotaciones.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="wuic-dialect" href="#wuic-dialect" class="anchor"></a>
-							WUIC Dialect
-						</h3>
-					</header>
-					<p class="community-authors">Por Guillaume Drouet</p>
-					<p><a href="https://wuic.github.io/">https://wuic.github.io/</a></p>
-
-					<p>
-						WUIC es un proyecto Java que ayuda a los desarrolladores a gestionar sus estadísticas web.
-						Minificación y agregación de JS/CSS, cálculo de sprites, caché de servidor/navegador con
-						eliminación ante cualquier cambio, etc. El dialecto ayuda a los usuarios de Thymeleaf a utilizar
-						las funciones de WUIC al crear sus plantillas.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="data-attribute-dialect" href="#data-attribute-dialect" class="anchor"></a>
-							Data Attribute Dialect
-						</h3>
-					</header>
-					<p class="community-authors">Por Max Bruchmann</p>
-					<p>
-						<a href="https://github.com/mxab/thymeleaf-extras-data-attribute">
-							https://github.com/mxab/thymeleaf-extras-data-attribute</a>
-					</p>
-
-					<p>
-						El dialecto de atributos de datos de Thymeleaf evalúa las expresiones de Thymeleaf en los
-						atributos <code>data:*</code> y establece el resultado como el atributo <code>data-*</code> de
-						la etiqueta HTML.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-spring-data-dialect" href="#thymeleaf-spring-data-dialect" class="anchor"></a>
-							Thymeleaf Spring Data Dialect
-						</h3>
-					</header>
-					<p class="community-authors">by Javier Pena</p>
-					<p>
-						<a href="https://github.com/jpenren/thymeleaf-spring-data-dialect">
-							https://github.com/jpenren/thymeleaf-spring-data-dialect</a>
-					</p>
-
-					<p>
-						Este dialecto utiliza los elementos de paginación de Spring Data para crear componentes de
-						paginación y clasificación en el estilo Bootstrap.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-shiro-dialect" href="#thymeleaf-shiro-dialect" class="anchor"></a>
-							Thymeleaf Shiro Dialect
-						</h3>
-					</header>
-					<p class="community-authors">Por Thebora Kompanioni</p>
-					<p>
-						<a href="https://github.com/theborakompanioni/thymeleaf-extras-shiro">
-							https://github.com/theborakompanioni/thymeleaf-extras-shiro</a>
-					</p>
-
-					<p>
-						Un dialecto de Thymeleaf para etiquetas Apache Shiro.
-					</p>
-				</section>
-
-			</section>
-
-			<section>
-				<header>
-					<h2>
-						<a id="community-integrations" href="#community-integrations" class="anchor"></a>
-						Integraciones de la Comunidad
-					</h2>
-				</header>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-jsr371" href="#thymeleaf-jsr371" class="anchor"></a>
-							Integraciones de Thymeleaf para  MVC 1.0 (JSR371)
-						</h3>
-					</header>
-					<p class="community-authors">by Tam&aacute;s P&aacute;lfalvi</p>
-					<p>
-						<a href="https://github.com/inbuss/thymeleaf-mvc">https://github.com/inbuss/thymeleaf-mvc</a><br />
-						<a href="https://github.com/inbuss/thymeleaf-cdi">https://github.com/inbuss/thymeleaf-cdi</a><br />
-					    <a href="https://github.com/inbuss/thymeleaf-jersey">https://github.com/inbuss/thymeleaf-jersey</a>
-					</p>
-
-					<p>
-						Una extensión que proporciona Thymeleaf como motor de visualización en entornos
-						<strong>JavaEE MVC 1.0 (JSR371)</strong>. Incluye integración con CDI que expone beans con
-						nombre a expresiones y extiende el servicio de conversión de Thymeleaf mediante la función
-						JAX-RS ParamConverter (solo en Jersey). Estas funciones también están disponibles como
-						extensiones independientes para su uso en entornos que no sean MVC.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="hdiv-thymeleaf" href="#hdiv-thymeleaf" class="anchor"></a>
-							HDIV + Thymeleaf
-						</h3>
-					</header>
-					<p class="community-authors">por The HDIV Project</p>
-					<p><a href="https://www.hdiv.org">https://www.hdiv.org</a></p>
-
-					<p>
-						HDIV es un <strong>marco de trabajo de seguridad de aplicaciones web</strong> que ayuda a
-						evitar los riesgos de seguridad más comunes (<em>los diez más importantes de OWASP</em>). HDIV
-						controla el flujo de datos entre el servidor y el cliente, aplicando validaciones de
-						seguridad de forma transparente y sin actualizar el código fuente de las aplicaciones.
-					</p>
-
-					<p>
-						HDIV aplica comprobaciones de integridad (evitando, por ejemplo, la manipulación de parámetros y
-						URL) a todos los datos que se envían al cliente desde el servidor, así como validaciones de
-						entrada genéricas a los datos procedentes de los campos de texto. Además, HDIV añade tokens
-						aleatorios a cada enlace y formulario para evitar el riesgo de CSRF en la web.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-play-12" href="#thymeleaf-play-12" class="anchor"></a>
-							Módulo de Thymeleaf para Play Framework 1.2
-						</h3>
-					</header>
-					<p class="community-authors">Por Satoshi Takata</p>
-					<p><a href="https://github.com/choreo/play-thymeleaf">https://github.com/choreo/play-thymeleaf</a></p>
-
-					<p>
-						Este módulo permite usar Thymeleaf como sustituto de las plantillas Groovy en la capa de
-						visualización de Play Framework 1.2.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-play-2" href="#thymeleaf-play-2" class="anchor"></a>
-							Módulo de Thymeleaf para Play Framework 2 (Scala)
-						</h3>
-					</header>
-					<p class="community-authors">Por Dmitry Avershin</p>
-					<p>
-						<a href="https://github.com/dmitraver/scala-play-thymeleaf-plugin">
-							https://github.com/dmitraver/scala-play-thymeleaf-plugin</a>
-					</p>
-
-					<p>
-						Un módulo para Play Framework (Scala) que utiliza el motor de plantillas Thymeleaf como
-						alternativa a Twirl, que es un motor de plantillas estándar de Play Framework.
-					</p>
-				</section>
-
-			</section>
-
-			<section>
-				<header>
-					<h2>
-						<a id="community-tools" href="#community-tools" class="anchor"></a>
-						Herramientas de la Comunidad
-					</h2>
-				</header>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="bootify" href="#bootify" class="anchor"></a>
-							Bootify.io
-						</h3>
-					</header>
-					<p><a href="https://bootify.io/">https://bootify.io/</a></p>
-
-					<p>
-						Bootify.io es un generador de código para Spring Boot. Se pueden seleccionar tres opciones para
-						el frontend, todas basadas en Thymeleaf, junto con un CSS opcional de Webpack, Bootstrap o
-						Tailwind. El usuario obtiene una aplicación Spring Boot personalizada en la última versión, con
-						la configuración de Thymeleaf, incluyendo plugins, recarga en tiempo real de las plantillas de
-						Thymeleaf durante el desarrollo y un frontend CRUD.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymol" href="#thymol" class="anchor"></a>
-							Thymol
-						</h3>
-					</header>
-					<p class="community-authors">Por Jim Benson</p>
-					<p><a href="https://github.com/thymol/thymol.js">https://github.com/thymol/thymol.js</a></p>
-
-					<p>
-						Thymol es una biblioteca de JavaScript útil que permite a los desarrolladores
-						<strong>
-							aplicar sus inclusiones de fragmentos <code>th:include</code>/<code>th:replace</code>
-							de forma estática
-						</strong> (sin ejecutar la aplicación).
-					</p>
-
-					<p>
-						Además, ofrece numerosas funciones potentes para la creación de prototipos estáticos, como la
-						posibilidad de que los desarrolladores evalúen estáticamente fragmentos condicionales
-						(<code>th:if</code>/<code>th:unless</code>) en sus prototipos, lo que mejora la experiencia de
-						desarrollo con plantillas naturales.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-fragment" href="#thymeleaf-fragment" class="anchor"></a>
-							thymeleaf-fragment.js
-						</h3>
-					</header>
-					<p class="community-authors">
-						Por  <a href="https://www.blackpepper.co.uk/">Black Pepper Software</a>
-					</p>
-					<p>
-						<a href="https://github.com/BlackPepperSoftware/thymeleaf-fragment.js">
-							https://github.com/BlackPepperSoftware/thymeleaf-fragment.js</a>
-					</p>
-
-					<p>
-						thymeleaf-fragment.js proporciona un script sencillo que solo procesa los atributos
-						<code>th:include</code>, <code>th:insert</code> y <code>th:replace</code> mediante jQuery. Esto
-						permite que las plantillas naturales que usan fragmentos se visualicen en el navegador como
-						prototipos estáticos.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymus" href="#thymus" class="anchor"></a>
-							Thymus
-						</h3>
-					</header>
-					<p class="community-authors">Por Will Hoover</p>
-					<p><a href="https://ugate.github.io/thymus">https://ugate.github.io/thymus</a></p>
-
-					<p>
-						thymus.js es un complemento de JQuery inspirado en Thymeleaf que puede utilizarse como
-						controlador del lado del cliente de Thymeleaf para actualizaciones fragmentadas de
-						modelos/vistas a través del navegador del cliente. thymus.js es lo suficientemente flexible como
-						para ejecutarse independientemente de Thymeleaf, pero también puede utilizarse como un potente
-						complemento de producción para Thymeleaf o como motor de creación de prototipos sin conexión.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="spring-mvc-quickstart-maven-archetype" href="#spring-mvc-quickstart-maven-archetype" class="anchor"></a>
-							Guía de inicio rápido de Spring MVC: Arquetipo Maven
-						</h3>
-					</header>
-					<p class="community-authors">Por Rafa&#322; Borowiec</p>
-					<p>
-						<a href="https://github.com/kolorobot/spring-mvc-quickstart-archetype">
-							https://github.com/kolorobot/spring-mvc-quickstart-archetype</a>
-					</p>
-
-					<p>
-						Un arquetipo de Maven para aplicaciones web, incluyendo Thymeleaf, Spring MVC, Spring Security,
-						Bootstrap, JPA (Hibernate/HSQLDB/Spring Data JPA), MongoDB y JUnit.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-spring-mvc-maven-archetype" href="#thymeleaf-spring-mvc-maven-archetype" class="anchor"></a>
-							Thymeleaf + Arquetipo Maven de Spring MVC
-						</h3>
-					</header>
-					<p class="community-authors">Por &Aacute;lex Soto</p>
-					<p>
-						<a href="http://www.lordofthejars.com/2012/01/once-upon-time-and-long-ago-i-heard.html">
-							http://www.lordofthejars.com/2012/01/once-upon-time-and-long-ago-i-heard.html</a>
-					</p>
-
-					<p>
-						Un arquetipo de Maven para arrancar aplicaciones web usando Spring MVC y Thymeleaf.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymesheet" href="#thymesheet" class="anchor"></a>
-							Thymesheet
-						</h3>
-					</header>
-					<p class="community-authors">Por Adam Perry</p>
-					<p>
-						<a href="https://connect-group.github.io/thymesheet/">
-							https://connect-group.github.io/thymesheet/</a>
-					</p>
-
-					<p>
-						Thymesheet es una extensión para Thymeleaf que permite mover atributos como <code>th:if</code>,
-						<code>th:text</code>, etc., a un archivo CSS3 externo. Esto significa que no se incrusta ninguna
-						lógica Java/de servidor en el HTML, lo que lleva las plantillas naturales un paso más allá.
-						Compatible con Tiles, Spring, comentarios condicionales y cualquier dialecto de Thymeleaf.
-					</p>
-				</section>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="thymeleaf-jawr-extension" href="#thymeleaf-jawr-extension" class="anchor"></a>
-							Extensión de Thymeleaf para JAWR
-						</h3>
-					</header>
-					<p class="community-authors">Por Danny Trunk</p>
-					<p>
-						<a href="https://github.com/dtrunk90/thymeleaf-jawr-extension">
-						https://github.com/dtrunk90/thymeleaf-jawr-extension</a>
-					</p>
-
-					<p>
-						Un dialecto para el motor de plantillas Thymeleaf que permite el uso de Jawr (una solución de
-						empaquetado adaptable para Javascript y CSS que permite el desarrollo rápido de recursos en
-						archivos de módulos separados).
-					</p>
-				</section>
-
-			</section>
-
-			<section>
-				<header>
-					<h2>
-						<a id="demos" href="#demos" class="anchor"></a>
-						Demostraciones
-					</h2>
-				</header>
-
-				<section class="subsection">
-					<header>
-						<h3>
-							<a id="sql-dialect-standalone-servlet" href="#sql-dialect-standalone-servlet" class="anchor"></a>
-							Dialecto SQL y servlet independiente
-						</h3>
-					</header>
-					<p class="community-authors">Por Jos&eacute Samper</p>
-					<p>
-						<a href="https://github.com/jmiguelsamper/thymeleaf-extras-sqldialect">
-							https://github.com/jmiguelsamper/thymeleaf-extras-sqldialect</a>
-					</p>
-
-					<p>
-						Esta aplicación web de ejemplo presenta una forma de crear páginas web similares a PHP usando
-						Thymeleaf sin necesidad de código Java. Para ello, se introduce un nuevo dialecto SQL y un
-						servlet para la ejecución independiente de plantillas.
-					</p>
-				</section>
-			</section>
-		</main>
-	</div>
-
-	<div class="fluid-container footer-container">
-		<footer class="footer fluid-block">
-			<div class="footer-sections">
-				<h5>On this site</h5>
-				<ul class="footer-sections-links">
-					<li><a href="index.html">Inicio</a></li>
-					<li><a href="download.html">Descargas</a></li>
-					<li><a href="documentation.html">Documentos</a></li>
-					<li><a href="ecosystem.html">Ecosistema</a></li>
-					<li><a href="faq.html">Preguntas Frecuentes</a></li>
-					<li id="footer-issue-tracking"><a href="issuetracking.html">Seguimiento de problemas</a></li>
-					<li><a href="team.html">El equipo de Thymeleaf</a></li>
-					<li><a href="whoisusingthymeleaf.html">¿Quién utiliza Thymeleaf?</a></li>
-				</ul>
-			</div>
-			<div>
-				<h5>Enlaces externos</h5>
-				<ul class="footer-sections-links">
-					<li><a href="https://bsky.app/profile/thymeleaf.org">Síguenos en Bluesky</a></li>
-					<li><a href="https://github.com/thymeleaf">Bifúrcanos en GitHub</a></li>
-				</ul>
-			</div>
-		</footer>
-		<div class="copyright fluid-block">Copyright &copy; Thymeleaf</div>
-		<div class="license fluid-block">
-			Thymeleaf es un software de código abierto distribuido bajo la
-			<a href="https://www.apache.org/licenses/LICENSE-2.0.html">Licencia Apache 2.0</a><br/>
-			Este sitio web (excluyendo los nombres y logotipos de los usuarios de Thymeleaf) está licenciado bajo la
-			<a href="http://creativecommons.org/licenses/by-sa/3.0/">Licencia CC BY-SA 3.0</a>.
-		</div>
-	</div>
-
-</body>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-conditional-comments" href="#thymeleaf-conditional-comments" class="anchor"></a>
+                                Thymeleaf + Comentarios Condicionales IE
+                            </h3>
+                        </header>
+                        <p><a href="https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments">
+                                https://github.com/thymeleaf/thymeleaf-extras-conditionalcomments</a>
+                        </p>
+
+                        <p>
+                            La biblioteca de comentarios condicionales de Thymeleaf Extras proporciona soporte para los
+                            <em>comentarios condicionales</em> de Internet Explorer en las plantillas de Thymeleaf.
+                        </p>
+                        <ul>
+                            <li>
+                                Procesar los <strong>procesadores de atributos</strong> de Thymeleaf dentro de los
+                                comentarios condicionales.
+                            </li>
+                            <li>
+                                Admite toda la sintaxis de los comentarios condicionales.
+                            </li>
+                        </ul>
+
+                        <p>Los comentarios condicionales de IE se ven así:</p>
+
+                        <script type="text/plain" class="language-html">
+                            <!--[if lt IE 8]>
+                            <link rel="stylesheet" th:href="@{/resources/blueprint/ie.css}"
+                            type="text/css" media="screen, projection">
+                            <![endif]-->
+                        </script>
+
+                        <p>...y gracias a esta librería se ejecutan correctamente como:</p>
+
+                        <script type="text/plain" class="language-html">
+                            <!--[if lt IE 8]>
+                            <link rel="stylesheet" href="/myapp/resources/blueprint/ie.css"
+                            type="text/css" media="screen, projection">
+                            <![endif]-->
+                        </script>
+                    </section>
+
+                </section>
+
+                <section>
+                    <header>
+                        <h2>
+                            <a id="community-dialects" href="#community-dialects" class="anchor"></a>
+                            Dialectos comunitarios
+                        </h2>
+                    </header>
+                    <p>
+                        Desarrollado y mantenido por usuarios de Thymeleaf fuera del Proyecto Thymeleaf y distribuido bajo
+                        su propia licencia y términos de soporte.
+                    </p>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-layout-dialect" href="#thymeleaf-layout-dialect" class="anchor"></a>
+                                Dialecto de diseño de Thymeleaf
+                            </h3>
+                        </header>
+                        <p class="community-authors">por Emanuel Rabina</p>
+                        <p><a href="https://github.com/ultraq/thymeleaf-layout-dialect">https://github.com/ultraq/thymeleaf-layout-dialect</a></p>
+
+                        <p>
+                            Un dialecto para Thymeleaf que te permite <strong>usar plantillas de diseño/decoración para dar
+                                estilo a tu contenido</strong>, así como pasar elementos de fragmentos completos a las páginas
+                            incluidas, todo para mejorar la reutilización del código. Si alguna vez has usado SiteMesh para
+                            tus JSP o Facelets con JSF, los conceptos de esta biblioteca te resultarán familiares.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="dandelion" href="#dandelion" class="anchor"></a>
+                                Proyecto Dandelion (N.d.T:  Diente de León, en español)
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Thibault Duchateau y Romain Lespinasse</p>
+                        <p><a href="https://dandelion.github.io">https://dandelion.github.io</a></p>
+
+                        <p>
+                            Dandelion es un framework Java gratuito y de código abierto cuyo objetivo es simplificar el
+                            desarrollo web en entornos basados en JVM.
+                        </p>
+
+                        <p>
+                            Ayuda a <strong>gestionar los recursos web (JS, CSS)</strong> de diversas maneras: permite una
+                            buena organización y optimizaciones clásicas como la minimización, la fusión, la compresión o el
+                            almacenamiento en caché. También facilita la integración de potentes bibliotecas de JavaScript
+                            gracias a un conjunto de componentes extensibles.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="pages-dialect" href="#pages-dialect" class="anchor"></a>
+                                PagesDialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Jos&eacute; Samper</p>
+                        <p><a href="http://pagesdialect.sourceforge.net/">http://pagesdialect.sourceforge.net/</a></p>
+
+                        <p>
+                            PagesDialect es un dialecto personalizado que proporciona algunas utilidades de procesamiento de
+                            colecciones, como paginación, clasificación o exportación.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-with-dialect" href="#thymeleaf-with-dialect" class="anchor"></a>
+                                Thymeleaf Con Dialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Martin Frey</p>
+                        <p>
+                            <a href="https://github.com/Antibrumm/thymeleaf-extras-with-dialect">
+                                https://github.com/Antibrumm/thymeleaf-extras-with-dialect</a>
+                        </p>
+
+                        <p>
+                            Un dialecto para Thymeleaf que permite usar atributos con el prefijo "with" para evitar
+                            expresiones <code>th:with</code> largas.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-cache-dialect" href="#thymeleaf-with-dialect" class="anchor"></a>
+                                Thymeleaf Cache Dialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Martin Frey</p>
+                        <p>
+                            <a href="https://github.com/Antibrumm/thymeleaf-extras-cache-dialect">
+                                https://github.com/Antibrumm/thymeleaf-extras-cache-dialect</a>
+                        </p>
+
+                        <p>
+                            Algunas partes de nuestra página web no cambiarán con frecuencia durante la vida útil de la
+                            aplicación o solo dependerán de una sesión de usuario.
+                        </p>
+
+                        <p>
+                            Este dialecto almacenará en caché la salida resultante del elemento en el que se declara y lo
+                            reemplazará si se produce un acceso a la caché.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="html5-validation-dialect" href="#html5-validation-dialect" class="anchor"></a>
+                                HTML5 Validation Dialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Francisco P&eacute;rez and Jos&eacute; Samper</p>
+                        <p><a href="http://html5valdialect.sourceforge.net/">http://html5valdialect.sourceforge.net/</a></p>
+
+                        <p>
+                            Este dialecto lee las anotaciones <em>JSR-303</em> y modifica el código HTML introduciendo
+                            código de validación de formulario HTML5 que coincide con las anotaciones.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="wuic-dialect" href="#wuic-dialect" class="anchor"></a>
+                                WUIC Dialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Guillaume Drouet</p>
+                        <p><a href="https://wuic.github.io/">https://wuic.github.io/</a></p>
+
+                        <p>
+                            WUIC es un proyecto Java que ayuda a los desarrolladores a gestionar sus estadísticas web.
+                            Minificación y agregación de JS/CSS, cálculo de sprites, caché de servidor/navegador con
+                            eliminación ante cualquier cambio, etc. El dialecto ayuda a los usuarios de Thymeleaf a utilizar
+                            las funciones de WUIC al crear sus plantillas.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="data-attribute-dialect" href="#data-attribute-dialect" class="anchor"></a>
+                                Data Attribute Dialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Max Bruchmann</p>
+                        <p>
+                            <a href="https://github.com/mxab/thymeleaf-extras-data-attribute">
+                                https://github.com/mxab/thymeleaf-extras-data-attribute</a>
+                        </p>
+
+                        <p>
+                            El dialecto de atributos de datos de Thymeleaf evalúa las expresiones de Thymeleaf en los
+                            atributos <code>data:*</code> y establece el resultado como el atributo <code>data-*</code> de
+                            la etiqueta HTML.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-spring-data-dialect" href="#thymeleaf-spring-data-dialect" class="anchor"></a>
+                                Thymeleaf Spring Data Dialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">by Javier Pena</p>
+                        <p>
+                            <a href="https://github.com/jpenren/thymeleaf-spring-data-dialect">
+                                https://github.com/jpenren/thymeleaf-spring-data-dialect</a>
+                        </p>
+
+                        <p>
+                            Este dialecto utiliza los elementos de paginación de Spring Data para crear componentes de
+                            paginación y clasificación en el estilo Bootstrap.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-shiro-dialect" href="#thymeleaf-shiro-dialect" class="anchor"></a>
+                                Thymeleaf Shiro Dialect
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Thebora Kompanioni</p>
+                        <p>
+                            <a href="https://github.com/theborakompanioni/thymeleaf-extras-shiro">
+                                https://github.com/theborakompanioni/thymeleaf-extras-shiro</a>
+                        </p>
+
+                        <p>
+                            Un dialecto de Thymeleaf para etiquetas Apache Shiro.
+                        </p>
+                    </section>
+
+                </section>
+
+                <section>
+                    <header>
+                        <h2>
+                            <a id="community-integrations" href="#community-integrations" class="anchor"></a>
+                            Integraciones de la Comunidad
+                        </h2>
+                    </header>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-jsr371" href="#thymeleaf-jsr371" class="anchor"></a>
+                                Integraciones de Thymeleaf para  MVC 1.0 (JSR371)
+                            </h3>
+                        </header>
+                        <p class="community-authors">by Tam&aacute;s P&aacute;lfalvi</p>
+                        <p>
+                            <a href="https://github.com/inbuss/thymeleaf-mvc">https://github.com/inbuss/thymeleaf-mvc</a><br />
+                            <a href="https://github.com/inbuss/thymeleaf-cdi">https://github.com/inbuss/thymeleaf-cdi</a><br />
+                            <a href="https://github.com/inbuss/thymeleaf-jersey">https://github.com/inbuss/thymeleaf-jersey</a>
+                        </p>
+
+                        <p>
+                            Una extensión que proporciona Thymeleaf como motor de visualización en entornos
+                            <strong>JavaEE MVC 1.0 (JSR371)</strong>. Incluye integración con CDI que expone beans con
+                            nombre a expresiones y extiende el servicio de conversión de Thymeleaf mediante la función
+                            JAX-RS ParamConverter (solo en Jersey). Estas funciones también están disponibles como
+                            extensiones independientes para su uso en entornos que no sean MVC.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="hdiv-thymeleaf" href="#hdiv-thymeleaf" class="anchor"></a>
+                                HDIV + Thymeleaf
+                            </h3>
+                        </header>
+                        <p class="community-authors">por The HDIV Project</p>
+                        <p><a href="https://www.hdiv.org">https://www.hdiv.org</a></p>
+
+                        <p>
+                            HDIV es un <strong>marco de trabajo de seguridad de aplicaciones web</strong> que ayuda a
+                            evitar los riesgos de seguridad más comunes (<em>los diez más importantes de OWASP</em>). HDIV
+                            controla el flujo de datos entre el servidor y el cliente, aplicando validaciones de
+                            seguridad de forma transparente y sin actualizar el código fuente de las aplicaciones.
+                        </p>
+
+                        <p>
+                            HDIV aplica comprobaciones de integridad (evitando, por ejemplo, la manipulación de parámetros y
+                            URL) a todos los datos que se envían al cliente desde el servidor, así como validaciones de
+                            entrada genéricas a los datos procedentes de los campos de texto. Además, HDIV añade tokens
+                            aleatorios a cada enlace y formulario para evitar el riesgo de CSRF en la web.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-play-12" href="#thymeleaf-play-12" class="anchor"></a>
+                                Módulo de Thymeleaf para Play Framework 1.2
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Satoshi Takata</p>
+                        <p><a href="https://github.com/choreo/play-thymeleaf">https://github.com/choreo/play-thymeleaf</a></p>
+
+                        <p>
+                            Este módulo permite usar Thymeleaf como sustituto de las plantillas Groovy en la capa de
+                            visualización de Play Framework 1.2.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-play-2" href="#thymeleaf-play-2" class="anchor"></a>
+                                Módulo de Thymeleaf para Play Framework 2 (Scala)
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Dmitry Avershin</p>
+                        <p>
+                            <a href="https://github.com/dmitraver/scala-play-thymeleaf-plugin">
+                                https://github.com/dmitraver/scala-play-thymeleaf-plugin</a>
+                        </p>
+
+                        <p>
+                            Un módulo para Play Framework (Scala) que utiliza el motor de plantillas Thymeleaf como
+                            alternativa a Twirl, que es un motor de plantillas estándar de Play Framework.
+                        </p>
+                    </section>
+
+                </section>
+
+                <section>
+                    <header>
+                        <h2>
+                            <a id="community-tools" href="#community-tools" class="anchor"></a>
+                            Herramientas de la Comunidad
+                        </h2>
+                    </header>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="bootify" href="#bootify" class="anchor"></a>
+                                Bootify.io
+                            </h3>
+                        </header>
+                        <p><a href="https://bootify.io/">https://bootify.io/</a></p>
+
+                        <p>
+                            Bootify.io es un generador de código para Spring Boot. Se pueden seleccionar tres opciones para
+                            el frontend, todas basadas en Thymeleaf, junto con un CSS opcional de Webpack, Bootstrap o
+                            Tailwind. El usuario obtiene una aplicación Spring Boot personalizada en la última versión, con
+                            la configuración de Thymeleaf, incluyendo plugins, recarga en tiempo real de las plantillas de
+                            Thymeleaf durante el desarrollo y un frontend CRUD.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymol" href="#thymol" class="anchor"></a>
+                                Thymol
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Jim Benson</p>
+                        <p><a href="https://github.com/thymol/thymol.js">https://github.com/thymol/thymol.js</a></p>
+
+                        <p>
+                            Thymol es una biblioteca de JavaScript útil que permite a los desarrolladores
+                            <strong>
+                                aplicar sus inclusiones de fragmentos <code>th:include</code>/<code>th:replace</code>
+                                de forma estática
+                            </strong> (sin ejecutar la aplicación).
+                        </p>
+
+                        <p>
+                            Además, ofrece numerosas funciones potentes para la creación de prototipos estáticos, como la
+                            posibilidad de que los desarrolladores evalúen estáticamente fragmentos condicionales
+                            (<code>th:if</code>/<code>th:unless</code>) en sus prototipos, lo que mejora la experiencia de
+                            desarrollo con plantillas naturales.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-fragment" href="#thymeleaf-fragment" class="anchor"></a>
+                                thymeleaf-fragment.js
+                            </h3>
+                        </header>
+                        <p class="community-authors">
+                            Por  <a href="https://www.blackpepper.co.uk/">Black Pepper Software</a>
+                        </p>
+                        <p>
+                            <a href="https://github.com/BlackPepperSoftware/thymeleaf-fragment.js">
+                                https://github.com/BlackPepperSoftware/thymeleaf-fragment.js</a>
+                        </p>
+
+                        <p>
+                            thymeleaf-fragment.js proporciona un script sencillo que solo procesa los atributos
+                            <code>th:include</code>, <code>th:insert</code> y <code>th:replace</code> mediante jQuery. Esto
+                            permite que las plantillas naturales que usan fragmentos se visualicen en el navegador como
+                            prototipos estáticos.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymus" href="#thymus" class="anchor"></a>
+                                Thymus
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Will Hoover</p>
+                        <p><a href="https://ugate.github.io/thymus">https://ugate.github.io/thymus</a></p>
+
+                        <p>
+                            thymus.js es un complemento de JQuery inspirado en Thymeleaf que puede utilizarse como
+                            controlador del lado del cliente de Thymeleaf para actualizaciones fragmentadas de
+                            modelos/vistas a través del navegador del cliente. thymus.js es lo suficientemente flexible como
+                            para ejecutarse independientemente de Thymeleaf, pero también puede utilizarse como un potente
+                            complemento de producción para Thymeleaf o como motor de creación de prototipos sin conexión.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="spring-mvc-quickstart-maven-archetype" href="#spring-mvc-quickstart-maven-archetype" class="anchor"></a>
+                                Guía de inicio rápido de Spring MVC: Arquetipo Maven
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Rafa&#322; Borowiec</p>
+                        <p>
+                            <a href="https://github.com/kolorobot/spring-mvc-quickstart-archetype">
+                                https://github.com/kolorobot/spring-mvc-quickstart-archetype</a>
+                        </p>
+
+                        <p>
+                            Un arquetipo de Maven para aplicaciones web, incluyendo Thymeleaf, Spring MVC, Spring Security,
+                            Bootstrap, JPA (Hibernate/HSQLDB/Spring Data JPA), MongoDB y JUnit.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-spring-mvc-maven-archetype" href="#thymeleaf-spring-mvc-maven-archetype" class="anchor"></a>
+                                Thymeleaf + Arquetipo Maven de Spring MVC
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por &Aacute;lex Soto</p>
+                        <p>
+                            <a href="http://www.lordofthejars.com/2012/01/once-upon-time-and-long-ago-i-heard.html">
+                                http://www.lordofthejars.com/2012/01/once-upon-time-and-long-ago-i-heard.html</a>
+                        </p>
+
+                        <p>
+                            Un arquetipo de Maven para arrancar aplicaciones web usando Spring MVC y Thymeleaf.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymesheet" href="#thymesheet" class="anchor"></a>
+                                Thymesheet
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Adam Perry</p>
+                        <p>
+                            <a href="https://connect-group.github.io/thymesheet/">
+                                https://connect-group.github.io/thymesheet/</a>
+                        </p>
+
+                        <p>
+                            Thymesheet es una extensión para Thymeleaf que permite mover atributos como <code>th:if</code>,
+                            <code>th:text</code>, etc., a un archivo CSS3 externo. Esto significa que no se incrusta ninguna
+                            lógica Java/de servidor en el HTML, lo que lleva las plantillas naturales un paso más allá.
+                            Compatible con Tiles, Spring, comentarios condicionales y cualquier dialecto de Thymeleaf.
+                        </p>
+                    </section>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="thymeleaf-jawr-extension" href="#thymeleaf-jawr-extension" class="anchor"></a>
+                                Extensión de Thymeleaf para JAWR
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Danny Trunk</p>
+                        <p>
+                            <a href="https://github.com/dtrunk90/thymeleaf-jawr-extension">
+                                https://github.com/dtrunk90/thymeleaf-jawr-extension</a>
+                        </p>
+
+                        <p>
+                            Un dialecto para el motor de plantillas Thymeleaf que permite el uso de Jawr (una solución de
+                            empaquetado adaptable para Javascript y CSS que permite el desarrollo rápido de recursos en
+                            archivos de módulos separados).
+                        </p>
+                    </section>
+
+                </section>
+
+                <section>
+                    <header>
+                        <h2>
+                            <a id="demos" href="#demos" class="anchor"></a>
+                            Demostraciones
+                        </h2>
+                    </header>
+
+                    <section class="subsection">
+                        <header>
+                            <h3>
+                                <a id="sql-dialect-standalone-servlet" href="#sql-dialect-standalone-servlet" class="anchor"></a>
+                                Dialecto SQL y servlet independiente
+                            </h3>
+                        </header>
+                        <p class="community-authors">Por Jos&eacute Samper</p>
+                        <p>
+                            <a href="https://github.com/jmiguelsamper/thymeleaf-extras-sqldialect">
+                                https://github.com/jmiguelsamper/thymeleaf-extras-sqldialect</a>
+                        </p>
+
+                        <p>
+                            Esta aplicación web de ejemplo presenta una forma de crear páginas web similares a PHP usando
+                            Thymeleaf sin necesidad de código Java. Para ello, se introduce un nuevo dialecto SQL y un
+                            servlet para la ejecución independiente de plantillas.
+                        </p>
+                    </section>
+                </section>
+            </main>
+        </div>
+
+        <div class="fluid-container footer-container">
+            <footer class="footer fluid-block">
+                <div class="footer-sections">
+                    <h5>En este sitio</h5>
+                    <ul class="footer-sections-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="download.html">Descargas</a></li>
+                        <li><a href="documentation.html">Documentos</a></li>
+                        <li><a href="ecosystem.html">Ecosistema</a></li>
+                        <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                        <li id="footer-issue-tracking"><a href="issuetracking.html">Seguimiento de problemas</a></li>
+                        <li><a href="team.html">El equipo de Thymeleaf</a></li>
+                        <li><a href="whoisusingthymeleaf.html">¿Quién utiliza Thymeleaf?</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Enlaces externos</h5>
+                    <ul class="footer-sections-links">
+                        <li><a href="https://bsky.app/profile/thymeleaf.org">Síguenos en Bluesky</a></li>
+                        <li><a href="https://github.com/thymeleaf">Bifúrcanos en GitHub</a></li>
+                    </ul>
+                </div>
+            </footer>
+            <div class="copyright fluid-block">Copyright &copy; Thymeleaf</div>
+            <div class="license fluid-block">
+                Thymeleaf es un software de código abierto distribuido bajo la
+                <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Licencia Apache 2.0</a><br/>
+                Este sitio web (excluyendo los nombres y logotipos de los usuarios de Thymeleaf) está licenciado bajo la
+                <a href="http://creativecommons.org/licenses/by-sa/3.0/">Licencia CC BY-SA 3.0</a>.
+            </div>
+        </div>
+
+    </body>
 
 </html>

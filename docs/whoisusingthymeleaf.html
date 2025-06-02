@@ -2,492 +2,565 @@
 
 <html lang="en">
 
-<head>
-	<title>Who is using Thymeleaf? - Thymeleaf</title>
-	<meta charset="UTF-8"/>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <head>
+        <title>¿Quién utiliza Thymeleaf? - Thymeleaf</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-	<link rel="icon" href="images/favicon.ico"/>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.3/normalize.min.css" media="screen"/>
-	<link rel="stylesheet" href="styles/thymeleaf.css" media="screen"/>
+        <link rel="icon" href="images/favicon.ico"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,400italic,700,700italic"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic,700italic"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.3/normalize.min.css" media="screen"/>
+        <link rel="stylesheet" href="styles/thymeleaf.css" media="screen"/>
 
-	<script src="https://unpkg.com/dumb-query-selector@3.0.0/dumb-query-selector.js" defer></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js" data-manual
-		defer integrity="sha256-HWJnMZHGx7U1jmNfxe4yaQedmpo/mtxWSIXvcJkLIf4=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/unescaped-markup/prism-unescaped-markup.js"
-		defer integrity="sha256-THYQfN3ZkC8QQ5I4JxslpEaXIT7tUakaV9/e69MYEuU=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"
-		defer integrity="sha256-abVQckxqXkWO8NiZk8TBPHzv3/LObzIqzzQWz0kV0F0=" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/line-numbers/prism-line-numbers.js"
-		defer integrity="sha256-ISWqAwOAxClmLCu22st3+xU4+kVYHrE8jdn6ONzjg5Q=" crossorigin="anonymous"></script>
-	<script src="scripts/thymeleaf.js" defer></script>
-</head>
+        <script src="https://unpkg.com/dumb-query-selector@3.0.0/dumb-query-selector.js" defer></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/prism.min.js" data-manual
+        defer integrity="sha256-HWJnMZHGx7U1jmNfxe4yaQedmpo/mtxWSIXvcJkLIf4=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/unescaped-markup/prism-unescaped-markup.js"
+        defer integrity="sha256-THYQfN3ZkC8QQ5I4JxslpEaXIT7tUakaV9/e69MYEuU=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/normalize-whitespace/prism-normalize-whitespace.min.js"
+        defer integrity="sha256-abVQckxqXkWO8NiZk8TBPHzv3/LObzIqzzQWz0kV0F0=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/line-numbers/prism-line-numbers.js"
+        defer integrity="sha256-ISWqAwOAxClmLCu22st3+xU4+kVYHrE8jdn6ONzjg5Q=" crossorigin="anonymous"></script>
+        <script src="scripts/thymeleaf.js" defer></script>
+    </head>
 
-<body id="thymeleaf-users">
+    <body id="thymeleaf-users">
 
-	<div class="fluid-container toolbar-container">
-		<nav class="fluid-block toolbar">
-			<div class="toolbar-menu">
-				<div class="toolbar-menu-location">Inicio</div>
-				<button id="site-menu-button" type="button" class="toolbar-menu-button">Menú del sitio</button>
-			</div>
-			<div id="site-menu" class="toolbar-menu-items">
-				<ul class="toolbar-links">
-					<li><a href="index.html" class="toolbar-link">Inicio</a></li>
-					<li><a href="download.html" class="toolbar-link">Descargar</a></li>
-					<li><a href="documentation.html" class="toolbar-link">Documentos</a></li>
-					<li><a href="ecosystem.html" class="toolbar-link">Ecosistema</a></li>
-					<li><a href="faq.html" class="toolbar-link">Preguntas Frecuentes</a></li>
-				</ul>
-				<ul id="site-nav-links" class="toolbar-links">
-					<li><a href="https://bsky.app/profile/thymeleaf.org" class="toolbar-link">Bluesky</a></li>
-					<li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
-				</ul>
-			</div>
-		</nav>
-	</div>
+        <div class="fluid-container toolbar-container">
+            <nav class="fluid-block toolbar">
+                <div class="toolbar-menu">
+                    <div class="toolbar-menu-location">Inicio</div>
+                    <button id="site-menu-button" type="button" class="toolbar-menu-button">Menú del sitio</button>
+                </div>
+                <div id="site-menu" class="toolbar-menu-items">
+                    <ul class="toolbar-links">
+                        <li><a href="index.html" class="toolbar-link">Inicio</a></li>
+                        <li><a href="download.html" class="toolbar-link">Descargar</a></li>
+                        <li><a href="documentation.html" class="toolbar-link">Documentos</a></li>
+                        <li><a href="ecosystem.html" class="toolbar-link">Ecosistema</a></li>
+                        <li><a href="faq.html" class="toolbar-link">Preguntas Frecuentes</a></li>
+                    </ul>
+                    <ul id="site-nav-links" class="toolbar-links">
+                        <li><a href="https://bsky.app/profile/thymeleaf.org" class="toolbar-link">Bluesky</a></li>
+                        <li><a href="https://github.com/thymeleaf" class="toolbar-link">GitHub</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
 
-	<div class="hero-container fluid-container">
-		<header class="hero-header fluid-block">
-			<div class="hero-header-text">
-				<h1 class="hero-header-title">Thymeleaf</h1>
-			</div>
-			<div class="hero-header-image">
-				<img src="images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
-			</div>
-		</header>
-	</div>
+        <div class="hero-container fluid-container">
+            <header class="hero-header fluid-block">
+                <div class="hero-header-text">
+                    <h1 class="hero-header-title">Thymeleaf</h1>
+                </div>
+                <div class="hero-header-image">
+                    <img src="images/thymeleaf.png" alt="Thymeleaf logo" class="hero-header-logo"/>
+                </div>
+            </header>
+        </div>
 
-	<div class="fluid-container">
-		<main class="fluid-block">
-			<section class="description">
+        <div class="fluid-container">
+            <main class="fluid-block">
+                <section class="description">
 
-				<p>First and important, <strong>would you like to help Thymeleaf?</strong> then the
-				easiest ways to do so is to be vocal about your use of it, and to allow us
-				to mention you on this page. Just that! We would only need your logo and a brief
-				one/two paragraph text. Please <a href="#users">have a look here</a>.</p>
+                    <p>
+                        Primero y más importante, <strong>¿te gustaría ayudar a Thymeleaf?</strong> La manera más fácil de hacerlo 
+                        es expresar tu uso y permitirnos mencionarte en esta página. ¡Eso es todo! Solo necesitamos tu logotipo y un 
+                        texto breve de uno o dos párrafos. Por favor, <a href="#users">echa un vistazo aquí</a>.
+                    </p>
 
-				<p><em>Exactly how much is Thymeleaf being used?</em>  Well... we don't know for
-				sure :-) Thymeleaf is open source, free, and downloadable without
-				restrictions, so there is actually no reason why anyone would come and 
-				tell us <em>'hey - we're using your software!'</em>... &mdash; We
-				actually love it like that because it gives our users total freedom, but
-				the downside is we are not able to offer accurate data about the real
-				degree of success the project is enjoying.</p>
+                    <p>
+                        <em>¿Exactamente cuánto se está utilizando Thymeleaf?</em> Bueno... no lo sabemos con seguridad :-) 
+                        Thymeleaf es de código abierto, gratuito y se puede descargar sin restricciones, por lo que en realidad no 
+                        hay ninguna razón por la que alguien vendría y nos diría <em>'¡oye, estamos usando su software!'</em>... 
+                        &mdash; En realidad nos encanta así porque les da a nuestros usuarios total libertad, pero la desventaja es 
+                        que no podemos ofrecer datos precisos sobre el grado real de éxito del proyecto.
+                    </p>
 
-				<p>Alright so, what can we show you here? Two things: first, some
-				<strong>download figures</strong>. And second, some info about those
-				<strong>companies or projects using thymeleaf</strong> who have been so
-				kind to take part in this section &mdash; thanks to all of them!</p>
-			</section>
+                    <p>
+                        Bien, ¿qué podemos mostrarles aquí? Dos cosas: primero, algunas <strong>figuras para descargar</strong>. Y 
+                        segundo, información sobre las <strong>empresas o proyectos que usan thymeleaf</strong> y que han tenido la 
+                        amabilidad de participar en esta sección. ¡Gracias a todos!
+                    </p>
+                </section>
 
-			<section>
-				<header>
-					<h2>
-						<a id="figures" href="#figures" class="anchor"></a>
-						Our figures
-					</h2>
-				</header>
-				<p>These are our figures for <strong>downloads per month</strong> for the last year,
-				measured by the <a href="http://search.maven.org/">Maven Central
-				repository</a>, and only referred to the thymeleaf <em>core</em> jar, this
-				is, not including Spring integration, extras, etc. Also, these figures
-				do not include distribution (<em>.zip</em> file) downloads from
-				the <a href="https://github.com/thymeleaf/thymeleaf-dist/releases/">binary releases distribution at GitHub</a>.</p>
+                <section>
+                    <header>
+                        <h2>
+                            <a id="figures" href="#figures" class="anchor"></a>
+                            Nuestras cifras
+                        </h2>
+                    </header>
+                    <p>
+                        Estas son nuestras cifras de <strong>descargas por mes</strong> durante el último año, medidas por el 
+                        <a href="http://search.maven.org/">repositorio central de Maven</a>, y solo referidas al jar 
+                        <em>core</em> de thymeleaf, es decir, sin incluir la integración de Spring, extras, etc. Además, estas 
+                        cifras no incluyen las descargas de distribución (archivo <em>.zip</em>) desde la 
+                        <a href="https://github.com/thymeleaf/thymeleaf-dist/releases/">
+                            distribución de versiones binarias en GitHub</a>.
+                    </p>
 
-				<figure>
-					<img src="images/thymeleaf_maven_downloads.png"/>
-				</figure>
-			</section>
+                    <figure>
+                        <img src="images/thymeleaf_maven_downloads.png"/>
+                    </figure>
+                </section>
 
-			<section>
-				<header>
-					<h2>
-						<a id="users" href="#users" class="anchor"></a>
-						Our users
-					</h2>
-				</header>
-				<p><em>Cool people use cool technologies!</em> Below you will be able to
-				see some really interesting names, and learn in their own words what
-				brought them to Thymeleaf and how they are currently using it.</p>
+                <section>
+                    <header>
+                        <h2>
+                            <a id="users" href="#users" class="anchor"></a>
+                            Nuestros usuarios
+                        </h2>
+                    </header>
+                    <p>
+                        <em>¡La gente genial usa tecnologías geniales!</em> A continuación podrás ver algunos nombres realmente 
+                        interesantes y aprender en sus propias palabras qué los llevó a Thymeleaf y cómo lo utilizan actualmente.
+                    </p>
 
-				<p>If your <strong>company</strong>, <strong>commercial product</strong>,
-				<strong>open source project</strong> or popular <strong>public website</strong> is
-				using Thymeleaf in production and you would like it to be listed here, we would just need
-				a logo, a brief paragraph or two describing how Thymeleaf is being used, and of course
-				your permission to show both things here :)</p>
+                    <p>
+                        Si su <strong>empresa</strong>, <strong>producto comercial</strong>, 
+                        <strong>proyecto de código abierto</strong> o <strong>sitio web público</strong> popular utiliza Thymeleaf 
+                        en producción y desea que aparezca aquí, solo necesitaríamos un logotipo, un párrafo o dos breves que 
+                        describan cómo se utiliza Thymeleaf y, por supuesto, su permiso para mostrar ambas cosas aquí :)
+                    </p>
 
-				<p>It's very easy, just <a href="team.html">contact us</a>. Or
-				<a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSc6NM3bppNhkOBtlDMUgR9zzzGE1kBvnsmyBA75nhFQQABOFA/viewform">fill
-				in this form</a> and we will be happy to contact you with simple instructions. Thanks!</p>
+                    <p>
+                        Es muy fácil, solo <a href="team.html">contáctanos</a>. O 
+                        <a target="_blank" 
+                           href="https://docs.google.com/forms/d/e/1FAIpQLSc6NM3bppNhkOBtlDMUgR9zzzGE1kBvnsmyBA75nhFQQABOFA/viewform">
+                            rellena este formulario</a> y con gusto nos pondremos en contacto contigo con instrucciones sencillas. 
+                            ¡Gracias!
+                    </p>
 
-				<ul id="thymeleaf-users-list" class="thymeleaf-users">
+                    <ul id="thymeleaf-users-list" class="thymeleaf-users">
 
-					<li class="thymeleaf-user">
-						<a id="across" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://across.foreach.be/" title="Across"><img src="images/thirdparty/across_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://across.foreach.be/" title="Across">https://across.foreach.be/</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Across</strong> is an open source Java framework for the
-							modular development of web applications using Spring. It provides
-							both a way to define application modules, as well as the infrastructure
-							to run the application.</p>
+                        <li class="thymeleaf-user">
+                            <a id="across" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://across.foreach.be/" title="Across"><img src="images/thirdparty/across_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://across.foreach.be/" title="Across">https://across.foreach.be/</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Across</strong> es un framework Java de código abierto para el desarrollo modular de 
+                                    aplicaciones web con Spring. Ofrece tanto una forma de definir módulos de aplicación como la 
+                                    infraestructura para ejecutar la aplicación.
+                                </p>
 
-							<p>We needed a straightforward, powerful and extensible templating
-							framework that enabled us to embed the templates in our modules. Thymeleaf
-							is just that. It allows for natural templating, can do complex processing
-							and lets us easily define custom dialects. On top of that, Thymeleaf
-							facilitates the collaboration of both front end and back end developers
-							on the same template file, greatly increasing productivity.</p>
-						</div>
-					</li>
+                                <p>
+                                    Necesitábamos un framework de plantillas sencillo, potente y extensible que nos permitiera 
+                                    integrar las plantillas en nuestros módulos. Thymeleaf es precisamente eso. Permite la creación 
+                                    natural de plantillas, realiza procesamientos complejos y nos permite definir fácilmente 
+                                    dialectos personalizados. Además, Thymeleaf facilita la colaboración entre desarrolladores 
+                                    front-end y back-end en el mismo archivo de plantilla, lo que aumenta considerablemente la 
+                                    productividad.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="auchanretail" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.auchan.fr/" title="Auchan Retail France"><img src="images/thirdparty/auchanretail_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.auchan.fr/" title="Auchan Retail France">https://www.auchan.fr/</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Auchan</strong> has been a committed retailer for 55 years, a changing
-								retailer in a changing world. Our ambition now is to meet today's purchase- and
-								health-conscious omni-channel consumers, with the goal of bringing change to
-								their lives!</p>
+                        <li class="thymeleaf-user">
+                            <a id="auchanretail" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.auchan.fr/" title="Auchan Retail France">
+                                    <img src="images/thirdparty/auchanretail_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.auchan.fr/" title="Auchan Retail France">https://www.auchan.fr/</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Auchan</strong> lleva 55 años siendo un minorista comprometido, un minorista en 
+                                    constante evolución en un mundo cambiante. Nuestra ambición ahora es conectar con los 
+                                    consumidores omnicanal actuales, preocupados por las compras y la salud, con el objetivo de 
+                                    transformar sus vidas.
+                                </p>
 
-							<p>Auchan Retail France is using Thymeleaf for French ecommerce platform Server Side
-								Rendering purposes, in order to make our customers benefit from the best user
-								experience on all devices. Integration with Spring 5 framework is easy and perfect
-								for our reactive programming Spring WebFlux implementation.</p>
-						</div>
-					</li>
+                                <p>
+                                    Auchan Retail France utiliza Thymeleaf para la renderización del lado del servidor de su 
+                                    plataforma de comercio electrónico francesa, con el fin de que nuestros clientes disfruten de 
+                                    la mejor experiencia de usuario en todos los dispositivos. La integración con Spring 5 es 
+                                    sencilla y perfecta para nuestra implementación de programación reactiva en Spring WebFlux.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="broadleaf" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.broadleafcommerce.com" title="Broadleaf Commerce"><img src="images/thirdparty/broadleafcommerce_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.broadleafcommerce.com" title="Broadleaf Commerce">https://www.broadleafcommerce.com</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Broadleaf</strong> is an open source, enterprise-ready
-								eCommerce solution developed using the widely adopted Spring
-								Framework. We built our 2.0 demo site in Thymeleaf.</p>
+                        <li class="thymeleaf-user">
+                            <a id="broadleaf" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.broadleafcommerce.com" title="Broadleaf Commerce">
+                                    <img src="images/thirdparty/broadleafcommerce_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.broadleafcommerce.com" title="Broadleaf Commerce">https://www.broadleafcommerce.com</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Broadleaf</strong> es una solución de comercio electrónico de código abierto y 
+                                    empresarial, desarrollada  con Spring Framework, ampliamente utilizado. Desarrollamos nuestro 
+                                    sitio de demostración 2.0 en Thymeleaf.
+                                </p>
 
-							<p>After an overwhelmingly positive building experience, picking a
-								templating language for our admin tool when we were replatforming
-								was obvious. We currently leverage Thymeleaf for both our 3.0 demo
-								site and internal admin tool.</p>
+                                <p>
+                                    Tras una experiencia de desarrollo increíblemente positiva, elegir un lenguaje de plantillas 
+                                    para nuestra herramienta de administración durante la reestructuración fue evidente. 
+                                    Actualmente, utilizamos Thymeleaf tanto para nuestro sitio de demostración 3.0 como para nuestra 
+                                    herramienta de administración interna.
+                                </p>
 
-							<p>The flexibility and extension hooks Thymeleaf provided made it
-								the easy choice for a framework that embodies the same
-								characteristics.</p>
-						</div>
-					</li>
+                                <p>
+                                    La flexibilidad y los ganchos de extensión que ofrece Thymeleaf hicieron que fuera la elección 
+                                    fácil para un marco que incorpora las mismas características.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="cas" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://github.com/apereo/cas" title="Apereo CAS"><img src="images/thirdparty/cas_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://github.com/apereo/cas" title="Apereo CAS">https://github.com/apereo/cas</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Apereo CAS</strong> provides enterprise single sign-on for the web
-							and attempts to be a comprehensive platform for authentication and authorization needs.</p>
+                        <li class="thymeleaf-user">
+                            <a id="cas" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://github.com/apereo/cas" title="Apereo CAS">
+                                    <img src="images/thirdparty/cas_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://github.com/apereo/cas" title="Apereo CAS">https://github.com/apereo/cas</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Apereo CAS</strong> proporciona inicio de sesión único empresarial para la web e intenta 
+                                    ser una plataforma integral para las necesidades de autenticación y autorización.
+                                </p>
 
-							<p>Starting with version 5, CAS has entirely embraced Thymeleaf as its main UI
-							templating/rendering engine. We wanted to find a platform that was open source,
-							license-friendly to CAS, lightweight and modern. As changing the CAS look and feel
-							is one of the most common deployment considerations, we also wanted the UI engine
-							to not require a ton of programming expertise for beginners, and unlike the old JSP
-							model, be flexible to run in any browser without any upfront hassle. Thymeleaf fit
-							the criteria perfectly, and of course built-in support via Spring Boot was certainly
-							very good encouragement and reassurance.</p>
-						</div>
-					</li>
+                                <p>
+                                    A partir de la versión 5, CAS ha adoptado Thymeleaf como su motor principal de plantillas y 
+                                    renderizado de interfaz de usuario. Buscábamos una plataforma de código abierto, compatible con 
+                                    CAS, ligera y moderna. Dado que cambiar la apariencia de CAS es una de las consideraciones de 
+                                    implementación más comunes, también buscábamos que el motor de interfaz de usuario no requiriera 
+                                    grandes conocimientos de programación para principiantes y, a diferencia del antiguo modelo JSP, 
+                                    fuera flexible para ejecutarse en cualquier navegador sin complicaciones iniciales. Thymeleaf 
+                                    cumplía a la perfección con los requisitos, y, por supuesto, el soporte integrado a través de 
+                                    Spring Boot fue sin duda un gran estímulo y una gran garantía.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="connectgroup" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.connect-group.com" title="Connect Group"><img src="images/thirdparty/connectgroup_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.connect-group.com" title="Connect Group">https://www.connect-group.com</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Connect Group</strong> is a UK based marketing
-								agency which among other things, develops websites, applications
-								and digital strategy.</p>
+                        <li class="thymeleaf-user">
+                            <a id="connectgroup" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.connect-group.com" title="Connect Group">
+                                    <img src="images/thirdparty/connectgroup_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.connect-group.com" title="Connect Group">https://www.connect-group.com</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Connect Group</strong> es una agencia de marketing con sede en el Reino Unido que, entre 
+                                    otras cosas, desarrolla sitios web, aplicaciones y estrategias digitales.
+                                </p>
 
-							<p>We use the flexibility offered by Thymeleaf to streamline our
-								workflow and to allow our frontend HTML developers to work closely
-								with Java developers. We are using Thymeleaf in more and more of
-								our projects; to date, we have developed intranet applications
-								using Thymeleaf and class-leading automotive configurator
-								experiences which receive millions of hits each day.</p>
-						</div>
-					</li>
+                                <p>
+                                    Aprovechamos la flexibilidad que ofrece Thymeleaf para optimizar nuestro flujo de trabajo y 
+                                    permitir que nuestros desarrolladores frontend HTML colaboren estrechamente con los 
+                                    desarrolladores Java. Cada vez utilizamos Thymeleaf en más proyectos; hasta la fecha, hemos 
+                                    desarrollado aplicaciones de intranet con Thymeleaf y experiencias de configuración automotriz 
+                                    líderes en su clase que reciben millones de visitas diarias.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="enerkoinformatik" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.enerko-informatik.de" title="Enerko Informatik"><img src="images/thirdparty/enerkoinformatik_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.enerko-informatik.de" title="Enerko Informatik">https://www.enerko-informatik.de</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
+                        <li class="thymeleaf-user">
+                            <a id="enerkoinformatik" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.enerko-informatik.de" title="Enerko Informatik">
+                                    <img src="images/thirdparty/enerkoinformatik_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.enerko-informatik.de" title="Enerko Informatik">https://www.enerko-informatik.de</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
 
-							<p><strong>Enerko Informatik</strong> provides software and services in the energy
-								sector for over 25 years. Our product EnSupply deals with offer management
-								and price calculation in the utility sector. At its core it uses time
-								series information to forecast energy usage and calculate prices based on
-								hedging or price forward curves.</p>
+                                <p>
+                                    <strong>Enerko Informatik</strong> lleva más de 25 años ofreciendo software y servicios en el 
+                                    sector energético. Nuestro producto EnSupply se encarga de la gestión de ofertas y el cálculo de 
+                                    precios en el sector de servicios públicos. En esencia, utiliza información de series temporales 
+                                    para pronosticar el consumo energético y calcular precios basados ​​en coberturas o curvas de 
+                                    precios a futuro.
+                                </p>
 
-							<p>Thymeleaf is used to render the frontend, e-mail templates and also Handlebars
-								fragments for the dynamic part of our EnSupply frontend. Even though Thymeleaf
-								has a huge number of features, its learning curve is relatively flat. Due to
-								its good integration into the Spring ecosystem can be productive from day
-								one on. <br>Enerko Informatik also uses Thymeleaf as the rendering engine with
-								JBake to generate their homepage.</p>
+                                <p>
+                                    Thymeleaf se utiliza para renderizar el frontend, las plantillas de correo electrónico y los 
+                                    fragmentos de Handlebars para la parte dinámica de nuestro frontend de EnSupply. Si bien 
+                                    Thymeleaf cuenta con una gran cantidad de funciones, su curva de aprendizaje es relativamente 
+                                    sencilla. Gracias a su buena integración con el ecosistema Spring, puede ser productivo desde el 
+                                    primer día. <br>
+                                    Enerko Informatik también utiliza Thymeleaf como motor de renderizado con JBake para generar su 
+                                    página de inicio.
+                                </p>
 
-						</div>
-					</li>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="enonic" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://enonic.com" title="Enonic"><img src="images/thirdparty/enonic_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://enonic.com" title="Enonic">https://enonic.com</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Enonic</strong> is an open source technology company. We're on a mission
-								to simplify digital transformation. Thymeleaf is the default HTML templating
-								engine in our Web Operating System - Enonic XP.</p>
+                        <li class="thymeleaf-user">
+                            <a id="enonic" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://enonic.com" title="Enonic">
+                                    <img src="images/thirdparty/enonic_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://enonic.com" title="Enonic">https://enonic.com</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Enonic</strong> es una empresa de tecnología de código abierto. Nuestra misión es 
+                                    simplificar la transformación digital. Thymeleaf es el motor de plantillas HTML predeterminado 
+                                    en nuestro sistema operativo web: Enonic XP.
+                                </p>
 
-							<p>Our customers use Enonic XP to build and deliver enterprise scale sites and web
-								applications internationally. Enonic XP supports pluggable template engines, but
-								ships by default with XSLT and Mustache for XML and JSON rendering respectively. </p>
+                                <p>
+                                    Nuestros clientes utilizan Enonic XP para crear y distribuir sitios web y aplicaciones web de 
+                                    escala empresarial a nivel internacional. Enonic XP es compatible con motores de plantillas 
+                                    conectables, pero viene por defecto con XSLT y Mustache para renderizado de XML y JSON, 
+                                    respectivamente.
+                                </p>
 
-							<p>While searching for a better way to produce HTML - we discovered Thymeleaf. The
-								brilliant idea of enabling static HTML files to be templates simultaneously
-								blew our mind. Thymeleaf was the obvious choice when selecting the default
-								HTML templating engine for Enonic XP.</p>
-						</div>
-					</li>
+                                <p>
+                                    Mientras buscábamos una mejor manera de producir HTML, descubrimos Thymeleaf. La brillante idea 
+                                    de convertir archivos HTML estáticos en plantillas a la vez nos fascinó. Thymeleaf fue la opción 
+                                    obvia al elegir el motor de plantillas HTML predeterminado para Enonic XP.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="lagerwey" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.lagerwey.com" title="Lagerwey"><img src="images/thirdparty/lagerwey_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.lagerwey.com" title="Lagerwey">https://www.lagerwey.com</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Lagerwey</strong> designs and produces Direct Drive
-							wind turbines 'in house' and offers an efficient and reliable
-							product in the multi megawatt range. We deliver our projects
-							turn-key and provide a complete service and maintenance package.
-							Our flexible and transparent approach leads to long lasting
-							relationships with our partners. Together with our customers we
-							have been offering the world clean and reliable wind energy since
-							1979.</p>
+                        <li class="thymeleaf-user">
+                            <a id="lagerwey" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.lagerwey.com" title="Lagerwey">
+                                    <img src="images/thirdparty/lagerwey_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.lagerwey.com" title="Lagerwey">https://www.lagerwey.com</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Lagerwey</strong> diseña y produce aerogeneradores de accionamiento directo internamente 
+                                    y ofrece un producto eficiente y fiable en el rango de multimegavatios. Entregamos nuestros 
+                                    proyectos llave en mano y ofrecemos un paquete completo de servicio y mantenimiento. Nuestro 
+                                    enfoque flexible y transparente nos permite forjar relaciones duraderas con nuestros socios. 
+                                    Junto con nuestros clientes, llevamos ofreciendo al mundo energía eólica limpia y fiable desde 
+                                    1979.
+                                </p>
 
-							<p>Thymeleaf is used for developing a web portal for the Lagerwey
-							customers, asset managers and service personnel. Using this portal
-							the Lagerwey wind turbines and wind farms can be monitored and
-							controlled. Thanks to Thymeleaf we are able to develop HTML5 pages
-							displaying the wind turbines real time data.</p>
-						</div>
-					</li>
+                                <p>
+                                    Thymeleaf se utiliza para desarrollar un portal web para los clientes, gestores de activos y 
+                                    personal de servicio de Lagerwey. Mediante este portal, se pueden monitorizar y controlar los 
+                                    aerogeneradores y parques eólicos de Lagerwey. Gracias a Thymeleaf, podemos desarrollar páginas 
+                                    HTML5 que muestran los datos de los aerogeneradores en tiempo real.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="ppi" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.ppi.de" title="PPI AG"><img src="images/thirdparty/ppiag_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.ppi.de" title="PPI AG">https://www.ppi.de</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>PPI AG</strong> is a German Software Development
-							Company which develops products and individual software.</p>
+                        <li class="thymeleaf-user">
+                            <a id="ppi" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.ppi.de" title="PPI AG">
+                                    <img src="images/thirdparty/ppiag_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.ppi.de" title="PPI AG">https://www.ppi.de</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>PPI AG</strong> es una empresa alemana de desarrollo de software que desarrolla 
+                                    productos y software individual.
+                                </p>
 
-							<p>We developed a test management system for a large German bank.
-							It was a small project which concentrated on the things which had
-							the greatest business value. We used Thymeleaf in combination with
-							Spring MVC. Despite the fact that many team members weren't
-							familiar with the technical stack, the project could be realized
-							in time and budget.</p>
-						</div>
-					</li>
+                                <p>
+                                    Desarrollamos un sistema de gestión de pruebas para un importante banco alemán. Fue un proyecto 
+                                    pequeño que se centró en los aspectos de mayor valor comercial. Utilizamos Thymeleaf en 
+                                    combinación con Spring MVC. A pesar de que muchos miembros del equipo no estaban familiarizados 
+                                    con la pila técnica, el proyecto se pudo realizar dentro del plazo y el presupuesto.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="sahibinden" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.sahibinden.com/en/" title="Sahibinden.com"><img src="images/thirdparty/sahibinden_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.sahibinden.com/en/" title="Sahibinden.com">https://www.sahibinden.com/en/</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Sahibinden.com</strong>, established back in 2000 by
-							Aksoy Group, played a significant role in the development of
-							internet in Turkey. Last 13 years, sahibinden.com earned a well
-							deserved pioneering role in the Turkish internet sector by
-							delivering innovative services and products.</p>
+                        <li class="thymeleaf-user">
+                            <a id="sahibinden" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.sahibinden.com/en/" title="Sahibinden.com">
+                                    <img src="images/thirdparty/sahibinden_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.sahibinden.com/en/" title="Sahibinden.com">https://www.sahibinden.com/en/</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Sahibinden.com</strong>, fundada en el año 2000 por el Grupo Aksoy, desempeñó un papel 
+                                    fundamental en el desarrollo de internet en Turquía. Durante los últimos 13 años, 
+                                    sahibinden.com se ha ganado un merecido papel pionero en el sector turco de internet ofreciendo 
+                                    servicios y productos innovadores.
+                                </p>
 
-							<p>Today, sahibinden.com is one of the largest classifeds and
-							marketplace website with more than 28 million monthly visitors and
-							over 3 billion page views per month. With a great team of 300
-							people, sahibinden.com is enjoying a fast paced growth even after
-							13 years.</p>
+                                <p>
+                                    Hoy en día, sahibinden.com es uno de los sitios web de clasificados y mercados más grandes, con 
+                                    más de 28 millones de visitantes mensuales y más de 3 mil millones de páginas vistas al mes. Con 
+                                    un excelente equipo de 300 personas, sahibinden.com disfruta de un rápido crecimiento incluso 
+                                    después de 13 años.
+                                </p>
 
-							<p>At sahibinden.com, Thymeleaf is mainly used to serve classified
-							search results, which roughly is 50% of sahibinden.com's traffic.</p>
-						</div>
-					</li>
+                                <p>
+                                    En sahibinden.com, Thymeleaf se utiliza principalmente para ofrecer resultados de búsqueda 
+                                    clasificados, que representan aproximadamente el 50% del tráfico de sahibinden.com.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="trabe" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://trabe.io" title="Trabe"><img src="images/thirdparty/trabe_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://trabe.io" title="Trabe">https://trabe.io</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Trabe</strong> is a company based in Spain
-							mainly focused on web development using Java and Ruby On Rails.</p>
+                        <li class="thymeleaf-user">
+                            <a id="trabe" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://trabe.io" title="Trabe">
+                                    <img src="images/thirdparty/trabe_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://trabe.io" title="Trabe">https://trabe.io</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Trabe</strong> es una empresa con sede en España centrada principalmente en el 
+                                    desarrollo web utilizando Java y Ruby On Rails.
+                                </p>
 
-							<p>We discovered Thymeleaf at a very early stage and, from the
-							very begining, we loved the tidiness and readability of its
-							templates. We were at the time looking for a replacement for JSP
-							in our Java stack and we ended up combining Spring MVC and
-							Thymeleaf.</p>
+                                <p>
+                                    Descubrimos Thymeleaf muy pronto y, desde el principio, nos encantó la claridad y legibilidad de 
+                                    sus plantillas. En aquel momento buscábamos un sustituto para JSP en nuestra pila de Java y 
+                                    terminamos combinando Spring MVC y Thymeleaf.
+                                </p>
 
-							<p>Since then we have successfully developed a variety of internet
-							and intranet applications using this combination. Thymeleaf has
-							also improved our workflow, easing the communication between the
-							different profiles involved in our projects.</p>
-						</div>
-					</li>
+                                <p>
+                                    Desde entonces, hemos desarrollado con éxito diversas aplicaciones de internet e intranet 
+                                    utilizando esta combinación. Thymeleaf también ha mejorado nuestro flujo de trabajo, facilitando 
+                                    la comunicación entre los diferentes perfiles involucrados en nuestros proyectos.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="travelcompositor" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://online.travelcompositor.com/" title="Travelcompositor"><img src="images/thirdparty/travelcompositor_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://online.travelcompositor.com/" title="Travelcompositor">https://online.travelcompositor.com/</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>Travelcompositor</strong> aims to be a multidestination trip planner with
-								a one stop shop process, this way customers can book their whole
-								trip in only one session including multiple services such as flights,
-								hotels, transfers, car rental, activities or insurance.</p>
+                        <li class="thymeleaf-user">
+                            <a id="travelcompositor" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://online.travelcompositor.com/" title="Travelcompositor">
+                                    <img src="images/thirdparty/travelcompositor_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://online.travelcompositor.com/" title="Travelcompositor">
+                                    https://online.travelcompositor.com/</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>Travelcompositor</strong> pretende ser un planificador de viajes multidestino con un 
+                                    proceso de ventanilla única, de esta manera los clientes pueden reservar todo su viaje en una 
+                                    sola sesión incluyendo múltiples servicios como vuelos, hoteles, traslados, alquiler de coches, 
+                                    actividades o seguros.
+                                </p>
 
-							<p>We use Thymeleaf to generate emails and PDF markup on the fly. It's been a very
-								useful tool for us, since we can easily leverage our existing CDI beans or
-								custom message resources. Also, designers and developers can work with
-								the same templates at the same time, allowing us to work faster.</p>
-						</div>
-					</li>
+                                <p>
+                                    Usamos Thymeleaf para generar correos electrónicos y marcado de PDF sobre la marcha. Ha sido una 
+                                    herramienta muy útil, ya que podemos aprovechar fácilmente nuestros beans CDI o recursos de 
+                                    mensajes personalizados. Además, diseñadores y desarrolladores pueden trabajar con las mismas 
+                                    plantillas simultáneamente, lo que nos permite trabajar más rápido.
+                                </p>
+                            </div>
+                        </li>
 
-					<li class="thymeleaf-user">
-						<a id="veda" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.veda.net/" title="VEDA GmbH"><img src="images/thirdparty/veda_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.veda.net/" title="VEDA GmbH">https://www.veda.net/</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>VEDA GmbH</strong> is a German software development company which
-								creates dynamic, integrated and agile HR Management Software.</p>
+                        <li class="thymeleaf-user">
+                            <a id="veda" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.veda.net/" title="VEDA GmbH"><img src="images/thirdparty/veda_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.veda.net/" title="VEDA GmbH">https://www.veda.net/</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>VEDA GmbH</strong> es una empresa alemana de desarrollo de software que crea software de 
+                                    gestión de RRHH dinámico, integrado y ágil.
+                                </p>
 
-							<p>We were looking for a powerful template language for the frontend of our modern
-								web-based products. Thymeleaf is simple to learn and easy to handle allowing us
-								to write wonderful clean code considering separation of concerns.</p>
+                                <p>
+                                    Buscábamos un lenguaje de plantillas potente para el frontend de nuestros productos web 
+                                    modernos. Thymeleaf es fácil de aprender y usar, lo que nos permite escribir código limpio y 
+                                    excelente, considerando la separación de tareas.
+                                </p>
 
-							<p>The simple syntax, Thymeleaf's seemless Spring framework integration and its
-								executable templates are the reasons why VEDA GmbH is using this professional
-								open source solution.</p>
+                                <p>
+                                    La sintaxis sencilla, la perfecta integración de Thymeleaf con el framework Spring y sus 
+                                    plantillas ejecutables son las razones por las que VEDA GmbH utiliza esta solución profesional 
+                                    de código abierto.
+                                </p>
+                            </div>
+                        </li>
 
-						</div>
-					</li>
+                        <li class="thymeleaf-user">
+                            <a id="yobidrive" class="anchor"></a>
+                            <div class="thymeleaf-user-logo">
+                                <a href="https://www.yobidrive.com" title="YobiDrive">
+                                    <img src="images/thirdparty/yobidrive_logo.png"/></a>
+                            </div>
+                            <div class="thymeleaf-user-url">
+                                <a href="https://www.yobidrive.com" title="YobiDrive">https://www.yobidrive.com</a>
+                            </div>
+                            <div class="thymeleaf-user-blurb">
+                                <p>
+                                    <strong>YobiDrive</strong> es una fábrica de servicios de compartición en la nube: contiene todo 
+                                    lo necesario para crear de forma rápida y operar al mejor coste servicios de nube colaborativos 
+                                    hechos a medida, para cualquier empresa que quiera ofrecer servicios en el área de intercambio 
+                                    de archivos, vídeo, colaboración...
+                                </p>
 
-					<li class="thymeleaf-user">
-						<a id="yobidrive" class="anchor"></a>
-						<div class="thymeleaf-user-logo">
-							<a href="https://www.yobidrive.com" title="YobiDrive"><img src="images/thirdparty/yobidrive_logo.png"/></a>
-						</div>
-						<div class="thymeleaf-user-url">
-							<a href="https://www.yobidrive.com" title="YobiDrive">https://www.yobidrive.com</a>
-						</div>
-						<div class="thymeleaf-user-blurb">
-							<p><strong>YobiDrive</strong> is a cloud sharing services factory:
-							it contains everything to build fast and operate at best cost
-							tailored made collaborative cloud services, for any company
-							wanting to propose services in the area of file sharing, video,
-							collaboration...</p>
+                                <p>
+                                    YobiDrive utiliza Thymeleaf en su capa de servidor de aplicaciones distribuidas para renderizar 
+                                    páginas HTML5 y APIs RESTFUL XML. Thymeleaf está totalmente integrado, lo que facilita la 
+                                    personalización y devuelve el poder a los especialistas en diseño web.
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </section>
+            </main>
+        </div>
 
-							<p>YobiDrive uses Thymeleaf  in its distributed application server
-							layer, for rendering HTML5 pages and RESTFUL Apis XMLs. Thymeleaf
-							is fully integrated, bringing ease of customization and giving
-							back the power to the web design specialists</p>
-						</div>
-					</li>
-				</ul>
-			</section>
-		</main>
-	</div>
+        <div class="fluid-container footer-container">
+            <footer class="footer fluid-block">
+                <div class="footer-sections">
+                    <h5>En este sitio</h5>
+                    <ul class="footer-sections-links">
+                        <li><a href="index.html">Inicio</a></li>
+                        <li><a href="download.html">Descargas</a></li>
+                        <li><a href="documentation.html">Documentos</a></li>
+                        <li><a href="ecosystem.html">Ecosistema</a></li>
+                        <li><a href="faq.html">Preguntas Frecuentes</a></li>
+                        <li id="footer-issue-tracking"><a href="issuetracking.html">Seguimiento de problemas</a></li>
+                        <li><a href="team.html">El equipo de Thymeleaf</a></li>
+                        <li><a href="whoisusingthymeleaf.html">¿Quién utiliza Thymeleaf?</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Enlaces externos</h5>
+                    <ul class="footer-sections-links">
+                        <li><a href="https://bsky.app/profile/thymeleaf.org">Síguenos en Bluesky</a></li>
+                        <li><a href="https://github.com/thymeleaf">Bifúrcanos en GitHub</a></li>
+                    </ul>
+                </div>
+            </footer>
+            <div class="copyright fluid-block">Copyright &copy; Thymeleaf</div>
+            <div class="license fluid-block">
+                Thymeleaf es un software de código abierto distribuido bajo la
+                <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Licencia Apache 2.0</a><br/>
+                Este sitio web (excluyendo los nombres y logotipos de los usuarios de Thymeleaf) está licenciado bajo la
+                <a href="http://creativecommons.org/licenses/by-sa/3.0/">Licencia CC BY-SA 3.0</a>.
+            </div>
+        </div>
 
-	<div class="fluid-container footer-container">
-		<footer class="footer fluid-block">
-			<div class="footer-sections">
-				<h5>On this site</h5>
-				<ul class="footer-sections-links">
-					<li><a href="index.html">Inicio</a></li>
-					<li><a href="download.html">Descargas</a></li>
-					<li><a href="documentation.html">Documentos</a></li>
-					<li><a href="ecosystem.html">Ecosistema</a></li>
-					<li><a href="faq.html">Preguntas Frecuentes</a></li>
-					<li id="footer-issue-tracking"><a href="issuetracking.html">Seguimiento de problemas</a></li>
-					<li><a href="team.html">El equipo de Thymeleaf</a></li>
-					<li><a href="whoisusingthymeleaf.html">¿Quién utiliza Thymeleaf?</a></li>
-				</ul>
-			</div>
-			<div>
-				<h5>Enlaces externos</h5>
-				<ul class="footer-sections-links">
-					<li><a href="https://bsky.app/profile/thymeleaf.org">Síguenos en Bluesky</a></li>
-					<li><a href="https://github.com/thymeleaf">Bifúrcanos en GitHub</a></li>
-				</ul>
-			</div>
-		</footer>
-		<div class="copyright fluid-block">Copyright &copy; Thymeleaf</div>
-		<div class="license fluid-block">
-			Thymeleaf es un software de código abierto distribuido bajo la
-			<a href="https://www.apache.org/licenses/LICENSE-2.0.html">Licencia Apache 2.0</a><br/>
-			Este sitio web (excluyendo los nombres y logotipos de los usuarios de Thymeleaf) está licenciado bajo la
-			<a href="http://creativecommons.org/licenses/by-sa/3.0/">Licencia CC BY-SA 3.0</a>.
-		</div>
-	</div>
-
-</body>
+    </body>
 
 </html>

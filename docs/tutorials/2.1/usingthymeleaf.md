@@ -2659,10 +2659,10 @@ En este caso, si `${condition}` es falso, se devolverá `null` y, por lo tanto, 
 9\. Variables locales
 =====================
 
-Thymeleaf calls _local variables_ those variables that are defined for a specific fragment of a template, and are only 
-available for evaluation inside that fragment.
+Thymeleaf denomina _variables locales_ a aquellas variables definidas para un fragmento específico de una plantilla y 
+que solo están disponibles para su evaluación dentro de ese fragmento.
 
-An example we have already seen is the `prod` iter variable in our product list page:
+Un ejemplo que ya hemos visto es la variable iter `prod` en nuestra página de lista de productos:
 
 ```html
 
@@ -2671,147 +2671,146 @@ An example we have already seen is the `prod` iter variable in our product list 
 </tr>
 ```
 
-That `prod` variable will be available only within the bonds of the `<tr>` tag. Specifically:
+La variable `prod` solo estará disponible dentro de los enlaces de la etiqueta `<tr>`. En concreto:
 
-* It will be available for any other `th:*` attributes executing in that tag with less _precedence_ than `th:each` 
-  (which means they will execute after `th:each`).
-* It will be available for any child element of the `<tr>` tag, such as `<td>` elements.
+* Estará disponible para cualquier otro atributo `th:*` que se ejecute en esa etiqueta con menos _precedencia_ que 
+  `th:each` (lo que significa que se ejecutarán después de `th:each`).
+* Estará disponible para cualquier elemento secundario de la etiqueta `<tr>`, como los elementos `<td>`.
 
-Thymeleaf offers you a way to declare local variables without iteration. It is the `th:with` attribute, and its syntax 
-is like that of attribute value assignments:
+Thymeleaf ofrece una forma de declarar variables locales sin iteración. Se trata del atributo `th:with`, y su sintaxis 
+es similar a la de las asignaciones de valores de atributos:
 
 ```html
 
 <div th:with="firstPer=${persons[0]}">
     <p>
-        The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
+      El nombre de la primera persona es <span th:text="${firstPer.name}">Julius Caesar</span>.
     </p>
 </div>
 ```
+Cuando se procesa `th:with`, esa variable `firstPer` se crea como una variable local y se agrega al mapa de variables 
+que proviene del contexto, de modo que esté tan disponible para la evaluación como cualquier otra variable declarada en 
+el contexto desde el principio, pero solo dentro de los límites de la etiqueta `<div>` que la contiene.
 
-When `th:with` is processed, that `firstPer` variable is created as a local variable and added to the variables map 
-coming from the context, so that it is as available for evaluation as any other variables declared in the context from
-the beginning, but only within the bounds of the containing `<div>` tag.
-
-You can define several variables at the same time using the usual multiple assignment syntax:
+Puede definir varias variables al mismo tiempo utilizando la sintaxis de asignación múltiple habitual:
 
 ```html
 
 <div th:with="firstPer=${persons[0]},secondPer=${persons[1]}">
     <p>
-        The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
+      El nombre de la primera persona es <span th:text="${firstPer.name}">Julius Caesar</span>.
     </p>
     <p>
-        But the name of the second person is
+      Pero el nombre de la segunda persona es
         <span th:text="${secondPer.name}">Marcus Antonius</span>.
     </p>
 </div>
 ```
 
-The `th:with` attribute allows reusing variables defined in the same attribute:
+El atributo `th:with` permite reutilizar variables definidas en el mismo atributo:
 
 ```html
 
 <div th:with="company=${user.company + ' Co.'},account=${accounts[company]}">...</div>
 ```
 
-Let's use this in our Grocery's home page! Remember the code we wrote for outputting a formatted date?
+¡Usemos esto en la página principal de nuestra tienda de comestibles! ¿Recuerdas el código que escribimos para mostrar 
+una fecha con formato?
 
 ```html
 <p>
-    Today is:
-    <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 february 2011</span>
+    Hoy es:
+    <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 febrero 2011</span>
 </p>
 ```
 
-Well, what if we wanted that `"dd MMMM yyyy"` to actually depend on the locale? For example, we might want to add the 
-following message to our `home_en.properties`:
+¿Y si quisiéramos que el `"dd MMMM yyyy"` dependiera de la configuración regional? Por ejemplo, podríamos añadir el 
+siguiente mensaje a `home_en.properties`:
 
 ```
 date.format=MMMM dd'','' yyyy
 ```
 
-...and an equivalent one to our `home_es.properties`:
+...Y un equivalente a nuestro `home_es.properties`:
 
 ```
 date.format=dd ''de'' MMMM'','' yyyy
 ```
 
-Now, let's use `th:with` to get the localized date format into a variable, and then use it in our `th:text` expression:
+Ahora, usemos `th:with` para obtener el formato de fecha localizado en una variable y luego usarlo en nuestra expresión 
+`th:text`:
 
 ```html
 <p th:with="df=#{date.format}">
-    Today is: <span th:text="${#calendars.format(today,df)}">13 February 2011</span>
+    Hoy es: <span th:text="${#calendars.format(today,df)}">13 febrero 2011</span>
 </p>
 ```
-
-That was clean and easy. In fact, given the fact that `th:with` has a higher `precedence` than `th:text`, we could have 
-solved this all in the `span` tag:
+Eso fue claro y sencillo. De hecho, dado que `th:with` tiene mayor `precedencia` que `th:text`, podríamos haberlo 
+resuelto todo en la etiqueta `span`:
 
 ```html
 <p>
-    Today is:
+  Hoy es:
     <span th:with="df=#{date.format}"
-          th:text="${#calendars.format(today,df)}">13 February 2011</span>
+          th:text="${#calendars.format(today,df)}">13 febrero 2011</span>
 </p>
 ```
 
-You might be thinking: Precedence? We haven't talked about that yet! Well, don't worry because that is exactly what the 
-next chapter is about.
+Quizás estés pensando: ¿Precedencia? ¡Aún no hemos hablado de eso! Bueno, no te preocupes, porque de eso trata 
+precisamente el siguiente capítulo.
 
 
 
 
 10\. Precedencia de atributos
-===========================
+=============================
 
-What happens when you write more than one `th:*` attribute in the same tag? For example:
+¿Qué ocurre al escribir más de un atributo `th:*` en la misma etiqueta? Por ejemplo:
 
 ```html
 
 <ul>
-    <li th:each="item : ${items}" th:text="${item.description}">Item description here...</li>
+    <li th:each="item : ${items}" th:text="${item.description}">Descripción del artículo aquí...</li>
 </ul>
 ```
+Por supuesto, esperaríamos que el atributo `th:each` se ejecutara antes que `th:text` para obtener los resultados 
+deseados, pero dado que el estándar DOM (Document Object Model) no le da ningún significado al orden en que se escriben 
+los atributos de una etiqueta, se debe establecer un mecanismo de _precedencia_ en los propios atributos para garantizar 
+que esto funcione como se espera.
 
-Of course, we would expect that `th:each` attribute to execute before the `th:text` so that we get the results we want, 
-but given the fact that the DOM (Document Object Model) standard does not give any kind of meaning to the order in which
-the attributes of a tag are written, a _precedence_ mechanism has to be established in the attributes themselves in 
-order to be sure that this will work as expected.
+Por lo tanto, todos los atributos de Thymeleaf definen una precedencia numérica que establece el orden en que se 
+ejecutan en la etiqueta. Este orden es:
 
-So, all Thymeleaf attributes define a numeric precedence, which establishes the order in which they are executed in the 
-tag. This order is:
+| Orden | Característica                                 | Atributos         |
+|------:|:-----------------------------------------------|:------------------|
+|     1 | Inclusión de fragmentos                        | `th:include`\     |
+|       |                                                | `th:replace`      |
+|     2 | Iteración de fragmentos                        | `th:each`         |
+|     3 | Evaluación condicional                         | `th:if`\          |
+|       |                                                | `th:unless`\      |
+|       |                                                | `th:switch`\      |
+|       |                                                | `th:case`         |
+|     4 | Definición de variable local                   | `th:object`\      |
+|       |                                                | `th:with`         |
+|     5 | Modificación de atributos generales            | `th:attr`\        |
+|       |                                                | `th:attrprepend`\ |
+|       |                                                | `th:attrappend`   |
+|     6 | Modificación de atributos específicos          | `th:value`\       |
+|       |                                                | `th:href`\        |
+|       |                                                | `th:src`\         |
+|       |                                                | `...`             |
+|     7 | Texto (modificación del cuerpo de la etiqueta) | `th:text`\        |
+|       |                                                | `th:utext`        |
+|     8 | Especificación de fragmentos                   | `th:fragment`     |
+|     9 | Eliminación de fragmentos                      | `th:remove`       |
 
-| Order | Feature                         | Attributes        |
-|------:|:--------------------------------|:------------------|
-|     1 | Fragment inclusion              | `th:include`\     |
-|       |                                 | `th:replace`      |
-|     2 | Fragment iteration              | `th:each`         |
-|     3 | Conditional evaluation          | `th:if`\          |
-|       |                                 | `th:unless`\      |
-|       |                                 | `th:switch`\      |
-|       |                                 | `th:case`         |
-|     4 | Local variable definition       | `th:object`\      |
-|       |                                 | `th:with`         |
-|     5 | General attribute modification  | `th:attr`\        |
-|       |                                 | `th:attrprepend`\ |
-|       |                                 | `th:attrappend`   |
-|     6 | Specific attribute modification | `th:value`\       |
-|       |                                 | `th:href`\        |
-|       |                                 | `th:src`\         |
-|       |                                 | `...`             |
-|     7 | Text (tag body modification)    | `th:text`\        |
-|       |                                 | `th:utext`        |
-|     8 | Fragment specification          | `th:fragment`     |
-|     9 | Fragment removal                | `th:remove`       |
-
-This precedence mechanism means that the above iteration fragment will give exactly the same results if the attribute 
-position is inverted (although it would be slightly less readable):
+Este mecanismo de precedencia significa que el fragmento de iteración anterior dará exactamente los mismos resultados si 
+se invierte la posición del atributo (aunque sería un poco menos legible):
 
 ```html
 
 <ul>
-    <li th:text="${item.description}" th:each="item : ${items}">Item description here...</li>
+    <li th:text="${item.description}" th:each="item : ${items}">Descripción del artículo aquí...</li>
 </ul>
 ```
 
@@ -2820,12 +2819,12 @@ position is inverted (although it would be slightly less readable):
 
 11.1. Comentarios HTML/XML estándar
 -----------------------------------
-
-Standard HTML/XML comments `<!-- ... -->` can be used anywhere in thymeleaf templates. Anything inside these comments
-won't be processed by neither Thymeleaf nor the browser, and will be just copied verbatim to the result:
+Los comentarios HTML/XML estándar `<!-- ... -->` se pueden usar en cualquier parte de las plantillas de thymeleaf. El 
+contenido de estos comentarios no será procesado ni por Thymeleaf ni por el navegador, y se copiará textualmente al 
+resultado:
 
 ```html
-<!-- User info follows -->
+<!-- A continuación se muestra la información del usuario -->
 <div th:text="${...}">
     ...
 </div>
@@ -2834,25 +2833,25 @@ won't be processed by neither Thymeleaf nor the browser, and will be just copied
 11.2. Bloques de comentarios a nivel de analizador de Thymeleaf
 ---------------------------------------------------------------
 
-Parser-level comment blocks are code that will be simply removed from the template when thymeleaf parses it. They look
-like this:
+Los bloques de comentarios a nivel de analizador son código que simplemente se eliminará de la plantilla cuando 
+thymeleaf la analice. Tienen este aspecto:
 
 ```html
-<!--/* This code will be removed at thymeleaf parsing time! */-->
+<!--/* ¡Este código se eliminará en el momento del análisis de thymeleaf! */-->
 ``` 
-
-Thymeleaf will remove absolutely everything between `<!--/*` and `*/-->`, so these comment blocks can also be used for
-displaying code when a template is statically open, knowing that it will be removed when thymeleaf processes it:
+Thymeleaf eliminará absolutamente todo entre `<!--/*` y `*/-->`, por lo que estos bloques de comentarios también se 
+pueden usar para mostrar código cuando una plantilla está abierta estáticamente, sabiendo que se eliminará cuando 
+thymeleaf lo procese:
 
 ```html
 <!--/*-->
 <div>
-    you can see me only before thymeleaf processes me!
+  ¡Sólo puedes verme antes de que Thymeleaf me procese!
 </div>
 <!--*/-->
 ```
 
-This might come very handy for prototyping tables with a lot of `<tr>`'s, for example:
+Esto podría resultar muy útil para crear prototipos de tablas con muchos `<tr>`, por ejemplo:
 
 ```html
 
@@ -2874,44 +2873,48 @@ This might come very handy for prototyping tables with a lot of `<tr>`'s, for ex
 11.3. Bloques de comentarios exclusivos del prototipo de Thymeleaf
 ------------------------------------------------------------------
 
-Thymeleaf allows the definition of special comment blocks marked to be comments when the template is open statically (
-i.e. as a prototype), but considered normal markup by Thymeleaf when executing the template.
+Thymeleaf permite la definición de bloques de comentarios especiales marcados como comentarios cuando la plantilla está 
+abierta estáticamente (es decir, como un prototipo), pero que Thymeleaf considera como marcado normal cuando ejecuta la 
+plantilla.
 
 ```html
-<span>hello!</span>
+<span>¡hola!</span>
 <!--/*/
   <div th:text="${...}">
     ...
   </div>
 /*/-->
-<span>goodbye!</span>
+<span>¡adiós!</span>
 ```
 
-Thymeleaf's parsing system will simply remove the `<!--/*/` and `/*/-->` markers, but not its contents, which will be
-left therefore uncommented. So when executing the template, Thymeleaf will actually see this:
+El sistema de análisis de Thymeleaf simplemente eliminará los marcadores `<!--/*/` y `/*/-->`, pero no su contenido, que 
+quedará sin comentar. Por lo tanto, al ejecutar la plantilla, Thymeleaf verá esto:
 
 ```html
-<span>hello!</span>
+<span>¡hola!</span>
 
 <div th:text="${...}">
     ...
 </div>
 
-<span>goodbye!</span>
+<span>¡adiós!</span>
 ```
 
-As happens with parser-level comment blocks, note that this feature is dialect-independent.
+Al igual que sucede con los bloques de comentarios a nivel de analizador, tenga en cuenta que esta característica es 
+independiente del dialecto.
 
 
 11.4. Etiqueta sintética `th:block`
 -----------------------------------
 
-Thymeleaf's only element processor (not an attribute) included in the Standard Dialects is `th:block`.
+El único procesador de elementos (no un atributo) de Thymeleaf incluido en los dialectos estándar es `th:block`.
 
-`th:block` is a mere attribute container that allows template developers to specify whichever attributes they want.
-Thymeleaf will execute these attributes and then simply make the block dissapear without a trace.
+`th:block` es un simple contenedor de atributos que permite a los desarrolladores de plantillas especificar los 
+atributos que deseen. Thymeleaf ejecutará estos atributos y luego simplemente hará que el bloque desaparezca sin dejar 
+rastro.
 
-So it could be useful, for example, when creating iterated tables that require more than one `<tr>` for each element:
+Por lo tanto, podría ser útil, por ejemplo, al crear tablas iteradas que requieren más de un `<tr>` para cada elemento:
+
 
 ```html
 
@@ -2928,7 +2931,7 @@ So it could be useful, for example, when creating iterated tables that require m
 </table>
 ```
 
-And especially useful when used in combination with prototype-only comment blocks:
+Y especialmente útil cuando se usa en combinación con bloques de comentarios exclusivos de prototipos:
 
 ```html
 
@@ -2945,8 +2948,9 @@ And especially useful when used in combination with prototype-only comment block
 </table>
 ```
 
-Note how this solution allows templates to be valid HTML (no need to add forbidden `<div>` blocks inside `<table>`), and
-still works OK when open statically in browsers as prototypes!
+Tenga en cuenta cómo esta solución permite que las plantillas sean HTML válido (sin necesidad de agregar bloques 
+prohibidos `<div>` dentro de `<table>`), ¡y aún funciona correctamente cuando se abren estáticamente en navegadores como 
+prototipos!
 
 
 
@@ -2959,32 +2963,32 @@ still works OK when open statically in browsers as prototypes!
 12.1 Inserción de texto en línea
 --------------------------------
 
-Although the Standard Dialect allows us to do almost everything we might need by using tag attributes, there are 
-situations in which we could prefer writing expressions directly into our HTML texts. For example, we could prefer 
-writing this:
+Aunque el dialecto estándar nos permite hacer casi todo lo necesario mediante atributos de etiqueta, hay situaciones en 
+las que podríamos preferir escribir expresiones directamente en nuestros textos HTML. Por ejemplo, podríamos preferir 
+escribir esto:
 
 ```html
-<p>Hello, [[${session.user.name}]]!</p>
+<p>Hola, [[${session.user.name}]]!</p>
 ```
 
-...instead of this:
+...En lugar de esto:
 
 ```html
-<p>Hello, <span th:text="${session.user.name}">Sebastian</span>!</p>
+<p>Hola, <span th:text="${session.user.name}">Sebastian</span>!</p>
 ```
 
-Expressions between `[[...]]` are considered expression inlining in Thymeleaf, and in them you can use any kind of 
-expression that would also be valid in a `th:text` attribute.
+Las expresiones entre `[[...]]` se consideran expresiones en línea en Thymeleaf, y en ellas se puede usar cualquier tipo 
+de expresión que también sería válida en un atributo `th:text`.
 
-In order for inlining to work, we must activate it by using the `th:inline` attribute, which has three possible values 
-or modes (`text`, `javascript` and `none`). Let's try `text`:
+Para que la inserción funcione, debemos activarla mediante el atributo `th:inline`, que tiene tres valores o modos 
+posibles (`text`, `javascript` y `none`). Probemos con `text`:
 
 ```html
-<p th:inline="text">Hello, [[${session.user.name}]]!</p>
+<p th:inline="text">Hola, [[${session.user.name}]]!</p>
 ```
 
-The tag holding the `th:inline` does not have to be the one containing the inlined expression/s, any parent tag would 
-do:
+La etiqueta que contiene `th:inline` no tiene que ser la que contiene las expresiones en línea, cualquier etiqueta 
+principal serviría:
 
 ```html
 
@@ -2992,43 +2996,43 @@ do:
 
 ...
 
-<p>Hello, [[${session.user.name}]]!</p>
+<p>Hola, [[${session.user.name}]]!</p>
 
 ...
 
 </body>
 ```
+Así que ahora te estarás preguntando: _¿Por qué no hacemos esto desde el principio? ¡Es menos código que todos esos 
+atributos_ `th:text`! Bueno, ten cuidado, porque aunque la inserción en línea te parezca interesante, siempre debes 
+recordar que las expresiones en línea se mostrarán textualmente en tus archivos HTML al abrirlos estáticamente, ¡así que 
+probablemente ya no podrás usarlas como prototipos!
 
-So you might now be asking: _Why aren't we doing this from the beginning? It's less code than all those_ `th:text` 
-_attributes!_ Well, be careful there, because although you might find inlining quite interesting, you should always
-remember that inlined expressions will be displayed verbatim in your HTML files when you open them statically, so you 
-probably won't be able to use them as prototypes anymore!
-
-The difference between how a browser would statically display our fragment of code without using inlining...
-
-```html
-Hello, Sebastian!
-```
-
-...and using it...
+La diferencia entre cómo un navegador mostraría estáticamente nuestro fragmento de código sin utilizar incrustación...
 
 ```html
-Hello, [[${session.user.name}]]!
+Hola, Sebastian!
 ```
 
-...is quite clear.
+...y usarlo...
+
+```html
+Hola, [[${session.user.name}]]!
+```
+
+...es bastante claro.
 
 
 
 12.2 Inserción de scripts en línea (JavaScript y Dart)
 ------------------------------------------------------
 
-Thymeleaf offers a series of "scripting" modes for its inlining capabilities, so that you can integrate your data inside 
-scripts created in some script languages.
+Thymeleaf ofrece una serie de "modos de scripting" para sus capacidades de inlineado, lo que permite integrar los datos 
+en scripts creados en algunos lenguajes de script.
 
-Current scripting modes are `javascript` (`th:inline="javascript"`) and `dart` (`th:inline="dart"`).
+Los modos de scripting actuales son `javascript` (`th:inline="javascript"`) y `dart` (`th:inline="dart"`).
 
-The first thing we can do with script inlining is writing the value of expressions into our scripts, like:
+Lo primero que podemos hacer con el inlineado de scripts es escribir el valor de las expresiones en nuestros scripts, 
+como:
 
 ```html
 
@@ -3043,16 +3047,15 @@ The first thing we can do with script inlining is writing the value of expressio
 </script>
 ```
 
-The `/*[[...]]*/` syntax, instructs Thymeleaf to evaluate the contained expression. But there are more implications 
-here:
+La sintaxis `/*[[...]]*/` indica a Thymeleaf que evalúe la expresión contenida. Pero hay más implicaciones aquí:
 
-* Being a javascript comment (`/*...*/`), our expression will be ignored when displaying the page statically in a 
-  browser.
-* The code after the inline expression (`'Sebastian'`) will be executed when displaying the page statically.
-* Thymeleaf will execute the expression and insert the result, but it will also remove all the code in the line after 
-  the inline expression itself (the part that is executed when displayed statically).
+* Al ser un comentario de JavaScript (`/*...*/`), nuestra expresión será ignorada al mostrar la página estáticamente en 
+  un navegador.
+* El código después de la expresión en línea (`'Sebastian'`) se ejecutará al mostrar la página estáticamente.
+* Thymeleaf ejecutará la expresión e insertará el resultado, pero también eliminará todo el código en la línea después 
+  de la expresión en línea (la parte que se ejecuta cuando se muestra estáticamente).
 
-So, the result of executing this will be:
+Entonces el resultado de ejecutar esto será:
 
 ```html
 
@@ -3067,8 +3070,8 @@ So, the result of executing this will be:
 </script>
 ```
 
-You can also do it without comments with the same effects, but that will make your script to fail when loaded 
-statically:
+También puedes hacerlo sin comentarios con los mismos efectos, pero eso hará que tu script falle al cargarse 
+estáticamente.
 
 ```html
 
@@ -3083,18 +3086,18 @@ statically:
 </script>
 ```
 
-Note that this evaluation is intelligent and not limited to Strings. Thymeleaf will correctly write in Javascript/Dart 
-syntax the following kinds of objects:
+Tenga en cuenta que esta evaluación es inteligente y no se limita a cadenas. Thymeleaf escribirá correctamente en 
+sintaxis Javascript/Dart los siguientes tipos de objetos:
 
-* Strings
-* Numbers
-* Booleans
-* Arrays
-* Collections
-* Maps
-* Beans (objects with _getter_ and _setter_ methods)
+* Cadenas
+* Números
+* Booleanos
+* Matriz
+* Colecciones
+* Mapas
+* Beans (objetos con métodos _getter_ y _setter_)
 
-For example, if we had the following code:
+Por ejemplo, si tuviéramos el siguiente código:
 
 ```html
 
@@ -3109,8 +3112,8 @@ For example, if we had the following code:
 </script>
 ```
 
-That `${session.user}` expression will evaluate to a `User` object, and Thymeleaf will correctly convert it to 
-Javascript syntax:
+Esa expresión `${session.user}` se evaluará como un objeto `User` y Thymeleaf la convertirá correctamente a la sintaxis 
+de JavaScript:
 
 ```html
 
@@ -3130,15 +3133,15 @@ Javascript syntax:
 
 ### Añadiendo código
 
-An additional feature when using javascript inlining is the ability to include code between a special comment syntax 
-`/*[+...+]*/` so that Thymeleaf will automatically uncomment that code when processing the template:
+Una característica adicional al usar la incrustación de JavaScript es la capacidad de incluir código entre una sintaxis 
+de comentario especial `/*[+...+]*/` para que Thymeleaf descomente automáticamente ese código al procesar la plantilla:
 
 ```javascript
 var x = 23;
 
 /*[+
 
-var msg  = 'This is a working application';
+var msg  = 'Esta es una aplicación funcional';
 
 +]*/
 
@@ -3146,25 +3149,25 @@ var f = function () {
 ...
 ```
 
-Will be executed as:
+Se ejecutará como:
 
 ```javascript
 var x = 23;
 
-var msg = 'This is a working application';
+var msg = 'Esta es una aplicación funcional';
 
 var f = function () {
 ...
 ```
 
-You can include expressions inside these comments, and they will be evaluated:
+Puedes incluir expresiones dentro de estos comentarios y se evaluarán:
 
 ```javascript
 var x = 23;
 
 /*[+
 
-var msg  = 'Hello, ' + [[${session.user.name}]];
+var msg  = 'Hola, ' + [[${session.user.name}]];
 
 +]*/
 
@@ -3174,14 +3177,15 @@ var f = function () {
 
 ### Eliminando código
 
-It is also possible to make Thymeleaf remove code between special `/*[- */` and `/* -]*/` comments, like this:
+También es posible hacer que Thymeleaf elimine el código entre los comentarios especiales `/*[- */` y `/* -]*/`, de la 
+siguiente manera:
 
 ```javascript
 var x = 23;
 
 /*[- */
 
-var msg = 'This is a non-working template';
+var msg = 'Esta es una plantilla que no funciona';
 
 /* -]*/
 

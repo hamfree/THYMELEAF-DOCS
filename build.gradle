@@ -167,7 +167,7 @@ tasks.register('generateDocsHTML') {
 				exec {
 					// Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
 					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = "c:/Program Files/Pandoc/pandoc.exe"
+					commandLine = "pandoc"
 					args = [
 						"--write=html5",
 						"--template=" + file("${templatesDir.path}/${docType}.html"),
@@ -219,7 +219,7 @@ tasks.register('generateDocsEbook') {
 
 					// Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
 					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = "c:/Program Files/Pandoc/pandoc.exe"
+					commandLine = "pandoc"
 					args = [
 						"--write=epub",
 						"--template=" + file("${templatesDir.path}/${docType}.epub"),
@@ -250,7 +250,7 @@ tasks.register('generateDocsEbook') {
 tasks.register('startServer', ExecFork) {
 	dependsOn 'war'
 
-	commandLine = './gradlew.bat'
+	commandLine = './gradlew'
 	args = ['appStartWar']
 	waitForOutput = 'Ejecute \'gradle appStop\' para parar el servidor'
 }
@@ -280,7 +280,7 @@ tasks.register('generateDocsPDF') {
 				exec {
 					// Aquí se indica la ruta al ejecutable 'whhtmltopdf.exe', que dependerá de
 					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = 'D:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'
+					commandLine = 'wkhtmltopdf'
 					args = [
 						"--print-media-type",
 						"--dpi", "300",

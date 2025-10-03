@@ -13,10 +13,10 @@
  * Consulte la Licencia para conocer el idioma específico que rige los permisos y las
  * limitaciones de la Licencia.
  */
+ 
 
-import com.github.psxpaul.task.ExecFork
+
 import org.apache.tools.ant.filters.ReplaceTokens
-
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.TemporalAccessor
@@ -28,12 +28,21 @@ import java.time.temporal.TemporalAccessor
  * @author Emanuel Rabina
  */
 
+
+
 plugins {
 	id 'java'
 	id 'war'
 	id 'com.github.psxpaul.execfork' version '0.2.2'
 	id 'org.gretty' version '4.0.3'
 }
+
+dependencies {
+	// Needed for org.apache.tools.ant.filters.ReplaceTokens
+	implementation 'org.apache.ant:ant:1.10.14'
+}
+
+System.setProperty("java.home", "E:/des/bin/jdk17") // Establece la ruta a tu instalación de Java
 
 repositories {
 	mavenCentral()
@@ -247,7 +256,7 @@ tasks.register('generateDocsEbook') {
  * en un  proceso en segundo plano. Esto se debe a que Gretty bloquea el hilo
  * existente  hasta que el servidor se apaga por otros medios.
  */
-tasks.register('startServer', ExecFork) {
+tasks.register('startServer', com.github.psxpaul.task.ExecFork) {
 	dependsOn 'war'
 
 	commandLine = './gradlew.bat'

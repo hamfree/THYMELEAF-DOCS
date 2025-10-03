@@ -12,21 +12,26 @@ thymeleafVersion: @projectVersion@
 1.1 ¿Qué es Thymeleaf?
 ----------------------
 
-Thymeleaf es una biblioteca Java. Es un motor de plantillas XML/XHTML/HTML5 capaz de aplicar un conjunto de
-transformaciones a los archivos de plantilla para mostrar los datos o el texto generados por sus aplicaciones.
+Thymeleaf es una biblioteca Java. Es un motor de plantillas XML/XHTML/HTML5 
+capaz de aplicar un conjunto de transformaciones a los archivos de plantilla 
+para mostrar los datos o el texto generados por sus aplicaciones.
 
-Es más adecuado para servir XHTML/HTML5 en aplicaciones web, pero puede procesar cualquier archivo XML, ya sea en
-aplicaciones web o independientes.
+Es más adecuado para servir XHTML/HTML5 en aplicaciones web, pero puede procesar 
+cualquier archivo XML, ya sea en aplicaciones web o independientes.
 
-El objetivo principal de Thymeleaf es proporcionar una forma elegante y bien estructurada de crear plantillas. Para
-lograrlo, se basa en etiquetas y atributos XML que definen la ejecución de la lógica predefinida en el DOM  (Modelo de
-Objetos del Documento), en lugar de escribir explícitamente dicha lógica como código dentro de la plantilla.
+El objetivo principal de Thymeleaf es proporcionar una forma elegante y bien 
+organiz estructurada de crear plantillas. Para lograrlo, se basa en etiquetas y 
+atributos XML que definen la ejecución de la lógica predefinida en el DOM  
+(Modelo de Objetos del Documento), en lugar de escribir explícitamente dicha 
+lógica como código dentro de la plantilla.
 
-Su arquitectura permite un procesamiento rápido de plantillas, basándose en el almacenamiento en caché inteligente de
-los archivos analizados para minimizar las operaciones de E/S durante la ejecución.
+Su arquitectura permite un procesamiento rápido de plantillas, basándose en el 
+almacenamiento en caché inteligente de los archivos analizados para minimizar 
+las operaciones de E/S durante la ejecución.
 
-Y por último, pero no menos importante, Thymeleaf se diseñó desde el principio teniendo en cuenta los estándares XML y
-web, lo que permite crear plantillas con validación completa si es necesario.
+Y por último, pero no menos importante, Thymeleaf se diseñó desde el principio 
+para tener en cuenta los estándares XML y web, lo que permite crear plantillas 
+con validación completa si es necesario.
 
 
 
@@ -2168,6 +2173,8 @@ uno de los atributos `th:include` o `th:replace`:
 </body>
 ```
 
+### Sintaxis de especificación de fragmentos
+
 La sintaxis de ambos atributos de inclusión es bastante sencilla. Existen tres formatos diferentes:
 
 * `"templatename::domselector"` o su equivalente `templatename::[domselector]` Incluye el fragmento resultante de 
@@ -2228,9 +2235,9 @@ selector CSS:
 </body>
 ```
 
-### Diferencia entre `th:include` y `th:replace`
+### Diferencia entre `th:insert` y `th:replace`
 
-¿Y cuál es la diferencia entre `th:include` y `th:replace`? Mientras que `th:include` incluye el contenido del fragmento 
+¿Y cuál es la diferencia entre `th:insert` y `th:replace`? Mientras que `th:insert` incluye el contenido del fragmento 
 en su etiqueta de host, `th:replace` sustituye la etiqueta de host por la del fragmento. De esta manera, un fragmento 
 HTML5 como este:
 
@@ -2763,7 +2770,7 @@ precisamente el siguiente capítulo.
 
 
 10\. Precedencia de atributos
-=============================
+ =============================
 
 ¿Qué ocurre al escribir más de un atributo `th:*` en la misma etiqueta? Por ejemplo:
 

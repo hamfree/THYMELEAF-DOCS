@@ -1,19 +1,17 @@
 ---
-title: 'Tutorial: Using Thymeleaf'
+title: 'Tutorial: Usando Thymeleaf'
 author: Thymeleaf
 version: @documentVersion@
 thymeleafVersion: @projectVersion@
 ---
 
 
-
-
-1 Introducing Thymeleaf
-=======================
+1\. Presentando Thymeleaf
+=========================
 
 
 
-1.1 What is Thymeleaf?
+1.1 ¿Qué es Thymeleaf?
 ----------------------
 
 Thymeleaf is a modern server-side Java template engine for both web and
@@ -32,7 +30,7 @@ that is a need for you.
 
 
 
-1.2 What kind of templates can Thymeleaf process?
+1.2  ¿Qué clase de plantillas puede procesar Thymeleaf?
 -------------------------------------------------
 
 Out-of-the-box, Thymeleaf allows you to process six kinds of templates, each of
@@ -84,8 +82,8 @@ any Thymeleaf code that these resources might include will not be executed.
 
 
 
-1.3 Dialects: The Standard Dialect
-----------------------------------
+1.3  Dialectos: El dialecto estándar
+------------------------------------
 
 Thymeleaf is an extremely extensible template engine (in fact it could be called
 a _template engine framework_) that allows you to define and customize the way
@@ -149,8 +147,8 @@ template file. The ability to do this is a feature called _Natural Templating_.
 
 
 
-2 The Good Thymes Virtual Grocery
-=================================
+2\. La tienda de comestibles virtual Good Thymes
+================================================
 
 The source code for the examples shown in this, and future chapters of this
 guide, can be found in the _Good Thymes Virtual Grocery (GTVG)_ example app
@@ -161,8 +159,8 @@ which has two (equivalent) versions:
 
 
 
-2.1 A website for a grocery
----------------------------
+2.1 Un sitio web para una tienda de comestibles
+-----------------------------------------------
 
 To better explain the concepts involved in processing templates with Thymeleaf,
 this tutorial will use a demo application which you can download from the
@@ -305,8 +303,8 @@ But first let's see how that template engine is initialized.
 
 
 
-2.2 Creating and configuring the Template Engine
-------------------------------------------------
+2.2 Creación y configuración del Motor de Plantillas
+----------------------------------------------------
 
 The _init(...)_ method in our filter contained this line:
 
@@ -347,7 +345,7 @@ There are many ways of configuring a `TemplateEngine` object, but for now these
 few lines of code will teach us enough about the steps needed.
 
 
-### The Template Resolver
+### El Solucionador de Plantillas (Template Resolver)
 
 Let's start with the Template Resolver:
 
@@ -426,7 +424,7 @@ There is much more to learn about template resolvers, but for now let's have a
 look at the creation of our Template Engine object.
 
 
-### The Template Engine
+### El Motor de Plantillas (Template Engine)
 
 Template Engine objects are implementations of the `org.thymeleaf.ITemplateEngine`
 interface. One of these implementations is offered by the Thymeleaf core:
@@ -450,13 +448,11 @@ Thymeleaf.
 
 
 
-3 Using Texts
-=============
+3\. Uso de textos
+=================
 
-
-
-3.1 A multi-language welcome
-----------------------------
+3.1 Una bienvenida en varios idiomas
+------------------------------------
 
 Our first task will be to create a home page for our grocery site.
 
@@ -536,7 +532,7 @@ with this code above, our template would be a *valid HTML5 document*.
 > notation is only allowed in `HTML` mode.
 
 
-### Using th:text and externalizing text
+### Usando th:text y externalizando texto
 
 Externalizing text is extracting fragments of template code out of template
 files so that they can be kept in separate files (typically `.properties` files)
@@ -596,7 +592,7 @@ This is all we need for making Thymeleaf process our template. Let's create our
 Home controller then.
 
 
-### Contexts
+### Contextos (Contexts)
 
 In order to process our template, we will create a `HomeController` class
 implementing the `IGTVGController` interface we saw before:
@@ -676,7 +672,7 @@ request parameters and the request, session and application attributes from the
  * `${application.x}` will return an *application attribute* called `x` (a *"servlet context attribute"* in Servlet jargon).
 
 
-### Executing the template engine
+### Ejecución del motor de plantillas
 
 With our context object ready, now we can tell the template engine to process
 the template (by its name) using the context, and passing it a response writer
@@ -710,11 +706,11 @@ Let's see the results of this using the Spanish locale:
 
 
 
-3.2 More on texts and variables
+3.2 Más sobre textos y variables
 -------------------------------
 
+### Texto no escapado
 
-### Unescaped Text
 
 The simplest version of our Home page seems to be ready now, but there is
 something we have not thought about... what if we had a message like this?
@@ -747,7 +743,7 @@ This will output our message just like we wanted it:
 ```
 
 
-### Using and displaying variables
+### Uso y visualización de variables
 
 Now let's add some more content to our home page. For example, we may want to
 display the date below our welcome message, like this:
@@ -810,8 +806,8 @@ these possibilities are.
 
 
 
-4 Standard Expression Syntax
-============================
+4\. Sintaxis de expresiones estándar
+====================================
 
 We will take a small break in the development of our grocery virtual store to
 learn about one of the most important parts of the Thymeleaf Standard Dialect:
@@ -869,7 +865,7 @@ All these features can be combined and nested:
 
 
 
-4.1 Messages
+4.1 Mensajes
 ------------
 
 As we already know, `#{...}` message expressions allow us to link this:
@@ -1003,7 +999,7 @@ ${person.createCompleteNameWithSeparator('-')}
 ```
 
 
-### Expression Basic Objects
+### Objetos básicos de Expresiones OGNL
 
 When evaluating OGNL expressions on the context variables, some objects are made
 available to expressions for higher flexibility. These objects will be
@@ -1022,7 +1018,7 @@ Established locale country: <span th:text="${#locale.country}">US</span>.
 You can read the full reference of these objects in [Appendix A](#appendix-a-expression-basic-objects).
 
 
-### Expression Utility Objects
+### Objetos de utilidad de expresión
 
 Besides these basic objects, Thymeleaf will offer us a set of utility objects
 that will help us perform common tasks in our expressions.
@@ -1053,7 +1049,7 @@ You can check what functions are offered by each of these utility objects in the
 [Appendix B](#appendix-b-expression-utility-objects).
 
 
-### Reformatting dates in our home page
+### Reformateando las fechas en nuestra página de inicio
 
 Now we know about these utility objects, we could use them to change the way in
 which we show the date in our home page. Instead of doing this in our `HomeController`:
@@ -1087,8 +1083,8 @@ templateEngine.process("home", ctx, writer);
 
 
 
-4.3 Expressions on selections (asterisk syntax)
------------------------------------------------
+4.3 Expresiones en selecciones (sintaxis de asterisco)
+------------------------------------------------------
 
 Not only can variable expressions be written as `${...}`, but also as `*{...}`.
 
@@ -1151,9 +1147,8 @@ are equivalent.
 ```
 
 
-
-4.4 Link URLs
--------------
+4.4 Enlaces a URLs
+------------------
 
 Because of their importance, URLs are first-class citizens in web application
 templates, and the _Thymeleaf Standard Dialect_ has a special syntax for them,
@@ -1223,7 +1218,7 @@ result of evaluating another expression:
 ```
 
 
-### A menu for our home page
+### Un menú para nuestra página de inicio
 
 Now that we know how to create link URLs, what about adding a small menu in our
 home page for some of the other pages in the site?
@@ -1239,7 +1234,7 @@ home page for some of the other pages in the site?
 ```
 
 
-### Server root relative URLs
+### URLs relativas a la raíz del servidor
 
 An additional syntax can be used to create server-root-relative (instead of
 context-root-relative) URLs in order to link to different contexts in the same
@@ -1247,7 +1242,7 @@ server. These URLs will be specified like `@{~/path/to/something}`
 
 
 
-4.5 Fragments
+4.5 Fragmentos
 -------------
 
 Fragment expressions are an easy way to represent fragments of markup and move
@@ -1265,7 +1260,7 @@ But they can be used anywhere, just as any other variable:
 
 ```html
 <div th:with="frag=~{footer :: #main/text()}">
-  <p th:insert="${frag}">
+  <p th:insert="${frag}"></p>
 </div>
 ```
 
@@ -1274,10 +1269,10 @@ including deeper explanation of fragment expressions.
 
 
 
-4.6 Literals
+4.6 Literales
 ------------
 
-### Text literals
+### Literales de texto
 
 Text literals are just character strings specified between single quotes. They
 can include any character, but you should escape any single quotes inside them
@@ -1289,7 +1284,7 @@ using `\'`.
 </p>
 ```
 
-### Number literals
+### Literales numéricos
 
 Numeric literals are just that: numbers.
 
@@ -1299,7 +1294,7 @@ Numeric literals are just that: numbers.
 ```
 
 
-### Boolean literals
+### Literales booleanos
 
 The boolean literals are `true` and `false`. For example:
 
@@ -1316,7 +1311,7 @@ be the responsibility of the OGNL/SpringEL engines:
 ```
 
 
-### The null literal
+### El literal null (nulo)
 
 The `null` literal can be also used:
 
@@ -1325,7 +1320,7 @@ The `null` literal can be also used:
 ```
 
 
-### Literal tokens
+### Literales de identificadores (tokens)
 
 Numeric, boolean and null literals are in fact a particular case of _literal tokens_.
 
@@ -1348,7 +1343,7 @@ instead of:
 
 
 
-4.7 Appending texts
+4.7 Agregar textos
 -------------------
 
 Texts, no matter whether they are literals or the result of evaluating variable
@@ -1360,7 +1355,7 @@ or message expressions, can be easily appended using the `+` operator:
 
 
 
-4.8 Literal substitutions
+4.8 Sustituciones de literales
 -------------------------
 
 Literal substitutions allow for an easy formatting of strings containing values
@@ -1390,7 +1385,7 @@ Literal substitutions can be combined with other types of expressions:
 
 
 
-4.9 Arithmetic operations
+4.9 Operaciones aritméticas
 -------------------------
 
 Some arithmetic operations are also available: `+`, `-`, `*`, `/` and `%`.
@@ -1411,7 +1406,7 @@ Note that textual aliases exist for some of these operators: `div` (`/`), `mod` 
 
 
 
-4.10 Comparators and Equality
+4.10 Comparadores e igualdad 
 -----------------------------
 
 Values in expressions can be compared with the `>`, `<`, `>=` and `<=` symbols,
@@ -1431,7 +1426,7 @@ operators: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), `not` (`!`). Also
 
 
 
-4.11 Conditional expressions
+4.11 Expresiones condicionales
 ----------------------------
 
 _Conditional expressions_ are meant to evaluate only one of two expressions
@@ -1470,7 +1465,7 @@ the condition is false:
 
 
 
-4.12 Default expressions (Elvis operator)
+4.12  Expresiones predeterminadas (operador Elvis)
 -----------------------------------------
 
 A _default expression_ is a special kind of conditional value without a _then_
@@ -1507,8 +1502,8 @@ parentheses:
 
 
 
-4.13 The No-Operation token
----------------------------
+4.13 El token de no operación
+-----------------------------
 
 The No-Operation token is represented by an underscore symbol (`_`).
 
@@ -1532,7 +1527,7 @@ is both more concise and versatile from a design standpoint:
 
 
 
-4.14 Data Conversion / Formatting
+4.14 Conversión y Formato de datos 
 ---------------------------------
 
 Thymeleaf defines a *double-brace* syntax for variable (`${...}`) and selection
@@ -1567,7 +1562,7 @@ how to register a custom *conversion service* implementation, have a look at the
 
 
 
-4.15 Preprocessing
+4.15 Preprocesamiento
 ------------------
 
 In addition to all these features for expression processing, Thymeleaf has the
@@ -1612,7 +1607,7 @@ The preprocessing String `__` can be escaped in attributes using `\_\_`.
 
 
 
-5 Setting Attribute Values
+5\. Establecer valores de atributos
 ==========================
 
 This chapter will explain the way in which we can set (or modify) values of
@@ -1620,7 +1615,7 @@ attributes in our markup.
 
 
 
-5.1 Setting the value of any attribute
+5.1 Establecer el valor de cualquier atributo
 --------------------------------------
 
 Say our website publishes a newsletter, and we want our users to be able to
@@ -1688,8 +1683,8 @@ Given the required messages files, this will output:
 
 
 
-5.2 Setting value to specific attributes
-----------------------------------------
+5.2 Establecer valores para atributos específicos
+-------------------------------------------------
 
 By now, you might be thinking that something like:
 
@@ -1727,8 +1722,6 @@ exactly this same kind of attributes:
 
 There are quite a lot of attributes like these, each of them targeting a
 specific HTML5 attribute:
-
-<div class="table-scroller">
 
 ---------------------- ---------------------- ----------------------
 `th:abbr`              `th:accept`            `th:accept-charset`    
@@ -1792,11 +1785,9 @@ specific HTML5 attribute:
 `th:xmlbase`           `th:xmllang`           `th:xmlspace`          
 ---------------------- ---------------------- ----------------------
 
-</div>
 
-
-5.3 Setting more than one value at a time
------------------------------------------
+5.3 Establecer más de un valor a la vez
+---------------------------------------
 
 There are two rather special attributes called `th:alt-title` and `th:lang-xmllang`
 which can be used for setting two attributes to the same value at the same time.
@@ -1828,8 +1819,8 @@ For our GTVG home page, this will allow us to substitute this:
 
 
 
-5.4 Appending and prepending
-----------------------------
+5.4 Anexar y anteponer
+----------------------
 
 Thymeleaf also offers the `th:attrappend` and `th:attrprepend` attributes, which
 append (suffix) or prepend (prefix) the result of their evaluation to the
@@ -1864,8 +1855,8 @@ we will talk about it later.)
 
 
 
-5.5 Fixed-value boolean attributes
-----------------------------------
+5.5 Atributos booleanos de valor fijo
+-------------------------------------
 
 HTML has the concept of _boolean attributes_, attributes that have no value and
 the presence of one means that value is "true".  In XHTML, these attributes
@@ -1888,7 +1879,7 @@ set to its fixed value, and if evaluated to false, the attribute will not be set
 
 The following fixed-value boolean attributes exist in the Standard Dialect:
 
-<div class="table-scroller">
+
 
 ------------------- ------------------ ------------------
 `th:async`          `th:autofocus`     `th:autoplay`      
@@ -1901,12 +1892,11 @@ The following fixed-value boolean attributes exist in the Standard Dialect:
 `th:scoped`         `th:seamless`      `th:selected`      
 ------------------- ------------------ ------------------
 
-</div>
 
 
 
-5.6 Setting the value of any attribute (default attribute processor)
---------------------------------------------------------------------
+5.6 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
+-----------------------------------------------------------------------------
 
 Thymeleaf offers a *default attribute processor* that allows us to set the value
 of *any* attribute, even if no specific `th:*` processor has been defined for it
@@ -1926,7 +1916,7 @@ Will result in:
 
 
 
-5.7 Support for HTML5-friendly attribute and element names
+5.7 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
 ----------------------------------------------------------
 
 It is also possible to use a completely different syntax to apply processors to
@@ -1958,7 +1948,7 @@ in the future.
 
 
 
-6 Iteration
+6 Iteración
 ===========
 
 So far we have created a home page, a user profile page and also a page for
@@ -1968,8 +1958,8 @@ product page.
 
 
 
-6.1 Iteration basics
---------------------
+6.1 Conceptos básicos de iteración
+----------------------------------
 
 To display products in our `/WEB-INF/templates/product/list.html` page we will
 use a table. Each of our products will be displayed in a row (a `<tr>` element),
@@ -1980,7 +1970,7 @@ Thymeleaf to repeat it, once for each product.
 The Standard Dialect offers us an attribute for exactly that: `th:each`.
 
 
-### Using th:each
+### Usando th:each
 
 For our product list page, we will need a controller method that retrieves the
 list of products from the service layer and adds it to the template context:
@@ -2056,7 +2046,7 @@ Note that the `prod` iter variable is scoped to the `<tr>` element, which means
 it is available to inner tags like `<td>`.
 
 
-### Iterable values
+### Valores iterables
 
 The `java.util.List` class isn't the only value that can be used for iteration in
 Thymeleaf. There is a quite complete set of objects that are considered _iterable_
@@ -2075,8 +2065,8 @@ by a `th:each` attribute:
 
 
 
-6.2 Keeping iteration status
-----------------------------
+6.2 Mantener el estado de la iteración
+--------------------------------------
 
 When using `th:each`, Thymeleaf offers a mechanism useful for keeping track of
 the status of your iteration: the _status variable_.
@@ -2195,8 +2185,8 @@ for you by suffixing `Stat` to the name of the iteration variable:
 
 
 
-6.3 Optimizing through lazy retrieval of data
----------------------------------------------
+6.3 Optimización mediante recuperación diferida de datos
+--------------------------------------------------------
 
 Sometimes we might want to optimize the retrieval of collections of data (e.g.
 from a database) so that these collections are only retrieved if they are really
@@ -2242,12 +2232,12 @@ never be called) if `condition` evaluates to `false` in code such as:
 
 
 
-7 Conditional Evaluation
-========================
+7\. Evaluación condicional
+==========================
 
 
 
-7.1 Simple conditionals: "if" and "unless"
+7.1 Condicionales simples: "if" y "unless"
 ------------------------------------------
 
 Sometimes you will need a fragment of your template to only appear in the result
@@ -2365,7 +2355,7 @@ the previous example instead of using a `not` inside the OGNL expression:
 
 
 
-7.2 Switch statements
+7.2 Sentencias Switch
 ---------------------
 
 There is also a way to display content conditionally using the equivalent of a
@@ -2394,15 +2384,15 @@ The default option is specified as `th:case="*"`:
 
 
 
-8 Template Layout
-=================
+8\. Diseño de plantillas
+========================
 
 
 
-8.1 Including template fragments
---------------------------------
+8.1 Incluyendo fragmentos de plantilla
+--------------------------------------
 
-### Defining and referencing fragments
+### Definición y referencia de fragmentos
 
 In our templates, we will often want to include parts from other templates,
 parts like footers, headers, menus...
@@ -2446,7 +2436,7 @@ Note that `th:insert` expects a *fragment expression* (`~{...}`), which is *an
 expression that results in a fragment*.
 
 
-### Fragment specification syntax
+### Sintaxis de especificación de fragmentos
 
 The syntax of *fragment expressions* is quite straightforward. There are three
 different formats:
@@ -2491,7 +2481,7 @@ this target template.
 > to make Thymeleaf include them into other templates.
 
 
-### Referencing fragments without `th:fragment`
+### Referenciar fragmentos sin `th:fragment`
 
 Thanks to the power of Markup Selectors, we can include fragments that do not use any 
 `th:fragment` attributes. It can even be markup code coming from a different application 
@@ -2572,8 +2562,8 @@ So an HTML fragment like this:
 
 
 
-8.2 Parameterizable fragment signatures
----------------------------------------
+8.2 Firmas de fragmentos parametrizables
+----------------------------------------
 
 In order to create a more _function-like_ mechanism for template fragments,
 fragments defined with `th:fragment` can specify a set of parameters:
@@ -2599,7 +2589,7 @@ Note that order is not important in the last option:
 ```
 
 
-### Fragment local variables without fragment arguments
+### Variables locales de fragmentos sin firma de fragmento
 
 Even if fragments are defined without arguments like this:
 
@@ -2627,7 +2617,7 @@ emptied prior to its execution. Fragments will still be able to access every
 context variable being used at the calling template like they currently are. 
 
 
-### th:assert for in-template assertions
+### th:assert para afirmaciones dentro de la plantilla
 
 The `th:assert` attribute can specify a comma-separated list of expressions
 which should be evaluated and produce true for every evaluation, raising an
@@ -2645,8 +2635,8 @@ This comes in handy for validating parameters at a fragment signature:
 
 
 
-8.3 Flexible layouts: beyond mere fragment insertion
-----------------------------------------------------
+8.3 Eliminación de fragmentos de plantilla
+------------------------------------------
 
 Thanks to *fragment expressions*, we can specify parameters for fragments that
 are not texts, numbers, bean objects... but instead fragments of markup.
@@ -2711,7 +2701,7 @@ in our fragment being customized during insertion:
 ```
 
 
-### Using the empty fragment 
+### Usando el fragmento vacío
 
 A special fragment expression, the *empty fragment* (`~{}`), can be used for
 specifying *no markup*. Using the previous example:
@@ -2745,7 +2735,7 @@ block:
 ```
 
 
-### Using the no-operation token
+### Uso del token de no operación
 
 The no-op can be also used as a parameter to a fragment if we just want to let
 our fragment use  its current markup as a default value. Again, using the
@@ -2793,7 +2783,7 @@ So the result is:
 ```
 
 
-### Advanced conditional insertion of fragments
+### Inserción condicional avanzada de fragmentos
 
 The availability of both the *empty fragment* and *no-operation token* allows us
 to perform conditional insertion of fragments in a very easy and elegant way.
@@ -2837,7 +2827,7 @@ operation:
 
 
 
-8.4 Removing template fragments
+8.4 Eliminación de fragmentos de plantilla
 -------------------------------
 
 Back to the example application, let's revisit the last version of our product list template:
@@ -3146,7 +3136,7 @@ In this case, if `${condition}` is false, `null` will be returned, and thus no
 removal will be performed. 
 
 
-8.5 Layout Inheritance
+8.5 Herencia de diseño
 ----------------------
 
 To be able to have a single file as layout, fragments can be used. An example 
@@ -3199,7 +3189,7 @@ and _footer_.
 
 
 
-9 Local Variables
+9 Variables locales
 =================
 
 Thymeleaf calls _local variables_ the variables that are defined for a specific
@@ -3310,8 +3300,8 @@ worry because that is exactly what the next chapter is about.
 
 
 
-10 Attribute Precedence
-=======================
+10\. Precedencia de atributos
+=============================
 
 What happens when you write more than one `th:*` attribute in the same tag? For
 example:
@@ -3331,7 +3321,7 @@ themselves in order to be sure that this will work as expected.
 So, all Thymeleaf attributes define a numeric precedence, which establishes the
 order in which they are executed in the tag. This order is:
 
-<div class="table-scroller">
+
 -----------------------------------------------------------------
 Order   Feature                            Attributes
 ------- ---------------------------------- ----------------------
@@ -3364,7 +3354,6 @@ Order   Feature                            Attributes
 
       9 Fragment removal                   `th:remove`
 -----------------------------------------------------------------
-</div>
 
 This precedence mechanism means that the above iteration fragment will give
 exactly the same results if the attribute position is inverted (although it
@@ -3379,13 +3368,11 @@ would be slightly less readable):
 
 
 
-11 Comments and Blocks
-======================
+11\. Comentarios y bloques
+==========================
 
-
-
-11.1. Standard HTML/XML comments
---------------------------------
+11.1. Comentarios HTML/XML estándar
+-----------------------------------
 
 Standard HTML/XML comments `<!-- ... -->` can be used anywhere in Thymeleaf
 templates. Anything inside these comments won't be processed by Thymeleaf, and
@@ -3400,8 +3387,8 @@ will be copied verbatim to the result:
 
 
 
-11.2. Thymeleaf parser-level comment blocks
--------------------------------------------
+11.2. Bloques de comentarios a nivel de analizador de Thymeleaf
+---------------------------------------------------------------
 
 Parser-level comment blocks are code that will be simply removed from the
 template when Thymeleaf parses it. They look like this:
@@ -3443,8 +3430,8 @@ example:
 
 
 
-11.3. Thymeleaf prototype-only comment blocks
----------------------------------------------
+11.3. Bloques de comentarios exclusivos del prototipo de Thymeleaf
+------------------------------------------------------------------
 
 Thymeleaf allows the definition of special comment blocks marked to be comments
 when the template is open statically (i.e. as a prototype), but considered
@@ -3478,8 +3465,8 @@ As with parser-level comment blocks, this feature is dialect-independent.
 
 
 
-11.4. Synthetic `th:block` tag
-------------------------------
+11.4. Etiqueta sintética `th:block`
+-----------------------------------
 
 Thymeleaf's only element processor (not an attribute) included in the Standard
 Dialects is `th:block`.
@@ -3528,13 +3515,13 @@ statically in browsers as prototypes!
 
 
 
-12 Inlining
-===========
+12\. Inserción en línea
+=======================
 
 
 
-12.1 Expression inlining
-------------------------
+12.1 Inserción de texto en línea
+--------------------------------
 
 Although the Standard Dialect allows us to do almost everything using tag
 attributes, there are situations in which we could prefer writing expressions
@@ -3585,7 +3572,7 @@ markup –- not the tags themselves -–, so there is nothing we need to do to
 enable it.
 
 
-### Inlining vs natural templates
+### Plantillas en línea vs. plantillas naturales
 
 If you come from other template engines in which this way of outputting text is
 the norm, you might be asking: _Why aren't we doing this from the beginning?
@@ -3612,7 +3599,7 @@ Hello, [[${session.user.name}]]!
 ...is quite clear in terms of design usefulness.
 
 
-### Disabling inlining
+### Deshabilitar la inserción en línea
 
 This mechanism can be disabled though, because there might actually be occasions
 in which we do want to output the `[[...]]` or  `[(...)]` sequences without its
@@ -3630,7 +3617,7 @@ This will result in:
 
 
 
-12.2 Text inlining
+12.2 Inserción de texto en línea
 ------------------
 
 *Text inlining* is very similar to the *expression inlining* capability we have
@@ -3646,7 +3633,7 @@ We will see more about this in the next chapter about the *textual template mode
 
 
 
-12.3 JavaScript inlining
+12.3 Inserción de JavaScript en línea
 ------------------------
 
 JavaScript inlining allows for a better integration of JavaScript `<script>`
@@ -3711,7 +3698,7 @@ be what we need if we are building parts of our script by means of appending
 inlined expressions, so it's good to have this tool at hand.
 
 
-### JavaScript natural templates
+### Plantillas naturales de JavaScript
 
 The mentioned *intelligence* of the JavaScript inlining mechanism goes much
 further than just applying JavaScript-specific escaping and outputting
@@ -3759,7 +3746,7 @@ server).
 So what we have here is a way to do **JavaScript natural templates**!
 
 
-### Advanced inlined evaluation and JavaScript serialization
+### Evaluación en línea avanzada y serialización de JavaScript
 
 An important thing to note regarding JavaScript inlining is that this
 expression evaluation is intelligent and not limited to Strings. Thymeleaf will
@@ -3808,7 +3795,7 @@ less flexible).
 
 
 
-12.4 CSS inlining
+12.4 Inserción de CSS
 -----------------
 
 Thymeleaf also allows the use of inlining in CSS `<style>` tags, such as:
@@ -3852,7 +3839,7 @@ will be escaped as **CSS identifiers**. That is why our `classname = 'main elems
 has turned into `main\ elems` in the fragment of code above.
 
 
-### Advanced features: CSS natural templates, etc.
+### Funciones avanzadas: plantillas naturales CSS, etc.
 
 In an equivalent way to what was explained before for JavaScript, CSS inlining
 also allows for our `<style>` tags to work both statically and dynamically, i.e.
@@ -3870,12 +3857,12 @@ also allows for our `<style>` tags to work both statically and dynamically, i.e.
 
 
 
-13 Textual template modes
+13 Modos de plantilla textual
 =========================
 
 
 
-13.1 Textual syntax
+13.1 Sintaxis textual
 -------------------
 
 Three of the Thymeleaf *template modes* are considered **textual**: `TEXT`, `JAVASCRIPT`
@@ -4015,7 +4002,7 @@ var greeter = function() {
 ```
 
 
-### Escaped element attributes
+### Atributos de elementos escapados
 
 In order to avoid interactions with parts of the template that might be
 processed in other modes (e.g. `text`-mode inlining inside an `HTML` template),
@@ -4041,7 +4028,7 @@ prototype.
 
 
 
-13.2 Extensibility
+13.2 Extensibilidad
 ------------------
 
 One of the advantages of this syntax is that it is just as extensible as the 
@@ -4055,7 +4042,7 @@ in textual template modes:
 
 
 
-13.3 Textual prototype-only comment blocks: adding code
+13.3 Bloques de comentarios de solo prototipos textuales: agregar código
 -------------------------------------------------------
 
 The `JAVASCRIPT` and `CSS` template modes (not available for `TEXT`) allow 
@@ -4103,7 +4090,7 @@ var f = function() {
 
 
 
-13.4 Textual parser-level comment blocks: removing code
+13.4 Bloques de comentarios de nivel de analizador textual: eliminación de código
 -------------------------------------------------------
 
 In a way similar to that of prototype-only comment blocks, all the three textual
@@ -4135,7 +4122,7 @@ Welcome [(${session.user.name})]!
 
 
 
-13.5 Natural JavaScript and CSS templates
+13.5 Plantillas naturales de JavaScript y CSS
 -----------------------------------------
 
 As seen in the previous chapter, JavaScript and CSS inlining offer the
@@ -4188,7 +4175,7 @@ as a *working template*.
 
 
 
-14 Some more pages for our grocery
+14  Algunas páginas más para nuestra tienda de comestibles
 ==================================
 
 Now we know a lot about using Thymeleaf, we can add some new pages to our
@@ -4199,7 +4186,7 @@ source code if you want to see the corresponding controllers.
 
 
 
-14.1 Order List
+14.1 Lista de pedidos
 ---------------
 
 Let's start by creating an order list page, `/WEB-INF/templates/order/list.html`:
@@ -4264,7 +4251,7 @@ You've got to love the power of OGNL.
 
 
 
-14.2 Order Details
+14.2 Detalles del pedido
 ------------------
 
 Now for the order details page, in which we will make a heavy use of asterisk
@@ -4359,13 +4346,13 @@ Not much really new here, except for this nested object selection:
 
 
 
-15 More on Configuration
-========================
+15\. Más sobre la configuración
+===============================
 
 
 
-15.1 Template Resolvers
------------------------
+15.1 Resolvedores de plantillas
+-------------------------------
 
 For our Good Thymes Virtual Grocery, we chose an `ITemplateResolver`
 implementation called `WebApplicationTemplateResolver` that allowed us to obtain
@@ -4461,7 +4448,7 @@ of configuration parameters, which include:
 > in Spring-enabled applications.
 
 
-### Chaining Template Resolvers
+### Encadenamiento de solucionadores de plantillas
 
 
 Also, a Template Engine can specify several template resolvers, in which case an
@@ -4529,8 +4516,8 @@ first time they are accessed).
 
 
 
-15.2 Message Resolvers
-----------------------
+15.2 Resolvedores de mensajes
+-----------------------------
 
 We did not explicitly specify a Message Resolver implementation for our Grocery
 application, and as it was explained before, this meant that the implementation
@@ -4546,7 +4533,7 @@ needs of our application.
 > Context.
 
 
-### Standard Message Resolver
+### Resolvedor de mensajes estándar
 
 So how does `StandardMessageResolver` look for the messages requested at a
 specific template?
@@ -4563,7 +4550,7 @@ Refer to the JavaDoc documentation of the `StandardMessageResolver` class for
 more detail on how the complete message resolution mechanism works.
 
 
-### Configuring message resolvers
+### Configuración de solucionadores de mensajes
 
 What if we wanted to add a message resolver (or more) to the Template Engine?
 Easy:
@@ -4584,7 +4571,7 @@ etc.
 
 
 
-15.3 Conversion Services
+15.3 Servicios de conversión
 ------------------------
 
 The *conversion service* that enables us to perform data conversion and
@@ -4612,7 +4599,7 @@ templateEngine.setDialect(dialect);
 
 
 
-15.4 Logging
+15.4 Registro de trazas
 ------------
 
 Thymeleaf pays quite a lot of attention to logging, and always tries to offer
@@ -4650,8 +4637,8 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE
 
 
 
-16 Template Cache
-=================
+16\. Caché de plantillas
+========================
 
 Thymeleaf works thanks to a set of parsers -- for markup and text -- that parse
 templates into sequences of events (open tag, text, close tag, comment, etc.)
@@ -4715,10 +4702,10 @@ templateEngine.clearTemplateCacheFor("/users/userList");
 
 
 
-17 Decoupled Template Logic
+17 Lógica de plantilla desacoplada
 ===========================
 
-17.1 Decoupled logic: The concept
+17.1 Lógica desacoplada: El concepto
 ---------------------------------
 
 So far we have worked for our Grocery Store with templates done the *usual way*,
@@ -4820,10 +4807,10 @@ artifact between design and development teams.
 
 
 
-17.2 Configuring decoupled templates
+17.2 Configuración de plantillas desacopladas
 ------------------------------------
 
-### Enabling decoupled templates
+### Habilitación de plantillas desacopladas
 
 Decoupled logic will not be expected for every template by default. Instead, the
 configured template resolvers (implementations of `ITemplateResolver`) will need
@@ -4843,7 +4830,7 @@ templateResolver.setUseDecoupledLogic(true);
 ```
 
 
-### Mixing coupled and decoupled logic
+### Mezcla de lógica acoplada y desacoplada
 
 Decoupled template logic, when enabled, is not a requirement. When enabled, it
 means that the engine will *look for* a resource containing decoupled logic,
@@ -4857,7 +4844,7 @@ this is using the new (in v3.0) `th:ref` attribute.
 
 
 
-17.3 The th:ref attribute
+17.3 El atributo th:ref
 ---------------------------
 
 `th:ref` is only a marker attribute. It does nothing from the processing
@@ -4892,7 +4879,7 @@ like in fragment expressions (`~{...}`).
 
 
 
-17.4 Performance impact of decoupled templates
+17.4 Impacto en el rendimiento de las plantillas desacopladas
 ----------------------------------------------
 
 The impact is extremely small. When a resolved template is marked to use
@@ -4913,7 +4900,7 @@ will be absolutely *zero*.
 
 
 
-17.5 Resolution of decoupled logic
+17.5 Resolución de lógica desacoplada
 ----------------------------------
 
 The way Thymeleaf resolves the decoupled logic resources corresponding to each
@@ -4945,7 +4932,7 @@ templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);
 
 
 
-18 Appendix A: Expression Basic Objects
+18 Apéndice A: Objetos básicos de expresión
 =======================================
 
 Some objects and variable maps are always available to be invoked. Let's see
@@ -4991,7 +4978,7 @@ ${#locale}
 ```
 
 
-### Web context namespaces for request/session attributes, etc.
+### Espacios de nombres de contexto web para atributos de solicitud/sesión, etc.
 
 When using Thymeleaf in a web environment, we can use a series of shortcuts for
 accessing request parameters, session attributes and application attributes:
@@ -5060,11 +5047,11 @@ ${myRequestAttribute}
 
 
 
-19 Appendix B: Expression Utility Objects
+19 Apéndice B: Objetos de utilidad de expresión
 =========================================
 
 
-### Execution Info
+### Información de ejecución
 
  * **\#execInfo** : expression object providing useful information about the
    template being processed inside Thymeleaf Standard Expressions.
@@ -5115,7 +5102,7 @@ ${#execInfo.templateStack}
 ```
 
 
-### Messages
+### Mensajes
 
  * **\#messages** : utility methods for obtaining externalized messages inside
    variables expressions, in the same way as they would be obtained using `#{...}`
@@ -5204,7 +5191,7 @@ ${#uris.unescapeQueryParam(uri, encoding)}
 ```
 
 
-### Conversions
+### Conversiones
 
  * **\#conversions** : utility object that allows the execution of the
    *Conversion Service* at any point of a template:
@@ -5225,7 +5212,7 @@ ${#conversions.convert(object, targetClass)}
 ```
 
 
-### Dates
+### Fechas
 
  * **\#dates** : utility methods for `java.util.Date` objects:
 
@@ -5304,7 +5291,7 @@ ${#dates.createTodayForTimeZone()}
 ```
 
 
-### Calendars
+### Calendarios
 
  * **\#calendars** : analogous to `#dates`, but for `java.util.Calendar` objects:
 
@@ -5388,7 +5375,7 @@ ${#calendars.createTodayForTimeZone()}
 ```
 
 
-### Temporals (java.time)
+### Temporales (java.time)
 
  * **\#temporals** : deal with date/time objects from the JDK8+ `java.time` API:
 
@@ -5490,7 +5477,7 @@ ${#temporals.createDateTime(isoDate, pattern)} // return a instance of java.time
 ```
 
 
-### Numbers
+### Numeros
 
  * **\#numbers** : utility methods for number objects:
 
@@ -5610,7 +5597,7 @@ ${#numbers.sequence(from,to,step)}
 ```
 
 
-### Strings
+### Cadenas (String, en inglés)
 
  * **\#strings** : utility methods for `String` objects:
 
@@ -5748,7 +5735,7 @@ ${#strings.randomAlphanumeric(count)}
 ```
 
 
-### Objects
+### Objetos
 
  * **\#objects** : utility methods for objects in general
 
@@ -5770,7 +5757,7 @@ ${#objects.setNullSafe(objSet,default)}
 ```
 
 
-### Booleans
+### Booleanos
 
  * **\#bools** : utility methods for boolean evaluation
 
@@ -5818,7 +5805,7 @@ ${#bools.setOr(condSet)}
 ```
 
 
-### Arrays
+### Matrices
 
  * **\#arrays** : utility methods for arrays
 
@@ -5865,7 +5852,7 @@ ${#arrays.containsAll(array, elements)}
 ```
 
 
-### Lists
+### Listas
 
  * **\#lists** : utility methods for lists
 
@@ -5906,7 +5893,7 @@ ${#lists.sort(list, comparator)}
 ```
 
 
-### Sets
+### Conjuntos
 
  * **\#sets** : utility methods for sets
 
@@ -5940,7 +5927,7 @@ ${#sets.containsAll(set, elements)}
 ```
 
 
-### Maps
+### Mapas
 
  * **\#maps** : utility methods for maps
 
@@ -5971,7 +5958,7 @@ ${#maps.containsAllValues(map, value)}
 ```
 
 
-### Aggregates
+### Agregados
 
  * **\#aggregates** : utility methods for creating aggregates on arrays or
    collections
@@ -6030,7 +6017,7 @@ ${#ids.prev('someId')}
 
 
 
-20 Appendix C: Markup Selector Syntax
+20 Apéndice C: Sintaxis del selector de marcado
 =====================================
 
 Thymeleaf's Markup Selectors are directly borrowed from Thymeleaf's parsing 
@@ -6139,7 +6126,7 @@ references). But would also look for tags with name `myfrag` if they existed
 caring about `th:fragment` signatures (or `th:ref` references). 
 
 
-### Multivalued class matching
+### Coincidencia de clases multivalor
 
 Markup Selectors understand the class attribute to be **multivalued**, and
 therefore allow the application of selectors on this attribute even if the

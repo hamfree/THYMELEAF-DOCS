@@ -42,7 +42,6 @@ dependencies {
 	implementation 'org.apache.ant:ant:1.10.14'
 }
 
-System.setProperty("java.home", "E:/des/bin/jdk17") // Establece la ruta a tu instalación de Java
 
 repositories {
 	mavenCentral()
@@ -82,8 +81,10 @@ def stylesDir    = file("${projectDir}/styles")
 def templatesDir = file("${projectDir}/templates")
 def srcDir       = file("${buildDir}/source")
 def outputDir    = file("${buildDir}/site/doc")
+def cmdPandoc = "pandoc"
+def cmdWkhtmltopdf = "wkhtmltopdf"
 
-project.webAppDirName = outputDir
+project.webAppDirName = outputDir.path
 
 def docNames = [] as Set
 def docTypes = [:]
@@ -106,7 +107,7 @@ tasks.register('copyResources') {
 			from docsDir
 			into srcDir
 
-			filesMatching('**/*.md') {
+			filesMatching("**/*.md") {
 
 				// Necesitamos una ruta de archivo relativa a la carpeta 'docs'
 				def docFileName = (it.relativePath.toString() - ".md").replace('\\', '/')
@@ -125,7 +126,7 @@ tasks.register('copyResources') {
 				docTypes.put(docFileName, docFileType)
 
 				// Filtrado de propiedades, esto reemplazará todas las @gradle-properties@ (principalmente utilizadas en metadatos de Markdown)
-				var documentMetadataForVersion = documentMetadata[(thymeleafVersion)]
+				def documentMetadataForVersion = documentMetadata[thymeleafVersion]
 				if (documentMetadataForVersion) {
 					def documentVersion = DateTimeFormatter.ofPattern('yyyyMMdd - dd MMMM yyyy', Locale.ENGLISH).format(documentMetadataForVersion.date as TemporalAccessor)
 					def projectVersion = documentMetadataForVersion.version
@@ -176,7 +177,7 @@ tasks.register('generateDocsHTML') {
 				exec {
 					// Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
 					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = "pandoc"
+					commandLine = cmdPandoc
 					args = [
 						"--write=html5",
 						"--template=" + file("${templatesDir.path}/${docType}.html"),
@@ -196,7 +197,7 @@ tasks.register('generateDocsHTML') {
 		copy {
 			from srcDir
 			into outputDir
-			exclude '**/*.md'
+			exclude "**/*.md"
 		}
 	}
 }
@@ -228,7 +229,7 @@ tasks.register('generateDocsEbook') {
 
 					// Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
 					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = "pandoc"
+					commandLine = cmdPandoc
 					args = [
 						"--write=epub",
 						"--template=" + file("${templatesDir.path}/${docType}.epub"),
@@ -261,7 +262,7 @@ tasks.register('startServer', com.github.psxpaul.task.ExecFork) {
 
 	commandLine = './gradlew'
 	args = ['appStartWar']
-	waitForOutput = 'Ejecute \'gradle appStop\' para parar el servidor'
+	waitForOutput = 'To stop server run gradle appStop'
 }
 
 /**
@@ -289,7 +290,7 @@ tasks.register('generateDocsPDF') {
 				exec {
 					// Aquí se indica la ruta al ejecutable 'whhtmltopdf.exe', que dependerá de
 					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = 'wkhtmltopdf'
+					commandLine = cmdWkhtmltopdf
 					args = [
 						"--print-media-type",
 						"--dpi", "300",

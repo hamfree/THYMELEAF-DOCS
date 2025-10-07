@@ -14,27 +14,26 @@ thymeleafVersion: @projectVersion@
 1.1 ¿Qué es Thymeleaf?
 ----------------------
 
-Thymeleaf is a modern server-side Java template engine for both web and
-standalone environments, capable of processing HTML, XML, JavaScript, CSS and
-even plain text. 
+Thymeleaf es un motor de plantillas del lado del servidor realizado en Java 
+tanto para la web como para entornos aislados, capaz de procesar HTML, XML, 
+JavaScript, CSS e incluso texto plano.
 
-The main goal of Thymeleaf is to provide an elegant and highly-maintainable way
-of creating templates. To achieve this, it builds on the concept of *Natural
-Templates* to inject its logic into template files in a way that doesn't affect
-the template from being used as a design prototype. This improves communication
-of design and bridges the gap between design and development teams.
+El objetivo principal de Thymeleaf es proporcionar una forma elegante y 
+altamente mantenible de crear plantillas. Para conseguir esto, construye sobre 
+el concepto de *Plantillas Naturales* para inyectar su lógica en ficheros de 
+plantilla de una forma que no afecte a la plantilla al usarla como un prototipo 
+de diseño. Esto mejora la comunicación del diseño y acorta la brecha entre los 
+equipos de diseño y desarrollo.
 
-Thymeleaf has also been designed from the beginning with Web Standards in mind
--- especially **HTML5** -- allowing you to create fully validating templates if
-that is a need for you.
-
-
+Thymeleaf también ha sido diseñado desde el principio con los Estándares Web en 
+mente -- especialmente **HTML5**  -- permitiéndole crear plantillas plenamente 
+validadas si es lo que necesita.
 
 1.2  ¿Qué clase de plantillas puede procesar Thymeleaf?
 -------------------------------------------------
 
-Out-of-the-box, Thymeleaf allows you to process six kinds of templates, each of
-which is called a **Template Mode**:
+Tal como está, Thymeleaf le permite procesar ses clases de plantillas, cada una 
+de las cuales se llama **Modo de Plantilla**:
 
  * HTML
  * XML
@@ -43,109 +42,115 @@ which is called a **Template Mode**:
  * CSS
  * RAW 
 
-There are two *markup* template modes (`HTML` and `XML`), three *textual* template 
-modes (`TEXT`, `JAVASCRIPT` and `CSS`) and a *no-op* template mode (`RAW`).
+Existen dos modos de plantilla de *marcado* (`HTML` y `XML`), tres modos de 
+plantilla *textuales* (`TEXT`, `JAVASCRIPT` y `CSS`) y un modo de plantilla 
+*no-op*  (`RAW`).
 
-The **`HTML`** template mode will allow any kind of HTML input, including HTML5,
-HTML 4 and XHTML. No validation or well-formedness check will be performed, and
-template code/structure will be respected to the biggest possible extent in
-output.
+El modo de plantilla **`HTML`** permitirá cualquier clase de entrada HTML, 
+incluyendo HTML5, HTML 4 y XHTML. No se realizará ninguna validación ni 
+comprobación de buen formato, y la estructura/código de la plantilla será 
+respetada en la mayor medida posible en la salida.
 
-The **`XML`** template mode will allow XML input. In this case, code is expected 
-to be well-formed -- no unclosed tags, no unquoted attributes, etc -- and
-the parser will throw exceptions if well-formedness violations are found. Note
-that no *validation* (against a DTD or XML Schema) will be performed.
+El modo de plantilla **`XML`** permitirá la entrada XML. En este caso, se 
+espera que el código esté bien formado -- sin etiquetas sin cerrar, sin 
+atributos no entrecomillados, etc -- y el analizador lanzará excepciones si se 
+encuentran violaciones del buen formado. Tenga en cuenta que no se realizará 
+*validación* (contra un DTD o Esquema XML).
 
-The **`TEXT`** template mode will allow the use of a special syntax for
-templates of a non-markup nature. Examples of such templates might be text
-emails or templated documentation. Note that HTML or XML templates can be also
-processed as `TEXT`, in which case they will not be parsed as markup, and every
-tag, DOCTYPE, comment, etc, will be treated as mere text.
+El modo de plantilla **`TEXT`** permitirá el uso de una sintaxis especial para 
+plantilla que no sean de naturaleza de marcado. Ejemplos de tales plantillas 
+podrían ser el texto de los correos electrónicos o documentación aplantillada. 
+Tenga en cuenta que las plantillas HTML o XML pueden ser también procesadas 
+como `TEXT`, en cuyo caso no serán analizadas como marcado, y cada etiqueta, 
+DOCTYPE, comentario, etc. será tratado como mero texto.
 
-The **`JAVASCRIPT`** template mode will allow the processing of JavaScript files 
-in a Thymeleaf application. This means being able to use model data inside
-JavaScript files in the same way it can be done in HTML files, but with
-JavaScript-specific integrations such as specialized escaping or *natural
-scripting*. The `JAVASCRIPT` template mode is considered a *textual* mode 
-and therefore uses the same special syntax as the `TEXT` template mode.
+El modo de plantilla **`JAVASCRIPT`** permitirá el procesado de ficheros 
+JavaScript en una aplicación de Thymeleaf. Esto signifa ser capaz de usar el 
+modelo de atos dentro de los ficheros JavaScript de la misma forma que puede ser 
+hecho en los ficheros HTML, pero con integraciones específicas de JavaScript 
+tales como el escapado especializado o *scripting natural*. El modo de plantilla
+`JAVASCRIPT` se considera un modo *textual* y por lo tanto usa la misma sintaxis 
+especial que el modo de plantilla `TEXT`.
 
-The **`CSS`** template mode will allow the processing of CSS files involved in a
-Thymeleaf application. Similar to the `JAVASCRIPT` mode, the `CSS` template mode
-is also a *textual* mode and uses the special processing syntax from the `TEXT`
-template mode.
+El modo de plantilla **`CSS`** permitirá el procesado de ficheros CSS 
+involucrados en una aplicación Thymeleaf. De forma similar al modo `JAVASCRIPT`, 
+el modo de plantilla `CSS` es también un modo *textual* y usa la sintaxis de 
+procesado especial del modo de plantilla `TEXT`.
 
-The **`RAW`** template mode will simply not process templates at all. It is meant 
-to be used for inserting untouched resources (files, URL responses, etc.) into
-the templates being processed. For example, external, uncontrolled resources in
-HTML format could be included into application templates, safely knowing that
-any Thymeleaf code that these resources might include will not be executed.
-
-
+El modo de plantilla **`RAW`** simplemente no procesará ninguna plantilla. Está 
+destinado a usarse para insertar recursos intactos (archivos, respuestas de 
+URL, etc.) en las plantillas que se procesan. Por ejemplo, recursos 
+incontrolados, externos en formato HTML podrían ser incluídos en plantillas de la 
+aplicación, sabiendo de forma segura que no se ejecutará ningún código 
+Thymeleaf que estos recursos puedan incluir.
 
 1.3  Dialectos: El dialecto estándar
 ------------------------------------
 
-Thymeleaf is an extremely extensible template engine (in fact it could be called
-a _template engine framework_) that allows you to define and customize the way
-your templates will be processed to a fine level of detail.
+Thymeleaf es un motor de plantillas extremadamente extensible (en realidad podría 
+ser llamado un _marco de trabajo de motor de plantillas_) que le permite definir 
+y personalizar la forma en las que sus plantillas serán procesadas hasta un 
+nivel fino de detalle.
 
-An object that applies some logic to a markup artifact (a tag, some text, a
-comment, or a mere placeholder if templates are not markup) is called a _processor_,
-and a set of these processors -- plus perhaps some extra artifacts -- is what
-a **dialect** is normally comprised of. Out of the box, Thymeleaf's core library
-provides a dialect called the **Standard Dialect**, which should be enough for
-most users. 
+Un objeto que aplica alguna lógica a un artefacto de marcado (una etiqueta, algo 
+de texto, un comentarios, o un mero marcador de posición si las plantillas no están 
+marcadas) se llama un _procesador_ (processor en inglés, N. del T.) y un 
+conjunto de esos procesadores -- más quizás algunos artefactos extra -- es de 
+lo que se compone normalmente un **dialecto** (dialect en inglés, N. del T.). 
+Tal como está, la librería principal de Thymeleaf proporciona un dialecto 
+llamado el **Dialecto Estandar*, el cual debería ser suficiente para la mayoría 
+de los usuarios.
 
-> Note that dialects can actually have no processors and be entirely comprised
-> of other kinds of artifacts, but processors are definitely the most common
-> use case.
+> Tenga en cuenta que los dialectos pueden en realidad no tener procesadores y 
+> estar enteramente compuestos de otras clases de artifactos, pero los 
+> procesadores son definitivamente el caso de uso más común.
 
-_This tutorial covers the Standard Dialect_. Every attribute and syntax feature
-you will learn about in the following pages is defined by this dialect, even if
-that isn't explicitly mentioned.
+_Este tutorial cubre el Dialecto Estándar_. Cada atributo y característica de 
+sintaxis que aprenderá en las páginas siguientes se define por este dialecto, 
+incluso si no se menciona explicitamente.
 
-Of course, users can create their own dialects (even extending the Standard one)
-if they want to define their own processing logic while taking advantage of the
-library's advanced features. Thymeleaf can also be configured to use several
-dialects at a time.
+Por supuesto, los usuarios pueden crear sus propios dialectos (incluso 
+extendiendo el Estándar) si quieren definir su propia lógica de procesamiento 
+mientras se aprovechan de las características avanzadas de la librería. 
+Thymeleaf puede ser configurado para usar varios dialectos a la vez.
 
-> The official thymeleaf-spring3 and thymeleaf-spring4 integration packages
-> both define a dialect called the "SpringStandard Dialect", which is mostly the
-> same as the Standard Dialect, but with small adaptations to make better use of
-> some features in the Spring Framework (for example, by using Spring Expression
-> Language or SpringEL instead of OGNL). So if you are a Spring MVC user you are
-> not wasting your time, as almost everything you learn here will be of use in
-> your Spring applications.
+> Los paquetes de integración oficiales thymeleaf-spring3 y thymeleaf-spring4 
+> definen ambos un dialecto llamado el "Dialecto SpringStańdar", el cual en su 
+> mayor parte es el mismo que el Dialecto Estándar, pero con pequeñas 
+> adaptaciones para hacer un mejor uso de algunas características de Spring 
+> Framework (por ejemplo, usando el Lenguaje de Expresión de Spring y SpringEL en 
+> vez de OGNL). Así que si usted es un usuario de Spring MVC no estará perdiendo 
+> su tiempo, y casi todas las cosas que aprenderá aquí será de uso en sus 
+> aplicaciones Spring.
 
-Most of the processors of the Standard Dialect are _attribute processors_. This
-allows browsers to correctly display HTML template files even before
-being processed because they will simply ignore the additional attributes. For
-example, while a JSP using tag libraries could include a fragment of code not
-directly displayable by a browser like:
+La mayoría de los procesadores del Dialecto Estándar son _procesadores de 
+atributos_. Esto permite a los navegadores visualizar correctamente los ficheros 
+de plantilla HTML incluso antes de ser procesados porque simplemente ignoran los 
+atributos adicionales. Por ejemplo, mientras una JSP usando una librería de 
+etiquetas podría incluir un fragmento de código no directamente visualizable por 
+un navegador como:
 
 ```html
 <form:inputText name="userName" value="${user.name}" />
 ```
 
-...the Thymeleaf Standard Dialect would allow us to achieve the same
-functionality with:
+...El Dialecto Estándar de Thymeleaf nos permitiría alcanzar la misma 
+funcionalidad con::
 
 ```html
 <input type="text" name="userName" value="James Carrot" th:value="${user.name}" />
 ```
 
-Not only will this be correctly displayed by browsers, but this also allows us to
-(optionally) specify a value attribute in it ("James Carrot", in this case) that
-will be displayed when the prototype is statically opened in a browser, and that
-will be substituted by the value resulting from the evaluation of `${user.name}`
-during processing of the template.
+No solo será esto más correctamente mostrado por los navegadores, sino que también 
+nos permite (opcionalmente) especificar un valor de atributo en éste ("James 
+Carrot", en este caso) que será mostrado cuando el prototipo esté abierto 
+estáticamente en un navegador, y que será sustituido por el valor resultante de 
+la evaluación de `${user.name}` durante el procesado de la plantilla.
 
-This helps your designer and developer to work on the very same template file
-and reduce the effort required to transform a static prototype into a working
-template file. The ability to do this is a feature called _Natural Templating_.
-
-
-
+Esto ayuda a que tu diseñador y desarrollador trabajen en el mismo fichero de 
+plantilla y reduce el esfuerzo requerido para transformar un prototipo estático 
+en un fichero de plantilla funcional. La habilidad para hacer esto es una 
+funcionalidad llamada _Plantillado Natural_.
 
 2\. La tienda de comestibles virtual Good Thymes
 ================================================

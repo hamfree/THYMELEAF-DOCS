@@ -189,7 +189,7 @@ public class ProductService {
 
     ...
 
-    public List<Product> findAll() { // Unexpected token
+    public List<Product> findAll() {
         return ProductRepository.getInstance().findAll();
     }
 

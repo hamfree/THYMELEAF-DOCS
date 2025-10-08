@@ -13,9 +13,9 @@
  * Consulte la Licencia para conocer el idioma específico que rige los permisos y las
  * limitaciones de la Licencia.
  */
- 
 
 
+import com.github.psxpaul.task.ExecFork
 import org.apache.tools.ant.filters.ReplaceTokens
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -37,6 +37,11 @@ plugins {
 	id 'org.gretty' version '4.0.3'
 }
 
+war {
+    webAppDirectory = file("${project.layout.buildDirectory.get()}/site/doc")
+}
+
+
 dependencies {
 	// Needed for org.apache.tools.ant.filters.ReplaceTokens
 	implementation 'org.apache.ant:ant:1.10.14'
@@ -46,12 +51,12 @@ dependencies {
 repositories {
 	mavenCentral()
 	maven {
-		url 'https://plugins.gradle.org/m2/'
+		url = 'https://plugins.gradle.org/m2/'
 	}
 }
 
 gretty {
-	scanInterval 0
+	scanInterval = 0
 }
 
 // Reemplaza los marcadores de posición @projectVersion@ y @documentVersion@ en los documentos
@@ -79,15 +84,15 @@ def imagesDir    = file("${projectDir}/images")
 def scriptsDir   = file("${projectDir}/scripts")
 def stylesDir    = file("${projectDir}/styles")
 def templatesDir = file("${projectDir}/templates")
-def srcDir       = file("${buildDir}/source")
-def outputDir    = file("${buildDir}/site/doc")
+def builddir = file("${project.layout.buildDirectory.get()}")
+def srcDir       = file("${builddir}/source")
+def outputDir    = file("${builddir}/site/doc")
 def cmdPandoc = "pandoc"
 def cmdWkhtmltopdf = "wkhtmltopdf"
-
-project.webAppDirName = outputDir.path
-
 def docNames = [] as Set
 def docTypes = [:]
+
+
 
 /**
  * Copia todos los documentos y recursos al directorio de origen, desde donde
@@ -163,33 +168,34 @@ tasks.register('copyResources') {
  */
 tasks.register('generateDocsHTML') {
 	dependsOn 'copyResources'
-	description "Genera documentos HTML a partir de los documentos de rebajas de Thymeleaf"
+	description = "Genera documentos HTML a partir de los documentos de rebajas de Thymeleaf"
 
 	doLast {
 		docNames.each { docName ->
 			def docType = docTypes.get(docName)
 
 			if (conversions[docType].contains('html')) {
-				println "Generando el documento HTML para ${docName} (${docType})..."
+                println "Generando el documento HTML para ${docName} (${docType})..."
 
-				def outputFile = file("${outputDir}/${docName}.html")
-				file(outputFile.parent).mkdirs()
-				exec {
-					// Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
-					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = cmdPandoc
-					args = [
-						"--write=html5",
-						"--template=" + file("${templatesDir.path}/${docType}.html"),
-						"--wrap=none",
-						"--toc",
-						"--toc-depth=4",
-						"--section-divs",
-						"--no-highlight",
-						"--output=" + outputFile,
-						"${srcDir.path}/${docName}.md"
-					]
-				}
+                def outputFile = file("${outputDir}/${docName}.html")
+                file(outputFile.parent).mkdirs()
+                providers.exec {
+
+                // Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
+                // la elección que hayas tomado en la instalación (N. del T.)
+                commandLine(cmdPandoc,
+                        args = [
+                                "--write=html5",
+                                "--template=" + file("${templatesDir.path}/${docType}.html"),
+                                "--wrap=none",
+                                "--toc",
+                                "--toc-depth=4",
+                                "--section-divs",
+                                "--no-highlight",
+                                "--output=" + outputFile,
+                                "${srcDir.path}/${docName}.md"
+                        ])
+                }
 			}
 		}
 
@@ -257,7 +263,7 @@ tasks.register('generateDocsEbook') {
  * en un  proceso en segundo plano. Esto se debe a que Gretty bloquea el hilo
  * existente  hasta que el servidor se apaga por otros medios.
  */
-tasks.register('startServer', com.github.psxpaul.task.ExecFork) {
+tasks.register('startServer', ExecFork) {
 	dependsOn 'war'
 
 	commandLine = './gradlew'

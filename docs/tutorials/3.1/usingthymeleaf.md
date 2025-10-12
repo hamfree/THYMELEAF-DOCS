@@ -155,33 +155,35 @@ funcionalidad llamada _Plantillado Natural_.
 2\. La tienda de comestibles virtual Good Thymes
 ================================================
 
-The source code for the examples shown in this, and future chapters of this
-guide, can be found in the _Good Thymes Virtual Grocery (GTVG)_ example app
-which has two (equivalent) versions:
+El código fuente para los ejemplos mostrados en este, y futuros capítulos de 
+esta guía, se puede encontrar en en ejemplo _Good Thymes Virtual Grocery (GTVG)_
+el cual tiene dos versiones (equivalentes):
 
-   * `javax.*` based: [gtvg-javax](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-javax).
-   * `jakarta.*` based: [gtvg-jakarta](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-jakarta).
+   * basado en `javax.*`: [gtvg-javax](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-javax).
+   * basado en `jakarta.*`: [gtvg-jakarta](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-jakarta).
 
 
 
 2.1 Un sitio web para una tienda de comestibles
 -----------------------------------------------
 
-To better explain the concepts involved in processing templates with Thymeleaf,
-this tutorial will use a demo application which you can download from the
-project's web site.
+Para explicar mejor los conceptos involucrados en el procesadamiento de 
+plantillas con Thymeleaf, este tutorial usará una aplicación de demostración que 
+puede descargar desde el sitio web del proyecto.
 
-This application is the web site of an imaginary virtual grocery, and will
-provide us with many scenarios to showcase Thymeleaf's many features.
+Esta aplicación es el sitio web de una tienda de comestibles  virtual 
+imaginaria, y nos ofrecerá muchos escenarios para mostrar las muchas 
+características de Thymeleaf.
 
-To start, we need a simple set of model entities for our application: `Products`
-which are sold to `Customers` by creating `Orders`. We will also be managing `Comments`
-about those `Products`:
+Para empezar, necesitamos un conjunto simple de entidades del modelo para 
+nuestra aplicación:  `Products` (Productos) que son vendidos a los `Customers`
+(Clientes) creando `Orders` (Pedidos). También gestionaremos  `Comments` 
+(Comentarios) sobre estos `Products`:
 
-![Example application model](images/usingthymeleaf/gtvg-model.png)
+![Ejemplo del modelo de la aplicación](images/usingthymeleaf/gtvg-model.png)
 
-Our application will also have a very simple service layer, composed by `Service`
-objects containing methods like:
+Nuestra aplicación también tendrá una capa muy simple de servicio, compuesta por 
+objetos `Service` (Servicio) que contienen métodos como:
 
 
 ```java
@@ -200,27 +202,27 @@ public class ProductService {
 }
 ```
 
-At the web layer our application will have a filter that will delegate
-execution to Thymeleaf-enabled commands depending on the request URL:
+En la capa web nuestra aplicación tendrá un filtro que delegará la ejecución a 
+los comandos habilitados por Thymeleaf dependiendo de la URL solicitada:
 
 ```java
 
 /*
- * The application object needs to be declared first (implements IWebApplication)
- * In this case, the Jakarta-based version will be used.
+ * El objeto application necesita ser declarado primero (implementa IWebApplication)
+ * En este caso, se usará la versión basada en Jakarta.
  */
 public void init(final FilterConfig filterConfig) throws ServletException {
     this.application =
             JakartaServletWebApplication.buildApplication(
                 filterConfig.getServletContext());
-    // We will see later how the TemplateEngine object is built and configured
+    // Veremos más tarde cómo el objeto TemplateEngine se construye y configura
     this.templateEngine = buildTemplateEngine(this.application);
 }
 
 /*
- * Each request will be processed by creating an exchange object (modeling
- * the request, its response and all the data needed for this process) and
- * then calling the corresponding controller.
+ * Cada petición será procesada creando un objeto de intercambio (modelando la 
+ * petición, su respuesta y todos los datos necesitados para este proceso) y 
+ * después se llama al controlador correspondiente.
  */
 private boolean process(HttpServletRequest request, HttpServletResponse response)
         throws ServletException {
@@ -231,7 +233,7 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
             this.application.buildExchange(request, response);
         final IWebRequest webRequest = webExchange.getRequest();
 
-        // This prevents triggering engine executions for resource URLs
+        // Esto evita que se activen ejecuciones del motor para las URLs de recursos
         if (request.getRequestURI().startsWith("/css") ||
                 request.getRequestURI().startsWith("/images") ||
                 request.getRequestURI().startsWith("/favicon")) {
@@ -239,9 +241,9 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
         }
         
         /*
-         * Query controller/URL mapping and obtain the controller
-         * that will process the request. If no controller is available,
-         * return false and let other filters/servlets process the request.
+         * Consulta la asignación de controlador/URL y obtiene el controlador 
+         * que procesará la solicitud. Si no hay ningún controlador disponible, 
+         * devuelve falso y deja que otros filtros/servlets procesen la solicitud. 
          */
         final IGTVGController controller = 
             ControllerMappings.resolveControllerForRequest(webRequest);
@@ -250,7 +252,7 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
         }
 
         /*
-         * Write the response headers
+         *  Escribe las cabeceras de la respuesta
          */
         response.setContentType("text/html;charset=UTF-8");
         response.setHeader("Pragma", "no-cache");
@@ -258,13 +260,14 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
         response.setDateHeader("Expires", 0);
 
         /*
-         * Obtain the response writer
+         * Obtiene el flujo escritor (writer) de la respuesta (response)
          */
         final Writer writer = response.getWriter();
 
         /*
-         * Execute the controller and process view template,
-         * writing the results to the response writer. 
+         * Ejecuta el controlador y procesa la plantilla de la vista, 
+         * escribiendo los resultados al flujo escritor de la respuesta 
+         * (response writer) 
          */
         controller.process(webExchange, this.templateEngine, writer);
         
@@ -274,7 +277,7 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
         try {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } catch (final IOException ignored) {
-            // Just ignore this
+            // Simplemente ignora esto
         }
         throw new ServletException(e);
     }
@@ -282,7 +285,7 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
 }
 ```
 
-This is our `IGTVGController` interface:
+Este es nuestro interfaz `IGTVGController`:
 
 ```java
 public interface IGTVGController {
@@ -296,46 +299,46 @@ public interface IGTVGController {
 }
 ```
 
-All we have to do now is create implementations of the `IGTVGController`
-interface, retrieving data from the services and processing templates using the
-`ITemplateEngine` object.
+Todo lo que tenemos que hacer ahora es crear implementaciones de la interfaz 
+`IGTVGController`, recuperando los datos de los servicios y procesando las 
+plantillas usando el objeto `ITemplateEngine`.
 
-In the end, it will look like this:
+Al final se verá así:
 
-![Example application home page](images/usingthymeleaf/gtvg-view.png)
 
-But first let's see how that template engine is initialized.
+![Ejemplo de página de inicio de la aplicación](images/usingthymeleaf/gtvg-view.png)
+
+Pero primero veamos cómo se inicializa el motor de plantillas.
 
 
 
 2.2 Creación y configuración del Motor de Plantillas
 ----------------------------------------------------
 
-The _init(...)_ method in our filter contained this line:
+El método _init(...)_ en nuestro filtro contenía esta línea: 
 
 ```java
 this.templateEngine = buildTemplateEngine(this.application);
 ```
-
-Let's see now how our `org.thymeleaf.TemplateEngine` object is initialized:
+Veamos ahora cómo nuestro objeto `org.thymeleaf.TemplateEngine` se inicializa: 
 
 ```java
 private static ITemplateEngine buildTemplateEngine(final IWebApplication application) {
 
-    // Templates will be resolved as application (ServletContext) resources
+    // Las plantillas se resolverán como recursos de aplicación (ServletContext)
     final WebApplicationTemplateResolver templateResolver = 
             new WebApplicationTemplateResolver(application);
 
-    // HTML is the default mode, but we will set it anyway for better understanding of code
+    // HTML es el modo por defecto, pero lo estableceremos igualmente para entender mejor el código
     templateResolver.setTemplateMode(TemplateMode.HTML);
-    // This will convert "home" to "/WEB-INF/templates/home.html"
+    // Esto convertíra "home" en "/WEB-INF/templates/home.html"
     templateResolver.setPrefix("/WEB-INF/templates/");
     templateResolver.setSuffix(".html");
-    // Set template cache TTL to 1 hour. If not set, entries would live in cache until expelled by LRU
+    // Establece la caché TTL de la plantilla a 1 hora. Si no establece, las entradas existirían en la caché hasta que la LRU las expulse 
     templateResolver.setCacheTTLMs(Long.valueOf(3600000L));
 
-    // Cache is set to true by default. Set to false if you want templates to
-    // be automatically updated when modified.
+    // La caché se establece a verdadero por defecto. Establézcala a falso si quiere que las plantillas
+    // se actualizen automáticamente cuando se modifiquen.
     templateResolver.setCacheable(true);
 
     final TemplateEngine templateEngine = new TemplateEngine();
@@ -345,22 +348,22 @@ private static ITemplateEngine buildTemplateEngine(final IWebApplication applica
 
 }
 ```
-
-There are many ways of configuring a `TemplateEngine` object, but for now these
-few lines of code will teach us enough about the steps needed.
+Hay muchas formas de configurar un objeto `TemplateEngine`, pero por ahora estas
+pocas líneas de código nos enseñarán lo bastante sobre los pasos necesitados.
 
 
 ### El Solucionador de Plantillas (Template Resolver)
 
-Let's start with the Template Resolver:
+Empecemos con el Solucionador de Plantillas (Template Resolver):
 
 ```java
 final WebApplicationTemplateResolver templateResolver = 
         new WebApplicationTemplateResolver(application);
 ```
 
-Template Resolvers are objects that implement an interface from the Thymeleaf
-API called `org.thymeleaf.templateresolver.ITemplateResolver`: 
+Los Solucionadores de Plantillas son objetos que implementan una interfaz de la 
+IPA (Interfaz Público de Aplicaciones, API en inglés) de Thymeleaf llamada
+`org.thymeleaf.templateresolver.ITemplateResolver`: 
 
 ```java
 public interface ITemplateResolver {
@@ -368,9 +371,9 @@ public interface ITemplateResolver {
     ...
   
     /*
-     * Templates are resolved by their name (or content) and also (optionally) their 
-     * owner template in case we are trying to resolve a fragment for another template.
-     * Will return null if template cannot be handled by this template resolver.
+     * Las plantillas se resuelven por su nombre (o contenido) y también (opcionalmente) por su 
+     * plantilla propietaria en el caso de que estemos intentando resolver un fragmento para otra plantilla.
+     * Devolverá nulo si la plantilla no puede ser manejada por este solucionador de plantillas.
      */
     public TemplateResolution resolveTemplate(
             final IEngineConfiguration configuration,
@@ -379,76 +382,78 @@ public interface ITemplateResolver {
 }
 ```
 
-These objects are in charge of determining how our templates will be accessed
-and, in this GTVG application, the use of `org.thymeleaf.templateresolver.WebApplicationTemplateResolver`
-means that we are going to retrieve our template files as resources from the
-_IWebApplication_ object: a Thymeleaf abstraction that, in Servlet-based applications,
-basically wraps around Servlet API's `[javax|jakarta].servlet.ServletContext` object,
-and that resolves resources from the web application root.
+Estos objetos están a cargo de determinar cómo serán accedidas nuestras plantillas 
+y, en esta aplicación GTVG, el uso de `org.thymeleaf.templateresolver.WebApplicationTemplateResolver`
+significa que vamos a recuperar nuestros ficheros de plantillas como recursos del 
+objeto _IWebApplication_: una abstracción de Thymeleaf que, en las aplicaciones basadas en Servlets,  
+básicamente envuelve el objeto de la IPA de Servlets `[javax|jakarta].servlet.ServletContext`, 
+y eso resuelve los recursos desde la raíz de la aplicación web.
 
-But that's not all we can say about the template resolver, because we can set
-some configuration parameters on it. First, the template mode:
+Pero eso no es todo lo que podemos decir sobre el solucionador de plantillas, porque podemos establecer
+algunos parámetros de configuración en él. Primero, el modo de plantilla:
 
 ```java
 templateResolver.setTemplateMode(TemplateMode.HTML);
 ```
-
-HTML is the default template mode for `WebApplicationTemplateResolver`, but it
-is good practice to establish it anyway so that our code documents clearly what
-is going on.
+HTML es el modo de plantilla por defecto para `WebApplicationTemplateResolver`, pero es 
+una buena práctica establecerla siempre de forma que nuestro código documente claramente lo qué 
+está sucediendo.
 
 ```java
 templateResolver.setPrefix("/WEB-INF/templates/");
 templateResolver.setSuffix(".html");
 ```
+Los _prefix_ y _suffix_ modifican los nombres de la plantilla que estamos pasando al 
+motor para obtener los nombres reales del recurso que se utilizarán.
 
-The _prefix_ and _suffix_ modify the template names that we will be passing to
-the engine for obtaining the real resource names to be used.
-
-Using this configuration, the template name _"product/list"_ would correspond to:
+Usando esta configuración, el nombre de plantilla _"product/list"_ correspondería a:
 
 ```java
 servletContext.getResourceAsStream("/WEB-INF/templates/product/list.html")
 ```
 
-Optionally, the amount of time that a parsed template can live in the cache is
-configured at the Template Resolver by means of the _cacheTTLMs_ property:
+Opcionalmente, la cantidad de tiempo que una plantilla analizada puede existir en la caché se 
+configura en el Solucionador de Plantillas mediante la propiedad _cacheTTLMs_: 
+
 
 ```java
 templateResolver.setCacheTTLMs(3600000L);
 ```
 
-A template can still be expelled from cache before that TTL is reached if the
-max cache size is reached and it is the oldest entry currently cached.
+Una plantilla puede aún ser expulsada de la caché antes de que se alcance el TTL 
+si se alcanza el tamaño máximo de la caché y esta es la entrada más antigua 
+almacenada actualmente en caché. 
 
-> Cache behaviour and sizes can be defined by the user by implementing the `ICacheManager`
-> interface or by modifying the `StandardCacheManager` object to manage the
-> default cache.
+> El comportamiento y tamaños de la Caché puede ser definido por el usuario implementando 
+> la interfaz `ICacheManager` o modificando el objeto `StandardCacheManager` para gestionar 
+> la caché por defecto.
 
-There is much more to learn about template resolvers, but for now let's have a
-look at the creation of our Template Engine object.
+Hay mucho más que aprender sobre los solucionadores de plantillas, pero por ahora
+echemos un vistazo a la creación de nuestro objeto de Motor de Plantilla (Templete Engine).
 
 
 ### El Motor de Plantillas (Template Engine)
 
-Template Engine objects are implementations of the `org.thymeleaf.ITemplateEngine`
-interface. One of these implementations is offered by the Thymeleaf core:
-`org.thymeleaf.TemplateEngine`, and we create an instance of it here:
+Los objetos de Motor de Plantilla son implementaciones de la interfaz 
+`org.thymeleaf.ITemplateEngine`. Una de estas implementaciones es ofrecida por 
+el nucleo de Thymeleaf: `org.thymeleaf.TemplateEngine`, y nosotros craemos una 
+instancia de esta aquí:
 
 ```java
 templateEngine = new TemplateEngine();
 templateEngine.setTemplateResolver(templateResolver);
 ```
 
-Rather simple, isn't it? All we need is to create an instance and set the
-Template Resolver to it.
+Bastante sencillo, ¿verdad? Todo lo que necesitamos es crear una instancia y 
+configurarla como Solucionador de Plantillas.
 
-A template resolver is the only *required* parameter a `TemplateEngine` needs,
-although there are many others that will be covered later (message resolvers,
-cache sizes, etc). For now, this is all we need.
+Un solucionador de plantillas es el único parámetro *requerido* que necesita un
+`TemplateEngine`, aunque existen muchos otros que cubriremos más tarde 
+(resolvedores de mensajes, tamaños de caché, etc). Por ahora, esto es todo lo que 
+necesitamos.
 
-Our Template Engine is now ready and we can start creating our pages using
-Thymeleaf.
+Nuestro Motor de Plantillas está ahora listo y podemos empezar a crear nuestras 
+páginas usando Thymeleaf.
 
 
 
@@ -459,10 +464,11 @@ Thymeleaf.
 3.1 Una bienvenida en varios idiomas
 ------------------------------------
 
-Our first task will be to create a home page for our grocery site.
+Nuestra primera tarea será crear una página de inicio para nuestro sitio de la 
+tienda de comestibles.
 
-The first version of this page will be extremely simple: just a title and a
-welcome message. This is our `/WEB-INF/templates/home.html` file:
+La primera versión de esta página ser extremadamente simple: simplemente un título 
+y un mensaje de bienvenida. Este es nuestro fichero `/WEB-INF/templates/home.html`:
 
 ```html
 <!DOCTYPE html>
@@ -470,7 +476,7 @@ welcome message. This is our `/WEB-INF/templates/home.html` file:
 <html xmlns:th="http://www.thymeleaf.org">
 
   <head>
-    <title>Good Thymes Virtual Grocery</title>
+    <title>Tienda de comestibles virtual Good Thymes</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
@@ -478,33 +484,36 @@ welcome message. This is our `/WEB-INF/templates/home.html` file:
 
   <body>
   
-    <p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+    <p th:text="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
   
   </body>
 
 </html>
 ```
 
-The first thing you will notice is that this file is HTML5 that can be correctly
-displayed by any browser because it does not include any non-HTML tags (browsers
-ignore all attributes they don't understand, like `th:text`).
+Lo primero que notará es que este archivo es HTML5 y puede ser mostrado 
+correctamente por cualquier navegador porque no incluye ninguna etiqueta que no 
+sea HTML (los navegadores ignoran todos los atributos que no entienden, como 
+`th:text`).
 
-But you may also notice that this template is not really a _valid_ HTML5
-document, because these non-standard attributes we are using in the `th:*` form
-are not allowed by the HTML5 specification. In fact, we are even adding an `xmlns:th` 
-attribute to our `<html>` tag, something absolutely non-HTML5-ish:
+Pero también podrá notar que esta plantilla no es realmente un documento HTML5 
+_válido_, porque esos atributos no estándar que estamos usando en la forma `th:*`
+no están permitidos por la especificación HTML5. En realidad, estamos incluso 
+agregando un atributo `xmlns:th` a nuestra etiqueta `<html>`, algo absolutamente 
+no HTML5:
 
 ```html
 <html xmlns:th="http://www.thymeleaf.org">
 ```
+...que no tiene ninguna influencia en el procesamiento de la plantilla, pero 
+funciona como un *encantamiento* que evita que nuestro IDE se queje de la falta 
+de un espacio de nombres de una definición de espacio de nombres para todos esos 
+atributos `th:*`.
 
-...which has no influence at all in template processing, but works as an
-*incantation* that prevents our IDE from complaining about the lack of a
-namespace definition for all those `th:*` attributes.
-
-So what if we wanted to make this template **HTML5-valid**? Easy: switch to
-Thymeleaf's data attribute syntax, using the `data-` prefix for attribute names
-and hyphen (`-`) separators instead of semi-colons (`:`):
+¿Y qué pasa si queremos que esta plantilla sea **válida para HTML5**? Fácil: 
+cambie a la sintaxis de atributos de datos de Thymeleaf, utilizando el prefijo 
+`data-` para los nombres de atributos y separadores de guion (`-`) en lugar de 
+punto y coma (`:`):
 
 ```html
 <!DOCTYPE html>
@@ -512,7 +521,7 @@ and hyphen (`-`) separators instead of semi-colons (`:`):
 <html>
 
   <head>
-    <title>Good Thymes Virtual Grocery</title>
+    <title>Tienda de comestibles virtual Good Thymes</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../css/gtvg.css" data-th-href="@{/css/gtvg.css}" />
@@ -520,87 +529,89 @@ and hyphen (`-`) separators instead of semi-colons (`:`):
 
   <body>
   
-    <p data-th-text="#{home.welcome}">Welcome to our grocery store!</p>
+    <p data-th-text="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
   
   </body>
 
 </html>
 ```
 
-Custom `data-` prefixed attributes are allowed by the HTML5 specification, so,
-with this code above, our template would be a *valid HTML5 document*.
+Los atributos personalizados `data-` están permitidos por la especificación HTML5, 
+de forma que, con el código de arriba, nuestra plantilla sería un *documento HTML5 
+válido*.
 
-> Both notations are completely equivalent and interchangeable, but for the sake
-> of simplicity and compactness of the code samples, this tutorial will use the
-> *namespace notation* (`th:*`). Also, the `th:*` notation is more general and
-> allowed in every Thymeleaf template mode (`XML`, `TEXT`...) whereas the `data-`
-> notation is only allowed in `HTML` mode.
+> Ambas notaciones son completamente equivalentes e intercambiables, pero por el
+> bien de la simplicidad y la brevedad de los ejemplos de código, este tutorial 
+> usará la *notacion del espacion de nombres* (`th:*`). Además, la notación
+> `th:*` es más general y permitida en cada modo de plantilla Thymeleaf (`XML`, 
+> `TEXT`...) mientras que la notación `data-` se permite solo en el modo `HTML`.
 
 
 ### Usando th:text y externalizando texto
 
-Externalizing text is extracting fragments of template code out of template
-files so that they can be kept in separate files (typically `.properties` files)
-and that they can be easily replaced with equivalent texts written in other
-languages (a process called internationalization or simply _i18n_). Externalized
-fragments of text are usually called *"messages"*.
+Externalizar texto es extraer fragmentos del código de la plantilla fuera de los 
+ficheros de plantillas de forma que puedan mantenerse en ficheros separados
+(normalmente ficheros `.properties`) y que puedan ser facilmente reemplazados con
+los textos equivalentes escritos en otros lenguajes (un proceso llamado 
+internacionalización o simplemente _i18n_). Los fragmentos externalizados de 
+texto se llaman normalmente *"messages"*.
 
-Messages always have a key that identifies them, and Thymeleaf allows you to
-specify that a text should correspond to a specific message with the `#{...}`
-syntax:
+Los mensajes (messages) siempre tienen una clave que los identifica, y Thymeleaf 
+le permite especificar que un texto corresponderá a un mensaje específico con la 
+sintaxis `#{...}`:
 
 ```html
-<p th:text="#{home.welcome}">Welcome to our grocery store!</p>
+<p th:text="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
 ```
 
-What we can see here are in fact two different features of the Thymeleaf
-Standard Dialect:
+Lo que podemos ver aquí es de hecho dos características diferentes del Dialecto 
+Estandar de Thymeleaf:
 
- * The `th:text` attribute, which evaluates its value expression and sets the
-   result as the body of the host tag, effectively replacing the "Welcome to our
-   grocery store!" text we see in the code.
- * The `#{home.welcome}` expression, specified in the _Standard Expression Syntax_,
-   instructing that the text to be used by the `th:text` attribute should be the
-   message with the `home.welcome` key corresponding to whichever locale we are
-   processing the template with.
+ * El atributo `th:text`, que evalúa su expresión de valor y establece el
+   resultado como el cuerpo de la etiqueta anfitriona, reemplazando efectivamente
+   el texto "¡Bienvenido a nuestra tienda de comestibles!" que vemos en el código.
+ * La expresión `#{home.welcome}`, especficada en la _Sintaxis de la Expresión 
+   Estándar_, que indica que el texto que debe utilizar  el atributo `th:text`
+   debe ser reemplazado por el mensaje con la clave `home.welcome` correspondiente  
+   a la configuración regional con la que estamos procesando la plantilla.
 
-Now, where is this externalized text?
+Ahora bien, ¿dónde está este texto externalizado?
 
-The location of externalized text in Thymeleaf is fully configurable, and it
-will depend on the specific `org.thymeleaf.messageresolver.IMessageResolver`
-implementation being used. Normally, an implementation based on `.properties`
-files will be used, but we could create our own implementations if we wanted,
-for example, to obtain messages from a database.
+La ubicación del texto externalizado en Thymelea es completamente configurable, y 
+dependerá de la implementación específica de `org.thymeleaf.messageresolver.IMessageResolver`
+que será usada, pero podríamos crear nuestras propias implementaciones si 
+quisiéramos, por ejemplo, obtener los mensajes de una base de datos.
 
-However, we have not specified a message resolver for our template engine during
-initialization, and that means that our application is using the _Standard Message Resolver_,
-implemented by `org.thymeleaf.messageresolver.StandardMessageResolver`.
+Sin embargo, no hemos especificdo un solucionador de mensajes para nuestro motor 
+de plantillas durante la inicialización, y eso significa que nuestra aplicación 
+está usando el _Solucionador Estándar de Mensajes_, implementado por 
+`org.thymeleaf.messageresolver.StandardMessageResolver`.
 
-The standard message resolver expects to find messages for `/WEB-INF/templates/home.html`
-in properties files in the same folder and with the same name as the template,
-like:
+El solucionador estándar de mensajes espera encontrar los mensaje para 
+`/WEB-INF/templates/home.html` en ficheros de propiedades en la misma carpeta y 
+con el mismo nombre que la plantilla, como:
 
- * `/WEB-INF/templates/home_en.properties` for English texts.
- * `/WEB-INF/templates/home_es.properties` for Spanish language texts.
- * `/WEB-INF/templates/home_pt_BR.properties` for Portuguese (Brazil) language
-   texts.
- * `/WEB-INF/templates/home.properties` for default texts (if the locale is not
-   matched).
+ * `/WEB-INF/templates/home_en.properties` para textos en inglés.
+ * `/WEB-INF/templates/home_es.properties` para textos en lenguaje español.
+ * `/WEB-INF/templates/home_pt_BR.properties` para textos en lenguaje portugues (Brasil).
+ * `/WEB-INF/templates/home.properties` para los textos por defecto (si la 
+   configuración regional no coincide).
 
-Let's have a look at our `home_es.properties` file:
+Echemos un vistazo a nuestro fichero `home_es.properties`:
 
 ```
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
 ```
 
-This is all we need for making Thymeleaf process our template. Let's create our
-Home controller then.
+Esto es todo lo que necesitamos para que Thymelea procese nuestra plantilla. 
+Ahora, creemos ahora nuestro controlador de inicio.
+
 
 
 ### Contextos (Contexts)
 
-In order to process our template, we will create a `HomeController` class
-implementing the `IGTVGController` interface we saw before:
+Para procesar nuestra plantilla, crearemos una clase `HomeController` que 
+implemente la interfaz `IGTVGController` que vimos antes:
 
 ```java
 public class HomeController implements IGTVGController {
@@ -620,11 +631,11 @@ public class HomeController implements IGTVGController {
 }
 ```
 
-The first thing we see is the creation of a *context*. A Thymeleaf context is an
-object implementing the `org.thymeleaf.context.IContext` interface. Contexts
-should contain all the data required for an execution of the template engine in
-a variables map, and also reference the locale that must be used for
-externalized messages.
+Lo primero que vemos es la creación de un *contexto*. Un contexto de Thymeleaf 
+es un objeto que implementa la interfaz `org.thymeleaf.context.IContext`. Los 
+contextos deben contener todos los datos necesarios para la ejecución del motor 
+de plantillas en un mapa de variables, así como la configuración regional que 
+debe utilizarse para los mensajes externalizados.
 
 ```java
 public interface IContext {
@@ -637,8 +648,8 @@ public interface IContext {
 }
 ```
 
-There is a specialized extension of this interface, `org.thymeleaf.context.IWebContext`,
-meant to be used in web applications.
+Existe una extensión especializada de esta interfaz,  `org.thymeleaf.context.IWebContext`,
+diseñada para ser utilizada en aplicaciones web.
 
 ```java
 public interface IWebContext extends IContext {
@@ -648,33 +659,34 @@ public interface IWebContext extends IContext {
 }
 ```
 
-The Thymeleaf core library offers an implementation of each of these interfaces:
+El núcleo de la librería de Thymelea ofrede una implementación de cada una de 
+estas interfaces:
 
- * `org.thymeleaf.context.Context` implements `IContext`
- * `org.thymeleaf.context.WebContext` implements `IWebContext`
+ * `org.thymeleaf.context.Context` implementa `IContext`
+ * `org.thymeleaf.context.WebContext` implementa `IWebContext`
 
-And as you can see in the controller code, `WebContext` is the one we use. In
-fact we have to, because the use of a `WebApplicationTemplateResolver` requires
-that we use a context implementing `IWebContext`.
+Y como puede ver en el código del controlado, `WebContext` es el que usamos. De 
+hecho tenemos que hacerlo, porque el uso de un `WebApplicationTemplateResolver` 
+requiere que usemos un contexto que implemente `IWebContext`.
 
 ```java
 WebContext ctx = new WebContext(webExchange, webExchange.getLocale());
 ```
 
-The `WebContext` constructor requires information contained in the `IWebExchange`
-abstraction object that was created at the filter representing this
-web-based interchange (i.e. request + response). The default locale of the
-system will be used if none is specified (although you
-should never let this happen in real applications).
+El constructor `WebContext` requiere información contenida en el objeto de 
+abstracción `IWebExchange` que fue creado en el filtro representando este 
+intercambio basado en web (p.e. petición + respuesta). La configuración regional 
+por defecto del sistema se utilizará si no se especifica ninguna (aunque usted 
+no debe permitir nunca que esto ocurra en aplicaciones reales).
 
-There are some specialized expressions that we will be able to use to obtain the
-request parameters and the request, session and application attributes from the
-`WebContext` in our templates. For example:
+Existen algunas expresiones especializadas que seremos capaces de utilizar para 
+obtener los parámetros de la petición y los atributos de la  petición, sesión y 
+aplicación del `WebContext` en nuestras plantillas. Por ejemplo:
 
- * `${x}` will return a variable `x` stored into the Thymeleaf context or as an *exchange attribute* (A *"request attribute"* in Servlet jargon).
- * `${param.x}` will return a *request parameter* called `x` (which might be multivalued).
- * `${session.x}` will return a *session attribute* called `x`.
- * `${application.x}` will return an *application attribute* called `x` (a *"servlet context attribute"* in Servlet jargon).
+ * `${x}` devolverá una variable `x` almacenada en el contexto de Thymeleaf o como un *atributo de intercambio* (Un *"atributo de la petición"* e"* en la jerga de los Servlet).
+ * `${param.x}` devolverá un *parámetro de petición* llamado `x` (el cual podría ser multivalor).
+ * `${session.x}` devolverá un *atributo de sesión* llamado `x`.
+ * `${application.x}` devolverá un *atributo de aplicación* llamado `x` (un *"atributo del contexto del servlet"* en la jerga de los Servlets).
 
 
 ### Ejecución del motor de plantillas

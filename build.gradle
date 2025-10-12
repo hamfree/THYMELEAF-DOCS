@@ -87,8 +87,17 @@ def templatesDir = file("${projectDir}/templates")
 def builddir = file("${project.layout.buildDirectory.get()}")
 def srcDir       = file("${builddir}/source")
 def outputDir    = file("${builddir}/site/doc")
+
+/* Creo que mejor se incluyen estos ejecutables en el path */
+/* En Windows */
+def cmdPandoc = "C:\\Program Files\\Pandoc\\pandoc.exe"
+def cmdWkhtmltopdf = "D:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
+
+/* En Linux *
 def cmdPandoc = "pandoc"
 def cmdWkhtmltopdf = "wkhtmltopdf"
+ */
+
 def docNames = [] as Set
 def docTypes = [:]
 
@@ -179,22 +188,21 @@ tasks.register('generateDocsHTML') {
 
                 def outputFile = file("${outputDir}/${docName}.html")
                 file(outputFile.parent).mkdirs()
-                providers.exec {
-
-                // Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
-                // la elección que hayas tomado en la instalación (N. del T.)
-                commandLine(cmdPandoc,
-                        args = [
-                                "--write=html5",
-                                "--template=" + file("${templatesDir.path}/${docType}.html"),
-                                "--wrap=none",
-                                "--toc",
-                                "--toc-depth=4",
-                                "--section-divs",
-                                "--no-highlight",
-                                "--output=" + outputFile,
-                                "${srcDir.path}/${docName}.md"
-                        ])
+                exec {
+                    // Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
+                    // la elección que hayas tomado en la instalación (N. del T.)
+                    commandLine = cmdPandoc
+                    args = [
+                            "--write=html5",
+                            "--template=" + file("${templatesDir.path}/${docType}.html"),
+                            "--wrap=none",
+                            "--toc",
+                            "--toc-depth=4",
+                            "--section-divs",
+                            "--no-highlight",
+                            "--output=" + outputFile,
+                            "${srcDir.path}/${docName}.md"
+                    ]
                 }
 			}
 		}

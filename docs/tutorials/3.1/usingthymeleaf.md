@@ -691,15 +691,17 @@ aplicación del `WebContext` en nuestras plantillas. Por ejemplo:
 
 ### Ejecución del motor de plantillas
 
-With our context object ready, now we can tell the template engine to process
-the template (by its name) using the context, and passing it a response writer
-so that the response can be written to it:
+Con nuestro objeto de contexto listo, ahora podemos decirle al motor de plantillas
+que procese la plantilla (por su nombre) usando el contexto, y pasándole un 
+escritor de respuesta (response writer) de forma que la respuesta pueda escribir
+en él: 
+
 
 ```java
 templateEngine.process("home", ctx, writer);
 ```
 
-Let's see the results of this using the Spanish locale:
+Veamos los resultados de esto usando la configuración regional española:
 
 ```html
 <!DOCTYPE html>
@@ -707,7 +709,7 @@ Let's see the results of this using the Spanish locale:
 <html>
 
   <head>
-    <title>Good Thymes Virtual Grocery</title>
+    <title>Tienda de comestibles virtual Good Thymes</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" type="text/css" media="all" href="/gtvg/css/gtvg.css" />
   </head>
@@ -729,50 +731,52 @@ Let's see the results of this using the Spanish locale:
 ### Texto no escapado
 
 
-The simplest version of our Home page seems to be ready now, but there is
-something we have not thought about... what if we had a message like this?
+La versión  más simple de nuestra página de Inicio parece estar lista ahora, pero 
+hay algo en el código quelo que no hemos pensado... ¿Qué pasaría si tenemos un 
+mensaje como este?
 
 ```java
-home.welcome=Welcome to our <b>fantastic</b> grocery store!
+home.welcome=¡Bienvenido a nuestra <b>fantástica</b> tienda de comestibles!
 ```
 
-If we execute this template like before, we will obtain:
+Si ejecutamos esta plantilla como antes, obtendremos:
 
 ```html
-<p>Welcome to our &lt;b&gt;fantastic&lt;/b&gt; grocery store!</p>
+<p>¡Bienvenido a nuestra  &lt;b&gt;fantástica&lt;/b&gt; tienda de comestibles!</p>
 ```
 
-Which is not exactly what we expected, because our `<b>` tag has been escaped
-and therefore it will be displayed in the browser.
+Lo que no es exactamente lo que esperábamos, porque nuestra etiqueta `<b>` ha 
+sido escapada y por lo tanto será visualizada en el navegador.
 
-This is the default behaviour of the `th:text` attribute. If we want Thymeleaf
-to respect our HTML tags and not escape them, we will have to use a different
-attribute: `th:utext` (for "unescaped text"):
+Este es el comportamiento por defecto del atributo `th:text`. Si queremos que 
+Thymeleaf respete nuestras etiquetas HTML y no las escape, tendremos que usar un 
+atributo diferente: `th:utext` (para "texto sin escape"):
 
 ```html
-<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
+<p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
 ```
 
-This will output our message just like we wanted it:
+Esto sacará nuestro mensaje tal como lo queríamos:
+
 
 ```html
-<p>Welcome to our <b>fantastic</b> grocery store!</p>
+<p>¡Bienvenido a nuestra <b>fantástica</b> tienda de comestibles!</p>
 ```
 
 
 ### Uso y visualización de variables
 
-Now let's add some more content to our home page. For example, we may want to
-display the date below our welcome message, like this:
+Ahora agreguemos algo de más contenido a nuestra página de inicio. Por ejemplo, 
+podremos querer visualizar la fecha debajo de nuestor mensaje de bievenida, así:
 
 ```
-Welcome to our fantastic grocery store!
+¡Bienvenido a nuestra fantástica tienda de comestibles!
 
-Today is: 12 july 2010
+Hoy es: 12 julio 2010
 ```
 
-First of all, we will have to modify our controller so that we add that date as
-a context variable:
+En primer lugar, tendremos que modificar nuestro controlador para que agreguemos 
+esa fecha como variable de contexto:
 
 ```java
 public void process(
@@ -792,33 +796,33 @@ public void process(
 }
 ```
 
-We have added a `String` variable called `today` to our context, and now we can display
-it in our template:
-
+Hemos agregado una variable `String` llamada `today` a nuestro contexto, y ahora 
+podemos visualizarla en nuestra plantilla:
 ```html
 <body>
 
-  <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
+  <p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
 
-  <p>Today is: <span th:text="${today}">13 February 2011</span></p>
+  <p>Hoy es: <span th:text="${today}">13 febrero 2011</span></p>
   
 </body>
 ```
 
-As you can see, we are still using the `th:text` attribute for the job (and
-that's correct, because we want to replace the tag's body), but the syntax is
-a little bit different this time and instead of a `#{...}` expression value, we
-are using a `${...}` one. This is a **variable expression**, and it contains
-an expression in a language called _OGNL (Object-Graph Navigation Language)_
-that will be executed on the context variables map we talked about before.
+Como puede ver, estamos aún usando el atributo `th:text` para el trabajo (y eso 
+es correcto, poque queremos reemplazar el cuerpor de la etiqueta), pero la 
+sintaxis es un poquito diferente esta vez y en vez de una expresión de valor 
+`#{...}`, estamos usando una `${...}`. Esta es una **expresión de variable**, 
+y contiene una expresión en un lenguaje llamado _OGNL (Object-Graph Navigation 
+Language)_ (Lenguaje de Navegación de Objetos-Gráficos) que será ejecutado en el 
+mapa de variables del contexto del que hablamos antes.
 
-The `${today}` expression simply means "get the variable called today", but
-these expressions could be more complex (like `${user.name}` for "get the
-variable called user, and call its `getName()` method").
+La expresión `${today}` simplemente significa "obtén la variable llamada today", 
+pero estas expresiones podrían ser más complejas (como `${user.name}`) para 
+"obtener la variable llamada usuario, y llamar su método "getName()"
 
-There are quite a lot of possibilities in attribute values: messages, variable
-expressions... and quite a lot more. The next chapter will show us what all
-these possibilities are.
+Existen muchas posibilidades en los valores de los atributos: mensajes, 
+expresiones de variables... y mucho más. El siguiente capítulo nos mostrará 
+cuáles son todas estas posibilidades.
 
 
 
@@ -826,58 +830,56 @@ these possibilities are.
 4\. Sintaxis de expresiones estándar
 ====================================
 
-We will take a small break in the development of our grocery virtual store to
-learn about one of the most important parts of the Thymeleaf Standard Dialect:
-the Thymeleaf Standard Expression syntax.
-
-We have already seen two types of valid attribute values expressed in this
-syntax: message and variable expressions:
+Nos tomaremos un pequeño descanso en el desarrollo de nuestra tienda virtual de 
+comestibles para aprender sobre una de las partes más importantes del Dialecto 
+Estándar de Thymeleaf: La sintaxis de las Expresiones Estándar de Thymeleaf:
 
 ```html
-<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
+<p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
 
-<p>Today is: <span th:text="${today}">13 february 2011</span></p>
+<p>Hoy es: <span th:text="${today}">13 febrero 2011</span></p>
 ```
 
-But there are more types of expressions, and more interesting details to learn
-about the ones we already know. First, let's see a quick summary of the
-Standard Expression features:
+Pero existen más tipos de expresiones, y más detalles interesantes que aprender 
+sobre las que ya conocemos. Primero, veamos un breve resumen de las 
+características de las expresiones estándar:
 
- * Simple expressions:
-    * Variable Expressions: `${...}`
-    * Selection Variable Expressions: `*{...}`
-    * Message Expressions: `#{...}`
-    * Link URL Expressions: `@{...}`
-    * Fragment Expressions: `~{...}`
- * Literals
-    * Text literals: `'one text'`, `'Another one!'`,...
-    * Number literals: `0`, `34`, `3.0`, `12.3`,...
-    * Boolean literals: `true`, `false`
-    * Null literal: `null`
-    * Literal tokens: `one`, `sometext`, `main`,...
- * Text operations: 
-    * String concatenation: `+`
-    * Literal substitutions: `|The name is ${name}|`
- * Arithmetic operations:
-    * Binary operators: `+`, `-`, `*`, `/`, `%`
-    * Minus sign (unary operator): `-`
- * Boolean operations:
-    * Binary operators: `and`, `or`
-    * Boolean negation (unary operator): `!`, `not`
- * Comparisons and equality:
-    * Comparators: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
-    * Equality operators: `==`, `!=` (`eq`, `ne`)
- * Conditional operators:
+
+ * Expresiones simples:
+    * Expresiones de Variable: `${...}`
+    * Expresiones de Variable de Selección: `*{...}`
+    * Expresiones de Mensaje: `#{...}`
+    * Expresiones de Enlace URL: `@{...}`
+    * Expresiones de Fragmento: `~{...}`
+ * Literales
+    * Literales de texto: `'one text'`, `'Another one!'`,...
+    * Literales de número: `0`, `34`, `3.0`, `12.3`,...
+    * Literales booleanos: `true`, `false`
+    * Literal nulo (null): `null`
+    * Literal de ficha (token): `one`, `sometext`, `main`,...
+ * Operaciones de texto: 
+    * Concatenación de cadenas: `+`
+    * Substituciones en literales: `|The name is ${name}|`
+ * Operaciones aritméticas:
+    * Operadores binarios: `+`, `-`, `*`, `/`, `%`
+    * Signo menos (operador unario): `-`
+ * Operadores lógicos:
+    * Operadores binarios: `and`, `or`
+    * Negación lógica (operador unario): `!`, `not`
+ * Comparaciones e igualdad:
+    * Comparadores: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
+    * Operadores de igualdad: `==`, `!=` (`eq`, `ne`)
+ * Operadores condicionales:
     * If-then: `(if) ? (then)`
     * If-then-else: `(if) ? (then) : (else)`
-    * Default: `(value) ?: (defaultvalue)`
- * Special tokens:
-    * No-Operation: `_`
+    * Valor por defecto: `(value) ?: (defaultvalue)`
+ * Fichas (Tokens) especiales :
+    * Operación nula: `_`
 
-All these features can be combined and nested:
+Todas estas características pueden combinarse y anidarse:
 
 ```html
-'User is of type ' + (${user.isAdmin()} ? 'Administrator' : (${user.type} ?: 'Unknown'))
+'Usuario es del tipo: ' + ( ' + (${user.isAdmin()} ? 'Administrador' : (${user.type} ?: 'Desconocido'))
 ```
 
 
@@ -885,56 +887,59 @@ All these features can be combined and nested:
 4.1 Mensajes
 ------------
 
-As we already know, `#{...}` message expressions allow us to link this:
+Como ya sabemos, las expresiones de mensaje `#{...}` nos permiten vincular esto:
 
 ```html
-<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
+<p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
 ```
 
-...to this:
+...a esto:
 
 ```
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
 ```
 
-But there's one aspect we still haven't thought of: what happens if the message
-text is not completely static? What if, for example, our application knew who is
-the user visiting the site at any moment and we wanted to greet them by name?
+Pero hay un aspecto que aún no hemos considerado: ¿qué ocurre si el texto del 
+mensaje no es completamente estático? ¿Qué ocurriría, por ejemplo, si nuestra 
+aplicación sabía quién es el usuario que visita el sitio en cualquier momento y 
+queremos saludarle por su nombre?
+
 
 ```html
 <p>¡Bienvenido a nuestra tienda de comestibles, John Apricot!</p>
 ```
 
-This means we would need to add a parameter to our message. Just like this:
+Esto significa que necesitaríamos agregar un parámetro a nuestro mensaje. Así:
 
 ```
 home.welcome=¡Bienvenido a nuestra tienda de comestibles, {0}!
 ```
 
-Parameters are specified according to the
+Los parámetros se especifican de acuerdo a la sintaxis estándar de 
 [`java.text.MessageFormat`](https://docs.oracle.com/javase/10/docs/api/java/text/MessageFormat.html)
-standard syntax, which means you can format to numbers and dates as specified
-in the API docs for classes in the `java.text.*` package.
+, lo cual significa que puede dar formato a números y fechas como se especifica 
+en los documentos de las IPA para las clases en el paquete `java.text.*`.
 
-In order to specify a value for our parameter, and given an HTTP session
-attribute called `user`, we could have:
+Para especificar un valor para nuestro parámetro, y dado un atributo de sesión 
+llamado `user`, podríamos tener:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
-  Welcome to our grocery store, Sebastian Pepper!
+  ¡Bienvenido a nuestra tienda de comestibles, Sebastian Pepper!
 </p>
 ```
 
-> Note that the use of `th:utext` here means that the formatted message will
-> not be escaped. This example assumes that `user.name` is already escaped.
+> Dese cuenta que el uso de `th:utext` aquí significa que el mensaje con formato 
+> no será escapado. Este ejemplo asume que `user.name` ya está escapado.
 
-Several parameters can be specified, separated by commas.
+Se pueden especificar varios parámetros, separados por comas.
 
-The message key itself can come from a variable:
+La misma clave del mensaje puede provenir de una variable: 
+
 
 ```html
 <p th:utext="#{${welcomeMsgKey}(${session.user.name})}">
-  Welcome to our grocery store, Sebastian Pepper!
+    ¡Bienvenido a nuestra tienda de comestibles, Sebastian Pepper!
 </p>
 ```
 
@@ -943,73 +948,74 @@ The message key itself can come from a variable:
 4.2 Variables
 -------------
 
-We already mentioned that `${...}` expressions are in fact OGNL (Object-Graph
-Navigation Language) expressions executed on the map of variables contained in
-the context.
+Ya mencionamos que las expresiones `${...}` son en realidad expresiones OGNL
+(Lenguaje de Navegación Objeto-Gráfico) ejecutadas sobre el mapa de variables 
+contenidas en el contexto.
 
-> For detailed info about OGNL syntax and features, you should read the 
-> [OGNL Language Guide](http://commons.apache.org/ognl/)
+> Para información detallada sobre la sintaxis OGNL y sus características, 
+> consulte la guía [Guía del Lenguaje OGNL](http://commons.apache.org/ognl/)
 > 
-> In Spring MVC-enabled applications OGNL will be replaced with **SpringEL**,
-> but its syntax is very similar to that of OGNL (actually, exactly the same for
-> most common cases).
+> En aplicaciones que habilitan Spring MVC OGNL será reemplazado con **SpringEL**,
+> pero su sintaxis es muy similiar a la de OGNL (En realidad, exactamente lo 
+> mismo para la mayoría de los casos comunes).
 
-From OGNL's syntax, we know that the expression in:
+De la sintaxis de OGNL, sabemos que la expresión en:
 
 ```html
-<p>Today is: <span th:text="${today}">13 february 2011</span>.</p>
+<p>Hoy es: <span th:text="${today}">13 febrero 2011</span>.</p>
 ```
 
-...is in fact equivalent to this:
+...es en realidad equivalente a esto:
 
 ```java
 ctx.getVariable("today");
 ```
 
-But OGNL allows us to create quite more powerful expressions, and that's how
-this:
+Pero OGNL nos permite crear expresiones mucho más potentes, y así es como 
+funciona esto:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
-  Welcome to our grocery store, Sebastian Pepper!
+    ¡Bienvenido a nuestra tienda de comestibles, Sebastian Pepper!
 </p>
 ```
 
-...obtains the user name by executing:
+...obtiene el nombre de usuario ejecutando:
 
 ```java
 ((User) ctx.getVariable("session").get("user")).getName();
 ```
 
-But getter method navigation is just one of OGNL's features. Let's see some more:
+Pero la navegación por métodos getter es solo una de las características de 
+OGNL. Veamos más:
 
 ```java
 /*
- * Access to properties using the point (.). Equivalent to calling property getters.
+ * Acceso a propiedades usando el punto  (.). Es equivalente a llamar a los getters de la propiedad.
  */
 ${person.father.name}
 
 /*
- * Access to properties can also be made by using brackets ([]) and writing 
- * the name of the property as a variable or between single quotes.
+ * El acceso a propiedades puede también realizarse usando corchetes ([]) y 
+ * escribir el nombre de la propiedad como una variable o entre comillas simples.
  */
 ${person['father']['name']}
 
 /*
- * If the object is a map, both dot and bracket syntax will be equivalent to 
- * executing a call on its get(...) method.
+ * Si el objeto es un map, tanto el punto como la sintaxis de corchete serán 
+ * equivalentes a ejecutar una llamada a su método get(...).
  */
 ${countriesByCode.ES}
 ${personsByName['Stephen Zucchini'].age}
 
 /*
- * Indexed access to arrays or collections is also performed with brackets, 
- * writing the index without quotes.
+ * El acceso indexado a matrices o colecciones se realizar también con corchetes, 
+ * escribiendo el índice sin comillas.
  */
 ${personsArray[0].name}
 
 /*
- * Methods can be called, even with arguments.
+ * Se puede llamar a los métodos, incluso con argumentos.
  */
 ${person.createCompleteName()}
 ${person.createCompleteNameWithSeparator('-')}

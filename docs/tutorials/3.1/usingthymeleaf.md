@@ -1043,7 +1043,7 @@ Puede leer la referencia completa de estos objetos en el [Apéndice A](#appendix
 
 ### Objetos de utilidad de expresión
 
-Además de estos objetos básicos, Thymelea nos ofrecerá un conjunto de objetos de 
+Además de estos objetos básicos, Thymeleaf nos ofrecerá un conjunto de objetos de 
 utilidad que nos ayudarán a realizar tareas comunes en nuestras expresiones.
 
  * `#execInfo`: información sobre la plantilla que está siendo procesada.
@@ -1118,7 +1118,7 @@ también como `*{...}`.
 
 
 Sin embargo, existe una diferencia importante: la sintaxis del asterisco evalúa 
-exprelas expresiones en _objetos seleccionados_ en lugar de en todo el contexto. 
+las expresiones en _objetos seleccionados_ en lugar de en todo el contexto. 
 Es decir, mientras no haya ningún objeto seleccionado, las sintaxis del dólar y 
 del asterisco hacen exactamente lo mismo.
 

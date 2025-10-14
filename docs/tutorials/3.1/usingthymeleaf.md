@@ -1283,18 +1283,19 @@ contextos en el mismo servidor. Estas URLs se especificarán como
 4.5 Fragmentos
 -------------
 
-Fragment expressions are an easy way to represent fragments of markup and move
-them around templates. This allows us to replicate them, pass them to other
-templates as arguments, and so on.
+Las expresiones de fragmento son una forma fácil de representar fragmentos de 
+marcoad y moverlos entre las plantillas. Esto nos permite replicarlas, pasarlas 
+a otras plantilas como argumentos, etc.
 
-The most common use is for fragment insertion using `th:insert` or `th:replace`
+El uso más común es para la inserción de fragmentos usando `th:insert` o 
+`th:replace` (más sobre esto en una sección posterior):
 (more on these in a later section):
 
 ```html
 <div th:insert="~{commons :: main}">...</div>
 ```
-
-But they can be used anywhere, just as any other variable:
+Pero pueden ser utilizadas en cualquier parte, al igual que cualquier otra 
+variable:
 
 ```html
 <div th:with="frag=~{footer :: #main/text()}">
@@ -1302,8 +1303,9 @@ But they can be used anywhere, just as any other variable:
 </div>
 ```
 
-Later in this tutorial there is an entire section devoted to Template Layout,
-including deeper explanation of fragment expressions.
+Más tarde en este tutorial hay una sección entera dedicada al Diseño de 
+Plantillas, incluyendo una explicación más profunda de las expresiones de 
+fragmento.
 
 
 
@@ -1312,37 +1314,37 @@ including deeper explanation of fragment expressions.
 
 ### Literales de texto
 
-Text literals are just character strings specified between single quotes. They
-can include any character, but you should escape any single quotes inside them
-using `\'`.
+Los literales de texto son simplemente cadenas de caracteres delimitados entre 
+comillas simples. Pueden incluir cualquier carácter, pero deberá escapar 
+cualquier comilla simple dentro de ellas usando `\'`.
 
 ```html
 <p>
-  Now you are looking at a <span th:text="'working web application'">template file</span>.
+  Ahora está mirando un  <span th:text="'aplicación web funcional'">fichero de plantilla</span>.
 </p>
 ```
 
 ### Literales numéricos
 
-Numeric literals are just that: numbers.
+Los literales numéricos son simplemente eso: números.
 
 ```html
-<p>The year is <span th:text="2013">1492</span>.</p>
-<p>In two years, it will be <span th:text="2013 + 2">1494</span>.</p>
+<p>El año es  <span th:text="2013">1492</span>.</p>
+<p>En dos años, será <span th:text="2013 + 2">1494</span>.</p>
 ```
 
 
 ### Literales booleanos
 
-The boolean literals are `true` and `false`. For example:
+Los literales booleano son `true` y `false`. Por ejemplo:
 
 ```html
 <div th:if="${user.isAdmin()} == false"> ...
 ```
 
-In this example, the `== false` is written outside the braces, and so it is
-Thymeleaf that takes care of it. If it were written inside the braces, it would
-be the responsibility of the OGNL/SpringEL engines:
+En este ejemplo, el `== false` está escrito fuera de las llaves, y así es 
+Thymeleaf quien se cuida de ello. Si estuviera escrito dentro de las llaves, 
+sería responsabilidad de los motores OGNL/SpringEL:
 
 ```html
 <div th:if="${user.isAdmin() == false}"> ...
@@ -1351,7 +1353,7 @@ be the responsibility of the OGNL/SpringEL engines:
 
 ### El literal null (nulo)
 
-The `null` literal can be also used:
+El literal `null` puede ser también usado:
 
 ```html
 <div th:if="${variable.something} == null"> ...
@@ -1360,20 +1362,24 @@ The `null` literal can be also used:
 
 ### Literales de identificadores (tokens)
 
+Los literales numéricos, booleanos y nulo son en realidad un caso particular de 
+_fichas literales_.
+
 Numeric, boolean and null literals are in fact a particular case of _literal tokens_.
 
-These tokens allow a little bit of simplification in Standard Expressions. They
-work exactly the same as text literals (`'...'`), but they only allow letters (`A-Z`
-and `a-z`), numbers (`0-9`), brackets (`[` and `]`), dots (`.`), hyphens (`-`)
-and underscores (`_`). So no whitespaces, no commas, etc.
+Estas fichas (tokens) permiten un poco de simplificación en las Expresiones 
+Estándar. Trabajan exactamente de la misma forma que los literales de texto 
+(`'...'`), pero estos solo permiten letras  (`A-Z` y `a-z`), números (`0-9`), 
+corchetes (`[` y `]`), puntos (`.`), guiones (`-`) y subrayados (`_`). Así que 
+nada de espacios en blanco, ni comas, etc.
 
-The nice part? Tokens don't need any quotes surrounding them. So we can do this:
+¿Lo bueno? Los tokens no necesitan comillas. Así que podemos hacer esto:
 
 ```html
 <div th:class="content">...</div>
 ```
 
-instead of:
+en lugar de:
 
 ```html
 <div th:class="'content'">...</div>
@@ -1384,11 +1390,11 @@ instead of:
 4.7 Agregar textos
 -------------------
 
-Texts, no matter whether they are literals or the result of evaluating variable
-or message expressions, can be easily appended using the `+` operator:
+Los textos, sin importar si son literales o el resultado de evaluar expresiones 
+variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
 
 ```html
-<span th:text="'The name of the user is ' + ${user.name}">
+<span th:text="'El nombre del usuario es ' + ${user.name}">
 ```
 
 
@@ -1396,30 +1402,30 @@ or message expressions, can be easily appended using the `+` operator:
 4.8 Sustituciones de literales
 -------------------------
 
-Literal substitutions allow for an easy formatting of strings containing values
-from variables without the need to append literals with `'...' + '...'`.
+Las sustituciones literales permiten formatear fácilmente cadenas que contienen 
+valores de variables sin la necesidad de agregar literales con '...' + '...'`.
 
-These substitutions must be surrounded by vertical bars (`|`), like:
-
-```html
-<span th:text="|Welcome to our application, ${user.name}!|">
-```
-
-Which is equivalent to:
+Estas sustituciones deben estar rodeadas de barras verticales (`|`), como:
 
 ```html
-<span th:text="'Welcome to our application, ' + ${user.name} + '!'">
+<span th:text="|¡Bienvenido a nuestra aplicación, ${user.name}!|">
 ```
 
-Literal substitutions can be combined with other types of expressions:
+Lo cual es equivalente a:
+
+```html
+<span th:text="'¡Bienvenido a nuestra aplicación, ' + ${user.name} + '!'">
+```
+
+Las sustituciones literales se pueden combinar con otros tipos de expresiones:
 
 ```html
 <span th:text="${onevar} + ' ' + |${twovar}, ${threevar}|">
 ```
-
-> Only variable/message expressions (`${...}`, `*{...}`, `#{...}`) are allowed 
-> inside `|...|` literal substitutions. No other literals (`'...'`), 
-> boolean/numeric tokens, conditional expressions etc. are. 
+> Solo las expresiones de mensaje/variables (`${...}`, `*{...}`, `#{...}`) se 
+> permiten dentro de las substituciones de literales `|...|`. No se permiten 
+> otros literales (`'...'`), tokens booleanos/numéricos, expresiones 
+> condicionales, etc. 
 
 
 

@@ -42,6 +42,7 @@ war {
 }
 
 
+
 dependencies {
 	// Needed for org.apache.tools.ant.filters.ReplaceTokens
 	implementation 'org.apache.ant:ant:1.10.14'
@@ -237,23 +238,23 @@ tasks.register('generateDocsEbook') {
 
 				def inputFile = file("${srcDir.path}/${docName}.md")
 
-				exec {
-					// Necesitamos configurar el directorio de trabajo para que pandoc encuentre imágenes
-					workingDir = file(inputFile.parent)
+                exec {
+                    // Necesitamos configurar el directorio de trabajo para que pandoc encuentre imágenes
+                    workingDir = file(inputFile.parent)
 
-					// Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
-					// la elección que hayas tomado en la instalación (N. del T.)
-					commandLine = cmdPandoc
-					args = [
-						"--write=epub",
-						"--template=" + file("${templatesDir.path}/${docType}.epub"),
-						"--toc",
-						"--toc-depth=4",
-						"--section-divs",
-						"--output=" + epubOutputFile,
-						inputFile
-					]
-				}
+                    // Aquí se indica la ruta al ejecutable de pandoc, 'pandoc.exe', que dependerá de
+                    // la elección que hayas tomado en la instalación (N. del T.)
+                    commandLine = cmdPandoc
+                    args = [
+                            "--write=epub",
+                            "--template=" + file("${templatesDir.path}/${docType}.epub"),
+                            "--toc",
+                            "--toc-depth=4",
+                            "--section-divs",
+                            "--output=" + epubOutputFile,
+                            inputFile
+                    ]
+                }
 				exec {
 					commandLine = "ebook-convert"
 					args = [
@@ -272,11 +273,11 @@ tasks.register('generateDocsEbook') {
  * existente  hasta que el servidor se apaga por otros medios.
  */
 tasks.register('startServer', ExecFork) {
+    doNotTrackState("se declara no trazable la tarea")
 	dependsOn 'war'
-
-	commandLine = './gradlew'
+	commandLine = './gradlew.bat'
 	args = ['appStartWar']
-	waitForOutput = 'To stop server run gradle appStop'
+	waitForOutput = 'Gretty: Server is running'
 }
 
 /**
@@ -323,7 +324,7 @@ tasks.register('generateDocsPDF') {
 		}
 
 		exec {
-			commandLine = './gradlew'
+			commandLine = './gradlew.bat'
 			args = ['appStop']
 		}
 	}

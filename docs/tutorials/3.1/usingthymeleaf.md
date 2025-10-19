@@ -1284,17 +1284,18 @@ contextos en el mismo servidor. Estas URLs se especificarán como
 -------------
 
 Las expresiones de fragmento son una forma fácil de representar fragmentos de 
-marcado y moverlos por las plantillas. Esto nos permite replicarlos, pasarlos a 
-otras plantillas como argumentos, y así sucesivamente.
+marcoad y moverlos entre las plantillas. Esto nos permite replicarlas, pasarlas 
+a otras plantilas como argumentos, etc.
 
-El uso más común es para la inserción de fragmentos usando `th:insert` o
-`th:replace` (Más sobre esto en una sección posterior):
+El uso más común es para la inserción de fragmentos usando `th:insert` o 
+`th:replace` (más sobre esto en una sección posterior):
+(more on these in a later section):
 
 ```html
 <div th:insert="~{commons :: main}">...</div>
 ```
-
-Pero se pueden usar en cualquier parte, como cualquier otra variable:
+Pero pueden ser utilizadas en cualquier parte, al igual que cualquier otra 
+variable:
 
 ```html
 <div th:with="frag=~{footer :: #main/text()}">
@@ -1302,7 +1303,7 @@ Pero se pueden usar en cualquier parte, como cualquier otra variable:
 </div>
 ```
 
-Más tarde en este tutorial existe una sección entera dedicada al Diseño de 
+Más tarde en este tutorial hay una sección entera dedicada al Diseño de 
 Plantillas, incluyendo una explicación más profunda de las expresiones de 
 fragmento.
 
@@ -1313,13 +1314,13 @@ fragmento.
 
 ### Literales de texto
 
-Los literales de texto son simplemente cadenas de caracteres delimitadas entre 
-comillas simples. Pueden incluir cualquier carácter, pero debería escapar 
-cualquier comilla simple dentro de estas usando `\'`.
+Los literales de texto son simplemente cadenas de caracteres delimitados entre 
+comillas simples. Pueden incluir cualquier carácter, pero deberá escapar 
+cualquier comilla simple dentro de ellas usando `\'`.
 
 ```html
 <p>
-  Ahora está viendo un <span th:text="'aplicación web funcionando'">fichero de plantilla</span>.
+  Ahora está mirando un  <span th:text="'aplicación web funcional'">fichero de plantilla</span>.
 </p>
 ```
 
@@ -1335,16 +1336,15 @@ Los literales numéricos son simplemente eso: números.
 
 ### Literales booleanos
 
-Los literales booleanos son `true` y `false`. Por ejemplo:
+Los literales booleano son `true` y `false`. Por ejemplo:
 
 ```html
 <div th:if="${user.isAdmin()} == false"> ...
 ```
 
-En este ejemplo, el `== false` se escribe fuera de las llaves, por lo que es 
-Thymeleaf quien se encarga de ello. Si se escribiera dentro de las llaves, sería 
-responsabilidad de los motores OGNL/SpringEL:
-
+En este ejemplo, el `== false` está escrito fuera de las llaves, y así es 
+Thymeleaf quien se cuida de ello. Si estuviera escrito dentro de las llaves, 
+sería responsabilidad de los motores OGNL/SpringEL:
 
 ```html
 <div th:if="${user.isAdmin() == false}"> ...
@@ -1353,7 +1353,7 @@ responsabilidad de los motores OGNL/SpringEL:
 
 ### El literal null (nulo)
 
-El literal `null` también se puede utilizar:
+El literal `null` puede ser también usado:
 
 ```html
 <div th:if="${variable.something} == null"> ...
@@ -1362,14 +1362,16 @@ El literal `null` también se puede utilizar:
 
 ### Literales de identificadores (tokens)
 
-Los literales numéricos, booleanos y nulos son, de hecho, un caso particular de 
-_tokens literales_.
+Los literales numéricos, booleanos y nulo son en realidad un caso particular de 
+_fichas literales_.
 
-Estos tokens permiten una ligera simplificación en las expresiones estándar. 
-Funcionan exactamente igual que los literales de texto (`'...'`), pero solo 
-admiten letras (`A-Z` y `a-z`), números (`0-9`), corchetes (`[` y `]`), puntos 
-(`.`), guiones (`-`) y guiones bajos (`_`). Por lo tanto, no se permiten 
-espacios, comas, etc.
+Numeric, boolean and null literals are in fact a particular case of _literal tokens_.
+
+Estas fichas (tokens) permiten un poco de simplificación en las Expresiones 
+Estándar. Trabajan exactamente de la misma forma que los literales de texto 
+(`'...'`), pero estos solo permiten letras  (`A-Z` y `a-z`), números (`0-9`), 
+corchetes (`[` y `]`), puntos (`.`), guiones (`-`) y subrayados (`_`). Así que 
+nada de espacios en blanco, ni comas, etc.
 
 ¿Lo bueno? Los tokens no necesitan comillas. Así que podemos hacer esto:
 
@@ -1377,7 +1379,7 @@ espacios, comas, etc.
 <div th:class="content">...</div>
 ```
 
-instead of:
+en lugar de:
 
 ```html
 <div th:class="'content'">...</div>
@@ -1387,14 +1389,12 @@ instead of:
 
 4.7 Agregar textos
 -------------------
+
 Los textos, sin importar si son literales o el resultado de evaluar expresiones 
 variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
 
-Texts, no matter whether they are literals or the result of evaluating variable
-or message expressions, can be easily appended using the `+` operator:
-
 ```html
-<span th:text="El nombre del usuario es ' + ${user.name}">
+<span th:text="'El nombre del usuario es ' + ${user.name}">
 ```
 
 
@@ -1402,9 +1402,8 @@ or message expressions, can be easily appended using the `+` operator:
 4.8 Sustituciones de literales
 -------------------------
 
-Las sustituciones de literales permiten un formato fácil de las cadenas que 
-contienen valores de variables sin necesidad de agregar literales con 
-`'...' + '...'`.
+Las sustituciones literales permiten formatear fácilmente cadenas que contienen 
+valores de variables sin la necesidad de agregar literales con '...' + '...'`.
 
 Estas sustituciones deben estar rodeadas de barras verticales (`|`), como:
 
@@ -1418,76 +1417,57 @@ Lo cual es equivalente a:
 <span th:text="'¡Bienvenido a nuestra aplicación, ' + ${user.name} + '!'">
 ```
 
-Las sustituciones de literales pueden combinarse con otros tipos de expresiones:
+Las sustituciones literales se pueden combinar con otros tipos de expresiones:
 
 ```html
-<span th:text="${varuno} + ' ' + |${vardos}, ${vartres}|">
+<span th:text="${onevar} + ' ' + |${twovar}, ${threevar}|">
 ```
-
-> Solo se permiten expresiones de variable/expresiones (`${...}`, `*{...}`, `#{...}`)
-> dentro de las `|...|` sustituciones de literales. No se admiten otros 
-> literales (`'...'`), tokens booleanos/numéricos, expresiones condicionales, 
-> etc.
+> Solo las expresiones de mensaje/variables (`${...}`, `*{...}`, `#{...}`) se 
+> permiten dentro de las substituciones de literales `|...|`. No se permiten 
+> otros literales (`'...'`), tokens booleanos/numéricos, expresiones 
+> condicionales, etc. 
 
 
 
 4.9 Operaciones aritméticas
 -------------------------
 
-También están disponibles algunas operaciones aritméticas: `+`, `-`, `*`, `/` y `%`.
-
-Some arithmetic operations are also available: `+`, `-`, `*`, `/` and `%`.
+También se encuentran disponibles algunas operaciones aritméticas: 
+`+`, `-`, `*`, `/` y `%`.
 
 ```html
 <div th:with="isEven=(${prodStat.count} % 2 == 0)">
 ```
-
-Tenga en cuenta que estos operadores también se pueden aplicar dentro de las 
-expresiones de variables OGNL (y en ese caso serán ejecutados por OGNL en lugar 
-del motor de expresiones estándar de Thymeleaf):
-
-Note that these operators can also be applied inside OGNL variable expressions
-themselves (and in that case will be executed by OGNL instead of the Thymeleaf
-Standard Expression engine):
+Dese cuenta que estos operadores pueden también ser utilizados dentro de 
+expresiones OGNL por sí mismos (y en ese caso serán ejecutados por OGNL en vez 
+del motor de Expresiones Estándar de Thymeleaf):
 
 ```html
 <div th:with="isEven=${prodStat.count % 2 == 0}">
 ```
 
-Tenga en cuenta que existen alias textuales para algunos de estos operadores: 
+Dese cuenta que existen aliases textuales para algunos de estos operadores: 
 `div` (`/`), `mod` (`%`).
-
-Note that textual aliases exist for some of these operators: `div` (`/`), `mod` (`%`).
 
 
 
 4.10 Comparadores e igualdad 
 -----------------------------
 
-Los valores de las expresiones se pueden comparar con los símbolos `>`, `<`, `>=` 
-y `<=`, y los operadores `==` y `!=` se pueden usar para comprobar la igualdad 
-(o la falta de ella). Tenga en cuenta que XML establece que los símbolos `<` y 
-`>` no deben usarse en valores de atributos, por lo que deben sustituirse por 
-`&lt;` y `&gt;`.
-
-Values in expressions can be compared with the `>`, `<`, `>=` and `<=` symbols,
-and the `==` and `!=` operators can be used to check for equality (or the lack
-of it). Note that XML establishes that the `<` and `>` symbols should not be
-used in attribute values, and so they should be substituted by `&lt;` and
-`&gt;`.
+Los valores en las expresiones pueden compararse con los símbolos 
+`>`, `<`, `>=` y `<=`, y los operadores `==` y `!=` se pueden utilizar para 
+comprobar la igualdad (o la ausencia de ella). Dese cuenta de que XML establece 
+que los símbolos `<` y `>` no deberían utilizarse como valores de atributos, y 
+por ello deben sustituirse por `&lt;` y `&gt;`.
 
 ```html
 <div th:if="${prodStat.count} &gt; 1">
 <span th:text="'El modo de ejecución es ' + ( (${execMode} == 'dev')? 'Desarrollo' : 'Producción')">
 ```
 
-Una alternativa más sencilla puede ser usar alias textuales que existen para 
-algunos de estos operadores: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), 
+Una alternativa más simple podría ser usar los alias textuales que existen para 
+algunos de estos operandos: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), 
 `not` (`!`). También `eq` (`==`), `neq`/`ne` (`!=`).
-
-A simpler alternative may be using textual aliases that exist for some of these
-operators: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), `not` (`!`). Also
-`eq` (`==`), `neq`/`ne` (`!=`).
 
 
 
@@ -1495,46 +1475,32 @@ operators: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), `not` (`!`). Also
 ----------------------------
 
 Las _expresiones condicionales_ están destinadas a evaluar solo una de dos 
-expresiones dependiendo del resultado de evaluar una condición (que en sí misma 
-es otra expresión).
+expresiones dependiendo del resultado de evaluar una condición (que es en sí 
+otra expresión).
 
-_Conditional expressions_ are meant to evaluate only one of two expressions
-depending on the result of evaluating a condition (which is itself another
-expression).
-
-Echemos un vistazo a un fragmento de ejemplo (que introduce otro _modificador de 
-atributo_, `th:class`):
-
-Let's have a look at an example fragment (introducing another _attribute modifier_,
-`th:class`):
+Echemos una mirada a un fragmento de ejemplo (introduciendo otro _modificador de 
+atributos_, `th:class`):
 
 ```html
 <tr th:class="${row.even}? 'even' : 'odd'">
   ...
 </tr>
 ```
-Las tres partes de una expresión condicional (`condition`, `then` y `else`) son 
-en sí mismas expresiones, lo que significa que pueden ser variables (`${...}`, 
-`*{...}`), mensajes (`#{...}`), URL (`@{...}`) o literales (`'...'`).
 
-All three parts of a conditional expression (`condition`, `then` and `else`) are
-themselves  expressions, which means that they can be variables (`${...}`, `*{...}`),
-messages (`#{...}`), URLs (`@{...}`) or literals (`'...'`).
+Todas las partes de una expresión condicional (`condition`, `then` y `else`) son 
+por sí mismas expresiones, lo que significa que pueden ser variables (`${...}`, 
+`*{...}`), mensajes (`#{...}`), URLs (`@{...}`) o literales (`'...'`).
 
-Las expresiones condicionales también se pueden anidar mediante paréntesis:
-
-Conditional expressions can also be nested using parentheses:
+Las expresiones condicionales pueden tambien anidarse usando paréntesis:
 
 ```html
 <tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">
   ...
 </tr>
 ```
-Las expresiones else también se pueden omitir, en cuyo caso se devuelve un valor 
-nulo si la condición es falsa:
 
-Else expressions can also be omitted, in which case a null value is returned if
-the condition is false:
+Las expresiones Else (si no, N. del T.) pueden omitirse, en cuyo caso se devuelve 
+un valor nulo si la condición es falsa:
 
 ```html
 <tr th:class="${row.even}? 'alt'">
@@ -1547,17 +1513,12 @@ the condition is false:
 4.12  Expresiones predeterminadas (operador Elvis)
 -----------------------------------------
 
-Una expresión predeterminada es un tipo especial de valor condicional sin la 
-parte "then". Equivale al operador Elvis, presente en lenguajes como Groovy, y 
-permite especificar dos expresiones: la primera se usa si no se evalúa como 
-nulo, y si lo hace, se usa la segunda.
+Una _expresión por defecto_ es una clase especial de valor condicional sin una 
+parte _then_. Es el equivalente al _Operador elvis_ presente en algunos lenguajes 
+como Groovy, permitiéndole especificar dos expresiones: la primera se usa si no 
+evalúa a nulo, pero si lo hace entonce se usa la segunda.
 
-A _default expression_ is a special kind of conditional value without a _then_
-part. It is equivalent to the _Elvis operator_ present in some languages like
-Groovy, lets you specify two expressions: the first one is used if it doesn't
-evaluate to null, but if it does then the second one is used.
-
-Veámoslo en acción en nuestra página del perfil del usuario:
+Veamos esto en acción en nuestra página de perfil de usuario:
 
 ```html
 <div th:object="${session.user}">
@@ -1565,13 +1526,12 @@ Veámoslo en acción en nuestra página del perfil del usuario:
   <p>Edad: <span th:text="*{age}?: '(sin edad especificada)'">27</span>.</p>
 </div>
 ```
-
 Como puede ver, el operador es `?:`, y lo usamos aquí para especificar un valor 
 por defecto para un nombre (un valor literal, en este caso) solo si el resultado 
-de evaluar `*{age}` es nulo. Por tanto, esto equivale a:
+de evaluar `*{age}` es nulo. Esto es por lo tanto equivalente a:
 
 ```html
-<p>Age: <span th:text="*{age != null}? *{age} : '(sin edad especificada)'">27</span>.</p>
+<p>Edad: <span th:text="*{age != null}? *{age} : '(sin edad especificada)'">27</span>.</p>
 ```
 
 Como con los valores condicionales, pueden contener expresiones anidadas entre 
@@ -1580,7 +1540,7 @@ paréntesis:
 ```html
 <p>
   Nombre: 
-  <span th:text="*{firstName}?: (*{admin}? 'Admin' : #{default.username})">Sebastian</span>
+  <span th:text="*{firstName}?: (*{admin}? 'Administrador' : #{default.username})">Sebastian</span>
 </p>
 ```
 
@@ -1589,25 +1549,24 @@ paréntesis:
 4.13 El token de no operación
 -----------------------------
 
-La ficha de No Operación se representa por un símbolo de subrayado (`_`).
+La ficha No-Operación se representa por un símbolo de subrayado (`_`).
 
 La idea detrás de esta ficha es especificar que el resultado deseado para una 
-expresión es *no hacer nada*, por ejemplo, hacer exactamente como si el atributo 
+expresión es *no hacer nada*, por ejemplo, haga exactamente como si el atributo 
 procesable (por ejemplo, `th:text`) no existiera en absoluto.
 
-Entre otras posibilidades, esto permite a los desarrolladores usar texto de 
-prototipo como valores predeterminados. Por ejemplo, en lugar de:
+Entre otras posibilidades, esto permite a los desarrolladores a usar texto 
+prototipado como valores por defecto. Por ejemplo, en vez de:
 
 ```html
-<span th:text="${user.name} ?: 'Ningún usuario autenticado'">...</span>
+<span th:text="${user.name} ?: 'usuario no autenticado'">...</span>
 ```
-
-... podemos usar directamente *'Ningún usuario autenticado'* como texto de 
-prototipado, lo que resulta en un código más conciso y versátil desde el punto 
-de vista del diseño:
+... podmeos usar directamente *'usuario no autenticado'* como un texto 
+prototipado, lo que resulta en un código que es más conciso y versátil desde un 
+punto de vista de diseño:
 
 ```html
-<span th:text="${user.name} ?: _">Ningún usuario autenticado</span>
+<span th:text="${user.name} ?: _">usuario no autenticado</span>
 ```
 
 

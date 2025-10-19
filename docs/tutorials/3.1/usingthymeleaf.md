@@ -1432,53 +1432,54 @@ Las sustituciones literales se pueden combinar con otros tipos de expresiones:
 4.9 Operaciones aritméticas
 -------------------------
 
-Some arithmetic operations are also available: `+`, `-`, `*`, `/` and `%`.
+También se encuentran disponibles algunas operaciones aritméticas: 
+`+`, `-`, `*`, `/` y `%`.
 
 ```html
 <div th:with="isEven=(${prodStat.count} % 2 == 0)">
 ```
-
-Note that these operators can also be applied inside OGNL variable expressions
-themselves (and in that case will be executed by OGNL instead of the Thymeleaf
-Standard Expression engine):
+Dese cuenta que estos operadores pueden también ser utilizados dentro de 
+expresiones OGNL por sí mismos (y en ese caso serán ejecutados por OGNL en vez 
+del motor de Expresiones Estándar de Thymeleaf):
 
 ```html
 <div th:with="isEven=${prodStat.count % 2 == 0}">
 ```
 
-Note that textual aliases exist for some of these operators: `div` (`/`), `mod` (`%`).
+Dese cuenta que existen aliases textuales para algunos de estos operadores: 
+`div` (`/`), `mod` (`%`).
 
 
 
 4.10 Comparadores e igualdad 
 -----------------------------
 
-Values in expressions can be compared with the `>`, `<`, `>=` and `<=` symbols,
-and the `==` and `!=` operators can be used to check for equality (or the lack
-of it). Note that XML establishes that the `<` and `>` symbols should not be
-used in attribute values, and so they should be substituted by `&lt;` and
-`&gt;`.
+Los valores en las expresiones pueden compararse con los símbolos 
+`>`, `<`, `>=` y `<=`, y los operadores `==` y `!=` se pueden utilizar para 
+comprobar la igualdad (o la ausencia de ella). Dese cuenta de que XML establece 
+que los símbolos `<` y `>` no deberían utilizarse como valores de atributos, y 
+por ello deben sustituirse por `&lt;` y `&gt;`.
 
 ```html
 <div th:if="${prodStat.count} &gt; 1">
-<span th:text="'Execution mode is ' + ( (${execMode} == 'dev')? 'Development' : 'Production')">
+<span th:text="'El modo de ejecución es ' + ( (${execMode} == 'dev')? 'Desarrollo' : 'Producción')">
 ```
 
-A simpler alternative may be using textual aliases that exist for some of these
-operators: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), `not` (`!`). Also
-`eq` (`==`), `neq`/`ne` (`!=`).
+Una alternativa más simple podría ser usar los alias textuales que existen para 
+algunos de estos operandos: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), 
+`not` (`!`). También `eq` (`==`), `neq`/`ne` (`!=`).
 
 
 
 4.11 Expresiones condicionales
 ----------------------------
 
-_Conditional expressions_ are meant to evaluate only one of two expressions
-depending on the result of evaluating a condition (which is itself another
-expression).
+Las _expresiones condicionales_ están destinadas a evaluar solo una de dos 
+expresiones dependiendo del resultado de evaluar una condición (que es en sí 
+otra expresión).
 
-Let's have a look at an example fragment (introducing another _attribute modifier_,
-`th:class`):
+Echemos una mirada a un fragmento de ejemplo (introduciendo otro _modificador de 
+atributos_, `th:class`):
 
 ```html
 <tr th:class="${row.even}? 'even' : 'odd'">
@@ -1486,11 +1487,11 @@ Let's have a look at an example fragment (introducing another _attribute modifie
 </tr>
 ```
 
-All three parts of a conditional expression (`condition`, `then` and `else`) are
-themselves  expressions, which means that they can be variables (`${...}`, `*{...}`),
-messages (`#{...}`), URLs (`@{...}`) or literals (`'...'`).
+Todas las partes de una expresión condicional (`condition`, `then` y `else`) son 
+por sí mismas expresiones, lo que significa que pueden ser variables (`${...}`, 
+`*{...}`), mensajes (`#{...}`), URLs (`@{...}`) o literales (`'...'`).
 
-Conditional expressions can also be nested using parentheses:
+Las expresiones condicionales pueden tambien anidarse usando paréntesis:
 
 ```html
 <tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">
@@ -1498,8 +1499,8 @@ Conditional expressions can also be nested using parentheses:
 </tr>
 ```
 
-Else expressions can also be omitted, in which case a null value is returned if
-the condition is false:
+Las expresiones Else (si no, N. del T.) pueden omitirse, en cuyo caso se devuelve 
+un valor nulo si la condición es falsa:
 
 ```html
 <tr th:class="${row.even}? 'alt'">
@@ -1512,35 +1513,34 @@ the condition is false:
 4.12  Expresiones predeterminadas (operador Elvis)
 -----------------------------------------
 
-A _default expression_ is a special kind of conditional value without a _then_
-part. It is equivalent to the _Elvis operator_ present in some languages like
-Groovy, lets you specify two expressions: the first one is used if it doesn't
-evaluate to null, but if it does then the second one is used.
+Una _expresión por defecto_ es una clase especial de valor condicional sin una 
+parte _then_. Es el equivalente al _Operador elvis_ presente en algunos lenguajes 
+como Groovy, permitiéndole especificar dos expresiones: la primera se usa si no 
+evalúa a nulo, pero si lo hace entonce se usa la segunda.
 
-Let's see it in action in our user profile page:
+Veamos esto en acción en nuestra página de perfil de usuario:
 
 ```html
 <div th:object="${session.user}">
   ...
-  <p>Age: <span th:text="*{age}?: '(no age specified)'">27</span>.</p>
+  <p>Edad: <span th:text="*{age}?: '(sin edad especificada)'">27</span>.</p>
 </div>
 ```
-
-As you can see, the operator is `?:`, and we use it here to specify a default
-value for a name (a literal value, in this case) only if the result of
-evaluating `*{age}` is null. This is therefore equivalent to:
+Como puede ver, el operador es `?:`, y lo usamos aquí para especificar un valor 
+por defecto para un nombre (un valor literal, en este caso) solo si el resultado 
+de evaluar `*{age}` es nulo. Esto es por lo tanto equivalente a:
 
 ```html
-<p>Age: <span th:text="*{age != null}? *{age} : '(no age specified)'">27</span>.</p>
+<p>Edad: <span th:text="*{age != null}? *{age} : '(sin edad especificada)'">27</span>.</p>
 ```
 
-As with conditional values, they can contain nested expressions between
-parentheses:
+Como con los valores condicionales, pueden contener expresiones anidadas entre 
+paréntesis:
 
 ```html
 <p>
   Nombre: 
-  <span th:text="*{firstName}?: (*{admin}? 'Admin' : #{default.username})">Sebastian</span>
+  <span th:text="*{firstName}?: (*{admin}? 'Administrador' : #{default.username})">Sebastian</span>
 </p>
 ```
 
@@ -1549,24 +1549,24 @@ parentheses:
 4.13 El token de no operación
 -----------------------------
 
-The No-Operation token is represented by an underscore symbol (`_`).
+La ficha No-Operación se representa por un símbolo de subrayado (`_`).
 
-The idea behind this token is to specify that the desired result for an
-expression is to *do nothing*, i.e. do exactly as if the processable attribute
-(e.g. `th:text`) was not there at all.
+La idea detrás de esta ficha es especificar que el resultado deseado para una 
+expresión es *no hacer nada*, por ejemplo, haga exactamente como si el atributo 
+procesable (por ejemplo, `th:text`) no existiera en absoluto.
 
-Among other possibilities, this allows developers to use prototyping text as
-default values. For example, instead of:
+Entre otras posibilidades, esto permite a los desarrolladores a usar texto 
+prototipado como valores por defecto. Por ejemplo, en vez de:
 
 ```html
-<span th:text="${user.name} ?: 'no user authenticated'">...</span>
+<span th:text="${user.name} ?: 'usuario no autenticado'">...</span>
 ```
-
-...we can directly use *'no user authenticated'* as a prototyping text, which results in code that 
-is both more concise and versatile from a design standpoint:
+... podmeos usar directamente *'usuario no autenticado'* como un texto 
+prototipado, lo que resulta en un código que es más conciso y versátil desde un 
+punto de vista de diseño:
 
 ```html
-<span th:text="${user.name} ?: _">no user authenticated</span>
+<span th:text="${user.name} ?: _">usuario no autenticado</span>
 ```
 
 

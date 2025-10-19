@@ -1365,8 +1365,6 @@ El literal `null` puede ser también usado:
 Los literales numéricos, booleanos y nulo son en realidad un caso particular de 
 _fichas literales_.
 
-Numeric, boolean and null literals are in fact a particular case of _literal tokens_.
-
 Estas fichas (tokens) permiten un poco de simplificación en las Expresiones 
 Estándar. Trabajan exactamente de la misma forma que los literales de texto 
 (`'...'`), pero estos solo permiten letras  (`A-Z` y `a-z`), números (`0-9`), 
@@ -1573,153 +1571,155 @@ punto de vista de diseño:
 
 4.14 Conversión y Formato de datos 
 ---------------------------------
+Thymeleaf define una sintaxis de *dobles llaves* para las expresiones de 
+variables (`${...}`) y selección (`*{...}`) que nos permite aplicar 
+*conversiones de datos* mediante un *servicio de conversión* configurado.
 
-Thymeleaf defines a *double-brace* syntax for variable (`${...}`) and selection
-(`*{...}`) expressions that allows us to apply *data conversion* by means of a
-configured *conversion service*.
-
-It basically goes like this:
+Básicamente funciona así:
 
 ```html
 <td th:text="${{user.lastAccessDate}}">...</td>
 ```
+¿Ha notado la doble llave?: `${{...}}`. Esto indica a Thymeleaf que pase el 
+resultado de la expresión `user.lastAccessDate` al *servicio de conversión* y le 
+solicita que realice una **operación de formato** (una conversión a `String`) 
+antes de escribir el resultado.
 
-Noticed the double brace there?: `${{...}}`. That instructs Thymeleaf to pass
-the result of the `user.lastAccessDate` expression to the *conversion service*
-and asks it to perform a **formatting operation** (a conversion to `String`)
-before writing the result.
+Suponiendo que `user.lastAccessDate` es del tipo `java.util.Calendar`, si se ha 
+registrado un *servicio de conversión* (implementación de 
+`IStandardConversionService`) y contiene una conversión válida para 
+`Calendar -> String`, se aplicará.
 
-Assuming that `user.lastAccessDate` is of type `java.util.Calendar`, if a *conversion service* 
-(implementation of `IStandardConversionService`) has been registered and contains a valid 
-conversion for `Calendar -> String`, it will be applied.
+La implementación predeterminada de `IStandardConversionService` (la clase 
+`StandardConversionService`) simplemente ejecuta `.toString()` en cualquier 
+objeto convertido a `String`. Para obtener más información sobre cómo registrar 
+una implementación personalizada de *servicio de conversión*, consulte la 
+sección [Más sobre la configuración](#more-on-configuration).
 
-The default implementation of `IStandardConversionService` (the `StandardConversionService`
-class) simply executes `.toString()` on any object converted to `String`. For more information on
-how to register a custom *conversion service* implementation, have a look at the
-[More on Configuration](#more-on-configuration) section.
-
-> The official thymeleaf-spring3 and thymeleaf-spring4 integration packages 
-> transparently integrate Thymeleaf's conversion service mechanism with Spring's
-> own *Conversion Service* infrastructure, so that conversion services and
-> formatters declared in the Spring configuration will be made automatically
-> available to `${{...}}` and `*{{...}}` expressions.
+> Los paquetes de integración oficiales thymeleaf-spring3 y thymeleaf-spring4 
+> integran de forma transparente el mecanismo del servicio de conversión de 
+> Thymeleaf con la infraestructura propia del *Servicio de Conversión* de 
+> Spring, de modo que los servicios de conversión y los formateadores declarados 
+> en la configuración de Spring estarán disponibles automáticamente para las 
+> expresiones `${{...}}` y `*{{...}}`.
 
 
 
 4.15 Preprocesamiento
 ------------------
 
-In addition to all these features for expression processing, Thymeleaf has the
-feature of _preprocessing_ expressions.
+Además de todas estas funciones para el procesamiento de expresiones, Thymeleaf 
+cuenta con la función de preprocesar expresiones.
 
-Preprocessing is an execution of the expressions done before the normal one that
-allows for modification of the expression that will eventually be executed.
+El preprocesamiento consiste en ejecutar las expresiones antes de la normal, lo 
+que permite modificar la expresión que finalmente se ejecutará.
 
-Preprocessed expressions are exactly like normal ones, but appear surrounded by
-a double underscore symbol (like `__${expression}__`).
+Las expresiones preprocesadas son exactamente iguales a las normales, pero 
+aparecen rodeadas por un doble guión bajo (como `__${expression}__`).
 
-Let's imagine we have an i18n `Messages_fr.properties` entry containing an OGNL
-expression calling a language-specific static method, like:
+Imaginemos que tenemos una entrada `Messages_fr.properties` de i18n que contiene 
+una expresión OGNL que llama a un método estático específico del lenguaje, como:
 
 ```java
 article.text=@myapp.translator.Translator@translateToFrench({0})
 ```
 
-...and a `Messages_es.properties equivalent`:
+...y un equivalente de `Messages_es.properties`:
 
 ```java
 article.text=@myapp.translator.Translator@translateToSpanish({0})
 ```
 
-We can create a fragment of markup that evaluates one expression or the other
-depending on the locale. For this, we will first select the expression (by
-preprocessing) and then let Thymeleaf execute it:
+Podemos crear un fragmento de marcado que evalúe una u otra expresión según la 
+configuración regional. Para ello, primero seleccionaremos la expresión 
+(mediante preprocesamiento) y luego dejaremos que Thymeleaf la ejecute:...
 
 ```html
-<p th:text="${__#{article.text('textVar')}__}">Some text here...</p>
+<p th:text="${__#{article.text('textVar')}__}">Algún texto aquí...</p>
 ```
 
-Note that the preprocessing step for a French locale will be creating the
-following equivalent:
+y un equivalente de `Messages_es.properties`:
+
+```java
+article.text=@myapp.translator.Translator@translateToSpanish({0})
+```
+Tenga en cuenta que el paso de preprocesamiento para una configuración regional 
+en francés creará el siguiente equivalente:
 
 ```html
-<p th:text="${@myapp.translator.Translator@translateToFrench(textVar)}">Some text here...</p>
+<p th:text="${@myapp.translator.Translator@translateToFrench(textVar)}">Algo de texto aquí...</p>
 ```
 
-The preprocessing String `__` can be escaped in attributes using `\_\_`.
-
-
+La cadena de preprocesamiento `__` se puede escapar en los atributos 
+usando `\_\_`.
 
 
 5\. Establecer valores de atributos
 ==========================
 
-This chapter will explain the way in which we can set (or modify) values of
-attributes in our markup.
-
+Este capítulo explicará la forma en que podemos establecer (o modificar) valores 
+de atributos en nuestro marcado.
 
 
 5.1 Establecer el valor de cualquier atributo
 --------------------------------------
 
-Say our website publishes a newsletter, and we want our users to be able to
-subscribe to it, so we create a `/WEB-INF/templates/subscribe.html` template
-with a form:
+Digamos que nuestro sitio web publica un boletín informativo y queremos que 
+nuestros usuarios puedan suscribirse a él, por lo que creamos una plantilla 
+`/WEB-INF/templates/subscribe.html` con un formulario:
 
 ```html
 <form action="subscribe.html">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="Subscribe!" />
+    <input type="submit" value="¡Subscribase!" />
   </fieldset>
 </form>
 ```
+Al igual que con Thymeleaf, esta plantilla se parece más a un prototipo estático 
+que a una plantilla para una aplicación web. En primer lugar, el atributo 
+`action` de nuestro formulario enlaza estáticamente al archivo de plantilla, lo 
+que evita la reescritura de URLs. En segundo lugar, el atributo `value` del 
+botón de envío muestra un texto en inglés, pero nos gustaría que estuviera 
+internacionalizado.
 
-As with Thymeleaf, this template starts off more like a static prototype than it
-does a template for a web application.  First, the `action` attribute in our
-form statically links to the template file itself, so that there is no place
-for useful URL rewriting. Second, the `value` attribute in the submit button makes
-it display a text in English, but we'd like it to be internationalized.
-
-Enter then the `th:attr` attribute, and its ability to change the value of
-attributes of the tags it is set in:
+Ingrese entonces el atributo `th:attr` y su capacidad para cambiar el valor de 
+los atributos de las etiquetas en las que está configurado:
 
 ```html
 <form action="subscribe.html" th:attr="action=@{/subscribe}">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
+    <input type="submit" value="¡Subscribase!" th:attr="value=#{subscribe.submit}"/>
   </fieldset>
 </form>
 ```
-
-The concept is quite straightforward: `th:attr` simply takes an expression that
-assigns a value to an attribute. Having created the corresponding controller and
-messages files, the result of processing this file will be:
+El concepto es bastante sencillo: `th:attr` simplemente toma una expresión que 
+asigna un valor a un atributo. Tras crear los archivos de controlador y mensajes 
+correspondientes, el resultado del procesamiento de este archivo será:
 
 ```html
 <form action="/gtvg/subscribe">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="¡Suscríbe!"/>
+    <input type="submit" value="¡Suscríbase!"/>
   </fieldset>
 </form>
 ```
+Además de los nuevos valores de atributos, también puedes ver que el nombre del 
+contexto de la aplicación se ha prefijado automáticamente a la base de URL en 
+`/gtvg/subscribe`, como se explicó en el capítulo anterior.
 
-Besides the new attribute values, you can also see that the application context
-name has been automatically prefixed to the URL base in `/gtvg/subscribe`, as
-explained in the previous chapter.
-
-But what if we wanted to set more than one attribute at a time? XML rules do not
-allow you to set an attribute twice in a tag, so `th:attr` will take a
-comma-separated list of assignments, like:
+¿Y si quisiéramos configurar más de un atributo a la vez? Las reglas XML no 
+permiten configurar un atributo dos veces en una etiqueta, por lo que `th:attr` 
+tomará una lista de asignaciones separadas por comas, como:
 
 ```html
 <img src="../../images/gtvglogo.png" 
      th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
 ```
 
-Given the required messages files, this will output:
+Dados los archivos de mensajes necesarios, esto generará:
 
 ```html
 <img src="/gtgv/images/gtvglogo.png" title="Logo de Good Thymes" alt="Logo de Good Thymes" />

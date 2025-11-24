@@ -26,10 +26,10 @@ de diseño. Esto mejora la comunicación del diseño y acorta la brecha entre lo
 equipos de diseño y desarrollo.
 
 Thymeleaf también ha sido diseñado desde el principio con los Estándares Web en 
-mente -- especialmente **HTML5**  -- permitiéndole crear plantillas plenamente 
+mente -- especialmente **HTML5** -- permitiéndole crear plantillas plenamente 
 validadas si es lo que necesita.
 
-1.2  ¿Qué clase de plantillas puede procesar Thymeleaf?
+1.2 ¿Qué clase de plantillas puede procesar Thymeleaf?
 -------------------------------------------------
 
 Tal como está, Thymeleaf le permite procesar ses clases de plantillas, cada una 
@@ -44,7 +44,7 @@ de las cuales se llama **Modo de Plantilla**:
 
 Existen dos modos de plantilla de *marcado* (`HTML` y `XML`), tres modos de 
 plantilla *textuales* (`TEXT`, `JAVASCRIPT` y `CSS`) y un modo de plantilla 
-*no-op*  (`RAW`).
+*no-op* (`RAW`).
 
 El modo de plantilla **`HTML`** permitirá cualquier clase de entrada HTML, 
 incluyendo HTML5, HTML 4 y XHTML. No se realizará ninguna validación ni 
@@ -53,7 +53,7 @@ respetada en la mayor medida posible en la salida.
 
 El modo de plantilla **`XML`** permitirá la entrada XML. En este caso, se 
 espera que el código esté bien formado -- sin etiquetas sin cerrar, sin 
-atributos no entrecomillados, etc -- y el analizador lanzará excepciones si se 
+atributos no entrecomillados, etc. -- y el analizador lanzará excepciones si se 
 encuentran violaciones del buen formado. Tenga en cuenta que no se realizará 
 *validación* (contra un DTD o Esquema XML).
 
@@ -65,11 +65,11 @@ como `TEXT`, en cuyo caso no serán analizadas como marcado, y cada etiqueta,
 DOCTYPE, comentario, etc. será tratado como mero texto.
 
 El modo de plantilla **`JAVASCRIPT`** permitirá el procesado de ficheros 
-JavaScript en una aplicación de Thymeleaf. Esto signifa ser capaz de usar el 
+JavaScript en una aplicación de Thymeleaf. Esto significa ser capaz de usar el 
 modelo de atos dentro de los ficheros JavaScript de la misma forma que puede ser 
 hecho en los ficheros HTML, pero con integraciones específicas de JavaScript 
 tales como el escapado especializado o *scripting natural*. El modo de plantilla
-`JAVASCRIPT` se considera un modo *textual* y por lo tanto usa la misma sintaxis 
+`JAVASCRIPT` se considera un modo *textual* y, por lo tanto, usa la misma sintaxis 
 especial que el modo de plantilla `TEXT`.
 
 El modo de plantilla **`CSS`** permitirá el procesado de ficheros CSS 
@@ -84,7 +84,7 @@ incontrolados, externos en formato HTML podrían ser incluídos en plantillas de
 aplicación, sabiendo de forma segura que no se ejecutará ningún código 
 Thymeleaf que estos recursos puedan incluir.
 
-1.3  Dialectos: El dialecto estándar
+1.3 Dialectos: El dialecto estándar
 ------------------------------------
 
 Thymeleaf es un motor de plantillas extremadamente extensible (en realidad podría 
@@ -93,7 +93,7 @@ y personalizar la forma en las que sus plantillas serán procesadas hasta un
 nivel fino de detalle.
 
 Un objeto que aplica alguna lógica a un artefacto de marcado (una etiqueta, algo 
-de texto, un comentarios, o un mero marcador de posición si las plantillas no están 
+de texto, un comentario, o un mero marcador de posición si las plantillas no están 
 marcadas) se llama un _procesador_ (processor en inglés, N. del T.) y un 
 conjunto de esos procesadores -- más quizás algunos artefactos extra -- es de 
 lo que se compone normalmente un **dialecto** (dialect en inglés, N. del T.). 
@@ -102,7 +102,7 @@ llamado el **Dialecto Estandar*, el cual debería ser suficiente para la mayorí
 de los usuarios.
 
 > Tenga en cuenta que los dialectos pueden en realidad no tener procesadores y 
-> estar enteramente compuestos de otras clases de artifactos, pero los 
+> estar enteramente compuestos de otras clases de artefactos, pero los 
 > procesadores son definitivamente el caso de uso más común.
 
 _Este tutorial cubre el Dialecto Estándar_. Cada atributo y característica de 
@@ -115,7 +115,7 @@ mientras se aprovechan de las características avanzadas de la librería.
 Thymeleaf puede ser configurado para usar varios dialectos a la vez.
 
 > Los paquetes de integración oficiales thymeleaf-spring3 y thymeleaf-spring4 
-> definen ambos un dialecto llamado el "Dialecto SpringStańdar", el cual en su 
+> definen ambos un dialecto llamado el "Dialecto Spring Estándar", el cual en su 
 > mayor parte es el mismo que el Dialecto Estándar, pero con pequeñas 
 > adaptaciones para hacer un mejor uso de algunas características de Spring 
 > Framework (por ejemplo, usando el Lenguaje de Expresión de Spring y SpringEL en 
@@ -134,7 +134,7 @@ un navegador como:
 <form:inputText name="userName" value="${user.name}" />
 ```
 
-...El Dialecto Estándar de Thymeleaf nos permitiría alcanzar la misma 
+... El Dialecto Estándar de Thymeleaf nos permitiría alcanzar la misma 
 funcionalidad con::
 
 ```html
@@ -142,7 +142,7 @@ funcionalidad con::
 ```
 
 No solo será esto más correctamente mostrado por los navegadores, sino que también 
-nos permite (opcionalmente) especificar un valor de atributo en éste ("James 
+nos permite (opcionalmente) especificar un valor de atributo en este ("James 
 Carrot", en este caso) que será mostrado cuando el prototipo esté abierto 
 estáticamente en un navegador, y que será sustituido por el valor resultante de 
 la evaluación de `${user.name}` durante el procesado de la plantilla.
@@ -156,7 +156,7 @@ funcionalidad llamada _Plantillado Natural_.
 ================================================
 
 El código fuente para los ejemplos mostrados en este, y futuros capítulos de 
-esta guía, se puede encontrar en en ejemplo _Good Thymes Virtual Grocery (GTVG)_
+esta guía, se puede encontrar en el ejemplo _Good Thymes Virtual Grocery (GTVG)
 el cual tiene dos versiones (equivalentes):
 
    * basado en `javax.*`: [gtvg-javax](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-javax).
@@ -167,11 +167,11 @@ el cual tiene dos versiones (equivalentes):
 2.1 Un sitio web para una tienda de comestibles
 -----------------------------------------------
 
-Para explicar mejor los conceptos involucrados en el procesadamiento de 
+Para explicar mejor los conceptos involucrados en el procesamiento de 
 plantillas con Thymeleaf, este tutorial usará una aplicación de demostración que 
 puede descargar desde el sitio web del proyecto.
 
-Esta aplicación es el sitio web de una tienda de comestibles  virtual 
+Esta aplicación es el sitio web de una tienda de comestibles virtual 
 imaginaria, y nos ofrecerá muchos escenarios para mostrar las muchas 
 características de Thymeleaf.
 
@@ -436,7 +436,7 @@ echemos un vistazo a la creación de nuestro objeto de Motor de Plantilla (Templ
 
 Los objetos de Motor de Plantilla son implementaciones de la interfaz 
 `org.thymeleaf.ITemplateEngine`. Una de estas implementaciones es ofrecida por 
-el nucleo de Thymeleaf: `org.thymeleaf.TemplateEngine`, y nosotros craemos una 
+el nucleo de Thymeleaf: `org.thymeleaf.TemplateEngine`, y nosotros creamos una 
 instancia de esta aquí:
 
 ```java
@@ -449,7 +449,7 @@ configurarla como Solucionador de Plantillas.
 
 Un solucionador de plantillas es el único parámetro *requerido* que necesita un
 `TemplateEngine`, aunque existen muchos otros que cubriremos más tarde 
-(resolvedores de mensajes, tamaños de caché, etc). Por ahora, esto es todo lo que 
+(resolvedores de mensajes, tamaños de caché, etc.). Por ahora, esto es todo lo que 
 necesitamos.
 
 Nuestro Motor de Plantillas está ahora listo y podemos empezar a crear nuestras 
@@ -505,7 +505,7 @@ no HTML5:
 ```html
 <html xmlns:th="http://www.thymeleaf.org">
 ```
-...que no tiene ninguna influencia en el procesamiento de la plantilla, pero 
+... Que no tiene ninguna influencia en el procesamiento de la plantilla, pero 
 funciona como un *encantamiento* que evita que nuestro IDE se queje de la falta 
 de un espacio de nombres de una definición de espacio de nombres para todos esos 
 atributos `th:*`.
@@ -542,7 +542,7 @@ válido*.
 
 > Ambas notaciones son completamente equivalentes e intercambiables, pero por el
 > bien de la simplicidad y la brevedad de los ejemplos de código, este tutorial 
-> usará la *notacion del espacion de nombres* (`th:*`). Además, la notación
+> usará la *notacion del espacio de nombres* (`th:*`). Además, la notación
 > `th:*` es más general y permitida en cada modo de plantilla Thymeleaf (`XML`, 
 > `TEXT`...) mientras que la notación `data-` se permite solo en el modo `HTML`.
 
@@ -569,25 +569,25 @@ Estandar de Thymeleaf:
 
  * El atributo `th:text`, que evalúa su expresión de valor y establece el
    resultado como el cuerpo de la etiqueta anfitriona, reemplazando efectivamente
-   el texto "¡Bienvenido a nuestra tienda de comestibles!" que vemos en el código.
- * La expresión `#{home.welcome}`, especficada en la _Sintaxis de la Expresión 
-   Estándar_, que indica que el texto que debe utilizar  el atributo `th:text`
+   el texto "¡Bienvenido a nuestra tienda de comestibles!", que vemos en el código.
+ * La expresión `#{home.welcome}`, especificada en la _Sintaxis de la Expresión 
+   Estándar_, que indica que el texto que debe utilizar el atributo `th:text`
    debe ser reemplazado por el mensaje con la clave `home.welcome` correspondiente  
    a la configuración regional con la que estamos procesando la plantilla.
 
 Ahora bien, ¿dónde está este texto externalizado?
 
-La ubicación del texto externalizado en Thymelea es completamente configurable, y 
+La ubicación del texto externalizado en Thymeleaf es completamente configurable, y 
 dependerá de la implementación específica de `org.thymeleaf.messageresolver.IMessageResolver`
 que será usada, pero podríamos crear nuestras propias implementaciones si 
 quisiéramos, por ejemplo, obtener los mensajes de una base de datos.
 
-Sin embargo, no hemos especificdo un solucionador de mensajes para nuestro motor 
+Sin embargo, no hemos especificado un solucionador de mensajes para nuestro motor 
 de plantillas durante la inicialización, y eso significa que nuestra aplicación 
 está usando el _Solucionador Estándar de Mensajes_, implementado por 
 `org.thymeleaf.messageresolver.StandardMessageResolver`.
 
-El solucionador estándar de mensajes espera encontrar los mensaje para 
+El solucionador estándar de mensajes espera encontrar los mensajes para 
 `/WEB-INF/templates/home.html` en ficheros de propiedades en la misma carpeta y 
 con el mismo nombre que la plantilla, como:
 
@@ -603,7 +603,7 @@ Echemos un vistazo a nuestro fichero `home_es.properties`:
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
 ```
 
-Esto es todo lo que necesitamos para que Thymelea procese nuestra plantilla. 
+Esto es todo lo que necesitamos para que Thymeleaf procese nuestra plantilla. 
 Ahora, creemos ahora nuestro controlador de inicio.
 
 
@@ -659,7 +659,7 @@ public interface IWebContext extends IContext {
 }
 ```
 
-El núcleo de la librería de Thymelea ofrede una implementación de cada una de 
+El núcleo de la librería de Thymeleaf ofrece una implementación de cada una de 
 estas interfaces:
 
  * `org.thymeleaf.context.Context` implementa `IContext`
@@ -675,16 +675,16 @@ WebContext ctx = new WebContext(webExchange, webExchange.getLocale());
 
 El constructor `WebContext` requiere información contenida en el objeto de 
 abstracción `IWebExchange` que fue creado en el filtro representando este 
-intercambio basado en web (p.e. petición + respuesta). La configuración regional 
+intercambio basado en web (p. ej. petición + respuesta). La configuración regional 
 por defecto del sistema se utilizará si no se especifica ninguna (aunque usted 
 no debe permitir nunca que esto ocurra en aplicaciones reales).
 
 Existen algunas expresiones especializadas que seremos capaces de utilizar para 
-obtener los parámetros de la petición y los atributos de la  petición, sesión y 
+obtener los parámetros de la petición y los atributos de la petición, sesión y 
 aplicación del `WebContext` en nuestras plantillas. Por ejemplo:
 
- * `${x}` devolverá una variable `x` almacenada en el contexto de Thymeleaf o como un *atributo de intercambio* (Un *"atributo de la petición"* e"* en la jerga de los Servlet).
- * `${param.x}` devolverá un *parámetro de petición* llamado `x` (el cual podría ser multivalor).
+ * `${x}` devolverá una variable `x` almacenada en el contexto de Thymeleaf o como un *atributo de intercambio* (Un *"atributo de la petición* e"* en la jerga de los Servlet).
+ * `${param.x}` devolverá un *parámetro de petición* llamado `x` (el cual podría ser multi valor).
  * `${session.x}` devolverá un *atributo de sesión* llamado `x`.
  * `${application.x}` devolverá un *atributo de aplicación* llamado `x` (un *"atributo del contexto del servlet"* en la jerga de los Servlets).
 
@@ -731,8 +731,8 @@ Veamos los resultados de esto usando la configuración regional española:
 ### Texto no escapado
 
 
-La versión  más simple de nuestra página de Inicio parece estar lista ahora, pero 
-hay algo en el código quelo que no hemos pensado... ¿Qué pasaría si tenemos un 
+La versión más simple de nuestra página de Inicio parece estar lista ahora, pero 
+hay algo en el código que lo que no hemos pensado... ¿Qué pasaría si tenemos un 
 mensaje como este?
 
 ```java
@@ -746,7 +746,7 @@ Si ejecutamos esta plantilla como antes, obtendremos:
 ```
 
 Lo que no es exactamente lo que esperábamos, porque nuestra etiqueta `<b>` ha 
-sido escapada y por lo tanto será visualizada en el navegador.
+sido escapada y, por lo tanto, será visualizada en el navegador.
 
 Este es el comportamiento por defecto del atributo `th:text`. Si queremos que 
 Thymeleaf respete nuestras etiquetas HTML y no las escape, tendremos que usar un 
@@ -767,7 +767,7 @@ Esto sacará nuestro mensaje tal como lo queríamos:
 ### Uso y visualización de variables
 
 Ahora agreguemos algo de más contenido a nuestra página de inicio. Por ejemplo, 
-podremos querer visualizar la fecha debajo de nuestor mensaje de bievenida, así:
+podremos querer visualizar la fecha debajo de nuestro mensaje de bienvenida, así:
 
 ```
 ¡Bienvenido a nuestra fantástica tienda de comestibles!
@@ -809,7 +809,7 @@ podemos visualizarla en nuestra plantilla:
 ```
 
 Como puede ver, estamos aún usando el atributo `th:text` para el trabajo (y eso 
-es correcto, poque queremos reemplazar el cuerpor de la etiqueta), pero la 
+es correcto, porque queremos reemplazar el cuerpo de la etiqueta), pero la 
 sintaxis es un poquito diferente esta vez y en vez de una expresión de valor 
 `#{...}`, estamos usando una `${...}`. Esta es una **expresión de variable**, 
 y contiene una expresión en un lenguaje llamado _OGNL (Object-Graph Navigation 
@@ -893,7 +893,7 @@ Como ya sabemos, las expresiones de mensaje `#{...}` nos permiten vincular esto:
 <p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
 ```
 
-...a esto:
+... A esto:
 
 ```
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
@@ -929,7 +929,7 @@ llamado `user`, podríamos tener:
 </p>
 ```
 
-> Dese cuenta que el uso de `th:utext` aquí significa que el mensaje con formato 
+> Dese cuenta de que el uso de `th:utext` aquí significa que el mensaje con formato 
 > no será escapado. Este ejemplo asume que `user.name` ya está escapado.
 
 Se pueden especificar varios parámetros, separados por comas.
@@ -952,12 +952,12 @@ Ya mencionamos que las expresiones `${...}` son en realidad expresiones OGNL
 (Lenguaje de Navegación Objeto-Gráfico) ejecutadas sobre el mapa de variables 
 contenidas en el contexto.
 
-> Para información detallada sobre la sintaxis OGNL y sus características, 
-> consulte la guía [Guía del Lenguaje OGNL](http://commons.apache.org/ognl/)
+> Para información detallada sobre la sintaxis OGNL y sus características, consulte 
+> la guía [Guía del Lenguaje OGNL](http://commons.apache.org/ognl/)
 > 
-> En aplicaciones que habilitan Spring MVC OGNL será reemplazado con **SpringEL**,
-> pero su sintaxis es muy similiar a la de OGNL (En realidad, exactamente lo 
-> mismo para la mayoría de los casos comunes).
+> En aplicaciones que habilitan Spring MVC OGNL será reemplazado con **SpringEL**, pero 
+> su sintaxis es muy similar a la de OGNL (En realidad, exactamente lo mismo 
+> para la mayoría de los casos comunes).
 
 De la sintaxis de OGNL, sabemos que la expresión en:
 
@@ -980,7 +980,7 @@ funciona esto:
 </p>
 ```
 
-...obtiene el nombre de usuario ejecutando:
+... Obtiene el nombre de usuario ejecutando:
 
 ```java
 ((User) ctx.getVariable("session").get("user")).getName();
@@ -1038,7 +1038,7 @@ Así que podemos hacer esto:
 País de configuración regional establecido: <span th:text="${#locale.country}">ES</span>.
 ```
 
-Puede leer la referencia completa de estos objetos en el [Apéndice A](#appendix-a-expression-basic-objects). 
+Puede leer la referencia completa de estos objetos en el [Apéndice A](#18-apéndice-a-objetos-básicos-de-expresión). 
 
 
 ### Objetos de utilidad de expresión
@@ -1047,10 +1047,10 @@ Además de estos objetos básicos, Thymeleaf nos ofrecerá un conjunto de objeto
 utilidad que nos ayudarán a realizar tareas comunes en nuestras expresiones.
 
  * `#execInfo`: información sobre la plantilla que está siendo procesada.
- * `#messages`: métodos par obtener mensajes externalizados dentro de expresiones 
+ * `#messages`: métodos para obtener mensajes externalizados dentro de expresiones 
     de variables, en la misma forma que serían obtenidas usando la sintaxis 
     #{...}. 
- * `#uris`: métodos para escapar partes de las URLs/URIs
+ * `#uris`: métodos para escapar partes de las URL/URI
  * `#conversions`: métodos para la ejecución del *servicio de conversión* 
     configurado (si lo hay).
  * `#dates`: métodos para objetos `java.util.Date`: formateado, extracción de 
@@ -1072,7 +1072,7 @@ utilidad que nos ayudarán a realizar tareas comunes en nuestras expresiones.
     repetirse (por ejemplo, como resultado de una iteración).
 
 Puede comprobar qué funciones se ofrecen para cada uno de estos objetos de 
-utilidad en el [Apéndice B](#appendix-b-expression-utility-objects).
+utilidad en el [Apéndice B](#19-apéndice-b-objetos-de-utilidad-de-expresión).
 
 
 ### Reformateando las fechas en nuestra página de inicio
@@ -1091,7 +1091,7 @@ ctx.setVariable("today", dateFormat.format(cal.getTime()));
 templateEngine.process("home", ctx, writer);
 ```
 
-...podemos hacer precisamente esto:
+... Podemos hacer precisamente esto:
 
 ```java
 WebContext ctx = new WebContext(webExchange, webExchange.getLocale());
@@ -1178,10 +1178,10 @@ de dólar y asterisco son equivalentes.
 ```
 
 
-4.4 Enlaces a URLs
-------------------
+4.4 Enlaces a URL
+-----------------
 
-Debido a su importancia, las URLs son ciudadanas de primera clase en las 
+Debido a su importancia, las URL son ciudadanas de primera clase en las 
 plantillas de aplicaciones web, y el _Dialecto Estándar de Thymeleaf_ tiene una 
 sintaxis especial para ellas, la sintaxis `@`: `@{...}`
 
@@ -1189,15 +1189,15 @@ Hay diferentes tipos de URLs:
 There are different types of URLs:
 
  * URLs absolutas: `http://www.thymeleaf.org`
- *  URLs relativas, las cuales pueden ser:
+ *  URL relativas, las cuales pueden ser:
     * relativas a la página: `user/login.html`
     * relativas al contexto: `/itemdetails?id=3` (el nombre del contexto en el 
       servidor será agregado automáticamente)
     * relativas al servidor: `~/billing/processInvoice` (permite llamar URLS en 
-      otros contextos (= aplicación) en el mismo servidor.
+      otros contextos (= aplicación) en el mismo servidor).
     * URLs relativas al protocolo: `//code.jquery.com/jquery-2.0.3.min.js`
 
-El procesado real de estasa expresiones y sus conversiones a las URLs que serán
+El procesado real de estas expresiones y sus conversiones a las URL que serán
 mostradas se hace por implementaciones de la interfaz `org.thymeleaf.linkbuilder.ILinkBuilder`
 que está registrada dentro del objeto `ITemplateEngine` que está siendo usado.
 
@@ -1257,7 +1257,7 @@ pueden ser el resultado de evaluar otra expresión:
 
 ### Un menú para nuestra página de inicio
 
-Ahora que sabemos como crear URLs de enlace, ¿Qué tal si añadimos un pequeño 
+Ahora que sabemos como crear URL de enlace, ¿Qué tal si añadimos un pequeño 
 menú en nuestra página de inicio para algunas de las otras páginas del sitio?
 
 ```html
@@ -1271,11 +1271,11 @@ menú en nuestra página de inicio para algunas de las otras páginas del sitio?
 ```
 
 
-### URLs relativas a la raíz del servidor
+### URL relativas a la raíz del servidor
 
-Se puede usar una sintaxis adicional para crear URLs relativas a la raíz del 
+Se puede usar una sintaxis adicional para crear URL relativas a la raíz del 
 servidor (en vez de relativas a la raíz del contexto) para enlazar a diferentes 
-contextos en el mismo servidor. Estas URLs se especificarán como 
+contextos en el mismo servidor. Estas URL se especificarán como 
 `@{~/path/to/something}`
 
 
@@ -1284,8 +1284,8 @@ contextos en el mismo servidor. Estas URLs se especificarán como
 -------------
 
 Las expresiones de fragmento son una forma fácil de representar fragmentos de 
-marcoad y moverlos entre las plantillas. Esto nos permite replicarlas, pasarlas 
-a otras plantilas como argumentos, etc.
+marco y moverlos entre las plantillas. Esto nos permite replicarlas, pasarlas 
+a otras plantillas como argumentos, etc.
 
 El uso más común es para la inserción de fragmentos usando `th:insert` o 
 `th:replace` (más sobre esto en una sección posterior):
@@ -1336,7 +1336,7 @@ Los literales numéricos son simplemente eso: números.
 
 ### Literales booleanos
 
-Los literales booleano son `true` y `false`. Por ejemplo:
+Los literales booleanos son `true` y `false`. Por ejemplo:
 
 ```html
 <div th:if="${user.isAdmin()} == false"> ...
@@ -1367,7 +1367,7 @@ _fichas literales_.
 
 Estas fichas (tokens) permiten un poco de simplificación en las Expresiones 
 Estándar. Trabajan exactamente de la misma forma que los literales de texto 
-(`'...'`), pero estos solo permiten letras  (`A-Z` y `a-z`), números (`0-9`), 
+(`'...'`), pero estos solo permiten letras (`A-Z` y `a-z`), números (`0-9`), 
 corchetes (`[` y `]`), puntos (`.`), guiones (`-`) y subrayados (`_`). Así que 
 nada de espacios en blanco, ni comas, etc.
 
@@ -1436,7 +1436,7 @@ También se encuentran disponibles algunas operaciones aritméticas:
 ```html
 <div th:with="isEven=(${prodStat.count} % 2 == 0)">
 ```
-Dese cuenta que estos operadores pueden también ser utilizados dentro de 
+Dese cuenta de que estos operadores pueden también ser utilizados dentro de 
 expresiones OGNL por sí mismos (y en ese caso serán ejecutados por OGNL en vez 
 del motor de Expresiones Estándar de Thymeleaf):
 
@@ -1444,7 +1444,7 @@ del motor de Expresiones Estándar de Thymeleaf):
 <div th:with="isEven=${prodStat.count % 2 == 0}">
 ```
 
-Dese cuenta que existen aliases textuales para algunos de estos operadores: 
+Dese cuenta de que existen aliases textuales para algunos de estos operadores: 
 `div` (`/`), `mod` (`%`).
 
 
@@ -1487,9 +1487,9 @@ atributos_, `th:class`):
 
 Todas las partes de una expresión condicional (`condition`, `then` y `else`) son 
 por sí mismas expresiones, lo que significa que pueden ser variables (`${...}`, 
-`*{...}`), mensajes (`#{...}`), URLs (`@{...}`) o literales (`'...'`).
+`*{...}`), mensajes (`#{...}`), URL (`@{...}`) o literales (`'...'`).
 
-Las expresiones condicionales pueden tambien anidarse usando paréntesis:
+Las expresiones condicionales pueden también anidarse usando paréntesis:
 
 ```html
 <tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">
@@ -1508,13 +1508,13 @@ un valor nulo si la condición es falsa:
 
 
 
-4.12  Expresiones predeterminadas (operador Elvis)
+4.12 Expresiones predeterminadas (operador Elvis)
 -----------------------------------------
 
 Una _expresión por defecto_ es una clase especial de valor condicional sin una 
 parte _then_. Es el equivalente al _Operador elvis_ presente en algunos lenguajes 
 como Groovy, permitiéndole especificar dos expresiones: la primera se usa si no 
-evalúa a nulo, pero si lo hace entonce se usa la segunda.
+evalúa a nulo, pero si lo hace entonces se usa la segunda.
 
 Veamos esto en acción en nuestra página de perfil de usuario:
 
@@ -1526,7 +1526,7 @@ Veamos esto en acción en nuestra página de perfil de usuario:
 ```
 Como puede ver, el operador es `?:`, y lo usamos aquí para especificar un valor 
 por defecto para un nombre (un valor literal, en este caso) solo si el resultado 
-de evaluar `*{age}` es nulo. Esto es por lo tanto equivalente a:
+de evaluar `*{age}` es nulo. Esto es, por lo tanto, equivalente a:
 
 ```html
 <p>Edad: <span th:text="*{age != null}? *{age} : '(sin edad especificada)'">27</span>.</p>
@@ -1559,7 +1559,7 @@ prototipado como valores por defecto. Por ejemplo, en vez de:
 ```html
 <span th:text="${user.name} ?: 'usuario no autenticado'">...</span>
 ```
-... podmeos usar directamente *'usuario no autenticado'* como un texto 
+... Podemos usar directamente *'usuario no autenticado'* como un texto 
 prototipado, lo que resulta en un código que es más conciso y versátil desde un 
 punto de vista de diseño:
 
@@ -1594,7 +1594,7 @@ La implementación predeterminada de `IStandardConversionService` (la clase
 `StandardConversionService`) simplemente ejecuta `.toString()` en cualquier 
 objeto convertido a `String`. Para obtener más información sobre cómo registrar 
 una implementación personalizada de *servicio de conversión*, consulte la 
-sección [Más sobre la configuración](#more-on-configuration).
+sección [Más sobre la configuración](#15-más-sobre-la-configuración).
 
 > Los paquetes de integración oficiales thymeleaf-spring3 y thymeleaf-spring4 
 > integran de forma transparente el mecanismo del servicio de conversión de 
@@ -1615,7 +1615,7 @@ El preprocesamiento consiste en ejecutar las expresiones antes de la normal, lo
 que permite modificar la expresión que finalmente se ejecutará.
 
 Las expresiones preprocesadas son exactamente iguales a las normales, pero 
-aparecen rodeadas por un doble guión bajo (como `__${expression}__`).
+aparecen rodeadas por un doble guion bajo (como `__${expression}__`).
 
 Imaginemos que tenemos una entrada `Messages_fr.properties` de i18n que contiene 
 una expresión OGNL que llama a un método estático específico del lenguaje, como:
@@ -1679,7 +1679,7 @@ nuestros usuarios puedan suscribirse a él, por lo que creamos una plantilla
 Al igual que con Thymeleaf, esta plantilla se parece más a un prototipo estático 
 que a una plantilla para una aplicación web. En primer lugar, el atributo 
 `action` de nuestro formulario enlaza estáticamente al archivo de plantilla, lo 
-que evita la reescritura de URLs. En segundo lugar, el atributo `value` del 
+que evita la reescritura de URL. En segundo lugar, el atributo `value` del 
 botón de envío muestra un texto en inglés, pero nos gustaría que estuviera 
 internacionalizado.
 
@@ -1737,7 +1737,7 @@ A estas alturas, es posible que estés pensando en algo como esto:
 <input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
 ```
 
-...es una pieza de  marcado bastante fea. Especificar una asignación dentro del 
+...es una pieza de marcado bastante fea. Especificar una asignación dentro del 
 valor de un atributo puede ser muy práctico, pero no es la forma más elegante de 
 crear plantillas si tienes que hacerlo constantemente.
 
@@ -1757,7 +1757,7 @@ la etiqueta `form`:
 ```html
 <form action="subscribe.html" th:action="@{/subscribe}">
 ```
-¿Y recuerdas esos `th:href` que que incluimos en nuestro `home.html`? Son 
+¿Y recuerdas esos `th:href` que incluimos en nuestro `home.html`? Son 
 exactamente el mismo tipo de atributos:
 
 ```html
@@ -1839,21 +1839,21 @@ simultáneamente. En concreto:
  * `th:alt-title` establecerá `alt` y `title`. 
  * `th:lang-xmllang` establecerá `lang` y `xml:lang`.
 
-Para nuestra pagína de inicio GTVVG, esto nos permitirá substituir esto:
+Para nuestra pagína de inicio GTVG, esto nos permitirá substituir esto:
 
 ```html
 <img src="../../images/gtvglogo.png" 
      th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
 ```
 
-...a esto, lo que es equivalente:
+... A esto, lo que es equivalente:
 
 ```html
 <img src="../../images/gtvglogo.png" 
      th:src="@{/images/gtvglogo.png}" th:title="#{logo}" th:alt="#{logo}" />
 ```
 
-...con esto:
+... Con esto:
 
 ```html
 <img src="../../images/gtvglogo.png" 
@@ -1977,7 +1977,7 @@ procesadores a sus plantillas de una manera más compatible con HTML5.
 La sintaxis `data-{prefix}-{name}` es la forma estándar de escribir atributos 
 personalizados en HTML5, sin necesidad de que los desarrolladores usen nombres 
 con espacios de nombres como `th:*`. Thymeleaf hace que esta sintaxis esté 
-disponible automáticamente para todos sus dialectos (no solo para los estándar).
+disponible automáticamente para todos sus dialectos (no solo para los estándares).
 
 También existe una sintaxis para especificar etiquetas personalizadas: 
 `{prefijo}-{nombre}`, que sigue la _especificación de Elementos Personalizados 
@@ -1986,7 +1986,7 @@ Esto se puede usar, por ejemplo, para el elemento `th:block` (o también
 `th-block`), que se explicará en una sección posterior.
 
 **Importante:** Esta sintaxis se añade a la sintaxis con espacio de nombres 
-`th:*`, no la reemplaza. No se pretende descontinuar la sintaxis con espacio de 
+`th:*`, no la reemplaza. No se pretende discontinuar la sintaxis con espacio de 
 nombres en el futuro.
 
 
@@ -2114,47 +2114,44 @@ consideran _iterables_ mediante un atributo `th:each`:
 6.2 Mantener el estado de la iteración
 --------------------------------------
 
-When using `th:each`, Thymeleaf offers a mechanism useful for keeping track of
-the status of your iteration: the _status variable_.
+Cuando usa `th:each`, Thymeleaf ofrece un mecanismo útil para seguir la pista del 
+estado de tu iteración: _la variable status_.
 
-Status variables are defined within a `th:each` attribute and contain the
-following data:
+Las variables de estado se definen dentro de un atributo `th:each` y contiene los
+siguientes datos:
 
- * The current _iteration index_, starting with 0. This is the `index` property.
- * The current _iteration index_, starting with 1. This is the `count` property.
- * The total amount of elements in the iterated variable. This is the `size`
-   property.
- * The _iter variable_ for each iteration. This is the `current` property.
- * Whether the current iteration is even or odd. These are the `even/odd` boolean
-   properties.
- * Whether the current iteration is the first one. This is the `first` boolean
-   property.
- * Whether the current iteration is the last one. This is the `last` boolean
-   property.
+ * El _índice de iteración_ actual, que empieza en 0. Esta es la propiedad `index`.  
+ * El _índice de iteración_ actual, que empieza en 1. Esta es la propiedad `count`. 
+ * La cantidad total de elementos en la variable iterada. Esta es la propiedad `size`. 
+ * La _variable iter_ para cada iteración. Esta es la propiedad `current`.
+ * Si la iteración actual es par o impar. Estas son las propiedades booleanas `even/odd`. 
+ * Si la iteración actual es la primera de todas. Esta es la propiedad booleana `first`. 
+ * Si la iteración actual es la última de todas. Esta es la propiedad booleana `last`.
 
-Let's see how we could use it with the previous example:
+Vea como podríamos usarlo con el ejemplo previo:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
   </tr>
   <tr th:each="prod,iterStat : ${prods}" th:class="${iterStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Onions</td>
+    <td th:text="${prod.name}">Cebollas</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
   </tr>
 </table>
 ```
 
-The status variable (`iterStat` in this example) is defined in the `th:each`
-attribute by writing its name after the iter variable itself, separated by a
-comma. Just like the iter variable, the status variable is also scoped to the
-fragment of code defined by the tag holding the `th:each` attribute.
+La variable status (`iterStat` en este ejemplo) se define en el atributo
+`th:each` escribiendo su nombre después la propia variable iter, separada por una
+coma. Al igual que la variable iter, la variable de estado también tiene como 
+alcance el fragmento de código definido por la etiqueta que contiene el atributo 
+`th:each`.
 
-Let's have a look at the result of processing our template:
+Echemos un vistazo al resultado de procesar nuestra plantilla:
 
 ```html
 <!DOCTYPE html>
@@ -2162,45 +2159,45 @@ Let's have a look at the result of processing our template:
 <html>
 
   <head>
-    <title>Good Thymes Virtual Grocery</title>
+    <title>Tienda de comestibles virtual Good Thymes</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" type="text/css" media="all" href="/gtvg/css/gtvg.css" />
   </head>
 
   <body>
 
-    <h1>Product list</h1>
+    <h1>Lista de productos</h1>
   
     <table>
       <tr>
-        <th>NAME</th>
-        <th>PRICE</th>
-        <th>IN STOCK</th>
+        <th>NOMBRE</th>
+        <th>PRECIO</th>
+        <th>EN STOCK</th>
       </tr>
       <tr class="odd">
-        <td>Fresh Sweet Basil</td>
+        <td>Albahaca dulce fresca</td>
         <td>4.99</td>
-        <td>yes</td>
+        <td>sí</td>
       </tr>
       <tr>
-        <td>Italian Tomato</td>
+        <td>Tomate italiano</td>
         <td>1.25</td>
         <td>no</td>
       </tr>
       <tr class="odd">
-        <td>Yellow Bell Pepper</td>
+        <td>Pimiento amarillo</td>
         <td>2.50</td>
-        <td>yes</td>
+        <td>sí</td>
       </tr>
       <tr>
-        <td>Old Cheddar</td>
+        <td>Cheddar viejo</td>
         <td>18.75</td>
-        <td>yes</td>
+        <td>sí</td>
       </tr>
     </table>
   
     <p>
-      <a href="/gtvg/" shape="rect">Return to home</a>
+      <a href="/gtvg/" shape="rect">Regresar al inicio</a>
     </p>
 
   </body>
@@ -2208,23 +2205,24 @@ Let's have a look at the result of processing our template:
 </html>
 ```
 
-Note that our iteration status variable has worked perfectly, establishing the
-`odd` CSS class only to odd rows.
+Tenga en cuenta que nuestra variable de estado de iteración ha funcionado 
+perfectamente, estableciendo la clase CSS `odd` solo para las filas impares.
 
-If you don't explicitly set a status variable, Thymeleaf will always create one
-for you by suffixing `Stat` to the name of the iteration variable:
+Si no establece explícitamente una variable de estado, Thymeleaf siempre 
+creará una para usted agregando el sufijo `Stat` al nombre de la variable de 
+iteración:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Onions</td>
+    <td th:text="${prod.name}">Cebollas</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
   </tr>
 </table>
 ```
@@ -2234,18 +2232,18 @@ for you by suffixing `Stat` to the name of the iteration variable:
 6.3 Optimización mediante recuperación diferida de datos
 --------------------------------------------------------
 
-Sometimes we might want to optimize the retrieval of collections of data (e.g.
-from a database) so that these collections are only retrieved if they are really
-going to be used. 
+Algunas veces podríamos querer optimizar la adquisición de colecciones de datos 
+(p. ej. desde una base de datos) así que estas colecciones se recuperan únicamente si 
+realmente se van a utilizar.
+ 
+> De hecho, esto es algo que puede ser aplicado a *cualquier* pieza de datos, pero dado el tamaño
+> que las colecciones en memoria podrían tener, la recuperación de colecciones que deben iterarse 
+> es el caso más común para este escenario.
 
-> Actually, this is something that can be applied to *any* piece of data, but given the size
-> that in-memory collections might have, retrieving collections that are meant to be iterated
-> is the most common case for this scenario.
-
-In order to support this, Thymeleaf offers a mechanism to *lazily load context
-variables*. Context variables that implement the `ILazyContextVariable`
-interface -- most probably by extending its `LazyContextVariable` default
-implementation -- will be resolved in the moment of being executed. For example:
+Para facilitar esto, Thymeleaf ofrece un mecanismo para cargar variables de contexto de forma 
+diferida. Las variables de contexto que implementan la interfaz `ILazyContextVariable` (probablemente 
+extendiendo su implementación predeterminada `LazyContextVariable`) se resolverán al 
+momento de su ejecución. Por ejemplo:
 
 ```java
 context.setVariable(
@@ -2258,20 +2256,20 @@ context.setVariable(
      });
 ```
 
-This variable can be used without knowledge of its *laziness*, in code such as:
+Esta variable puede utilizarse sin conocimiento de su *carga perezosa*, en código como:
 
 ```html
 <ul>
-  <li th:each="u : ${users}" th:text="${u.name}">user name</li>
+  <li th:each="u : ${users}" th:text="${u.name}">nombre de usuario</li>
 </ul>
 ```
 
-But at the same time, will never be initialized (its `loadValue()` method will
-never be called) if `condition` evaluates to `false` in code such as:
+Pero al mismo tiempo, nunca será inicializada (su método `loadValue()` nunca se 
+llamará) si la `condition` evalúa a `false` en un código como:
 
 ```html
 <ul th:if="${condition}">
-  <li th:each="u : ${users}" th:text="${u.name}">user name</li>
+  <li th:each="u : ${users}" th:text="${u.name}">nombre de usuario</li>
 </ul>
 ```
 
@@ -2286,117 +2284,116 @@ never be called) if `condition` evaluates to `false` in code such as:
 7.1 Condicionales simples: "if" y "unless"
 ------------------------------------------
 
-Sometimes you will need a fragment of your template to only appear in the result
-if a certain condition is met. 
+Algunas veces necesitarás que un fragmento de su plantilla solo aparezca en el resultado
+si se cumple una cierta condición.
 
-For example, imagine we want to show in our product table a column with the
-number of comments that exist for each product and, if there are any comments, a
-link to the comment detail page for that product.
+Por ejemplo, imagine que queremos mostrar en nuestra tabla de productos una columna con el 
+número de comentarios que exista para cada producto y, si hay algunos comentarios, un 
+enlace a la página de detalle del comentario para ese producto.
 
-In order to do this, we would use the `th:if` attribute:
+Para hacer esto, usaríamos el atributo `th:if`:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
-    <th>COMMENTS</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
+    <th>COMENTARIOS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Onions</td>
+    <td th:text="${prod.name}">Cebollas</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:if="${not #lists.isEmpty(prod.comments)}">view</a>
+         th:if="${not #lists.isEmpty(prod.comments)}">ver</a>
     </td>
   </tr>
 </table>
 ```
 
-Quite a lot of things to see here, so let's focus on the important line:
+Hay muchas cosas que ver aquí, así que centrémonos en la línea importante:
 
 ```html
 <a href="comments.html"
    th:href="@{/product/comments(prodId=${prod.id})}" 
-   th:if="${not #lists.isEmpty(prod.comments)}">view</a>
+   th:if="${not #lists.isEmpty(prod.comments)}">ver</a>
 ```
 
-This will create a link to the comments page (with URL `/product/comments`) with
-a `prodId` parameter set to the `id` of the product, but only if the product has
-any comments.
+Esto creará un enlace a la página de comentarios (con URL `/product/comments`) 
+con un parámetro `prodId` establecido en el `id` del producto, pero solo si el 
+producto tiene algún comentario.
 
-Let's have a look at the resulting markup:
+Echemos un vistazo al marcado resultante:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
-    <th>COMMENTS</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
+    <th>COMENTARIOS</th>
   </tr>
   <tr>
-    <td>Fresh Sweet Basil</td>
+    <td>Albahaca dulce fresca</td>
     <td>4.99</td>
-    <td>yes</td>
+    <td>si</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Italian Tomato</td>
+    <td>Tomate italiano</td>
     <td>1.25</td>
     <td>no</td>
     <td>
-      <span>2</span> comment/s
-      <a href="/gtvg/product/comments?prodId=2">view</a>
+      <span>2</span> comentario/s
+      <a href="/gtvg/product/comments?prodId=2">ver</a>
     </td>
   </tr>
   <tr>
-    <td>Yellow Bell Pepper</td>
+    <td>Pimiento amarillo</td>
     <td>2.50</td>
-    <td>yes</td>
+    <td>si</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Old Cheddar</td>
+    <td>Cheddar viejo</td>
     <td>18.75</td>
-    <td>yes</td>
+    <td>si</td>
     <td>
-      <span>1</span> comment/s
-      <a href="/gtvg/product/comments?prodId=4">view</a>
+      <span>1</span> comentario/s
+      <a href="/gtvg/product/comments?prodId=4">ver</a>
     </td>
   </tr>
 </table>
 ```
 
-Perfect! That's exactly what we wanted.
+¡Perfecto! Eso es exactamente lo que queríamos.
 
-Note that the `th:if` attribute will not only evaluate _boolean_ conditions.
-Its capabilities go a little beyond that, and it will evaluate the specified
-expression as `true` following these rules:
+Tenga en cuenta que el atributo `th:if` no solo evalúa condiciones _booleanas_.
+Sus capacidades van un poco más allá y evaluará la expresión especificada como `true` siguiendo estas reglas:
 
- * If value is not null:
-    * If value is a boolean and is `true`.
-    * If value is a number and is non-zero
-    * If value is a character and is non-zero
-    * If value is a String and is not "false", "off" or "no"
-    * If value is not a boolean, a number, a character or a String.
- * (If value is null, th:if will evaluate to false).
+ * El valor no es nulo:
+    * Si el valor es un valor booleano y es `true`.
+    * Si el valor es un número y no es cero.
+    * Si el valor es un carácter y no es cero
+    * Si el valor es una String y esta no es "false", "off"" o "no"
+    * Si el valor no es un booleano, un número, un carácter o una String.
+ * (Si el valor es null, th:if evaluará a falso).
 
-Also, `th:if` has an inverse attribute, `th:unless`, which we could have used in
-the previous example instead of using a `not` inside the OGNL expression:
+Además, `th:if` tiene un atributo inverso, `th:unless`, el cual podríamos haber usado en 
+el ejemplo previo en vez de usar un `not` dentro de la expresión OGNL:
 
 ```html
 <a href="comments.html"
    th:href="@{/comments(prodId=${prod.id})}" 
-   th:unless="${#lists.isEmpty(prod.comments)}">view</a>
+   th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
 ```
 
 
@@ -2404,26 +2401,26 @@ the previous example instead of using a `not` inside the OGNL expression:
 7.2 Sentencias Switch
 ---------------------
 
-There is also a way to display content conditionally using the equivalent of a
-_switch_ structure in Java: the `th:switch` / `th:case` attribute set.
+También hay una forma de mostrar contenido condicionalmente usando el equivalente de una 
+estructura _switch_ en Java: el conjunto de atributos `th:switch` / `th:case`.
 
 ```html
 <div th:switch="${user.role}">
-  <p th:case="'admin'">User is an administrator</p>
-  <p th:case="#{roles.manager}">User is a manager</p>
+  <p th:case="'admin'">El usuario es administrador</p>
+  <p th:case="#{roles.manager}">El usuario es un gerente</p>
 </div>
 ```
 
-Note that as soon as one `th:case` attribute is evaluated as `true`, every other
-`th:case` attribute in the same switch context is evaluated as `false`.
+Tenga en cuenta que tan pronto como un atributo `th:case` se evalúa como `true`, todos los 
+demás atributos `th:case` en el mismo contexto de conmutación se evalúan como `false`.
 
-The default option is specified as `th:case="*"`:
+La opción predeterminada se especifica como `th:case="*"`:
 
 ```html
 <div th:switch="${user.role}">
-  <p th:case="'admin'">User is an administrator</p>
-  <p th:case="#{roles.manager}">User is a manager</p>
-  <p th:case="*">User is some other thing</p>
+  <p th:case="'admin'">El usuario es administrador</p>
+  <p th:case="#{roles.manager}">El usuario es un gerente</p>
+  <p th:case="*">El usuario es alguna otra cosa</p>
 </div>
 ```
 
@@ -2495,7 +2492,7 @@ different formats:
 
    > Markup Selector syntax is defined by the underlying AttoParser parsing
    > library, and is similar to XPath expressions or CSS selectors. See
-   > [Appendix C](#appendix-c-markup-selector-syntax) for more info.
+   > [Apéndice C](#20-apéndice-c-sintaxis-del-selector-de-marcado) for more info.
 
  * `"~{templatename}"` Includes the complete template named `templatename`.
 

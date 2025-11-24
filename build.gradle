@@ -91,12 +91,12 @@ def outputDir    = file("${builddir}/site/doc")
 
 /* Creo que mejor se incluyen estos ejecutables en el path */
 /* En Windows */
-/* def cmdPandoc = "C:\\Program Files\\Pandoc\\pandoc.exe" */
-/* def cmdWkhtmltopdf = "D:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe" */
+def cmdPandoc = "C:\\des\\bin\\Pandoc\\pandoc.exe"
+def cmdWkhtmltopdf = "C:\\des\\bin\\wkhtmltopdf\\bin\\wkhtmltopdf.exe"
 
 /* En Linux */
-def cmdPandoc = "pandoc"
-def cmdWkhtmltopdf = "wkhtmltopdf"
+// def cmdPandoc = "pandoc"
+// def cmdWkhtmltopdf = "wkhtmltopdf"
 
 
 def docNames = [] as Set

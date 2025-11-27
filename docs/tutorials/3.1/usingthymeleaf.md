@@ -2417,7 +2417,7 @@ Podemos usar el fragmento de arriba simplemente referenciándolo por su atributo
 
 ### Diferencia entre `th:insert` y `th:replace`
 
-¿Y cual es la diferencia entre `th:insert` y `th:replace`?
+¿Y cuál es la diferencia entre `th:insert` y `th:replace`?
 
  * `th:insert` simplemente insertará el fragmento especificado como el cuerpo de
    su etiqueta anfitriona.
@@ -2433,7 +2433,7 @@ Así, un fragmento HTML como este:
 </footer>
 ```
 
-...incluído dos veces en las etiquetas <div>`, de esta manera:
+...incluído dos veces en las etiquetas DIV, de esta manera:
 
 ```html
 <body>
@@ -2447,7 +2447,7 @@ Así, un fragmento HTML como este:
 </body>
 ```
 
-...dará como resultado:
+... Dará como resultado:
 
 ```html
 <body>
@@ -3603,7 +3603,7 @@ tipos de objetos:
 * Numbers
 * Booleanos
 * Arrays
-* Collectons
+* Collections
 * Maps
 * Beans (objetos con métodos _getter_ y _setter_)
 
@@ -3701,33 +3701,36 @@ encapsular expresiones en línea en comentarios. Véase:
 
 ## 13.1 Sintaxis textual
 
-Three of the Thymeleaf *template modes* are considered **textual**: `TEXT`, `JAVASCRIPT`
-and `CSS`. This differentiates them from the markup template modes: `HTML` and `XML`.
+Tres de los *modos de plantilla* de Thymeleaf se consideran **textuales**: 
+`TEXT`, `JAVASCRIPT` y `CSS`. Esto los diferencia de los modos de plantiila de 
+marcado: `HTML` y `XML`
 
-The key difference between *textual* template modes and the markup ones is that
-in a textual template there are no tags into which to insert logic in the form
-of attributes, so we have to rely on other mechanisms.
+La diferencia clave entre los modos de plantilla *textuales* y los de marcaje 
+es que en una plantilla textual no hya etiquetas en las que insertar lógica en 
+forma de atributos, así que tenemos que confiar en otros mecanismos.
 
-The first and most basic of these mechanisms is **inlining**, which we have
-already detailed in the previous chapter. Inlining syntax is the most simple way
-to output results of expressions in textual template mode, so this is a
-perfectly valid template for a text email.
+El primero y más báscio de estos mecanismos es la **inserción en línea**, la 
+cual hemos detallado ya en el capítulo anterior. La sintaxis de la inserción en 
+línea es la forma más simple de sacar resultados de expresiones en el modo de 
+plantilla textual, así que esto es una plantilla perfectamente válida para un 
+correo de texto.
 
 ```
-  Dear [(${name})],
+  Estimado [(${name})],
 
-  Please find attached the results of the report you requested
-  with name "[(${report.name})]".
+  Por favor, encontrará adjuntados los resultados del informe que solicitó 
+  con nombre "[(${report.name})]".
 
-  Sincerely,
-    The Reporter.
+  Atentatemente,
+    El Reportero.
 ```
 
-Even without tags, the example above is a complete and valid Thymeleaf template
-that can be executed in the `TEXT` template mode.
+Incluso sin etiquetas, el ejemplo de arriba es una plantilla de Thymeleaf 
+completa y válida que puede ser ejecutada en el modo de plantilla `TEXT`.
 
-But in order to include more complex logic than mere *output expressions*, we
-need a new non-tag-based syntax:
+Pero para incluir una lógica más compleja que las simples 
+*expresiones de salida*, necesitamos una nueva sintaxis que no se base en 
+etiquetas:
 
 ```
 [# th:each="item : ${items}"]
@@ -3735,7 +3738,7 @@ need a new non-tag-based syntax:
 [/]
 ```
 
-Which is actually the *condensed* version of the more verbose:
+La cual es en realidad la versión *condensada* de la más detallada:
 
 ```
 [#th:block th:each="item : ${items}"]
@@ -3743,17 +3746,19 @@ Which is actually the *condensed* version of the more verbose:
 [/th:block]
 ```
 
-Note how this new syntax is based on elements (i.e. processable tags) that are
-declared as `[#element ...]` instead of `<element ...>`. Elements are open like
-`[#element ...]` and closed like `[/element]`, and standalone tags can be
-declared by minimizing the open element with a `/` in a way almost equivalent to
-XML tags: `[#element ... /]`.
+Observe cómo esta nueva sintaxis se basa en elementos (es decir, etiquetas 
+procesables) que se declaran como `[#element ...]` en lugar de 
+`<element ...>`. Los elementos son abiertos como `[#element ...]` y cerrados 
+como `[/element]`, y las etiquetas independientes se pueden declarar minimizando 
+el elemento abierto con `/`, de forma casi equivalente a las etiquetas XML: 
+`[#element ... /]`.
 
-The Standard Dialect only contains a processor for one of these elements: the
-already-known `th:block`, though we could extend this in our dialects and create
-new elements in the usual way. Also, the `th:block` element (`[#th:block ...] ... [/th:block]`)
-is allowed to be abbreviated as the empty string (`[# ...] ... [/]`), so the
-above block is actually equivalent to:
+El Dialecto Estándar solo contiene un procesador para uno de estos elementos: 
+el ya conocido `th:block`, aunque podríamos extender este en nuestros dialectos 
+y crear nuevos elementos de la forma habitual. Además, se permite que el 
+elemento `th:block` (`[#th:block ...] ... [/th:block]`) sea abreviado como la 
+cadena vacía (`[# ...] ... [/]`), de forma que el bloque de arriba es en 
+realidad equivalente a:
 
 ```
 [# th:each="item : ${items}"]
@@ -3761,9 +3766,9 @@ above block is actually equivalent to:
 [/]
 ```
 
-And given `[# th:utext="${item}" /]` is equivalent to an *inlined unescaped
-expression*, we could just use it in order to have less code. Thus we end up
-with the first fragment of code we saw above:
+Y dado que `[# th:utext="${item}" /]` es equivalente a una *expresión de 
+inserción en línea no escapada*, podríamos simplemente usarla para tener menos
+código. Así, obtenemos el primer fragmento de código que vimos arriba:
 
 ```
 [# th:each="item : ${items}"]
@@ -3771,45 +3776,46 @@ with the first fragment of code we saw above:
 [/]
 ```
 
-Note that the *textual syntax requires full element balance (no unclosed tags)
-and quoted attributes* -- it's more XML-style than HTML-style.
+Tenga en cuenta que la *sintaxis textual requiere un equilibrio total de 
+elementos (sin etiquetas sin cerrar) y atributos entre comillas*; es más estilo 
+XML que estilo HTML.
 
-Let's have a look at a more complete example of a `TEXT` template, a *plain text*
-email template:
+Veamos un ejemplo más completo de una plantilla `TEXT`, una plantilla de correo 
+electrónico de *texto sin formato*:
 
 ```
-Dear [(${customer.name})],
+Estimado [(${customer.name})],
 
-This is the list of our products:
+Esta es la lista de nuestros productos:
 
 [# th:each="prod : ${products}"]
-   - [(${prod.name})]. Price: [(${prod.price})] EUR/kg
+   - [(${prod.name})]. Precio: [(${prod.price})] EUR/kg
 [/]
 
-Thanks,
-  The Thymeleaf Shop
+Gracias,
+  La Tienda de Thymeleaf
 ```
 
-After executing, the result of this could be something like:
+Después de la ejecución, el resultado de esto podría ser algo como:
 
 ```
-Dear Mary Ann Blueberry,
+Estimada  Mary Ann Blueberry,
 
-This is the list of our products:
+Esta es la lista de nuestros productos:
 
-   - Apricots. Price: 1.12 EUR/kg
-   - Bananas. Price: 1.78 EUR/kg
-   - Apples. Price: 0.85 EUR/kg
-   - Watermelon. Price: 1.91 EUR/kg
+   - Apricots. Precio: 1.12 EUR/kg
+   - Bananas. Precio: 1.78 EUR/kg
+   - Apples. Precio: 0.85 EUR/kg
+   - Watermelon. Precio: 1.91 EUR/kg
 
-Thanks,
-  The Thymeleaf Shop
+Gracias,
+  La Tienda de Thymeleaf
 ```
 
-And another example in `JAVASCRIPT` template mode, a `greeter.js` file, we
-process as a textual template and which result we call from our HTML pages. Note
-this is *not* a `<script>` block in an HTML template, but a `.js` file being
-processed as a template on its own:
+Otro ejemplo en modo de plantilla `JAVASCRIPT`: un archivo `greeter.js` que 
+procesamos como plantilla de texto y cuyo resultado invocamos desde nuestras 
+páginas HTML. Nota: Este no es un bloque `<script>` en una plantilla HTML, sino 
+un archivo `.js` que se procesa como plantilla por sí solo:
 
 ```javascript
 var greeter = function() {
@@ -3823,7 +3829,7 @@ var greeter = function() {
 };
 ```
 
-After executing, the result of this could be something like:
+Después de la ejecución, el resultado de esto podría ser algo como:
 
 ```javascript
 var greeter = function() {
@@ -3839,51 +3845,55 @@ var greeter = function() {
 
 ### Atributos de elementos escapados
 
-In order to avoid interactions with parts of the template that might be
-processed in other modes (e.g. `text`-mode inlining inside an `HTML` template),
-Thymeleaf 3.0 allows the attributes in elements in its *textual syntax* to be
-escaped. So:
+Para evitar interacciones con partes de la plantilla que podrían procesarse en 
+otros modos (p. ej., inserción en línea en modo `text` dentro de una plantilla 
+`HTML`), Thymeleaf 3.0 permite el escape de los atributos de los elementos en su 
+*sintaxis textual*. Por lo tanto:
 
- * Attributes in `TEXT` template mode will be *HTML-unescaped*.
- * Attributes in `JAVASCRIPT` template mode will be *JavaScript-unescaped*.
- * Attributes in `CSS` template mode will be *CSS-unescaped*.
+ * Los atributos en plantillas de modo `TEXT` no tendrán *formato HTML escapado*.
+ * Los atributos en el modo de plantilla `JAVASCRIPT` no tendrán *formato de 
+escape JavaScript*.
+ * Los atributos en el modo de plantilla `CSS` no tendrán *escape CSS*.
 
-So this would be perfectly OK in a `TEXT`-mode template (note the `&gt;`):
+Entonces esto estaría perfectamente bien en una plantilla en modo `TEXT` (tenga 
+en cuenta el `&gt;`):
 ```
   [# th:if="${120&lt;user.age}"]
      Congratulations!
   [/]
 ```
 
-Of course that `&lt;` would make no sense in a *real text* template, but it is a
-good idea if we are processing an HTML template with a `th:inline="text"` block
-containing the code above and we want to make sure our browser doesn't take that
-`<user.age` for the name of an open tag when statically opening the file as a
-prototype.
+Por supuesto, ese `&lt;` no tendría sentido en una plantilla de *texto real*, 
+pero es una buena idea si procesamos una plantilla HTML con un bloque 
+`th:inline="text"` que contiene el código anterior y queremos asegurarnos de que 
+nuestro navegador no tome ese `<user.age` como nombre de una etiqueta de 
+apertura al abrir estáticamente el archivo como prototipo.
 
 ## 13.2 Extensibilidad
 
-One of the advantages of this syntax is that it is just as extensible as the 
-*markup* one. Developers can still define their own dialects with custom
-elements and attributes, apply a prefix to them (optionally), and then use them
-in textual template modes:
+Una de las ventajas de esta sintaxis es que es tan extensible como la de 
+*markup*. Los desarrolladores pueden definir sus propios dialectos con elementos 
+y atributos personalizados, aplicarles un prefijo (opcionalmente) y luego 
+usarlos en modos de plantilla textual:
+
 
 ```
-  [#myorg:dosomething myorg:importantattr="211"]some text[/myorg:dosomething]
+  [#miorg:hazalgo miorg:attrimportante="211"]algun texto[/miorg:hazalgo]
 ```
 
 ## 13.3 Bloques de comentarios de solo prototipos textuales: agregar código
 
-The `JAVASCRIPT` and `CSS` template modes (not available for `TEXT`) allow 
-including code between a special comment syntax `/*[+...+]*/` so that Thymeleaf
-will automatically uncomment such code when processing the template:
+Los modos de plantilla `JAVASCRIPT` y `CSS` (no disponibles para `TEXT`) 
+permiten incluir código entre una sintaxis de comentario especial `/*[+...+]*/` 
+para que Thymeleaf descomente automáticamente dicho código al procesar la 
+plantilla:
 
 ```javascript
 var x = 23;
 
 /*[+
 
-var msg  = "This is a working application";
+var msg  = "Esta es una aplicación funcional";
 
 +]*/
 
@@ -3891,25 +3901,25 @@ var f = function() {
     ...
 ```
 
-Will be executed as:
+Se ejecutará como:
 
 ```javascript
 var x = 23;
 
-var msg  = "This is a working application";
+var msg  = "Esta es una aplicación funcional";
 
 var f = function() {
 ...
 ```
 
-You can include expressions inside these comments, and they will be evaluated:
+Puede incluir expresiones dentro de estos comentarios, y serán evaluados:
 
 ```javascript
 var x = 23;
 
 /*[+
 
-var msg  = "Hello, " + [[${session.user.name}]];
+var msg  = "Hola, " + [[${session.user.name}]];
 
 +]*/
 
@@ -3919,17 +3929,17 @@ var f = function() {
 
 ## 13.4 Bloques de comentarios de nivel de analizador textual: eliminación de código
 
-In a way similar to that of prototype-only comment blocks, all the three textual
-template modes (`TEXT`, `JAVASCRIPT` and `CSS`) make it possible to instruct
-Thymeleaf to remove code between special `/*[- */` and `/* -]*/` marks, like
-this:
+De forma similar a los bloques de comentarios de solo prototipo, los tres modos 
+de plantilla textual (`TEXT`, `JAVASCRIPT` y `CSS`) permiten indicar a Thymeleaf 
+que elimine el código entre las marcas especiales `/*[- */` y `/* -]*/`, de la 
+siguiente manera:
 
 ```javascript
 var x = 23;
 
 /*[- */
 
-var msg  = "This is shown only when executed statically!";
+var msg  = "¡Esto se muestra sólo cuando se ejecuta estáticamente!";
 
 /* -]*/
 
@@ -3937,19 +3947,20 @@ var f = function() {
 ...
 ```
 
-Or this, in `TEXT` mode:
+O esto, en modo `TEXT`:
 
 ```
 ...
-/*[- Note the user is obtained from the session, which must exist -]*/
-Welcome [(${session.user.name})]!
+/*[- Tenga en cuenta que el usuario se obtiene de la sesión, que debe existir. -]*/
+Bienvenido [(${session.user.name})]!
 ...
 ```
 
 ## 13.5 Plantillas naturales de JavaScript y CSS
 
-As seen in the previous chapter, JavaScript and CSS inlining offer the
-possibility to include inlined expressions inside JavaScript/CSS comments, like:
+Como se vio en el capítulo anterior, la inserción en línea de JavaScript y CSS 
+ofrece la posibilidad de incluir expresiones en línea dentro de los comentarios 
+de JavaScript/CSS, como:
 
 ```javascript
 ...
@@ -3957,7 +3968,7 @@ var username = /*[[${session.user.name}]]*/ "Sebastian Lychee";
 ...
 ```
 
-...which is valid JavaScript, and once executed could look like:
+... la cual es JavaScript válido, y una vez ejecutado podría verse como:
 
 ```html
 ...
@@ -3965,37 +3976,40 @@ var username = "John Apricot";
 ...
 ```
 
-This same *trick* of enclosing inlined expressions inside comments can in fact be
-used for the entire textual mode syntax:
+Este mismo *truco* de encerrar expresiones en línea dentro de comentarios se 
+puede utilizar para toda la sintaxis del modo textual:
 
 ```
   /*[# th:if="${user.admin}"]*/
-     alert('Welcome admin');
+     alert('Bienvenido administrador');
   /*[/]*/
 ```
 
-That alert in the code above will be shown when the template is open statically
--- because it is 100% valid JavaScript --, and also when the template is run if
-the user is an admin. It is equivalent to:
+Esa alerta en el código anterior se mostrará cuando la plantilla esté abierta 
+estáticamente (ya que es JavaScript 100 % válido) y también cuando se ejecute si 
+el usuario es administrador. Equivale a:
 
 ```
   [# th:if="${user.admin}"]
-     alert('Welcome admin');
+     alert('Bienvenido administrador');
   [/]
 ```
 
-...which is actually the code to which the initial version is converted during
-template parsing. 
+...Este es, en realidad, el código al que se convierte la versión inicial 
+durante el análisis de plantillas.
 
-Note however that wrapping elements in comments does not clean the lines they
-live in (to the right until a `;` is found) as inlined output expressions do.
-That behaviour is reserved for inlined output expressions only.
+Sin embargo, tenga en cuenta que encapsular elementos en comentarios no borra 
+las líneas en las que se encuentran (a la derecha hasta que se encuentra un 
+`;`) como sí lo hacen las expresiones de salida en línea.
 
-So Thymeleaf 3.0 allows the development of **complex JavaScript scripts and CSS
-style sheets in the form of natural templates**, valid both as a *prototype* and
-as a *working template*.
+Este comportamiento está reservado únicamente para expresiones de salida en 
+línea.
 
-# 14  Algunas páginas más para nuestra tienda de comestibles
+Por lo tanto, Thymeleaf 3.0 permite el desarrollo de 
+**scripts JavaScript complejos y hojas de estilo CSS en forma de plantillas 
+naturales**, válidas tanto como *prototipo* como *plantilla de trabajo*.
+
+# 14 Algunas páginas más para nuestra tienda de comestibles
 
 Now we know a lot about using Thymeleaf, we can add some new pages to our
 website for order management.

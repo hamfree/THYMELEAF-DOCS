@@ -5,14 +5,9 @@ version: @documentVersion@
 thymeleafVersion: @projectVersion@
 ---
 
+# 1 Presentando Thymeleaf
 
-1\. Presentando Thymeleaf
-=========================
-
-
-
-1.1 ¿Qué es Thymeleaf?
-----------------------
+## 1.1 ¿Qué es Thymeleaf?
 
 Thymeleaf es un motor de plantillas del lado del servidor realizado en Java 
 tanto para la web como para entornos aislados, capaz de procesar HTML, XML, 
@@ -29,8 +24,7 @@ Thymeleaf también ha sido diseñado desde el principio con los Estándares Web 
 mente -- especialmente **HTML5** -- permitiéndole crear plantillas plenamente 
 validadas si es lo que necesita.
 
-1.2 ¿Qué clase de plantillas puede procesar Thymeleaf?
--------------------------------------------------
+## 1.2 ¿Qué clase de plantillas puede procesar Thymeleaf?
 
 Tal como está, Thymeleaf le permite procesar ses clases de plantillas, cada una 
 de las cuales se llama **Modo de Plantilla**:
@@ -84,8 +78,7 @@ incontrolados, externos en formato HTML podrían ser incluídos en plantillas de
 aplicación, sabiendo de forma segura que no se ejecutará ningún código 
 Thymeleaf que estos recursos puedan incluir.
 
-1.3 Dialectos: El dialecto estándar
-------------------------------------
+## 1.3 Dialectos: El dialecto estándar
 
 Thymeleaf es un motor de plantillas extremadamente extensible (en realidad podría 
 ser llamado un _marco de trabajo de motor de plantillas_) que le permite definir 
@@ -152,8 +145,7 @@ plantilla y reduce el esfuerzo requerido para transformar un prototipo estático
 en un fichero de plantilla funcional. La habilidad para hacer esto es una 
 funcionalidad llamada _Plantillado Natural_.
 
-2\. La tienda de comestibles virtual Good Thymes
-================================================
+# 2 La tienda de comestibles virtual Good Thymes
 
 El código fuente para los ejemplos mostrados en este, y futuros capítulos de 
 esta guía, se puede encontrar en el ejemplo _Good Thymes Virtual Grocery (GTVG)
@@ -162,10 +154,7 @@ el cual tiene dos versiones (equivalentes):
    * basado en `javax.*`: [gtvg-javax](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-javax).
    * basado en `jakarta.*`: [gtvg-jakarta](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-jakarta).
 
-
-
-2.1 Un sitio web para una tienda de comestibles
------------------------------------------------
+## 2.1 Un sitio web para una tienda de comestibles
 
 Para explicar mejor los conceptos involucrados en el procesamiento de 
 plantillas con Thymeleaf, este tutorial usará una aplicación de demostración que 
@@ -310,10 +299,7 @@ Al final se verá así:
 
 Pero primero veamos cómo se inicializa el motor de plantillas.
 
-
-
-2.2 Creación y configuración del Motor de Plantillas
-----------------------------------------------------
+## 2.2 Creación y configuración del Motor de Plantillas
 
 El método _init(...)_ en nuestro filtro contenía esta línea: 
 
@@ -350,7 +336,6 @@ private static ITemplateEngine buildTemplateEngine(final IWebApplication applica
 ```
 Hay muchas formas de configurar un objeto `TemplateEngine`, pero por ahora estas
 pocas líneas de código nos enseñarán lo bastante sobre los pasos necesitados.
-
 
 ### El Solucionador de Plantillas (Template Resolver)
 
@@ -431,7 +416,6 @@ almacenada actualmente en caché.
 Hay mucho más que aprender sobre los solucionadores de plantillas, pero por ahora
 echemos un vistazo a la creación de nuestro objeto de Motor de Plantilla (Templete Engine).
 
-
 ### El Motor de Plantillas (Template Engine)
 
 Los objetos de Motor de Plantilla son implementaciones de la interfaz 
@@ -455,14 +439,9 @@ necesitamos.
 Nuestro Motor de Plantillas está ahora listo y podemos empezar a crear nuestras 
 páginas usando Thymeleaf.
 
+# 3 Uso de textos
 
-
-
-3\. Uso de textos
-=================
-
-3.1 Una bienvenida en varios idiomas
-------------------------------------
+## 3.1 Una bienvenida en varios idiomas
 
 Nuestra primera tarea será crear una página de inicio para nuestro sitio de la 
 tienda de comestibles.
@@ -546,7 +525,6 @@ válido*.
 > `th:*` es más general y permitida en cada modo de plantilla Thymeleaf (`XML`, 
 > `TEXT`...) mientras que la notación `data-` se permite solo en el modo `HTML`.
 
-
 ### Usando th:text y externalizando texto
 
 Externalizar texto es extraer fragmentos del código de la plantilla fuera de los 
@@ -605,8 +583,6 @@ home.welcome=¡Bienvenido a nuestra tienda de comestibles!
 
 Esto es todo lo que necesitamos para que Thymeleaf procese nuestra plantilla. 
 Ahora, creemos ahora nuestro controlador de inicio.
-
-
 
 ### Contextos (Contexts)
 
@@ -688,7 +664,6 @@ aplicación del `WebContext` en nuestras plantillas. Por ejemplo:
  * `${session.x}` devolverá un *atributo de sesión* llamado `x`.
  * `${application.x}` devolverá un *atributo de aplicación* llamado `x` (un *"atributo del contexto del servlet"* en la jerga de los Servlets).
 
-
 ### Ejecución del motor de plantillas
 
 Con nuestro objeto de contexto listo, ahora podemos decirle al motor de plantillas
@@ -723,13 +698,9 @@ Veamos los resultados de esto usando la configuración regional española:
 </html>
 ```
 
-
-
-3.2 Más sobre textos y variables
--------------------------------
+## 3.2 Más sobre textos y variables
 
 ### Texto no escapado
-
 
 La versión más simple de nuestra página de Inicio parece estar lista ahora, pero 
 hay algo en el código que lo que no hemos pensado... ¿Qué pasaría si tenemos un 
@@ -762,7 +733,6 @@ Esto sacará nuestro mensaje tal como lo queríamos:
 ```html
 <p>¡Bienvenido a nuestra <b>fantástica</b> tienda de comestibles!</p>
 ```
-
 
 ### Uso y visualización de variables
 
@@ -824,11 +794,7 @@ Existen muchas posibilidades en los valores de los atributos: mensajes,
 expresiones de variables... y mucho más. El siguiente capítulo nos mostrará 
 cuáles son todas estas posibilidades.
 
-
-
-
-4\. Sintaxis de expresiones estándar
-====================================
+# 4 Sintaxis de expresiones estándar
 
 Nos tomaremos un pequeño descanso en el desarrollo de nuestra tienda virtual de 
 comestibles para aprender sobre una de las partes más importantes del Dialecto 
@@ -882,10 +848,7 @@ Todas estas características pueden combinarse y anidarse:
 'Usuario es del tipo: ' + ( ' + (${user.isAdmin()} ? 'Administrador' : (${user.type} ?: 'Desconocido'))
 ```
 
-
-
-4.1 Mensajes
-------------
+## 4.1 Mensajes
 
 Como ya sabemos, las expresiones de mensaje `#{...}` nos permiten vincular esto:
 
@@ -943,10 +906,7 @@ La misma clave del mensaje puede provenir de una variable:
 </p>
 ```
 
-
-
-4.2 Variables
--------------
+## 4.2 Variables
 
 Ya mencionamos que las expresiones `${...}` son en realidad expresiones OGNL
 (Lenguaje de Navegación Objeto-Gráfico) ejecutadas sobre el mapa de variables 
@@ -1021,7 +981,6 @@ ${person.createCompleteName()}
 ${person.createCompleteNameWithSeparator('-')}
 ```
 
-
 ### Objetos básicos de Expresiones OGNL
 
 Cuando se evaluan las expresiones OGNL en las variables del contexto, algunos 
@@ -1039,7 +998,6 @@ País de configuración regional establecido: <span th:text="${#locale.country}"
 ```
 
 Puede leer la referencia completa de estos objetos en el [Apéndice A](#18-apéndice-a-objetos-básicos-de-expresión). 
-
 
 ### Objetos de utilidad de expresión
 
@@ -1074,7 +1032,6 @@ utilidad que nos ayudarán a realizar tareas comunes en nuestras expresiones.
 Puede comprobar qué funciones se ofrecen para cada uno de estos objetos de 
 utilidad en el [Apéndice B](#19-apéndice-b-objetos-de-utilidad-de-expresión).
 
-
 ### Reformateando las fechas en nuestra página de inicio
 
 Ahora que sabemos de estos objetos de utilidad, podríamos usarlos para cambiar 
@@ -1108,10 +1065,7 @@ templateEngine.process("home", ctx, writer);
 </p>
 ```
 
-
-
-4.3 Expresiones en selecciones (sintaxis de asterisco)
-------------------------------------------------------
+## 4.3 Expresiones en selecciones (sintaxis de asterisco)
 
 No solo las expresiones de variables pueden ser escritas como `${...}`, si no 
 también como `*{...}`.
@@ -1176,10 +1130,7 @@ de dólar y asterisco son equivalentes.
   <p>Nacionalidad: <span th:text="*{session.user.nationality}">Saturno</span>.</p>
 </div>
 ```
-
-
-4.4 Enlaces a URL
------------------
+## 4.4 Enlaces a URL
 
 Debido a su importancia, las URL son ciudadanas de primera clase en las 
 plantillas de aplicaciones web, y el _Dialecto Estándar de Thymeleaf_ tiene una 
@@ -1213,13 +1164,13 @@ Usemos esta nueva sintaxis. Conozca el atributo `th:href`:
 ```html
 <!-- Producirá 'http://localhost:8080/gtvg/order/details?orderId=3' (mas reescritura) -->
 <a href="details.html" 
-   th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>
+   th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">ver</a>
 
 <!-- Producirá '/gtvg/order/details?orderId=3' (mas reescritura) -->
-<a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
+<a href="details.html" th:href="@{/order/details(orderId=${o.id})}">ver</a>
 
 <!-- Producirá '/gtvg/order/3/details' (mas reescritura) -->
-<a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">view</a>
+<a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">ver</a>
 ```
 
 Algunas cosas a tener en cuenta aquí:
@@ -1254,7 +1205,6 @@ pueden ser el resultado de evaluar otra expresión:
 <a th:href="@{'/details/'+${user.login}(orderId=${o.id})}">vista</a>
 ```
 
-
 ### Un menú para nuestra página de inicio
 
 Ahora que sabemos como crear URL de enlace, ¿Qué tal si añadimos un pequeño 
@@ -1270,7 +1220,6 @@ menú en nuestra página de inicio para algunas de las otras páginas del sitio?
 </ol>
 ```
 
-
 ### URL relativas a la raíz del servidor
 
 Se puede usar una sintaxis adicional para crear URL relativas a la raíz del 
@@ -1278,10 +1227,7 @@ servidor (en vez de relativas a la raíz del contexto) para enlazar a diferentes
 contextos en el mismo servidor. Estas URL se especificarán como 
 `@{~/path/to/something}`
 
-
-
-4.5 Fragmentos
--------------
+## 4.5 Fragmentos
 
 Las expresiones de fragmento son una forma fácil de representar fragmentos de 
 marco y moverlos entre las plantillas. Esto nos permite replicarlas, pasarlas 
@@ -1307,10 +1253,7 @@ Más tarde en este tutorial hay una sección entera dedicada al Diseño de
 Plantillas, incluyendo una explicación más profunda de las expresiones de 
 fragmento.
 
-
-
-4.6 Literales
-------------
+## 4.6 Literales
 
 ### Literales de texto
 
@@ -1333,7 +1276,6 @@ Los literales numéricos son simplemente eso: números.
 <p>En dos años, será <span th:text="2013 + 2">1494</span>.</p>
 ```
 
-
 ### Literales booleanos
 
 Los literales booleanos son `true` y `false`. Por ejemplo:
@@ -1350,7 +1292,6 @@ sería responsabilidad de los motores OGNL/SpringEL:
 <div th:if="${user.isAdmin() == false}"> ...
 ```
 
-
 ### El literal null (nulo)
 
 El literal `null` puede ser también usado:
@@ -1358,7 +1299,6 @@ El literal `null` puede ser también usado:
 ```html
 <div th:if="${variable.something} == null"> ...
 ```
-
 
 ### Literales de identificadores (tokens)
 
@@ -1383,10 +1323,7 @@ en lugar de:
 <div th:class="'content'">...</div>
 ```
 
-
-
-4.7 Agregar textos
--------------------
+## 4.7 Agregar textos
 
 Los textos, sin importar si son literales o el resultado de evaluar expresiones 
 variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
@@ -1395,10 +1332,7 @@ variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
 <span th:text="'El nombre del usuario es ' + ${user.name}">
 ```
 
-
-
-4.8 Sustituciones de literales
--------------------------
+## 4.8 Sustituciones de literales
 
 Las sustituciones literales permiten formatear fácilmente cadenas que contienen 
 valores de variables sin la necesidad de agregar literales con '...' + '...'`.
@@ -1425,10 +1359,7 @@ Las sustituciones literales se pueden combinar con otros tipos de expresiones:
 > otros literales (`'...'`), tokens booleanos/numéricos, expresiones 
 > condicionales, etc. 
 
-
-
-4.9 Operaciones aritméticas
--------------------------
+## 4.9 Operaciones aritméticas
 
 También se encuentran disponibles algunas operaciones aritméticas: 
 `+`, `-`, `*`, `/` y `%`.
@@ -1447,10 +1378,7 @@ del motor de Expresiones Estándar de Thymeleaf):
 Dese cuenta de que existen aliases textuales para algunos de estos operadores: 
 `div` (`/`), `mod` (`%`).
 
-
-
-4.10 Comparadores e igualdad 
------------------------------
+## 4.10 Comparadores e igualdad 
 
 Los valores en las expresiones pueden compararse con los símbolos 
 `>`, `<`, `>=` y `<=`, y los operadores `==` y `!=` se pueden utilizar para 
@@ -1467,10 +1395,7 @@ Una alternativa más simple podría ser usar los alias textuales que existen par
 algunos de estos operandos: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), 
 `not` (`!`). También `eq` (`==`), `neq`/`ne` (`!=`).
 
-
-
-4.11 Expresiones condicionales
-----------------------------
+## 4.11 Expresiones condicionales
 
 Las _expresiones condicionales_ están destinadas a evaluar solo una de dos 
 expresiones dependiendo del resultado de evaluar una condición (que es en sí 
@@ -1506,10 +1431,7 @@ un valor nulo si la condición es falsa:
 </tr>
 ```
 
-
-
-4.12 Expresiones predeterminadas (operador Elvis)
------------------------------------------
+## 4.12 Expresiones predeterminadas (operador Elvis)
 
 Una _expresión por defecto_ es una clase especial de valor condicional sin una 
 parte _then_. Es el equivalente al _Operador elvis_ presente en algunos lenguajes 
@@ -1542,10 +1464,7 @@ paréntesis:
 </p>
 ```
 
-
-
-4.13 El token de no operación
------------------------------
+## 4.13 El token de no operación
 
 La ficha No-Operación se representa por un símbolo de subrayado (`_`).
 
@@ -1567,10 +1486,8 @@ punto de vista de diseño:
 <span th:text="${user.name} ?: _">usuario no autenticado</span>
 ```
 
+## 4.14 Conversión y Formato de datos 
 
-
-4.14 Conversión y Formato de datos 
----------------------------------
 Thymeleaf define una sintaxis de *dobles llaves* para las expresiones de 
 variables (`${...}`) y selección (`*{...}`) que nos permite aplicar 
 *conversiones de datos* mediante un *servicio de conversión* configurado.
@@ -1603,10 +1520,7 @@ sección [Más sobre la configuración](#15-más-sobre-la-configuración).
 > en la configuración de Spring estarán disponibles automáticamente para las 
 > expresiones `${{...}}` y `*{{...}}`.
 
-
-
-4.15 Preprocesamiento
-------------------
+## 4.15 Preprocesamiento
 
 Además de todas estas funciones para el procesamiento de expresiones, Thymeleaf 
 cuenta con la función de preprocesar expresiones.
@@ -1653,16 +1567,12 @@ en francés creará el siguiente equivalente:
 La cadena de preprocesamiento `__` se puede escapar en los atributos 
 usando `\_\_`.
 
-
-5\. Establecer valores de atributos
-==========================
+# 5 Establecer valores de atributos
 
 Este capítulo explicará la forma en que podemos establecer (o modificar) valores 
 de atributos en nuestro marcado.
 
-
-5.1 Establecer el valor de cualquier atributo
---------------------------------------
+## 5.1 Establecer el valor de cualquier atributo
 
 Digamos que nuestro sitio web publica un boletín informativo y queremos que 
 nuestros usuarios puedan suscribirse a él, por lo que creamos una plantilla 
@@ -1725,13 +1635,9 @@ Dados los archivos de mensajes necesarios, esto generará:
 <img src="/gtgv/images/gtvglogo.png" title="Logo de Good Thymes" alt="Logo de Good Thymes" />
 ```
 
-
-
-5.2 Establecer valores para atributos específicos
--------------------------------------------------
+## 5.2 Establecer valores para atributos específicos
 
 A estas alturas, es posible que estés pensando en algo como esto:
-
 
 ```html
 <input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
@@ -1828,9 +1734,7 @@ específico:
 `th:xmlbase`           `th:xmllang`           `th:xmlspace`          
 ---------------------- ---------------------- ----------------------
 
-
-5.3 Establecer más de un valor a la vez
----------------------------------------
+## 5.3 Establecer más de un valor a la vez
 
 Existen dos atributos bastante especiales, llamados `th:alt-title` y 
 `th:lang-xmllang`, que permiten asignar el mismo valor a dos atributos 
@@ -1860,10 +1764,7 @@ Para nuestra pagína de inicio GTVG, esto nos permitirá substituir esto:
      th:src="@{/images/gtvglogo.png}" th:alt-title="#{logo}" />
 ```
 
-
-
-5.4 Anexar y anteponer
-----------------------
+## 5.4 Anexar y anteponer
 
 Thymeleaf también ofrece los atributos `th:attrappend` y `th:attrprepend`, que 
 añaden (sufijo) o anteponen (prefijo) el resultado de su evaluación a los 
@@ -1896,10 +1797,7 @@ existentes:
 (No te preocupes por el atributo `th:each`. Es un _atributo iterativo_ y 
 hablaremos de él más adelante).
 
-
-
-5.5 Atributos booleanos de valor fijo
--------------------------------------
+## 5.5 Atributos booleanos de valor fijo
 
 HTML utiliza el concepto de _atributos booleanos_, atributos que no tienen valor 
 y la presencia de uno significa que el valor es "verdadero". En XHTML, estos 
@@ -1923,24 +1821,18 @@ no se configurará:
 Los siguientes atributos booleanos de valor fijo existen en el dialecto 
 estándar:
 
+|                     |                |                 |
+|:-------------------:|:--------------:|:---------------:|
+|     `th:async`      | `th:autofocus` |  `th:autoplay`  |
+|    `th:checked`     | `th:controls`  |  `th:declare`   |
+|    `th:default`     |   `th:defer`   |  `th:disabled`  |
+| `th:formnovalidate` |  `th:hidden`   |   `th:ismap`    |
+|      `th:loop`      | `th:multiple`  | `th:novalidate` |
+|     `th:nowrap`     |   `th:open`    |  `th:pubdate`   |
+|    `th:readonly`    | `th:required`  |  `th:reversed`  |
+|     `th:scoped`     | `th:seamless`  |  `th:selected`  |
 
-
-------------------- ------------------ ------------------
-`th:async`          `th:autofocus`     `th:autoplay`      
-`th:checked`        `th:controls`      `th:declare`       
-`th:default`        `th:defer`         `th:disabled`      
-`th:formnovalidate` `th:hidden`        `th:ismap`         
-`th:loop`           `th:multiple`      `th:novalidate`    
-`th:nowrap`         `th:open`          `th:pubdate`       
-`th:readonly`       `th:required`      `th:reversed`      
-`th:scoped`         `th:seamless`      `th:selected`      
-------------------- ------------------ ------------------
-
-
-
-
-5.6 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
------------------------------------------------------------------------------
+## 5.6 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
 
 Thymeleaf ofrece un *procesador de atributos predeterminado* que nos permite 
 establecer el valor de *cualquier* atributo, incluso si no se ha definido un 
@@ -1958,10 +1850,7 @@ Dará como resultado:
 <span whatever="John Apricot">...</span>
 ```
 
-
-
-5.7 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
-----------------------------------------------------------
+## 5.7 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
 
 También es posible utilizar una sintaxis completamente diferente para aplicar 
 procesadores a sus plantillas de una manera más compatible con HTML5.
@@ -1989,11 +1878,7 @@ Esto se puede usar, por ejemplo, para el elemento `th:block` (o también
 `th:*`, no la reemplaza. No se pretende discontinuar la sintaxis con espacio de 
 nombres en el futuro.
 
-
-
-
-6 Iteración
-===========
+# 6 Iteración
 
 Hasta ahora hemos creado una página de inicio, una página de perfil de usuario y 
 una página para que los usuarios se suscriban a nuestro boletín informativo... 
@@ -2001,10 +1886,7 @@ pero ¿qué pasa con nuestros productos? Para ello, necesitaremos una forma de
 iterar sobre los artículos de una colección para crear nuestra página de 
 producto.
 
-
-
-6.1 Conceptos básicos de iteración
-----------------------------------
+## 6.1 Conceptos básicos de iteración
 
 Para mostrar los productos en nuestra página 
 `/WEB-INF/templates/product/list.html`, usaremos una tabla. Cada producto se 
@@ -2014,7 +1896,6 @@ se muestre cada producto) y luego indicarle a Thymeleaf que la repita una vez
 para cada producto.
 
 El dialecto estándar nos ofrece un atributo exactamente para eso: `th:each`.
-
 
 ### Usando th:each
 
@@ -2109,10 +1990,7 @@ consideran _iterables_ mediante un atributo `th:each`:
  * Cualquier otro objeto se tratará como si fuera una lista de un solo valor que 
    contiene el objeto mismo.
 
-
-
-6.2 Mantener el estado de la iteración
---------------------------------------
+## 6.2 Mantener el estado de la iteración
 
 Cuando usa `th:each`, Thymeleaf ofrece un mecanismo útil para seguir la pista del 
 estado de tu iteración: _la variable status_.
@@ -2227,10 +2105,7 @@ iteración:
 </table>
 ```
 
-
-
-6.3 Optimización mediante recuperación diferida de datos
---------------------------------------------------------
+## 6.3 Optimización mediante recuperación diferida de datos
 
 Algunas veces podríamos querer optimizar la adquisición de colecciones de datos 
 (p. ej. desde una base de datos) así que estas colecciones se recuperan únicamente si 
@@ -2273,16 +2148,9 @@ llamará) si la `condition` evalúa a `false` en un código como:
 </ul>
 ```
 
+# 7 Evaluación condicional
 
-
-
-7\. Evaluación condicional
-==========================
-
-
-
-7.1 Condicionales simples: "if" y "unless"
-------------------------------------------
+## 7.1 Condicionales simples: "if" y "unless"
 
 Algunas veces necesitarás que un fragmento de su plantilla solo aparezca en el resultado
 si se cumple una cierta condición.
@@ -2396,10 +2264,7 @@ el ejemplo previo en vez de usar un `not` dentro de la expresión OGNL:
    th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
 ```
 
-
-
-7.2 Sentencias Switch
----------------------
+## 7.2 Sentencias Switch
 
 También hay una forma de mostrar contenido condicionalmente usando el equivalente de una 
 estructura _switch_ en Java: el conjunto de atributos `th:switch` / `th:case`.
@@ -2424,27 +2289,22 @@ La opción predeterminada se especifica como `th:case="*"`:
 </div>
 ```
 
+# 8 Diseño de plantillas
 
-
-
-8\. Diseño de plantillas
-========================
-
-
-
-8.1 Incluyendo fragmentos de plantilla
---------------------------------------
+## 8.1 Incluyendo fragmentos de plantilla
 
 ### Definición y referencia de fragmentos
 
-In our templates, we will often want to include parts from other templates,
-parts like footers, headers, menus...
+En nuestras plantillas, a menudo querremos incluir partes de otras plantillas, 
+partes como pies de página, cabeceras, menús...
 
-In order to do this, Thymeleaf needs us to define these parts, "fragments", for
-inclusion, which can be done using the `th:fragment` attribute. 
+Para poder hacer esto, Thymeleaf necesita que definamos estas partes, 
+los "fragmentos", para su inclusión, que se realiza usando el atributo 
+`th:fragment`. 
 
-Say we want to add a standard copyright footer to all our grocery pages, so we
-create a `/WEB-INF/templates/footer.html` file containing this code:
+Digamos que queremos agregar un pie de página estándar de derechos de autor a 
+todas nuestras páginas de comestibles, por lo que creamos un archivo
+`/WEB-INF/templates/footer.html` que contiene este código:
 
 ```html
 <!DOCTYPE html>
@@ -2454,7 +2314,7 @@ create a `/WEB-INF/templates/footer.html` file containing this code:
   <body>
   
     <div th:fragment="copy">
-      &copy; 2011 The Good Thymes Virtual Grocery
+      &copy; 2011 La tienda de comestibles virtual Good Thymes
     </div>
   
   </body>
@@ -2462,8 +2322,9 @@ create a `/WEB-INF/templates/footer.html` file containing this code:
 </html>
 ```
 
-The code above defines a fragment called `copy` that we can easily include in
-our home page using one of the `th:insert` or `th:replace` attributes:
+El código de arriba define un fragmento llamado `copy` que podemos incluir 
+facilmente en nuestra página de inicio usando uno de los atributos  `th:insert` 
+o `th:replace`:
 
 ```html
 <body>
@@ -2475,70 +2336,74 @@ our home page using one of the `th:insert` or `th:replace` attributes:
 </body>
 ```
 
-Note that `th:insert` expects a *fragment expression* (`~{...}`), which is *an
-expression that results in a fragment*.
-
+Fíjese que `th:insert` espera una *expresión de fragmento* (`~{...}`), que es 
+una *expresión que da como resultado un fragmento*.
 
 ### Sintaxis de especificación de fragmentos
 
-The syntax of *fragment expressions* is quite straightforward. There are three
-different formats:
+La sintaxis de las *expresiones de fragmento* es bastante sencilla. Hay tres 
+formatos diferentes:
 
- * `"~{templatename::selector}"` Includes the fragment resulting from applying
-   the specified Markup Selector on the template named `templatename`.  Note
-   that `selector` can be a mere fragment name, so you could specify something
-   as simple as `~{templatename::fragmentname}` like in the `~{footer :: copy}`
-   above.
+ * `"~{templatename::selector}"` Incluye el fragmento resultante de aplicar el 
+   marcador Selector especificado en la plantilla llamada `templatename`. Fíjese 
+   que `selector` puede ser un mero nombre de fragmento, por lo que podría 
+   especificar algo tan simple como `~{templatename::fragmentname}` como en el
+   `~{footer :: copy}` anterior.
 
-   > Markup Selector syntax is defined by the underlying AttoParser parsing
-   > library, and is similar to XPath expressions or CSS selectors. See
-   > [Apéndice C](#20-apéndice-c-sintaxis-del-selector-de-marcado) for more info.
+   > La sintaxis del Selector de Marcado se define mediante la biblioteca de 
+   > análisis AttoParser y es similar a las de las expresiones XPath o los 
+   > selectores CSS. Consulte el
+   >  [Apéndice C](#20-apéndice-c-sintaxis-del-selector-de-marcado) para más 
+   > información.
 
- * `"~{templatename}"` Includes the complete template named `templatename`.
+   
+ * `"~{templatename}"` Incluye la plantilla completa de nombre  `templatename`.
 
-   > Note that the template name you use in `th:insert`/`th:replace` tags
-   > will have to be resolvable by the Template Resolver currently being used by
-   > the Template Engine.
+   > Fíjese que el nombre de la plantilla que utiliza en las etiquetas
+   > `th:insert`/`th:replace` tendrán que ser resueltas por el 
+   > Resolvedor de Plantillas (Template Resolver) que actualmente esté usando el 
+   > Motor de Plantillas (Template Engine).
 
- * `~{::selector}"` or `"~{this::selector}"` Inserts a fragment from the same
-   template, matching `selector`. If not found on the template where the expression
-   appears, the stack of template calls (insertions) is traversed towards the
-   originally processed template (the *root*), until `selector` matches at 
-   some level.
+ * `~{::selector}"` o `"~{this::selector}"` Insertan un fragmento desde la misma
+   plantilla, que coincida con `selector`.  Si no se encuentra en la plantilla 
+   donde aparece la expresión, se recorre la pila de llamadas de plantilla 
+   (inserciones) hacia la plantilla procesada originalmente (la *raíz*), hasta 
+   que `selector` coincide en algún nivel.
 
-Both `templatename` and `selector` in the above examples can be fully-featured
-expressions (even conditionals!) like:
+
+Tanto `templatename` como `selector` en los ejemplos de arriba pueden ser 
+expresiones con todas las funcionalidades (¡incluso condicionales!) como:
 
 ```html
 <div th:insert="~{ footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser}) }"></div>
 ```
+Los fragmentos pueden incluir cualquier atributo `th:*`. Estos atributos serán 
+evaluados una vez el fragmento se incluye dentro de la plantilla objetivo (la 
+que contiene el atributo `th:insert`/`th:replace`), y será capaz de referenciar 
+cualesquiera variables de contexto definidas en la plantiila objetivo.
 
-Fragments can include any `th:*` attributes. These attributes will be evaluated
-once the fragment is included into the target template (the one with the `th:insert`/`th:replace`
-attribute), and they will be able to reference any context variables defined in
-this target template.
-
-> A big advantage of this approach to fragments is that you can write your
-> fragments in pages that are perfectly displayable by a browser, with a
-> complete and even *valid* markup structure, while still retaining the ability
-> to make Thymeleaf include them into other templates.
+> Una gran ventaja de este enfoque para los fragmentos es que puedes escribirlos
+> en páginas que son perfectamente visualizables por un navevador, con una  
+> estructura de marcado completa e incluso *válida*, al tiempo que conservas la 
+> capacidad de hacer que Thymeleaf los incluya en otras plantillas.
 
 
 ### Referenciar fragmentos sin `th:fragment`
 
-Thanks to the power of Markup Selectors, we can include fragments that do not use any 
-`th:fragment` attributes. It can even be markup code coming from a different application 
-with no knowledge of Thymeleaf at all:
+Gracias al poder de los Selectores de Marcado, podemos incluir fragmentos que 
+no usen ningún atributo `th:fragment`. Puede incluso ser código fuente que 
+proviene de una aplicación diferente sin ningún conocimiento de Thymeleaf:
 
 ```html
 ...
 <div id="copy-section">
-  &copy; 2011 The Good Thymes Virtual Grocery
+  &copy; 2011 La tienda de comestibles virtual Good Thymes
 </div>
 ...
 ```
 
-We can use the fragment above simply referencing it by its `id` attribute, in a similar way to a CSS selector:
+Podemos usar el fragmento de arriba simplemente referenciándolo por su atributo 
+`id`, de forma similar a un selector CSS:
 
 ```html
 <body>
@@ -2550,26 +2415,25 @@ We can use the fragment above simply referencing it by its `id` attribute, in a 
 </body>
 ```
 
+### Diferencia entre `th:insert` y `th:replace`
 
+¿Y cual es la diferencia entre `th:insert` y `th:replace`?
 
-### Difference between `th:insert` and `th:replace`
+ * `th:insert` simplemente insertará el fragmento especificado como el cuerpo de
+   su etiqueta anfitriona.
 
-And what is the difference between `th:insert` and `th:replace`?
+ * `th:replace` en realidad *reemplaza* su etiqueta anfitriona con el fragmento 
+ * especificado.
 
- * `th:insert` will simply insert the specified fragment as the body
-   of its host tag.
-
- * `th:replace` actually *replaces* its host tag with the specified fragment.
-
-So an HTML fragment like this:
+Así, un fragmento HTML como este:
 
 ```html
 <footer th:fragment="copy">
-  &copy; 2011 The Good Thymes Virtual Grocery
+  &copy; 2011 La tienda de comestibles virtual Good Thymes
 </footer>
 ```
 
-...included twice in host `<div>` tags, like this:
+...incluído dos veces en las etiquetas <div>`, de esta manera:
 
 ```html
 <body>
@@ -2583,7 +2447,7 @@ So an HTML fragment like this:
 </body>
 ```
 
-...will result in:
+...dará como resultado:
 
 ```html
 <body>
@@ -2592,24 +2456,22 @@ So an HTML fragment like this:
 
   <div>
     <footer>
-      &copy; 2011 The Good Thymes Virtual Grocery
+      &copy; 2011 La tienda de comestibles virtual Good Thymes
     </footer>
   </div>
 
   <footer>
-    &copy; 2011 The Good Thymes Virtual Grocery
+    &copy; 2011 La tienda de comestibles virtual Good Thymes
   </footer>
   
 </body>
 ```
 
+## 8.2 Firmas de fragmentos parametrizables
 
-
-8.2 Firmas de fragmentos parametrizables
-----------------------------------------
-
-In order to create a more _function-like_ mechanism for template fragments,
-fragments defined with `th:fragment` can specify a set of parameters:
+Para crear un mecanismo más funcional para los fragmentos de plantilla, los 
+fragmentos definidos con `th:fragment` pueden especificar un conjunto de 
+parámetros:
 	
 ```html
 <div th:fragment="frag (onevar,twovar)">
@@ -2617,24 +2479,23 @@ fragments defined with `th:fragment` can specify a set of parameters:
 </div>
 ```
 
-This requires the use of one of these two syntaxes to call the fragment from
-`th:insert` or `th:replace`:
+Esto requiere el uso de una de estas dos sintaxis para llamar al fragmento desde 
+`th:insert` o `th:replace`:
 
 ```html
 <div th:replace="~{ ::frag (${value1},${value2}) }">...</div>
 <div th:replace="~{ ::frag (onevar=${value1},twovar=${value2}) }">...</div>
 ```
 
-Note that order is not important in the last option:
+Tenga en cuenta que el orden no es importante en la última opción:
 
 ```html
 <div th:replace="~{ ::frag (twovar=${value2},onevar=${value1}) }">...</div>
 ```
 
-
 ### Variables locales de fragmentos sin firma de fragmento
 
-Even if fragments are defined without arguments like this:
+Incluso si los fragmentos se definen sin argumentos como este:
 
 ```html	
 <div th:fragment="frag">
@@ -2642,77 +2503,76 @@ Even if fragments are defined without arguments like this:
 </div>
 ```
 
-We could use the second syntax specified above to call them (and only the second one):
+Podríamos usar la segunda sintaxis especificada anteriormente para llamarlos (y solo la segunda):
 
 ```html	
 <div th:replace="~{::frag (onevar=${value1},twovar=${value2})}">
 ```
 
-This would be equivalent to a combination of `th:replace` and `th:with`:
+Esto sería equivalente a una combinación de `th:replace` y `th:with`:
 
 ```html	
 <div th:replace="~{::frag}" th:with="onevar=${value1},twovar=${value2}">
 ```
 
-**Note** that this specification of local variables for a fragment -- no matter
-whether it has an argument signature or not -- does not cause the context to be
-emptied prior to its execution. Fragments will still be able to access every
-context variable being used at the calling template like they currently are. 
+**Nota**: Esta especificación de variables locales para un fragmento, 
+independientemente de si tiene una firma de argumento o no, no provoca que el 
+contexto se vacíe antes de su ejecución. Los fragmentos podrán acceder a todas 
+las variables de contexto utilizadas en la plantilla de llamada, como lo hacen 
+actualmente.
 
 
 ### th:assert para afirmaciones dentro de la plantilla
 
-The `th:assert` attribute can specify a comma-separated list of expressions
-which should be evaluated and produce true for every evaluation, raising an
-exception if not.
+El atributo `th:assert` puede especificar una lista de expresiones separadas por 
+comas que deben evaluarse y producir verdadero para cada evaluación, generando 
+una excepción en caso contrario.
 
 ```html
 <div th:assert="${onevar},(${twovar} != 43)">...</div>
 ```
 
-This comes in handy for validating parameters at a fragment signature:
+Esto resulta útil para validar parámetros en una firma de fragmento:
 
 ```html
 <header th:fragment="contentheader(title)" th:assert="${!#strings.isEmpty(title)}">...</header>
 ```
 
+## 8.3 Eliminación de fragmentos de plantilla
 
+Gracias a las *expresiones de fragmento*, podemos especificar parámetros para 
+fragmentos que no son textos, números ni objetos bean, sino fragmentos de 
+marcado.
 
-8.3 Eliminación de fragmentos de plantilla
-------------------------------------------
+Esto nos permite crear nuestros fragmentos de forma que se puedan *enriquecer* 
+con el marcado procedente de las plantillas que los llaman, lo que resulta en un 
+*mecanismo de diseño de plantillas* muy flexible.
 
-Thanks to *fragment expressions*, we can specify parameters for fragments that
-are not texts, numbers, bean objects... but instead fragments of markup.
-
-This allows us to create our fragments in a way such that they can be *enriched*
-with markup coming from the calling templates, resulting in a very flexible
-**template layout mechanism**.
-
-Note the use of the `title` and `links` variables in the fragment below:
+Observe el uso de las variables `title` y `links` en el fragmento a continuación:
 
 ```html
 <head th:fragment="common_header(title,links)">
 
-  <title th:replace="${title}">The awesome application</title>
+  <title th:replace="${title}">La increíble aplicación</title>
 
-  <!-- Common styles and scripts -->
+  <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}">
   <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
   <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
 
-  <!--/* Per-page placeholder for additional links */-->
+  <!--/* Marcador de posición por página para enlaces adicionales */-->
   <th:block th:replace="${links}" />
 
 </head>
 ```
 
-We can now call this fragment like:
+Ahora podemos llamar a este fragmento así:
 
 ```html
 ...
 <head th:replace="~{ base :: common_header(~{::title},~{::link}) }">
 
-  <title>Awesome - Main</title>
+  <title>Impresionante - Principal</title>
 
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}">
@@ -2720,18 +2580,18 @@ We can now call this fragment like:
 </head>
 ...
 ```
+...y el resultado usará las etiquetas `<title>` y `<link>` de nuestra plantilla 
+llamada,de llamada como valores de las variables `title` y `links`, lo que hará 
+que nuestro fragmento se personalice durante la inserción:
 
-...and the result will use the actual `<title>` and `<link>` tags from our
-calling template as the values of the `title` and `links` variables, resulting
-in our fragment being customized during insertion:
 
 ```html
 ...
 <head>
 
-  <title>Awesome - Main</title>
+  <title>Impresionante - Principal</title>
 
-  <!-- Common styles and scripts -->
+    <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
   <link rel="shortcut icon" href="/awe/images/favicon.ico">
   <script type="text/javascript" src="/awe/sh/scripts/codebase.js"></script>
@@ -2743,32 +2603,30 @@ in our fragment being customized during insertion:
 ...
 ```
 
-
 ### Usando el fragmento vacío
 
-A special fragment expression, the *empty fragment* (`~{}`), can be used for
-specifying *no markup*. Using the previous example:
+Se puede usar una expresión de fragmento especial, el *fragmento vacío* (`~{}`), 
+para especificar *sin marcado*. Siguiendo el ejemplo anterior:
 
 ```html
 <head th:replace="~{ base :: common_header(~{::title},~{}) }">
 
-  <title>Awesome - Main</title>
+  <title>Impresionante - Principal</title>
 
 </head>
 ...
 ```
-
-Note how the second parameter of the fragment (`links`) is set to the *empty
-fragment* and therefore nothing is written for the `<th:block th:replace="${links}" />`
-block:
+Observe cómo el segundo parámetro del fragmento (`links`) se establece en el 
+*fragmento vacío* y, por lo tanto, no se escribe nada para el bloque 
+`<th:block th:replace="${links}" />`:
 
 ```html
 ...
 <head>
 
-  <title>Awesome - Main</title>
+  <title>Impresionante - Principal</title>
 
-  <!-- Common styles and scripts -->
+  <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
   <link rel="shortcut icon" href="/awe/images/favicon.ico">
   <script type="text/javascript" src="/awe/sh/scripts/codebase.js"></script>
@@ -2777,18 +2635,17 @@ block:
 ...
 ```
 
-
 ### Uso del token de no operación
 
-The no-op can be also used as a parameter to a fragment if we just want to let
-our fragment use  its current markup as a default value. Again, using the
-`common_header` example:
+La operación no-operación (`_`) se puede también se puede usar como parámetro de 
+un fragmento si simplemente queremos que nuestro fragmento use su marcado actual 
+como valor predeterminado. De nuevo, usando el ejemplo `common_header`:
 
 ```html
 ...
 <head th:replace="~{base :: common_header(_,~{::link})}">
 
-  <title>Awesome - Main</title>
+  <title>Impresionante - Principal</title>
 
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}">
@@ -2797,23 +2654,23 @@ our fragment use  its current markup as a default value. Again, using the
 ...
 ```
 
-See how the `title` argument (first argument of the `common_header` fragment) is
-set to *no-op* (`_`), which results in this part of the fragment not being
-executed at all (`title` = *no-operation*):
+Observe cómo el argumento `title` (primer argumento del fragmento 
+`common_header`) se establece en *no-op* (`_`), lo que hace que esta parte del 
+fragmento no se ejecute en absoluto (`title` = *no-operation*):
 
 ```html
-  <title th:replace="${title}">The awesome application</title>
+  <title th:replace="${title}">La increíble aplicación</title>
 ```
 
-So the result is:
+Entonces el resultado es:
 
 ```html
 ...
 <head>
 
-  <title>The awesome application</title>
+  <title>Impresionante - Principal</title>
 
-  <!-- Common styles and scripts -->
+  <!-- Estilos comunes y scripts -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
   <link rel="shortcut icon" href="/awe/images/favicon.ico">
   <script type="text/javascript" src="/awe/sh/scripts/codebase.js"></script>
@@ -2825,15 +2682,15 @@ So the result is:
 ...
 ```
 
-
 ### Inserción condicional avanzada de fragmentos
 
-The availability of both the *empty fragment* and *no-operation token* allows us
-to perform conditional insertion of fragments in a very easy and elegant way.
+La disponibilidad tanto del *fragmento vacío* como del *token de no operación* 
+nos permite realizar la inserción condicional de fragmentos de forma sencilla y 
+elegante.
 
-For example, we could do this in order to insert our `common :: adminhead`
-fragment *only* if the user is an administrator, and insert nothing (empty
-fragment) if not:
+Por ejemplo, podríamos hacer esto para insertar nuestro fragmento 
+`common::adminhead` *solo* si el usuario es administrador y no insertar nada 
+(fragmento vacío) si no lo es:
 
 ```html
 ...
@@ -2841,619 +2698,579 @@ fragment) if not:
 ...
 ```
 
-Also, we can use the *no-operation token* in order to insert a fragment only if
-the specified condition is met, but leave the markup without modifications if
-the condition is not met:
+También podemos usar el token *no-operation* para insertar un fragmento solo si 
+se cumple la condición especificada, pero dejar el marcado sin modificaciones si 
+no se cumple la condición:
 
 ```html
 ...
 <div th:insert="${user.isAdmin()} ? ~{common :: adminhead} : _">
-    Welcome [[${user.name}]], click <a th:href="@{/support}">here</a> for help-desk support.
+    Bienvenido [[${user.name}]], pulse <a th:href="@{/support}">aquí</a> para soporte técnico.
 </div>
 ...
 ```
 
-Additionally, if we have configured our template resolvers to *check for
-existence* of the template resources –- by means of their `checkExistence` flag
--– we can use the existence of the fragment itself as the condition in a *default*
-operation:
+Además, si hemos configurado nuestros solucionadores de plantillas para 
+*verificar la existencia* de los recursos de plantilla -- mediante su indicador 
+`checkExistence`) --, podemos usar la existencia del propio fragmento como 
+condición en una operación *predeterminada*:
 
 ```html
 ...
-<!-- The body of the <div> will be used if the "common :: salutation" fragment  -->
-<!-- does not exist (or is empty).                                              -->
+<!-- El cuerpo de la <div> se usará si el fragmento "common :: salutation"   -->
+<!-- no existe  (o está vacío).                                              -->
 <div th:insert="~{common :: salutation} ?: _">
-    Welcome [[${user.name}]], click <a th:href="@{/support}">here</a> for help-desk support.
+    Bienvenido [[${user.name}]], pulse <a th:href="@{/support}">aquí</a> para soporte técnico.
 </div>
 ...
 ```
 
+## 8.4 Eliminación de fragmentos de plantilla
 
-
-8.4 Eliminación de fragmentos de plantilla
--------------------------------
-
-Back to the example application, let's revisit the last version of our product list template:
+Volviendo a la aplicación de ejemplo, revisemos la última versión de nuestra 
+plantilla de lista de productos:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
-    <th>COMMENTS</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
+    <th>COMENTARIOS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Onions</td>
+    <td th:text="${prod.name}">Cebollas</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:unless="${#lists.isEmpty(prod.comments)}">view</a>
+         th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
     </td>
   </tr>
 </table>
 ```
 
-This code is just fine as a template, but as a static page (when directly open
-by a browser without Thymeleaf processing it) it would not make a nice prototype. 
+Este código funciona bien como plantilla, pero como página estática (al abrirse 
+directamente en un navegador sin que Thymeleaf lo procese) no sería un buen 
+prototipo.
 
-Why? Because, although perfectly displayable by browsers, that table only has a
-row, and this row has mock data. As a prototype, it simply wouldn't look
-realistic enough... we should have more than one product, _we need more rows_.
+¿Por qué? Porque, aunque se puede visualizar perfectamente en los navegadores, 
+esa tabla solo tiene una fila, y esta fila contiene datos ficticios. Como 
+prototipo, simplemente no se vería lo suficientemente realista... Deberíamos 
+tener más de un producto; necesitamos más filas.
 
-So let's add some:
+Agreguemos algunos:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
-    <th>COMMENTS</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
+    <th>COMENTARIOS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Onions</td>
+    <td th:text="${prod.name}">Cebollas</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:unless="${#lists.isEmpty(prod.comments)}">view</a>
+         th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
     </td>
   </tr>
   <tr class="odd">
-    <td>Blue Lettuce</td>
+    <td>Lechuga azul</td>
     <td>9.55</td>
     <td>no</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr>
-    <td>Mild Cinnamon</td>
+    <td>Canela suave</td>
     <td>1.99</td>
-    <td>yes</td>
+    <td>si</td>
     <td>
-      <span>3</span> comment/s
-      <a href="comments.html">view</a>
+      <span>3</span> comentario/s
+      <a href="comments.html">ver</a>
     </td>
   </tr>
 </table>
 ```
 
-Ok, now we have three, definitely better for a prototype. But... what will
-happen when we process it with Thymeleaf?:
+Bien, ahora tenemos tres, definitivamente mejor para un prototipo. Pero... ¿qué 
+pasará cuando lo procesemos con Thymeleaf?
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
-    <th>COMMENTS</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
+    <th>COMENTARIOS</th>
   </tr>
   <tr>
-    <td>Fresh Sweet Basil</td>
+    <td>Albahaca dulce fresca</td>
     <td>4.99</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Italian Tomato</td>
+    <td>Tomate italiano</td>
     <td>1.25</td>
     <td>no</td>
     <td>
-      <span>2</span> comment/s
-      <a href="/gtvg/product/comments?prodId=2">view</a>
+      <span>2</span> comentario/s
+      <a href="/gtvg/product/comments?prodId=2">ver</a>
     </td>
   </tr>
   <tr>
-    <td>Yellow Bell Pepper</td>
+    <td>Pimiento amarillo</td>
     <td>2.50</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Old Cheddar</td>
+    <td>Cheddar viejo</td>
     <td>18.75</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>1</span> comment/s
-      <a href="/gtvg/product/comments?prodId=4">view</a>
+      <span>1</span> comentario/s
+      <a href="/gtvg/product/comments?prodId=4">ver</a>
     </td>
   </tr>
   <tr class="odd">
-    <td>Blue Lettuce</td>
+    <td>Lechuga azul</td>
     <td>9.55</td>
     <td>no</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr>
-    <td>Mild Cinnamon</td>
+    <td>Canela suave</td>
     <td>1.99</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>3</span> comment/s
-      <a href="comments.html">view</a>
+      <span>3</span> comentario/s
+      <a href="comments.html">ver</a>
     </td>
   </tr>
 </table>
 ```
 
-The last two rows are mock rows! Well, of course they are: iteration was only
-applied to the first row, so there is no reason why Thymeleaf should have
-removed the other two.
+¡Las dos últimas filas son filas simuladas! Claro que sí: la iteración solo se 
+aplicó a la primera, así que no hay razón para que Thymeleaf eliminara las otras 
+dos.
 
-We need a way to remove those two rows during template processing. Let's use the
-`th:remove` attribute on the second and third `<tr>` tags:
+Necesitamos una forma de eliminar esas dos filas durante el procesamiento de la 
+plantilla. Usemos el atributo `th:remove` en la segunda y tercera etiqueta 
+`<tr>`:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
-    <th>COMMENTS</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
+    <th>COMENTARIOS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Onions</td>
+    <td th:text="${prod.name}">Cebollas</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:unless="${#lists.isEmpty(prod.comments)}">view</a>
+         th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
     </td>
   </tr>
   <tr class="odd" th:remove="all">
-    <td>Blue Lettuce</td>
+    <td>Lechuga azul</td>
     <td>9.55</td>
     <td>no</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr th:remove="all">
-    <td>Mild Cinnamon</td>
+    <td>Canela suave</td>
     <td>1.99</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>3</span> comment/s
-      <a href="comments.html">view</a>
+      <span>3</span> comentario/s
+      <a href="comments.html">ver</a>
     </td>
   </tr>
 </table>
 ```
 
-Once processed, everything will look again as it should:
+Una vez procesado, todo volverá a verse como debería:
 
 ```html
 <table>
   <tr>
-    <th>NAME</th>
-    <th>PRICE</th>
-    <th>IN STOCK</th>
-    <th>COMMENTS</th>
+    <th>NOMBRE</th>
+    <th>PRECIO</th>
+    <th>EN STOCK</th>
+    <th>COMENTARIOS</th>
   </tr>
   <tr>
-    <td>Fresh Sweet Basil</td>
+    <td>Albahaca dulce fresca</td>
     <td>4.99</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Italian Tomato</td>
+    <td>Tomate italiano</td>
     <td>1.25</td>
     <td>no</td>
     <td>
-      <span>2</span> comment/s
-      <a href="/gtvg/product/comments?prodId=2">view</a>
+      <span>2</span> comentario/s
+      <a href="/gtvg/product/comments?prodId=2">ver</a>
     </td>
   </tr>
   <tr>
-    <td>Yellow Bell Pepper</td>
+    <td>Pimiento amarillo</td>
     <td>2.50</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>0</span> comment/s
+      <span>0</span> comentario/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Old Cheddar</td>
+    <td>Cheddar viejo</td>
     <td>18.75</td>
-    <td>yes</td>
+    <td>sí</td>
     <td>
-      <span>1</span> comment/s
-      <a href="/gtvg/product/comments?prodId=4">view</a>
+      <span>1</span> comentario/s
+      <a href="/gtvg/product/comments?prodId=4">ver</a>
     </td>
   </tr>
 </table>
 ```
+¿Y qué significa el valor `all` en el atributo? `th:remove` puede comportarse de 
+cinco maneras diferentes, según su valor:
 
-And what does that `all` value in the attribute, mean? `th:remove` can behave in
-five different ways, depending on its value:
+* `all`: Elimina la etiqueta contenedora y todos sus hijos.
+* `body`: No elimina la etiqueta contenedora, pero sí todos sus hijos.
+* `tag`: Elimina la etiqueta contenedora, pero no sus hijos.
+* `all-but-first`: Elimina todos los hijos de la etiqueta contenedora excepto el 
+   primero.
+* `none`: No hace nada. Este valor es útil para la evaluación dinámica.
 
- * `all`: Remove both the containing tag and all its children.
- * `body`: Do not remove the containing tag, but remove all its children.
- * `tag`: Remove the containing tag, but do not remove its children.
- * `all-but-first`: Remove all children of the containing tag except the first one.
- * `none` : Do nothing. This value is useful for dynamic evaluation.
-
-What can that `all-but-first` value be useful for? It will let us save some `th:remove="all"`
-when prototyping:
+¿Para qué puede ser útil el valor `all-but-first`? Nos permitirá ahorrar 
+`th:remove="all"` al crear prototipos.
 
 ```html
 <table>
   <thead>
     <tr>
-      <th>NAME</th>
-      <th>PRICE</th>
-      <th>IN STOCK</th>
-      <th>COMMENTS</th>
+      <th>NOMBRE</th>
+      <th>PRECIO</th>
+      <th>EN STOCK</th>
+      <th>COMENTARIOS</th>
     </tr>
   </thead>
   <tbody th:remove="all-but-first">
     <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-      <td th:text="${prod.name}">Onions</td>
+      <td th:text="${prod.name}">Cebollas</td>
       <td th:text="${prod.price}">2.41</td>
-      <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+      <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
       <td>
-        <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
+        <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
         <a href="comments.html" 
            th:href="@{/product/comments(prodId=${prod.id})}" 
-           th:unless="${#lists.isEmpty(prod.comments)}">view</a>
+           th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
       </td>
     </tr>
     <tr class="odd">
-      <td>Blue Lettuce</td>
+      <td>Lechuga azul</td>
       <td>9.55</td>
       <td>no</td>
       <td>
-        <span>0</span> comment/s
+        <span>0</span> comentario/s
       </td>
     </tr>
     <tr>
-      <td>Mild Cinnamon</td>
+      <td>Canela suave</td>
       <td>1.99</td>
-      <td>yes</td>
+      <td>sí</td>
       <td>
-        <span>3</span> comment/s
-        <a href="comments.html">view</a>
+        <span>3</span> comentario/s
+        <a href="comments.html">ver</a>
       </td>
     </tr>
   </tbody>
 </table>
 ```
 
-The `th:remove` attribute can take any _Thymeleaf Standard Expression_, as long
-as it returns one of the allowed String values (`all`, `tag`, `body`, `all-but-first`
-or `none`).
+El atributo `th:remove` puede aceptar cualquier expresión estándar de Thymeleaf, 
+siempre que devuelva uno de los valores de cadena permitidos 
+(`all`, `tag`, `body`, `all-but-first` o `none`).
 
-This means removals could be conditional, like:
-
-```html
-<a href="/something" th:remove="${condition}? tag : none">Link text not to be removed</a>
-```
-
-Also note that `th:remove` considers `null` a synonym to `none`, so the
-following works the same as the example above:
+Esto significa que las eliminaciones pueden ser condicionales, como:
 
 ```html
-<a href="/something" th:remove="${condition}? tag">Link text not to be removed</a>
+<a href="/something" th:remove="${condition}? tag : none">El texto del enlace no debe eliminarse</a>
 ```
 
-In this case, if `${condition}` is false, `null` will be returned, and thus no
-removal will be performed. 
+Tenga en cuenta también que `th:remove` considera que `null` es un sinónimo de 
+`none`, por lo que lo siguiente funciona igual que el ejemplo anterior:
 
+```html
+<a href="/something" th:remove="${condition}? tag">El texto del enlace no debe eliminarse</a>
+```
 
-8.5 Herencia de diseño
-----------------------
+En este caso, si `${condition}` es falso, se devolverá `null` y, por lo tanto, 
+no se realizará ninguna eliminación.
 
-To be able to have a single file as layout, fragments can be used. An example 
-of a simple layout having `title` and `content` using `th:fragment` and 
-`th:replace`:
+## 8.5 Herencia de diseño
+
+Para tener un solo archivo como diseño, se pueden usar fragmentos. Un ejemplo de 
+un diseño simple con `title` y `content` usa `th:fragment` y `th:replace`:
 
 ```html
 <!DOCTYPE html>
 <html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:replace="${title}">Layout Title</title>
+    <title th:replace="${title}">Título del diseño</title>
 </head>
 <body>
-    <h1>Layout H1</h1>
+    <h1>Diseño H1</h1>
     <div th:replace="${content}">
-        <p>Layout content</p>
+        <p>Contenido del diseño</p>
     </div>
     <footer>
-        Layout footer
+        Pie de página de diseño
     </footer>
 </body>
 </html>
 ```
 
-This example declares a fragment called **layout** having _title_ and _content_ as
-parameters. Both will be replaced on page inheriting it by provided fragment 
-expressions in the example below.
+Este ejemplo declara un fragmento llamado **layout** con _title_ y _content_ 
+como parámetros. Ambos se reemplazarán en la página que lo herede por las 
+expresiones de fragmento proporcionadas en el ejemplo siguiente.
 
 ```html
 <!DOCTYPE html>
 <html th:replace="~{layoutFile :: layout(~{::title}, ~{::section})}">
 <head>
-    <title>Page Title</title>
+    <title>Título de la página</title>
 </head>
 <body>
 <section>
-    <p>Page content</p>
-    <div>Included on page</div>
+    <p>Contenido de la página</p>
+    <div>Incluido en la página</div>
 </section>
 </body>
 </html>
 ```
 
-In this file, the `html` tag will be replaced by _layout_, but in the layout 
-`title` and `content` will have been replaced by `title` and `section` blocks
-respectively.
+En este archivo, la etiqueta `html` se reemplazará por _layout_, pero en el 
+diseño, `title` y `content` se reemplazarán por los bloques `title` y `section`, 
+respectivamente.
 
-If desired, the layout can be composed by several fragments as _header_ 
-and _footer_.
+Si se desea, el diseño puede estar compuesto por varios fragmentos como _header_ 
+y _footer_.
 
+# 9 Variables locales
 
+Thymeleaf llama _variables locales_ a las variables que se definen para un 
+fragmento específico de una plantilla, y que solo están disponibles para la 
+evaluación dentro de ese fragmento. 
 
-9 Variables locales
-=================
-
-Thymeleaf calls _local variables_ the variables that are defined for a specific
-fragment of a template, and are only available for evaluation inside that
-fragment.
-
-An example we have already seen is the `prod` iter variable in our product list
-page:
+Un ejemplo que ya hemos visto es la variable de iteración `prod` en nuestra 
+página de lista de productos:
 
 ```html
 <tr th:each="prod : ${prods}">
     ...
 </tr>
 ```
+Esa variable `prod` estará disponible solo dentro de los límites de la etiqueta
+`<tr>`. Específicamente:
 
-That `prod` variable will be available only within the bounds of the `<tr>` tag.
-Specifically:
+ * Estará disponible para cualquier otro atributo `th:*` que se ejecute en esa 
+   etiqueta con menor _precedencia_ que `th:each` (lo que significa que se 
+   ejecutará después de `th:each`).
+ * Estará disponible para cualquier elemento hijo de la etiqueta `<tr>`, tales 
+   como cualquier elemento `<td>`.
 
- * It will be available for any other `th:*` attributes executing in that tag
-   with less _precedence_ than `th:each` (which means they will execute after `th:each`).
- * It will be available for any child element of the `<tr>` tag, such as any `<td>`
-   elements.
-
-Thymeleaf offers you a way to declare local variables without iteration, using
-the `th:with` attribute, and its syntax is like that of attribute value
-assignments:
+Thymeleaf te ofrece una forma de declarar variables locales sin iteración, 
+usando el atributo `th:with`, y su sintaxis es similar a la de las asignaciones 
+de valores de atributos:
 
 ```html
 <div th:with="firstPer=${persons[0]}">
   <p>
-    The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
+    El nombre de la primera persona es <span th:text="${firstPer.name}">Julius Caesar</span>.
   </p>
 </div>
 ```
+Cuando se procesa `th:with`, se crea esa variable `firstPer` como una variable 
+local y se agrega al mapa de variables proveniente del contexto, de forma que 
+esté disponible para evaluación junto con cualquier otra variable declarada 
+en el contexto, pero solo dentro de los límites de la etiqueta `<div>` que la 
+contiene.
 
-When `th:with` is processed, that `firstPer` variable is created as a local
-variable and added to the variables map coming from the context, so that it is
-available for evaluation along with any other variables declared in the context,
-but only within the bounds of the containing `<div>` tag.
-
-You can define several variables at the same time using the usual multiple
-assignment syntax:
+Puede definir varias variables al mismo tiempo usando la sintaxis habitual de 
+asignación múltiple:
 
 ```html
 <div th:with="firstPer=${persons[0]},secondPer=${persons[1]}">
   <p>
-    The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
+      El nombre de la primera persona es <span th:text="${firstPer.name}">Julius Caesar</span>.
   </p>
   <p>
-    But the name of the second person is 
+    Pero el nombre de la segunda persona es  
     <span th:text="${secondPer.name}">Marcus Antonius</span>.
   </p>
 </div>
 ```
-
-The `th:with` attribute allows reusing variables defined in the same attribute:
+El atributo `th:with` permite reutilizar las variables definidas en el mismo 
+atributo:
 
 ```html
 <div th:with="company=${user.company + ' Co.'},account=${accounts[company]}">...</div>
 ```
 
-Let's use this in our Grocery's home page! Remember the code we wrote for
-outputting a formatted date?
+¡Usemos esto en la página principal de nuestra tienda de comestibles! ¿Recuerdas 
+el código que escribimos para mostrar una fecha con formato?
 
 ```html
 <p>
   Today is: 
-  <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 february 2011</span>
+  <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 febrero 2011</span>
 </p>
 ```
-
-Well, what if we wanted that `"dd MMMM yyyy"` to actually depend on the locale?
-For example, we might want to add the following message to our `home_en.properties`:
+¿Y si quisiéramos que `"dd MMMM yyyy"` dependiera de la configuración regional?
+Por ejemplo, podríamos añadir el siguiente mensaje a `home_en.properties`:
 
 ```
 date.format=MMMM dd'','' yyyy
 ```
 
-...and an equivalent one to our `home_es.properties`:
+...y uno equivalente a nuestro `home_es.properties`:
 
 ```
 date.format=dd ''de'' MMMM'','' yyyy
 ```
-
-Now, let's use `th:with` to get the localized date format into a variable, and
-then use it in our `th:text` expression:
+Ahora, usemos `th:with` para obtener el formato de dato regionalizado en una 
+variable, y después usésmolo en nuestra expresión `th:text`: 
 
 ```html
 <p th:with="df=#{date.format}">
-  Today is: <span th:text="${#calendars.format(today,df)}">13 February 2011</span>
+  Hoy es: <span th:text="${#calendars.format(today,df)}">13 febrero 2011</span>
 </p>
 ```
 
-That was clean and easy. In fact, given the fact that `th:with` has a higher
-`precedence` than `th:text`, we could have solved this all in the `span` tag:
+Fue fácil y sencillo. De hecho, dado que `th:with` tiene mayor `precedencia` 
+que `th:text`, podríamos haber solucionado todo en la etiqueta `span`:
+
 
 ```html
 <p>
-  Today is: 
+  Hoy es: 
   <span th:with="df=#{date.format}" 
-        th:text="${#calendars.format(today,df)}">13 February 2011</span>
+        th:text="${#calendars.format(today,df)}">13 Febrero 2011</span>
 </p>
 ```
 
-You might be thinking: Precedence? We haven't talked about that yet! Well, don't
-worry because that is exactly what the next chapter is about.
+Quizás estés pensando: ¿Precedencia? ¡Aún no hemos hablado de eso! Bueno, no te 
+preocupes, porque de eso trata precisamente el siguiente capítulo.
 
+# 10 Precedencia de atributos
 
-
-
-10\. Precedencia de atributos
-=============================
-
-What happens when you write more than one `th:*` attribute in the same tag? For
-example:
+¿Qué ocurre al escribir más de un atributo `th:*` en la misma etiqueta? Por 
+ejemplo:
 
 ```html
 <ul>
-  <li th:each="item : ${items}" th:text="${item.description}">Item description here...</li>
+  <li th:each="item : ${items}" th:text="${item.description}">Descripción del elemento aquí...</li>
 </ul>
 ```
+Esperaríamos que el atributo `th:each` se ejecutara antes que `th:text` para 
+obtener los resultados deseados, pero dado que los estándares HTML/XML no 
+definen el orden en que se escriben los atributos en una etiqueta, fue necesario 
+establecer un mecanismo de precedencia en los propios atributos para garantizar 
+su correcto funcionamiento.
 
-We would expect that `th:each` attribute to execute before the `th:text` so that
-we get the results we want, but given the fact that the HTML/XML standards do
-not give any kind of meaning to the order in which the attributes in a tag are 
-written, a _precedence_ mechanism had to be established in the attributes
-themselves in order to be sure that this will work as expected.
+Por lo tanto, todos los atributos de Thymeleaf definen una precedencia numérica 
+que establece el orden en que se ejecutan en la etiqueta. Este orden es:
 
-So, all Thymeleaf attributes define a numeric precedence, which establishes the
-order in which they are executed in the tag. This order is:
+| Orden | Característica                                 | Atributos                                  |
+|:-----:|------------------------------------------------|--------------------------------------------|
+|   1   | Inclusión de fragmento                         | `th:insert`,`th:replace`                   |
+|   2   | Iteración de fragmento                         | `th:each`                                  |
+|   3   | Evaluación condicional                         | `th:if`,`th:unless`,`th:switch`,`th:case`  |
+|   4   | Definición de variable local                   | `th:object`,`th:with`                      |
+|   5   | Modificación de atributos generales            | `th:attr`,`th:attrprepend`,`th:attrappend` |
+|   6   | Modificación de atributos especificos          | `th:value`,`th:href`,`th:src`,`...`        |
+|   7   | Texto (modificación del cuerpo de la etiqueta) | `th:text`,`th:utext`                       |
+|   8   | Especificación de fragmentos                   | `th:fragment`                              |
+|   9   | Eliminación de fragmentos                      | `th:remove`                                |
 
-
------------------------------------------------------------------
-Order   Feature                            Attributes
-------- ---------------------------------- ----------------------
-      1 Fragment inclusion                 `th:insert`\
-                                           `th:replace`
-
-      2 Fragment iteration                 `th:each`
-
-      3 Conditional evaluation             `th:if`\
-                                           `th:unless`\
-                                           `th:switch`\
-                                           `th:case`
-
-      4 Local variable definition          `th:object`\
-                                           `th:with`
-
-      5 General attribute modification     `th:attr`\
-                                           `th:attrprepend`\
-                                           `th:attrappend`
-
-      6 Specific attribute modification    `th:value`\
-                                           `th:href`\
-                                           `th:src`\
-                                           `...`
-
-      7 Text (tag body modification)       `th:text`\
-                                           `th:utext`
-
-      8 Fragment specification             `th:fragment`
-
-      9 Fragment removal                   `th:remove`
------------------------------------------------------------------
-
-This precedence mechanism means that the above iteration fragment will give
-exactly the same results if the attribute position is inverted (although it
-would be slightly less readable):
+Este mecanismo de precedencia significa que el fragmento de iteración anterior 
+dará exactamente los mismos resultados si se invierte la posición del atributo 
+(aunque sería un poco menos legible).
 
 ```html
 <ul>
-  <li th:text="${item.description}" th:each="item : ${items}">Item description here...</li>
+  <li th:text="${item.description}" th:each="item : ${items}">Descripción del elemento aquí...</li>
 </ul>
 ```
 
+# 11 Comentarios y bloques
 
+## 11.1. Comentarios HTML/XML estándar
 
-
-11\. Comentarios y bloques
-==========================
-
-11.1. Comentarios HTML/XML estándar
------------------------------------
-
-Standard HTML/XML comments `<!-- ... -->` can be used anywhere in Thymeleaf
-templates. Anything inside these comments won't be processed by Thymeleaf, and
-will be copied verbatim to the result:
+Los comentarios HTML/XML estándar `<!-- ... -->` se pueden usar en cualquier 
+parte de las plantillas de Thymeleaf. El contenido de estos comentarios no será 
+procesado por Thymeleaf y se copiará textualmente en el resultado:
 
 ```html
-<!-- User info follows -->
+<!-- A continuación se muestra la información del usuario -->
 <div th:text="${...}">
   ...
 </div>
 ```
 
+## 11.2. Bloques de comentarios a nivel de analizador de Thymeleaf
 
-
-11.2. Bloques de comentarios a nivel de analizador de Thymeleaf
----------------------------------------------------------------
-
-Parser-level comment blocks are code that will be simply removed from the
-template when Thymeleaf parses it. They look like this:
+Los bloques de comentarios a nivel de analizador son código que simplemente se 
+eliminará de la plantilla cuando Thymeleaf la analice. Tienen este aspecto:
 
 ```html
-<!--/* This code will be removed at Thymeleaf parsing time! */-->
+<!--/* ¡Este código se eliminará en el momento del análisis de Thymeleaf! */-->
 ``` 
 
-Thymeleaf will remove everything between `<!--/*` and `*/-->`, so these comment
-blocks can also be used for displaying code when a template is statically open,
-knowing that it will be removed when Thymeleaf processes it:
+Thymeleaf eliminará todo lo que esté entre `<!--/*` y `*/-->`, por lo que estos 
+bloques de comentarios también se pueden usar para mostrar código cuando una 
+plantilla está abierta estáticamente, sabiendo que se eliminará cuando Thymeleaf 
+lo procese:
 
 ```html
 <!--/*--> 
   <div>
-     you can see me only before Thymeleaf processes me!
+      ¡Sólo puedes verme antes de que Thymeleaf me procese!
   </div>
 <!--*/-->
 ```
 
-This might come very handy for prototyping tables with a lot of `<tr>`'s, for
-example:
+Esto podría resultar muy útil para crear prototipos de tablas con muchos `<tr>`, 
+por ejemplo:
 
 ```html
 <table>
@@ -3471,55 +3288,52 @@ example:
 </table>
 ```
 
+## 11.3. Bloques de comentarios exclusivos del prototipo de Thymeleaf
 
-
-11.3. Bloques de comentarios exclusivos del prototipo de Thymeleaf
-------------------------------------------------------------------
-
-Thymeleaf allows the definition of special comment blocks marked to be comments
-when the template is open statically (i.e. as a prototype), but considered
-normal markup by Thymeleaf when executing the template.
+Thymeleaf permite la definición de bloques de comentarios especiales marcados 
+como comentarios cuando la plantilla está abierta estáticamente (es decir, como 
+prototipo), pero que Thymeleaf considera como marcado normal al ejecutar la 
+plantilla.
 
 ```html
-<span>hello!</span>
+<span>¡hola!</span>
 <!--/*/
   <div th:text="${...}">
     ...
   </div>
 /*/-->
-<span>goodbye!</span>
+<span>¡adios!</span>
 ```
 
-Thymeleaf's parsing system will simply remove the `<!--/*/` and `/*/-->` markers,
-but not its contents, which will be left therefore uncommented. So when
-executing the template, Thymeleaf will actually see this:
+El sistema de análisis de Thymeleaf simplemente eliminará los marcadores 
+`<!--/*/` y `/*/-->`, pero no su contenido, que quedará sin comentar. Por lo 
+tanto, al ejecutar la plantilla, Thymeleaf verá esto:
 
 ```html
-<span>hello!</span>
+<span>¡hola!</span>
  
   <div th:text="${...}">
     ...
   </div>
  
-<span>goodbye!</span>
+<span>¡adios!</span>
 ```
 
-As with parser-level comment blocks, this feature is dialect-independent.
+Al igual que con los bloques de comentarios a nivel de analizador, esta 
+característica es independiente del dialecto.
 
+## 11.4. Etiqueta sintética `th:block`
 
+El único procesador de elementos (no un atributo) de Thymeleaf incluido en los 
+dialectos estándar es `th:block`.
 
-11.4. Etiqueta sintética `th:block`
------------------------------------
+`th:block` es un simple contenedor de atributos que permite a los 
+desarrolladores de plantillas especificar los atributos que deseen. Thymeleaf 
+ejecutará estos atributos y luego simplemente hará que el bloque, pero no su 
+contenido, desaparezca.
 
-Thymeleaf's only element processor (not an attribute) included in the Standard
-Dialects is `th:block`.
-
-`th:block` is a mere attribute container that allows template developers to
-specify whichever attributes they want. Thymeleaf will execute these attributes
-and then simply make the block, but not its contents, disappear.
-
-So it could be useful, for example, when creating iterated tables that require
-more than one `<tr>` for each element:
+Por lo tanto, podría ser útil, por ejemplo, al crear tablas iteradas que 
+requieren más de un `<tr>` para cada elemento:
 
 ```html
 <table>
@@ -3535,7 +3349,8 @@ more than one `<tr>` for each element:
 </table>
 ```
 
-And especially useful when used in combination with prototype-only comment blocks:
+Y especialmente útil cuando se usa en combinación con bloques de comentarios 
+exclusivos de prototipos:
 
 ```html
 <table>
@@ -3550,145 +3365,136 @@ And especially useful when used in combination with prototype-only comment block
     <!--/*/ </th:block> /*/-->
 </table>
 ```
+Tenga en cuenta cómo esta solución permite que las plantillas sean HTML válido 
+(sin necesidad de agregar bloques prohibidos `<div>` dentro de `<table>`) y aún 
+funciona correctamente cuando se abren estáticamente en navegadores como 
+prototipos. 
 
-Note how this solution allows templates to be valid HTML (no need to add
-forbidden `<div>` blocks inside `<table>`), and still works OK when open
-statically in browsers as prototypes! 
+# 12 Inserción en línea
 
+## 12.1 Inserción de expresiones en línea
 
-
-
-12\. Inserción en línea
-=======================
-
-
-
-12.1 Inserción de texto en línea
---------------------------------
-
-Although the Standard Dialect allows us to do almost everything using tag
-attributes, there are situations in which we could prefer writing expressions
-directly into our HTML texts. For example, we could prefer writing this:
+Aunque el Dialecto Estándar nos permite hacer casi todo usando atributos de 
+etiqueta, hay situaciones en las que preferiríamos escribir expresiones 
+directamente en nuestros textos HTML. Por ejemplo, podríamos escribir esto:
 
 ```html
-<p>Hello, [[${session.user.name}]]!</p>
+<p>¡Hola, [[${session.user.name}]]!</p>
 ```
 
-...instead of this:
+...en vez de esto:
 
 ```html
-<p>Hello, <span th:text="${session.user.name}">Sebastian</span>!</p>
+<p>¡Hola, <span th:text="${session.user.name}">Sebastian</span>!</p>
 ```
 
-Expressions between `[[...]]` or `[(...)]` are considered **inlined expressions**
-in Thymeleaf, and inside them we can use any kind of expression that would also
-be valid in a `th:text` or `th:utext` attribute.
+Las expresiones entre `[[...]]` o `[(...)]` se consideran 
+**expresiones en línea** en Thymeleaf, y dentro de ellas podemos usar cualquier 
+tipo de expresión que también sería válida en un atributo `th:text` o 
+`th:utext`.
 
-Note that, while `[[...]]` corresponds to `th:text` (i.e. result will be *HTML-escaped*), 
-`[(...)]` corresponds to `th:utext` and will not perform any HTML-escaping. So
-with a variable such as `msg = 'This is <b>great!</b>'`, given this fragment:
+Tenga en cuenta que, mientras que `[[...]]` corresponde a `th:text` (es decir, 
+el resultado se escapará en HTML), `[(...)]` corresponde a `th:utext` y no se 
+escapará en HTML. Por lo tanto, con una variable como 
+`msg = '¡Esto es <b>genial!</b>'`, dado este fragmento:
 
 ```html
-<p>The message is "[(${msg})]"</p>
+<p>El mensaje es "[(${msg})]"</p>
 ```
 
-The result will have those `<b>` tags unescaped, so:
+El resultado tendrá esas etiquetas `<b>` sin escapar, así que:
 
 ```html
-<p>The message is "This is <b>great!</b>"</p>
+<p>El mensaje es "¡Esto es <b>genial!</b>"</p>
 ```
 
-Whereas if escaped like:
+Mientras que si se escapa así:
 
 ```html
-<p>The message is "[[${msg}]]"</p>
+<p>El mensaje es "[[${msg}]]"</p>
 ```
 
-The result will be HTML-escaped:
+El resultado se escapará en HTML:
 
 ```html
-<p>The message is "This is &lt;b&gt;great!&lt;/b&gt;"</p>
+<p>El mensaje es "¡Esto es &lt;b&gt;genial!&lt;/b&gt;"</p>
 ```
-
-Note that **text inlining is active by default** in the body of every tag in our
-markup –- not the tags themselves -–, so there is nothing we need to do to
-enable it.
+Tenga en cuenta que la **inserción de texto en línea está activa de forma 
+predeterminada**  en el cuerpo de cada etiqueta de nuestro marcado, no en las 
+etiquetas en sí, por lo que no es necesario hacer nada para habilitarla.
 
 
 ### Plantillas en línea vs. plantillas naturales
 
-If you come from other template engines in which this way of outputting text is
-the norm, you might be asking: _Why aren't we doing this from the beginning?
-It's less code than all those_ `th:text` _attributes!_ 
+Si vienes de otros motores de plantillas donde esta forma de generar texto es la 
+norma, te preguntarás: ¿Por qué no lo hacemos desde el principio?
+¡Es menos código que todos esos atributos `th:text`!
 
-Well, be careful there, because although you might find inlining quite 
-interesting, you should always remember that inlined expressions will be 
-displayed verbatim in your HTML files when you open them statically, so you 
-probably won't be able to use them as design prototypes anymore!
+Bueno, ten cuidado, porque aunque la inlineación te parezca bastante 
+interesante, recuerda siempre que las expresiones inlineadas se mostrarán 
+textualmente en tus archivos HTML al abrirlos estáticamente, por lo que 
+probablemente ya no podrás usarlas como prototipos de diseño.
 
-The difference between how a browser would statically display our fragment of
-code without using inlining...
-
-```
-Hello, Sebastian!
-```
-
-...and using it...
+La diferencia entre cómo un navegador mostraría estáticamente nuestro fragmento 
+de código sin usar la inlineación...
 
 ```
-Hello, [[${session.user.name}]]!
+¡Hola, Sebastian!
 ```
 
-...is quite clear in terms of design usefulness.
+...y usarla...
 
+```
+Hola, [[${session.user.name}]]!
+```
+
+...es bastante claro en términos de utilidad del diseño.
 
 ### Deshabilitar la inserción en línea
 
-This mechanism can be disabled though, because there might actually be occasions
-in which we do want to output the `[[...]]` or  `[(...)]` sequences without its
-contents being processed as an expression. For that, we will use `th:inline="none"`:
+Sin embargo, este mecanismo se puede desactivar, ya que podría haber ocasiones 
+en las que queramos generar las secuencias `[[...]]` o `[(...)]` sin que su 
+contenido se procese como una expresión. Para ello, usaremos `th:inline="none"`:
 
 ```html
-<p th:inline="none">A double array looks like this: [[1, 2, 3], [4, 5]]!</p>
+<p th:inline="none">¡Una matriz doble se ve así: [[1, 2, 3], [4, 5]]!</p>
 ```
 
-This will result in:
+Esto dará como resultado:
 
 ```html
-<p>A double array looks like this: [[1, 2, 3], [4, 5]]!</p>
+<p>¡Una matriz doble se ve así: [[1, 2, 3], [4, 5]]!</p>
 ```
 
+## 12.2 Inserción de texto en línea
 
+La *inserción de texto en línea* es muy similar a la función de 
+*inserción de expresiones* que acabamos de ver, pero en realidad añade más 
+potencia. Debe habilitarse explícitamente con `th:inline="text"`.
 
-12.2 Inserción de texto en línea
-------------------
+La inserción de texto en línea no solo nos permite usar las mismas *expresiones 
+insertadas* que acabamos de ver, sino que procesa los *cuerpos de las etiquetas* 
+como si fueran plantillas procesadas en el modo de plantilla `TEXT`, lo que nos 
+permite ejecutar lógica de plantilla basada en texto (no solo expresiones de 
+salida).
 
-*Text inlining* is very similar to the *expression inlining* capability we have
-just seen, but it actually adds more power. It has to be enabled explicitly with
-`th:inline="text"`.
+Veremos más sobre esto en el próximo capítulo sobre los *modos de plantilla 
+textual*.
 
-Text inlining not only allows us to use the same *inlined expressions* we just
-saw, but in fact processes *tag bodies* as if they were templates processed in
-the `TEXT` template mode, which allows us to perform text-based template logic
-(not only output expressions).
+## 12.3 Inserción de JavaScript en línea
 
-We will see more about this in the next chapter about the *textual template modes*.
+La inserción en línea de JavaScript permite una mejor integración de los bloques
+de código `<script>` de JavaScript en las plantillas que se procesan en el modo 
+de plantilla `HTML`.
 
+Al igual que con la *inserción en línea de texto*, esto equivale a procesar el 
+contenido de los scripts como si fueran plantillas en el modo de plantilla 
+`JAVASCRIPT` y, por lo tanto, se aprovechará toda la potencia de los *modos de 
+plantilla textuales* (véase el siguiente capítulo). Sin embargo, en esta sección 
+lo hanos centraremos en cómo podemos usarlo para añadir la salida de nuestras 
+expresiones de Thymeleaf a nuestros bloques de JavaScript.
 
-
-12.3 Inserción de JavaScript en línea
-------------------------
-
-JavaScript inlining allows for a better integration of JavaScript `<script>`
-blocks in templates being processed in the `HTML` template mode.
-
-As with *text inlining*, this is actually equivalent to processing the scripts
-contents as if they were templates in the `JAVASCRIPT` template mode, and
-therefore all the power of the *textual template modes* (see next chapter) will
-be at hand. However, in this section we will focus on how we can use it for 
-adding the output of our Thymeleaf expressions into our JavaScript blocks.
-
-This mode has to be explicitly enabled using `th:inline="javascript"`:
+Este modo debe habilitarse explícitamente mediante `th:inline="javascript"`:
 
 ```html
 <script th:inline="javascript">
@@ -3698,25 +3504,26 @@ This mode has to be explicitly enabled using `th:inline="javascript"`:
 </script>
 ```
 
-This will result in:
+Esto dará como resultado:
 
 ```html
 <script th:inline="javascript">
     ...
-    var username = "Sebastian \"Fruity\" Applejuice";
+    var username = "Sebastian \"Sabroso\" Jugo de manzana";
     ...
 </script>
 ```
+Dos aspectos importantes a tener en cuenta en el código anterior:
 
-Two important things to note in the code above: 
+*Primero*, la inserción en línea de JavaScript no solo mostrará el texto 
+requerido, sino que también lo encerrará entre comillas y escapará su contenido 
+con JavaScript, de modo que los resultados de la expresión se muestren como un 
+**literal de JavaScript bien formado**.
 
-*First*, that JavaScript inlining will not only output the required text, but 
-also enclose it with quotes and JavaScript-escape its contents, so that the
-expression results are output as a **well-formed JavaScript literal**.
-
-*Second*, that this is happening because we are outputting the `${session.user.name}`
-expression as **escaped**, i.e. using a double-bracket expression: `[[${session.user.name}]]`.
-If instead we used *unescaped* like:
+*Segundo*, esto ocurre porque mostramos la expresión `${session.user.name}` 
+como **escapada**, es decir, usando una expresión entre corchetes: 
+`[[${session.user.name}]]`.
+Si, en cambio, usáramos *sin escape*, como:
 
 ```html
 <script th:inline="javascript">
@@ -3726,7 +3533,7 @@ If instead we used *unescaped* like:
 </script>
 ```
 
-The result would look like:
+El resultado se vería así:
 
 ```html
 <script th:inline="javascript">
@@ -3736,19 +3543,18 @@ The result would look like:
 </script>
 ```
 
-...which is malformed JavaScript code. But outputting something unescaped might
-be what we need if we are building parts of our script by means of appending
-inlined expressions, so it's good to have this tool at hand.
-
+...que es código JavaScript mal formado. Pero generar algo sin escape podría ser 
+lo que necesitamos si construimos partes de nuestro script añadiendo expresiones 
+en línea, así que es bueno tener esta herramienta a mano.
 
 ### Plantillas naturales de JavaScript
 
-The mentioned *intelligence* of the JavaScript inlining mechanism goes much
-further than just applying JavaScript-specific escaping and outputting
-expression results as valid literals.
+La mencionada *inteligencia* del mecanismo de inline de JavaScript va mucho más 
+allá de simplemente aplicar escapes específicos de JavaScript y mostrar los 
+resultados de las expresiones como literales válidos.
 
-For example, we can wrap our (escaped) inlined expressions in JavaScript
-comments like:
+Por ejemplo, podemos encapsular nuestras expresiones inline (escapadas) en 
+JavaScript comentarios de JavaScript como:
 
 ```html
 <script th:inline="javascript">
@@ -3757,11 +3563,10 @@ comments like:
     ...
 </script>
 ```
-
-And Thymeleaf will ignore everything we have written *after the comment and
-before the semicolon* (in this case ` 'Gertrud Kiwifruit'`), so the result of
-executing this will look exactly like when we were not using the wrapping
-comments:
+Y Thymeleaf ignorará todo lo que hayamos escrito *después del comentario y
+antes del punto y coma* (en este caso, ` 'Gertrud Kiwifruit'`), por lo que el 
+resultado de ejecutar esto se verá exactamente como cuando no usábamos los 
+comentarios envolventes:
 
 ```html
 <script th:inline="javascript">
@@ -3771,8 +3576,7 @@ comments:
 </script>
 ```
 
-But have another careful look at the original template code:
-
+Pero eche otra mirada cuidadosa al código de la plantilla original:
 
 ```html
 <script th:inline="javascript">
@@ -3781,29 +3585,29 @@ But have another careful look at the original template code:
     ...
 </script>
 ```
+Tenga en cuenta que este código es **JavaScript válido**. Se ejecutará 
+perfectamente al abrir el archivo de plantilla de forma estática (sin ejecutarlo 
+en un servidor).
 
-Note how this is **valid JavaScript** code. And it will perfectly execute when
-you open your template file in a static manner (without executing it at a
-server).
-
-So what we have here is a way to do **JavaScript natural templates**!
+¡Así que tenemos una forma de crear **plantillas naturales de JavaScript**!
 
 
 ### Evaluación en línea avanzada y serialización de JavaScript
 
-An important thing to note regarding JavaScript inlining is that this
-expression evaluation is intelligent and not limited to Strings. Thymeleaf will
-correctly write in JavaScript syntax the following kinds of objects:
+Un aspecto importante a tener en cuenta con respecto a la inlineación de 
+JavaScript es que esta evaluación de expresiones es inteligente y no se limita a 
+Strings. Thymeleaf escribirá correctamente en sintaxis JavaScript los siguientes 
+tipos de objetos:
 
- * Strings
- * Numbers
- * Booleans
- * Arrays
- * Collections
- * Maps
- * Beans (objects with _getter_ and _setter_ methods)
+* Strings
+* Numbers
+* Booleanos
+* Arrays
+* Collectons
+* Maps
+* Beans (objetos con métodos _getter_ y _setter_)
 
-For example, if we had the following code:
+Por ejemplo, si tuviéramos el siguiente código:
 
 ```html
 <script th:inline="javascript">
@@ -3812,9 +3616,8 @@ For example, if we had the following code:
     ...
 </script>
 ```
-
-That `${session.user}` expression will evaluate to a `User` object, and
-Thymeleaf will correctly convert it to Javascript syntax:
+Esa expresión `${session.user}` se evaluará como un objeto `User` y Thymeleaf la 
+convertirá correctamente a la sintaxis de Javascript:
 
 ```html
 <script th:inline="javascript">
@@ -3824,24 +3627,21 @@ Thymeleaf will correctly convert it to Javascript syntax:
     ...
 </script>
 ```
+Esta serialización de JavaScript se realiza mediante la implementación de la 
+interfaz `org.thymeleaf.standard.serializer.IStandardJavaScriptSerializer`, que 
+se puede configurar en la instancia de `StandardDialect` que se utiliza en el 
+motor de plantillas.
 
-The way this JavaScript serialization is done is by means of an implementation
-of the `org.thymeleaf.standard.serializer.IStandardJavaScriptSerializer`
-interface, which can be configured at the instance of the `StandardDialect`
-being used at the template engine.
+La implementación predeterminada de este mecanismo de serialización de JS 
+buscará la [biblioteca Jackson](https://github.com/FasterXML/jackson) en la ruta 
+de clases y, si está presente, la usará. De lo contrario, aplicará un mecanismo 
+de serialización integrado que cubre las necesidades de la mayoría de los 
+escenarios y produce resultados similares (pero es menos flexible).
 
-The default implementation of this JS serialization mechanism will look for the
-[Jackson library](https://github.com/FasterXML/jackson) in the classpath and, if
-present, will use it. If not, it will apply a built-in serialization mechanism
-that covers the needs of most scenarios and produces similar results (but is
-less flexible).
+## 12.4 Inserción de CSS
 
-
-
-12.4 Inserción de CSS
------------------
-
-Thymeleaf also allows the use of inlining in CSS `<style>` tags, such as:
+Thymeleaf también permite el uso de incrustación en etiquetas CSS `<style>`, 
+como:
 
 ```html
 <style th:inline="css">
@@ -3849,14 +3649,15 @@ Thymeleaf also allows the use of inlining in CSS `<style>` tags, such as:
 </style>
 ```
 
-For example, say we have two variables set to two different `String` values:
+Por ejemplo, digamos que tenemos dos variables configuradas con dos valores 
+`String` diferentes:
 
 ```
 classname = 'main elems'
 align = 'center'
 ```
 
-We could use them just like:
+Podríamos usarlas así:
 
 ```html
 <style th:inline="css">
@@ -3866,7 +3667,7 @@ We could use them just like:
 </style>
 ```
 
-And the result would be:
+Y el resultado sería:
 
 ```html
 <style th:inline="css">
@@ -3875,19 +3676,19 @@ And the result would be:
     }
 </style>
 ```
-
-Note how CSS inlining also bears some *intelligence*, just like JavaScript's.
-Specifically, expressions output via *escaped* expressions like `[[${classname}]]`
-will be escaped as **CSS identifiers**. That is why our `classname = 'main elems'`
-has turned into `main\ elems` in the fragment of code above.
+Observe cómo la inserción de CSS en línea también aporta cierta *inteligencia*, 
+al igual que la de JavaScript. En concreto, las expresiones generadas mediante 
+expresiones *escapadas* como `[[${classname}]]` se escaparán como 
+**identificadores CSS**. Por eso, `classname = 'main elems'`
+se ha convertido en `main\ elems` en el fragmento de código anterior.
 
 
 ### Funciones avanzadas: plantillas naturales CSS, etc.
 
-In an equivalent way to what was explained before for JavaScript, CSS inlining
-also allows for our `<style>` tags to work both statically and dynamically, i.e.
- as **CSS natural templates** by means of wrapping inlined expressions in
- comments. See:
+De forma similar a lo explicado anteriormente para JavaScript, la inserción de 
+CSS en línea también permite que nuestras etiquetas `<style>` funcionen tanto 
+estática como dinámicamente, es decir, como **plantillas CSS naturales**, al 
+encapsular expresiones en línea en comentarios. Véase:
 
 ```html
 <style th:inline="css">
@@ -3896,17 +3697,9 @@ also allows for our `<style>` tags to work both statically and dynamically, i.e.
     }
 </style>
 ```
+# 13 Modos de plantilla textual
 
-
-
-
-13 Modos de plantilla textual
-=========================
-
-
-
-13.1 Sintaxis textual
--------------------
+## 13.1 Sintaxis textual
 
 Three of the Thymeleaf *template modes* are considered **textual**: `TEXT`, `JAVASCRIPT`
 and `CSS`. This differentiates them from the markup template modes: `HTML` and `XML`.
@@ -4044,7 +3837,6 @@ var greeter = function() {
 };
 ```
 
-
 ### Atributos de elementos escapados
 
 In order to avoid interactions with parts of the template that might be
@@ -4069,10 +3861,7 @@ containing the code above and we want to make sure our browser doesn't take that
 `<user.age` for the name of an open tag when statically opening the file as a
 prototype.
 
-
-
-13.2 Extensibilidad
-------------------
+## 13.2 Extensibilidad
 
 One of the advantages of this syntax is that it is just as extensible as the 
 *markup* one. Developers can still define their own dialects with custom
@@ -4083,10 +3872,7 @@ in textual template modes:
   [#myorg:dosomething myorg:importantattr="211"]some text[/myorg:dosomething]
 ```
 
-
-
-13.3 Bloques de comentarios de solo prototipos textuales: agregar código
--------------------------------------------------------
+## 13.3 Bloques de comentarios de solo prototipos textuales: agregar código
 
 The `JAVASCRIPT` and `CSS` template modes (not available for `TEXT`) allow 
 including code between a special comment syntax `/*[+...+]*/` so that Thymeleaf
@@ -4131,10 +3917,7 @@ var f = function() {
 ...
 ```
 
-
-
-13.4 Bloques de comentarios de nivel de analizador textual: eliminación de código
--------------------------------------------------------
+## 13.4 Bloques de comentarios de nivel de analizador textual: eliminación de código
 
 In a way similar to that of prototype-only comment blocks, all the three textual
 template modes (`TEXT`, `JAVASCRIPT` and `CSS`) make it possible to instruct
@@ -4163,10 +3946,7 @@ Welcome [(${session.user.name})]!
 ...
 ```
 
-
-
-13.5 Plantillas naturales de JavaScript y CSS
------------------------------------------
+## 13.5 Plantillas naturales de JavaScript y CSS
 
 As seen in the previous chapter, JavaScript and CSS inlining offer the
 possibility to include inlined expressions inside JavaScript/CSS comments, like:
@@ -4215,11 +3995,7 @@ So Thymeleaf 3.0 allows the development of **complex JavaScript scripts and CSS
 style sheets in the form of natural templates**, valid both as a *prototype* and
 as a *working template*.
 
-
-
-
-14  Algunas páginas más para nuestra tienda de comestibles
-==================================
+# 14  Algunas páginas más para nuestra tienda de comestibles
 
 Now we know a lot about using Thymeleaf, we can add some new pages to our
 website for order management.
@@ -4227,10 +4003,7 @@ website for order management.
 Note that we will focus on HTML code, but you can have a look at the bundled
 source code if you want to see the corresponding controllers.
 
-
-
-14.1 Lista de pedidos
----------------
+## 14.1 Lista de pedidos
 
 Let's start by creating an order list page, `/WEB-INF/templates/order/list.html`:
 
@@ -4263,7 +4036,7 @@ Let's start by creating an order list page, `/WEB-INF/templates/order/list.html`
         <td th:text="${o.customer.name}">Frederic Tomato</td>
         <td th:text="${#aggregates.sum(o.orderLines.{purchasePrice * amount})}">23.32</td>
         <td>
-          <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
+          <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">ver</a>
         </td>
       </tr>
     </table>
@@ -4292,10 +4065,7 @@ function in order to obtain the order total price.
 
 You've got to love the power of OGNL.
 
-
-
-14.2 Detalles del pedido
-------------------
+## 14.2 Detalles del pedido
 
 Now for the order details page, in which we will make a heavy use of asterisk
 syntax:
@@ -4340,7 +4110,7 @@ syntax:
       <tr>
         <th>PRODUCT</th>
         <th>AMOUNT</th>
-        <th>PURCHASE PRICE</th>
+        <th>PURCHASE PRECIO</th>
       </tr>
       <tr th:each="ol,row : *{orderLines}" th:class="${row.odd}? 'odd'">
         <td th:text="${ol.product.name}">Strawberries</td>
@@ -4386,16 +4156,9 @@ Not much really new here, except for this nested object selection:
 <p><b>Nombre:</b> <span th:text="${order.customer.name}">Frederic Tomato</span></p>
 ```
 
+# 15 Más sobre la configuración
 
-
-
-15\. Más sobre la configuración
-===============================
-
-
-
-15.1 Resolvedores de plantillas
--------------------------------
+## 15.1 Resolvedores de plantillas
 
 For our Good Thymes Virtual Grocery, we chose an `ITemplateResolver`
 implementation called `WebApplicationTemplateResolver` that allowed us to obtain
@@ -4490,9 +4253,7 @@ of configuration parameters, which include:
 > reading resources in applications, and which is the recommended implementation
 > in Spring-enabled applications.
 
-
 ### Encadenamiento de solucionadores de plantillas
-
 
 Also, a Template Engine can specify several template resolvers, in which case an
 order can be established between them for template resolution so that, if the
@@ -4557,10 +4318,7 @@ a performance issue in some scenarios, e.g. remote URL-based template resources
 use of the template cache (in which case templates will only be *resolved* the
 first time they are accessed).
 
-
-
-15.2 Resolvedores de mensajes
------------------------------
+## 15.2 Resolvedores de mensajes
 
 We did not explicitly specify a Message Resolver implementation for our Grocery
 application, and as it was explained before, this meant that the implementation
@@ -4574,7 +4332,6 @@ needs of our application.
 > implementation which uses the standard Spring way of retrieving externalized
 > messages, by using `MessageSource` beans declared at the Spring Application
 > Context.
-
 
 ### Resolvedor de mensajes estándar
 
@@ -4591,7 +4348,6 @@ the following files, in this order:
 
 Refer to the JavaDoc documentation of the `StandardMessageResolver` class for
 more detail on how the complete message resolution mechanism works.
-
 
 ### Configuración de solucionadores de mensajes
 
@@ -4611,11 +4367,7 @@ reason as template resolvers: message resolvers are ordered and if the first one
 cannot resolve a specific message, the second one will be asked, then the third,
 etc.
 
-
-
-
-15.3 Servicios de conversión
-------------------------
+## 15.3 Servicios de conversión
 
 The *conversion service* that enables us to perform data conversion and
 formatting operations by means of the *double-brace* syntax (`${{...}}`) is
@@ -4640,10 +4392,7 @@ templateEngine.setDialect(dialect);
 > implementation of `IStandardConversionService` that integrates Spring's own
 > *Conversion Service* infrastructure into Thymeleaf.
 
-
-
-15.4 Registro de trazas
-------------
+## 15.4 Registro de trazas
 
 Thymeleaf pays quite a lot of attention to logging, and always tries to offer
 the maximum amount of useful information through its logging interface.
@@ -4677,11 +4426,7 @@ log4j.logger.org.thymeleaf.TemplateEngine.TIMER=TRACE
 log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE
 ```
 
-
-
-
-16\. Caché de plantillas
-========================
+# 16 Caché de plantillas
 
 Thymeleaf works thanks to a set of parsers -- for markup and text -- that parse
 templates into sequences of events (open tag, text, close tag, comment, etc.)
@@ -4742,14 +4487,9 @@ templateEngine.clearTemplateCache();
 templateEngine.clearTemplateCacheFor("/users/userList");
 ```
 
+# 17 Lógica de plantilla desacoplada
 
-
-
-17 Lógica de plantilla desacoplada
-===========================
-
-17.1 Lógica desacoplada: El concepto
----------------------------------
+## 17.1 Lógica desacoplada: El concepto
 
 So far we have worked for our Grocery Store with templates done the *usual way*,
 with logic being inserted into our templates in the form of attributes.
@@ -4848,10 +4588,7 @@ Of course some *contracts* between designers or developers will still be needed
 in many scenarios a pure-HTML template will be a much better communication
 artifact between design and development teams.
 
-
-
-17.2 Configuración de plantillas desacopladas
-------------------------------------
+## 17.2 Configuración de plantillas desacopladas
 
 ### Habilitación de plantillas desacopladas
 
@@ -4872,7 +4609,6 @@ final WebApplicationTemplateResolver templateResolver =
 templateResolver.setUseDecoupledLogic(true);
 ```
 
-
 ### Mezcla de lógica acoplada y desacoplada
 
 Decoupled template logic, when enabled, is not a requirement. When enabled, it
@@ -4885,10 +4621,7 @@ example by adding some Thymeleaf attributes at the original template file but
 leaving others for the separate decoupled logic file. The most common case for
 this is using the new (in v3.0) `th:ref` attribute.
 
-
-
-17.3 El atributo th:ref
----------------------------
+## 17.3 El atributo th:ref
 
 `th:ref` is only a marker attribute. It does nothing from the processing
 standpoint and simply disappears when the template is processed, but its
@@ -4920,10 +4653,7 @@ Note this applicability of the `th:ref` attribute **does not only apply to
 decoupled logic template files**: it works the same in other types of scenarios,
 like in fragment expressions (`~{...}`).
 
-
-
-17.4 Impacto en el rendimiento de las plantillas desacopladas
-----------------------------------------------
+## 17.4 Impacto en el rendimiento de las plantillas desacopladas
 
 The impact is extremely small. When a resolved template is marked to use
 decoupled logic and it is not cached, the template logic resource will be
@@ -4941,10 +4671,7 @@ will be cached already containing the injected attributes. So the overhead of
 using *decoupled templates* for cacheable templates, once they are cached, 
 will be absolutely *zero*.
 
-
-
-17.5 Resolución de lógica desacoplada
-----------------------------------
+## 17.5 Resolución de lógica desacoplada
 
 The way Thymeleaf resolves the decoupled logic resources corresponding to each
 template is configurable by the user. It is determined by an extension point,
@@ -4972,15 +4699,10 @@ decoupledResolver.setPrefix("../viewlogic/");
 templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);
 ```
 
-
-
-
-18 Apéndice A: Objetos básicos de expresión
-=======================================
+# 18 Apéndice A: Objetos básicos de expresión
 
 Some objects and variable maps are always available to be invoked. Let's see
 them:
-
 
 ### Base objects
 
@@ -5019,7 +4741,6 @@ ${#ctx.servletContext}
 ```java
 ${#locale}
 ```
-
 
 ### Espacios de nombres de contexto web para atributos de solicitud/sesión, etc.
 
@@ -5087,12 +4808,7 @@ automatically added to the context as variables in the context root:
 ${myRequestAttribute}
 ```
 
-
-
-
-19 Apéndice B: Objetos de utilidad de expresión
-=========================================
-
+# 19 Apéndice B: Objetos de utilidad de expresión
 
 ### Información de ejecución
 
@@ -5144,7 +4860,6 @@ ${#execInfo.templateModes}
 ${#execInfo.templateStack}
 ```
 
-
 ### Mensajes
 
  * **\#messages** : utility methods for obtaining externalized messages inside
@@ -5186,7 +4901,6 @@ ${#messages.arrayMsgOrNull(messageKeyArray)}
 ${#messages.listMsgOrNull(messageKeyList)}
 ${#messages.setMsgOrNull(messageKeySet)}
 ```
-
 
 ### URIs/URLs
 
@@ -5233,7 +4947,6 @@ ${#uris.unescapeQueryParam(uri)}
 ${#uris.unescapeQueryParam(uri, encoding)}
 ```
 
-
 ### Conversiones
 
  * **\#conversions** : utility object that allows the execution of the
@@ -5253,7 +4966,6 @@ ${#uris.unescapeQueryParam(uri, encoding)}
 ${#conversions.convert(object, 'java.util.TimeZone')}
 ${#conversions.convert(object, targetClass)}
 ```
-
 
 ### Fechas
 
@@ -5332,7 +5044,6 @@ ${#dates.createToday()}
 
 ${#dates.createTodayForTimeZone()}
 ```
-
 
 ### Calendarios
 
@@ -5416,8 +5127,6 @@ ${#calendars.createToday()}
 
 ${#calendars.createTodayForTimeZone()}
 ```
-
-
 ### Temporales (java.time)
 
  * **\#temporals** : deal with date/time objects from the JDK8+ `java.time` API:
@@ -5518,7 +5227,6 @@ ${#temporals.createDateTime(isoDate)}          // return a instance of java.time
 ${#temporals.createDate(isoDate, pattern)}     // return a instance of java.time.LocalDate
 ${#temporals.createDateTime(isoDate, pattern)} // return a instance of java.time.LocalDateTime
 ```
-
 
 ### Numeros
 
@@ -5638,7 +5346,6 @@ ${#numbers.setFormatPercent(numSet, 3, 2)}
 ${#numbers.sequence(from,to)}
 ${#numbers.sequence(from,to,step)}
 ```
-
 
 ### Cadenas (String, en inglés)
 
@@ -5777,7 +5484,6 @@ ${#strings.concatReplaceNulls(nullValue, values...)}
 ${#strings.randomAlphanumeric(count)}
 ```
 
-
 ### Objetos
 
  * **\#objects** : utility methods for objects in general
@@ -5798,7 +5504,6 @@ ${#objects.arrayNullSafe(objArray,default)}
 ${#objects.listNullSafe(objList,default)}
 ${#objects.setNullSafe(objSet,default)}
 ```
-
 
 ### Booleanos
 
@@ -5847,7 +5552,6 @@ ${#bools.listOr(condList)}
 ${#bools.setOr(condSet)}
 ```
 
-
 ### Matrices
 
  * **\#arrays** : utility methods for arrays
@@ -5894,7 +5598,6 @@ ${#arrays.contains(array, element)}
 ${#arrays.containsAll(array, elements)}
 ```
 
-
 ### Listas
 
  * **\#lists** : utility methods for lists
@@ -5935,7 +5638,6 @@ ${#lists.sort(list)}
 ${#lists.sort(list, comparator)}
 ```
 
-
 ### Conjuntos
 
  * **\#sets** : utility methods for sets
@@ -5969,7 +5671,6 @@ ${#sets.contains(set, element)}
 ${#sets.containsAll(set, elements)}
 ```
 
-
 ### Mapas
 
  * **\#maps** : utility methods for maps
@@ -6000,7 +5701,6 @@ ${#maps.containsValue(map, value)}
 ${#maps.containsAllValues(map, value)}
 ```
 
-
 ### Agregados
 
  * **\#aggregates** : utility methods for creating aggregates on arrays or
@@ -6025,7 +5725,6 @@ ${#aggregates.sum(collection)}
 ${#aggregates.avg(array)}
 ${#aggregates.avg(collection)}
 ```
-
 
 ### IDs
 
@@ -6057,11 +5756,7 @@ ${#ids.next('someId')}
 ${#ids.prev('someId')}
 ```
 
-
-
-
-20 Apéndice C: Sintaxis del selector de marcado
-=====================================
+# 20 Apéndice C: Sintaxis del selector de marcado
 
 Thymeleaf's Markup Selectors are directly borrowed from Thymeleaf's parsing 
 library: [AttoParser](http://attoparser.org).
@@ -6167,7 +5862,6 @@ references). But would also look for tags with name `myfrag` if they existed
 
 ...which will actually look for any elements with `class="myfrag"`, without
 caring about `th:fragment` signatures (or `th:ref` references). 
-
 
 ### Coincidencia de clases multivalor
 

@@ -4452,62 +4452,63 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE
 
 # 16 Caché de plantillas
 
-Thymeleaf works thanks to a set of parsers -- for markup and text -- that parse
-templates into sequences of events (open tag, text, close tag, comment, etc.)
-and a series of processors -- one for each type of behaviour that needs to be
-applied -- that modify the template parsed event sequence in order to create the
-results we expect by combining the original template with our data.
+Thymeleaf funciona gracias a un conjunto de analizadores (para marcado y texto) 
+que analizan las plantillas en secuencias de eventos (etiqueta de apertura, 
+texto, etiqueta de cierre, comentario, etc.) y a una serie de procesadores (uno 
+para cada tipo de comportamiento que se debe aplicar) que modifican la secuencia 
+de eventos analizada de la plantilla para crear los resultados esperados al 
+combinar la plantilla original con nuestros datos.
 
-It also includes -- by default -- a cache that stores parsed templates; the
-sequence of events resulting from reading and parsing template files before
-processing them. This is especially useful when working in a web application,
-and builds on the following concepts:
+También incluye, por defecto, una caché que almacena las plantillas analizadas; 
+la secuencia de eventos resultante de la lectura y el análisis de los archivos 
+de plantilla antes de procesarlos. Esto es especialmente útil al trabajar en una 
+aplicación web y se basa en los siguientes conceptos:
 
- * Input/Output is almost always the slowest part of any application. In-memory
-   processing is extremely quick by comparison.
- * Cloning an existing in-memory event sequence is always much quicker than
-   reading a template file, parsing it and creating a new event sequence for it.
- * Web applications usually have only a few dozen templates.
- * Template files are small-to-medium size, and they are not modified while the
-   application is running.
+* La entrada/salida es casi siempre la parte más lenta de cualquier aplicación. 
+  En comparación, el procesamiento en memoria es extremadamente rápido.
+* Clonar una secuencia de eventos en memoria existente siempre es mucho más 
+  rápido que leer un archivo de plantilla, analizarlo y crear una nueva 
+  secuencia de eventos para él.
+* Las aplicaciones web suelen tener solo unas pocas docenas de plantillas.
+* Los archivos de plantilla son de tamaño pequeño a mediano y no se modifican 
+  mientras la aplicación está en ejecución.
 
-This all leads to the idea that caching the most used templates in a web
-application is feasible without wasting large amounts of memory, and also that
-it will save a lot of time that would be spent on input/output operations on a
-small set of files that, in fact, never change.
+Todo esto nos lleva a la idea de que almacenar en caché las plantillas más 
+utilizadas en una aplicación web es posible sin desperdiciar grandes cantidades 
+de memoria, y además, ahorrará mucho tiempo que se dedicaría a operaciones de 
+entrada/salida en un pequeño conjunto de archivos que, de hecho, nunca cambian.
 
-And how can we take control of this cache? First, we've learned before that we
-can enable or disable it at the Template Resolver, even acting only on specific
-templates:
+¿Y cómo podemos controlar esta caché? Primero, ya hemos aprendido que podemos 
+habilitarla o deshabilitarla en el solucionador de plantillas, incluso actuando 
+solo en plantillas específicas: 
 
 ```java
 // Default is true
 templateResolver.setCacheable(false);
 templateResolver.getCacheablePatternSpec().addPattern("/users/*");
 ```
-
-Also, we could modify its configuration by establishing our own _Cache Manager_
-object, which could be an instance of the default `StandardCacheManager`
-implementation:
+También podríamos modificar su configuración estableciendo nuestro propio 
+objeto _Cache Manager_, que podría ser una instancia de la implementación 
+predeterminada `StandardCacheManager`:
 
 ```java
-// Default is 200
+// El valor predeterminado es 200
 StandardCacheManager cacheManager = new StandardCacheManager();
 cacheManager.setTemplateCacheMaxSize(100);
 ...
 templateEngine.setCacheManager(cacheManager);
 ```
 
-Refer to the javadoc API of `org.thymeleaf.cache.StandardCacheManager` for more
-info on configuring the caches.
+Consulte la API javadoc de `org.thymeleaf.cache.StandardCacheManager` para 
+obtener más información sobre la configuración de los cachés.
 
-Entries can be manually removed from the template cache:
+Las entradas se pueden eliminar manualmente del caché de plantillas:
 
 ```java
-// Clear the cache completely
+// Borrar el caché por completo
 templateEngine.clearTemplateCache();
 
-// Clear a specific template from the cache
+// Borrar una plantilla específica de la caché
 templateEngine.clearTemplateCacheFor("/users/userList");
 ```
 
@@ -4515,17 +4516,18 @@ templateEngine.clearTemplateCacheFor("/users/userList");
 
 ## 17.1 Lógica desacoplada: El concepto
 
-So far we have worked for our Grocery Store with templates done the *usual way*,
-with logic being inserted into our templates in the form of attributes.
+Hasta ahora, hemos trabajado para nuestra tienda de comestibles con plantillas 
+diseñadas de la *forma habitual*, insertando la lógica en forma de atributos.
 
-But Thymeleaf also allows us to completely *decouple* the template markup from
-its logic, allowing the creation of **completely logic-less markup templates**
-in the `HTML` and `XML` template modes.
+Pero Thymeleaf también nos permite *desvincular* completamente el marcado de la 
+plantilla de su lógica, lo que permite la creación de plantillas de marcado sin 
+lógica en los modos de plantilla `HTML` y `XML`.
 
-The main idea is that template logic will be defined in a separate *logic file*
-(more exactly a *logic resource*, as it doesn't need to be a *file*). By default,
-that logic resource will  be an additional file living in the same place (e.g.
-folder) as the template file, with the same name but with `.th.xml` extension:
+La idea principal es que la lógica de la plantilla se defina en un *archivo de 
+lógica* separado independiente (más exactamente, un *recurso lógico*, ya que no 
+necesita ser un *archivo* de plantilla). Por defecto, ese recurso lógico será un 
+archivo adicional ubicado en la misma ubicación (por ejemplo, una carpeta) que 
+el archivo de plantilla, con el mismo nombre pero con la extensión `.th.xml`.:
 
 ```
 /templates
@@ -4533,7 +4535,8 @@ folder) as the template file, with the same name but with `.th.xml` extension:
 +->/home.th.xml
 ```
 
-So the `home.html` file can be completely logic-less. It might look like this:
+Por lo tanto, el archivo `home.html` puede carecer por completo de lógica. 
+Podría verse así:
 
 ```html
 <!DOCTYPE html>
@@ -4541,25 +4544,25 @@ So the `home.html` file can be completely logic-less. It might look like this:
   <body>
     <table id="usersTable">
       <tr>
-        <td class="username">Jeremy Grapefruit</td>
-        <td class="usertype">Normal User</td>
+        <td class="username">Jeremías Pomelo</td>
+        <td class="usertype">Usuario normal</td>
       </tr>
       <tr>
-        <td class="username">Alice Watermelon</td>
-        <td class="usertype">Administrator</td>
+        <td class="username">Alicia Sandía</td>
+        <td class="usertype">Administrador</td>
       </tr>
     </table>
   </body>
 </html>
 ```
 
-Absolutely no Thymeleaf code there. This is a template file that a designer with
-no Thymeleaf or templating knowledge could have created, edited and/or
-understood. Or a fragment of HTML provided by some external system with no
-Thymeleaf hooks at all.
+No hay absolutamente ningún código de Thymeleaf. Este es un archivo de plantilla 
+que un diseñador sin conocimientos de Thymeleaf ni de plantillas podría haber 
+creado, editado o entendido. O un fragmento de HTML proporcionado por un sistema 
+externo sin ningún tipo de enlace de Thymeleaf.
 
-Let's now turn that `home.html` template into a Thymeleaf template by creating 
-our additional `home.th.xml` file like this:
+Ahora, convirtamos esa plantilla `home.html` en una plantilla de Thymeleaf 
+desacoplada, creando nuestro archivo `home.th.xml` adicional de esta manera:
 
 ```xml
 <?xml version="1.0"?>
@@ -4573,16 +4576,18 @@ our additional `home.th.xml` file like this:
 </thlogic>
 ```
 
-Here we can see a lot of `<attr>` tags inside a `thlogic` block. Those `<attr>`
-tags perform *attribute injection* on nodes of the original template selected by
-means of their `sel` attributes, which contain Thymeleaf *markup selectors*
-(actually *AttoParser markup selectors*). 
+Aquí podemos ver varias etiquetas `<attr>` dentro de un bloque `thlogic`. Estas 
+etiquetas `<attr>` realizan una *inyección de atributos* en los nodos de la 
+plantilla original seleccionados mediante sus atributos `sel`, que contienen 
+*selectores de marcado* de Thymeleaf (en realidad, *selectores de marcado de 
+AttoParser*). 
 
-Also note that `<attr>` tags can be nested so that their selectors are *appended*.
-That `sel="/tr[0]"` above, for example, will be processed as `sel="#usersTable/tr[0]"`.
-And the selector for the user name `<td>` will be processed as `sel="#usersTable/tr[0]//td.username"`.
+Tenga en cuenta también que las etiquetas `<attr>` se pueden anidar para que sus 
+selectores se *añadan*. El `sel="/tr[0]"` anterior, por ejemplo, se procesará 
+como `sel="#usersTable/tr[0]"`. Y el selector para el nombre de usuario `<td>` 
+se procesará como `sel="#usersTable/tr[0]//td.username"`.
 
-So once merged, both files seen above will be the same as:
+Entonces, una vez fusionados, ambos archivos vistos arriba serán los mismos que:
 
 ```html
 <!DOCTYPE html>
@@ -4590,41 +4595,43 @@ So once merged, both files seen above will be the same as:
   <body>
     <table id="usersTable" th:remove="all-but-first">
       <tr th:each="user : ${users}">
-        <td class="username" th:text="${user.name}">Jeremy Grapefruit</td>
-        <td class="usertype" th:text="#{|user.type.${user.type}|}">Normal User</td>
+        <td class="username" th:text="${user.name}">Jeremías Pomelo</td>
+        <td class="usertype" th:text="#{|user.type.${user.type}|}">Usuario normal</td>
       </tr>
       <tr>
-        <td class="username">Alice Watermelon</td>
-        <td class="usertype">Administrator</td>
+        <td class="username">Alicia Sandía</td>
+        <td class="usertype">Administrador</td>
       </tr>
     </table>
   </body>
 </html>
 ```
 
-This looks more familiar, and is indeed less *verbose* than creating two
-separate files. But the advantage of *decoupled templates* is that we can
-give for our templates total independence from Thymeleaf, and therefore better
-maintainability from the design standpoint.
+Esto resulta más familiar y, de hecho, es menos *detallado* que crear dos 
+conjuntos de archivos separados. Pero la ventaja de las *plantillas 
+desacopladas* es que podemos dar a nuestras plantillas total independencia de 
+Thymeleaf y, por lo tanto, una mejor mantenibilidad desde el punto de vista del 
+diseño.
 
-Of course some *contracts* between designers or developers will still be needed
--- e.g. the fact that the users `<table>` will need an `id="usersTable"` --, but
-in many scenarios a pure-HTML template will be a much better communication
-artifact between design and development teams.
+Por supuesto, todavía serán necesarios algunos *contratos* entre diseñadores o 
+desarrolladores, por ejemplo, el hecho de que los usuarios `<table>` necesitarán 
+un `id="usersTable"`, pero en muchos escenarios, una plantilla HTML pura será un 
+artefacto de comunicación mucho mejor entre los equipos de diseño y desarrollo.
 
 ## 17.2 Configuración de plantillas desacopladas
 
 ### Habilitación de plantillas desacopladas
 
-Decoupled logic will not be expected for every template by default. Instead, the
-configured template resolvers (implementations of `ITemplateResolver`) will need
-to specifically mark the templates they resolve as *using decoupled logic*.
+No se espera que todas las plantillas usen lógica desacoplada de forma 
+explpredeterminada. En su lugar, los resolvedores de plantillas configurados 
+(implementaciones de `ITemplateResolver`) deberán marcar específicamente las 
+plantillas que resuelven como *que usan lógica desacoplada*.
 
-Except for `StringTemplateResolver` (which does not allow decoupled logic), all
-other out-of-the-box implementations of `ITemplateResolver` will provide a flag
-called `useDecoupledLogic` that will mark all templates resolved by that
-resolver as potentially having all or part of its logic living in a separate
-resource:
+Excepto `StringTemplateResolver` (que no permite lógica desacoplada), todas las 
+demás implementaciones predefinidas de `ITemplateResolver` proporcionarán un 
+indicador llamado `useDecoupledLogic` que marcará todas las plantillas resueltas 
+por ese resolvedor como si potencialmente tuvieran toda o parte de su lógica en 
+un recurso separado.
 
 ```java
 final WebApplicationTemplateResolver templateResolver = 
@@ -4635,85 +4642,91 @@ templateResolver.setUseDecoupledLogic(true);
 
 ### Mezcla de lógica acoplada y desacoplada
 
-Decoupled template logic, when enabled, is not a requirement. When enabled, it
-means that the engine will *look for* a resource containing decoupled logic,
-parsing and merging it with the original template if it exists. No error will be
-thrown if the decoupled logic resource does not exist.
+La lógica de plantilla desacoplada, cuando está habilitada, no es un requisito. 
+Al estar habilitada, el motor *buscará* un recurso que contenga lógica 
+desacoplada, lo analizará y lo fusionará con la plantilla original si existe. No 
+se generará ningún error si el recurso de lógica desacoplada no existe.
 
-Also, in the same template we can mix both *coupled* and *decoupled* logic, for
-example by adding some Thymeleaf attributes at the original template file but
-leaving others for the separate decoupled logic file. The most common case for
-this is using the new (in v3.0) `th:ref` attribute.
+Además, en la misma plantilla podemos combinar lógica *acoplada* y 
+*desacoplada*, por ejemplo, añadiendo algunos atributos de Thymeleaf al archivo 
+de plantilla original, pero dejando otros para el archivo de lógica desacoplada. 
+El caso más común para esto es usar el nuevo atributo `th:ref` (en la versión 
+3.0).
 
 ## 17.3 El atributo th:ref
 
-`th:ref` is only a marker attribute. It does nothing from the processing
-standpoint and simply disappears when the template is processed, but its
-usefulness lies in the fact that it acts as a *markup reference*, i.e. it can be
-resolved by name from a *markup selector* just like a *tag name* or a *fragment*
-(`th:fragment`).
+`th:ref` es solo un atributo de marcador. No tiene ninguna función desde el 
+punto de vista del procesamiento y simplemente desaparece cuando se procesa la 
+plantilla, pero su utilidad reside en que actúa como una *referencia de 
+marcado*, es decir, se puede resolver por nombre desde un *selector de marcado*, 
+al igual que un *nombre de etiqueta* o un *fragmento* (`th:fragment`).
 
-So if we have a selector like:
+Entonces, si tenemos un selector como:
 
 ```xml
   <attr sel="whatever" .../>
 ```
 
-This will match:
+Coincidirá con:
 
- * Any `<whatever>` tags.
- * Any tags with a `th:fragment="whatever"` attribute.
- * Any tags with a `th:ref="whatever"` attribute.
+* Cualquier etiqueta `<whatever>`.
+* Cualquier etiqueta con el atributo `th:fragment="whatever"`.
+* Cualquier etiqueta con el atributo `th:ref="whatever"`.
 
-What is the advantage of `th:ref` against, for example, using a pure-HTML `id`
-attribute? Merely the fact that we might not want to add so many `id` and `class`
-attributes to our tags to act as *logic anchors*, which might end up *polluting*
-our output. 
+¿Cuál es la ventaja de `th:ref` frente, por ejemplo, al uso de un atributo `id` 
+puro en HTML? Simplemente, el hecho de que quizás no queramos añadir tantos 
+atributos `id` y `class` a nuestras etiquetas para que actúen como *anclajes 
+lógicos*, lo que podría acabar *contaminando* nuestra salida.
 
-And in the same sense, what is the disadvantage of `th:ref`? Well, obviously
-that we'd be adding a bit of Thymeleaf logic (*"logic"*) to our templates.
+Y, en el mismo sentido, ¿cuál es la desventaja de `th:ref`? Bueno, obviamente, 
+que estaríamos añadiendo un poco de lógica de Thymeleaf (*"lógica"*) a nuestras 
+plantillas.
 
-Note this applicability of the `th:ref` attribute **does not only apply to
-decoupled logic template files**: it works the same in other types of scenarios,
-like in fragment expressions (`~{...}`).
+Tenga en cuenta que esta aplicabilidad del atributo `th:ref` **no solo se aplica 
+a los archivos de plantilla de lógica desacoplada**: funciona igual en otros 
+tipos de escenarios, como en las expresiones de fragmentos (`~{...}`).
 
 ## 17.4 Impacto en el rendimiento de las plantillas desacopladas
 
-The impact is extremely small. When a resolved template is marked to use
-decoupled logic and it is not cached, the template logic resource will be
-resolved first, parsed and processed into a sequence of instructions in-memory:
-basically a list of attributes to be injected to each markup selector.
+El impacto es extremadamente pequeño. Cuando una plantilla resuelta se marca 
+para usar lógica desacoplada y no se almacena en caché, el recurso de lógica de 
+plantilla se resolverá primero, se analizará y se procesará en una secuencia de 
+instrucciones en memoria: básicamente, una lista de atributos que se inyectarán 
+en cada selector de marcado.
 
-But this is the only *additional step* required because, after this, the real
-template will be parsed, and while it is parsed these attributes will be
-injected *on-the-fly* by the parser itself, thanks to the advanced capabilities
-for node selection in AttoParser. So parsed nodes will come out of the parser as
-if they had their injected attributes written in the original template file.
+Pero este es el único *paso adicional* necesario, ya que, después, se analizará 
+la plantilla real y, mientras se analiza, el propio analizador inyectará estos 
+atributos *sobre la marcha*, gracias a las capacidades avanzadas de selección de 
+nodos de AttoParser. Por lo tanto, los nodos analizados saldrán del analizador 
+como si tuvieran sus atributos inyectados escritos en el archivo de plantilla 
+original.
 
-The biggest advantage of this? When a template is configured to be cached, it
-will be cached already containing the injected attributes. So the overhead of
-using *decoupled templates* for cacheable templates, once they are cached, 
-will be absolutely *zero*.
+La mayor ventaja de esto es que cuando una plantilla se configura para 
+almacenarse en caché, se almacenará en caché con los atributos inyectados. Por 
+lo tanto, la sobrecarga de usar *plantillas desacopladas* para plantillas 
+almacenables en caché, una vez almacenadas, será absolutamente *cero*.
 
 ## 17.5 Resolución de lógica desacoplada
 
-The way Thymeleaf resolves the decoupled logic resources corresponding to each
-template is configurable by the user. It is determined by an extension point,
-the `org.thymeleaf.templateparser.markup.decoupled.IDecoupledTemplateLogicResolver`, 
-for which a *default implementation* is provided: `StandardDecoupledTemplateLogicResolver`.
+El usuario puede configurar la forma en que Thymeleaf resuelve los recursos 
+lógicos desacoplados correspondientes a cada plantilla. Esto se determina 
+mediante un punto de extensión, 
+`org.thymeleaf.templateparser.markup.decoupled.IDecoupledTemplateLogicResolver`, 
+para el cual se proporciona una *implementación predeterminada*: 
+`StandardDecoupledTemplateLogicResolver`.
 
-What does this standard implementation do?
+¿Qué hace esta implementación estándar?
 
- * First, it applies a `prefix` and a `suffix` to the *base name* of the
-   template resource (obtained by means of its `ITemplateResource#getBaseName()`
-   method). Both prefix and suffix can be configured and, by default, the prefix
-   will be empty and the suffix will be `.th.xml`.
- * Second, it asks the template resource to resolve a *relative resource* with
-   the computed name by means of its `ITemplateResource#relative(String relativeLocation)`
-   method.
+* Primero, aplica un `prefijo` y un `sufijo` al *nombre base* del recurso de 
+  plantilla (obtenido mediante su método `ITemplateResource#getBaseName()`). 
+  Tanto el prefijo como el sufijo se pueden configurar y, por defecto, el 
+  prefijo estará vacío y el sufijo será `.th.xml`.
+* Segundo, solicita al recurso de plantilla que resuelva un *recurso relativo* 
+  con el nombre calculado mediante su método 
+  `ITemplateResource#relative(String relativeLocation)`.
 
-The specific implementation of `IDecoupledTemplateLogicResolver` to be used can
-be configured at the `TemplateEngine` easily:
+La implementación específica de `IDecoupledTemplateLogicResolver` que se 
+utilizará se puede configurar fácilmente en `TemplateEngine`:
 
 ```java
 final StandardDecoupledTemplateLogicResolver decoupledresolver = 

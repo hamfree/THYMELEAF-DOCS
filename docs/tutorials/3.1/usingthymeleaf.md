@@ -2353,7 +2353,7 @@ formatos diferentes:
    > La sintaxis del Selector de Marcado se define mediante la biblioteca de 
    > análisis AttoParser y es similar a las de las expresiones XPath o los 
    > selectores CSS. Consulte el
-   >  [Apéndice C](#20-apéndice-c-sintaxis-del-selector-de-marcado) para más 
+   > [Apéndice C](#20-apéndice-c-sintaxis-del-selector-de-marcado) para más 
    > información.
 
    
@@ -2380,10 +2380,10 @@ expresiones con todas las funcionalidades (¡incluso condicionales!) como:
 Los fragmentos pueden incluir cualquier atributo `th:*`. Estos atributos serán 
 evaluados una vez el fragmento se incluye dentro de la plantilla objetivo (la 
 que contiene el atributo `th:insert`/`th:replace`), y será capaz de referenciar 
-cualesquiera variables de contexto definidas en la plantiila objetivo.
+cualesquiera variables de contexto definidas en la plantilla objetivo.
 
 > Una gran ventaja de este enfoque para los fragmentos es que puedes escribirlos
-> en páginas que son perfectamente visualizables por un navevador, con una  
+> en páginas que son perfectamente visualizables por un navegador, con una  
 > estructura de marcado completa e incluso *válida*, al tiempo que conservas la 
 > capacidad de hacer que Thymeleaf los incluya en otras plantillas.
 
@@ -2580,8 +2580,8 @@ Ahora podemos llamar a este fragmento así:
 </head>
 ...
 ```
-...y el resultado usará las etiquetas `<title>` y `<link>` de nuestra plantilla 
-llamada,de llamada como valores de las variables `title` y `links`, lo que hará 
+... Y el resultado usará las etiquetas `<title>` y `<link>` de nuestra plantilla 
+llamada, de llamada como valores de las variables `title` y `links`, lo que hará 
 que nuestro fragmento se personalice durante la inserción:
 
 
@@ -2802,7 +2802,7 @@ Agreguemos algunos:
 </table>
 ```
 
-Bien, ahora tenemos tres, definitivamente mejor para un prototipo. Pero... ¿qué 
+Bien, ahora tenemos tres, definitivamente mejor para un prototipo. Pero... ¿Qué 
 pasará cuando lo procesemos con Thymeleaf?
 
 ```html
@@ -3168,7 +3168,7 @@ date.format=MMMM dd'','' yyyy
 date.format=dd ''de'' MMMM'','' yyyy
 ```
 Ahora, usemos `th:with` para obtener el formato de dato regionalizado en una 
-variable, y después usésmolo en nuestra expresión `th:text`: 
+variable, y después usémoslo en nuestra expresión `th:text`: 
 
 ```html
 <p th:with="df=#{date.format}">
@@ -3365,7 +3365,7 @@ exclusivos de prototipos:
     <!--/*/ </th:block> /*/-->
 </table>
 ```
-Tenga en cuenta cómo esta solución permite que las plantillas sean HTML válido 
+Tenga en cuenta como esta solución permite que las plantillas sean HTML válido 
 (sin necesidad de agregar bloques prohibidos `<div>` dentro de `<table>`) y aún 
 funciona correctamente cuando se abren estáticamente en navegadores como 
 prototipos. 
@@ -3420,7 +3420,7 @@ El resultado se escapará en HTML:
 <p>El mensaje es "¡Esto es &lt;b&gt;genial!&lt;/b&gt;"</p>
 ```
 Tenga en cuenta que la **inserción de texto en línea está activa de forma 
-predeterminada**  en el cuerpo de cada etiqueta de nuestro marcado, no en las 
+predeterminada** en el cuerpo de cada etiqueta de nuestro marcado, no en las 
 etiquetas en sí, por lo que no es necesario hacer nada para habilitarla.
 
 
@@ -3442,7 +3442,7 @@ de código sin usar la inlineación...
 ¡Hola, Sebastian!
 ```
 
-...y usarla...
+... Y usarla...
 
 ```
 Hola, [[${session.user.name}]]!
@@ -3491,7 +3491,7 @@ Al igual que con la *inserción en línea de texto*, esto equivale a procesar el
 contenido de los scripts como si fueran plantillas en el modo de plantilla 
 `JAVASCRIPT` y, por lo tanto, se aprovechará toda la potencia de los *modos de 
 plantilla textuales* (véase el siguiente capítulo). Sin embargo, en esta sección 
-lo hanos centraremos en cómo podemos usarlo para añadir la salida de nuestras 
+nos centraremos en cómo podemos usarlo para añadir la salida de nuestras 
 expresiones de Thymeleaf a nuestros bloques de JavaScript.
 
 Este modo debe habilitarse explícitamente mediante `th:inline="javascript"`:
@@ -3543,7 +3543,7 @@ El resultado se vería así:
 </script>
 ```
 
-...que es código JavaScript mal formado. Pero generar algo sin escape podría ser 
+... Que es código JavaScript mal formado. Pero generar algo sin escape podría ser 
 lo que necesitamos si construimos partes de nuestro script añadiendo expresiones 
 en línea, así que es bueno tener esta herramienta a mano.
 
@@ -3702,14 +3702,14 @@ encapsular expresiones en línea en comentarios. Véase:
 ## 13.1 Sintaxis textual
 
 Tres de los *modos de plantilla* de Thymeleaf se consideran **textuales**: 
-`TEXT`, `JAVASCRIPT` y `CSS`. Esto los diferencia de los modos de plantiila de 
+`TEXT`, `JAVASCRIPT` y `CSS`. Esto los diferencia de los modos de plantilla de 
 marcado: `HTML` y `XML`
 
 La diferencia clave entre los modos de plantilla *textuales* y los de marcaje 
 es que en una plantilla textual no hya etiquetas en las que insertar lógica en 
 forma de atributos, así que tenemos que confiar en otros mecanismos.
 
-El primero y más báscio de estos mecanismos es la **inserción en línea**, la 
+El primero y más básico de estos mecanismos es la **inserción en línea**, la 
 cual hemos detallado ya en el capítulo anterior. La sintaxis de la inserción en 
 línea es la forma más simple de sacar resultados de expresiones en el modo de 
 plantilla textual, así que esto es una plantilla perfectamente válida para un 
@@ -3885,8 +3885,8 @@ usarlos en modos de plantilla textual:
 
 Los modos de plantilla `JAVASCRIPT` y `CSS` (no disponibles para `TEXT`) 
 permiten incluir código entre una sintaxis de comentario especial `/*[+...+]*/` 
-para que Thymeleaf descomente automáticamente dicho código al procesar la 
-plantilla:
+para que Thymeleaf quite el comentario automáticamente dicho código al procesar 
+la plantilla:
 
 ```javascript
 var x = 23;
@@ -3968,7 +3968,7 @@ var username = /*[[${session.user.name}]]*/ "Sebastian Lychee";
 ...
 ```
 
-... la cual es JavaScript válido, y una vez ejecutado podría verse como:
+... La cual es JavaScript válido, y una vez ejecutado podría verse como:
 
 ```html
 ...
@@ -4312,7 +4312,7 @@ capacidades específicas de cada una de las implementaciones de
 implementaciones pueden determinar la existencia de una plantilla antes de 
 resolverla y, por lo tanto, siempre podrían considerar una plantilla como 
 *resoluble* e interrumpir la cadena de resolución (impidiendo que otros 
-resolutores busquen la misma plantilla), pero no podrían leer el recurso real.
+resolvedores busquen la misma plantilla), pero no podrían leer el recurso real.
 
 Todas las implementaciones de `ITemplateResolver` incluidas en el núcleo de 
 Thymeleaf incluyen un mecanismo que permite que los resolvedores comprueben si 
@@ -4623,7 +4623,7 @@ artefacto de comunicación mucho mejor entre los equipos de diseño y desarrollo
 ### Habilitación de plantillas desacopladas
 
 No se espera que todas las plantillas usen lógica desacoplada de forma 
-explpredeterminada. En su lugar, los resolvedores de plantillas configurados 
+predeterminada. En su lugar, los resolvedores de plantillas configurados 
 (implementaciones de `ITemplateResolver`) deberán marcar específicamente las 
 plantillas que resuelven como *que usan lógica desacoplada*.
 
@@ -4738,22 +4738,21 @@ templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);
 
 # 18 Apéndice A: Objetos básicos de expresión
 
-Some objects and variable maps are always available to be invoked. Let's see
-them:
+Algunos objetos y mapas de variables siempre están disponibles. Veámoslos:
 
-### Base objects
+### Objetos base
 
- * **\#ctx** : the context object. An implementation of `org.thymeleaf.context.IContext` 
-   or `org.thymeleaf.context.IWebContext` depending on our environment
-   (standalone or web).
-
-   Note `#vars` and `#root` are synomyns for the same object, but using `#ctx`
-   is recommended.
-
+ * **\#ctx**: El objeto contexto. Una implementación de `org.thymeleaf.context.
+ IContext` o `org.thymeleaf.context.IWebContext` dependiendo de nuestro entorno. 
+(independiente o web).
+   
+   Dese cuenta de que `#vars` y `#root` son sinónimos para el mismo objeto, pero
+   se recomienda usar `#ctx`
+   
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.context.IContext
+ * Ver la IPA de javadoc para la clase org.thymeleaf.context.IContext
  * ======================================================================
  */
 
@@ -4762,7 +4761,7 @@ ${#ctx.variableNames}
 
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.context.IWebContext
+ * Ver la IPA de javadoc para la clase org.thymeleaf.context.IWebContext
  * ======================================================================
  */
 
@@ -4772,8 +4771,8 @@ ${#ctx.session}
 ${#ctx.servletContext}
 ```
 
- * **\#locale** : direct access to the `java.util.Locale` associated with
-   current request.
+ * **\#locale**: acceso directo a `java.util.Locale` asociado con la petición 
+actual.
 
 ```java
 ${#locale}
@@ -4781,24 +4780,27 @@ ${#locale}
 
 ### Espacios de nombres de contexto web para atributos de solicitud/sesión, etc.
 
-When using Thymeleaf in a web environment, we can use a series of shortcuts for
-accessing request parameters, session attributes and application attributes:
+Cuando se usa Thymeleaf en un entorno web, podemos usar una serie de atajos para 
+acceder a los parámetros de la petición, los atributos de sesión y los atributos 
+de aplicación:
 
-> Note these are not *context objects*, but maps added to the context as
-> variables, so we access them without `#`. In some way, they act as *namespaces*.
+> Tenga en cuenta que estos no son *objetos de contexto*, sino mapas añadidos al 
+> contexto como variables por lo que accedemos a ellos sin `#`. De alguna 
+> manera, actúan como *espacios de nombres*.
 
- * **param** : for retrieving request parameters. `${param.foo}` is a `String[]`
-   with the values of the `foo` request parameter, so `${param.foo[0]}` will
-   normally be used for getting the first value.
+* **param**: para recuperar los parámetros de la petición. `${param.foo}` es 
+  una `String[]` con los valores del parámetro de petición `foo`, así que
+  `${param.foo[0]}` normalmente utilizado para obtener su primer valor.
 
 ```java
 /*
  * ============================================================================
- * See javadoc API for class org.thymeleaf.context.WebRequestParamsVariablesMap
+ * Ver la IPA de javadoc para la clase org.thymeleaf.context.WebRequestParamsVariablesMap
  * ============================================================================
  */
 
-${param.foo}              // Retrieves a String[] with the values of request parameter 'foo'
+${param.foo}              // Recuperara una String[] con los valores de la petición 
+parameter 'foo'
 ${param.size()}
 ${param.isEmpty()}
 ${param.containsKey('foo')}
@@ -4810,36 +4812,36 @@ ${param.containsKey('foo')}
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.context.WebSessionVariablesMap
+ * Ver la IPA de javadoc para la clase org.thymeleaf.context.WebSessionVariablesMap
  * ======================================================================
  */
 
-${session.foo}                 // Retrieves the session atttribute 'foo'
+${session.foo}                 // Recuperar el atributo de sesión 'foo'
 ${session.size()}
 ${session.isEmpty()}
 ${session.containsKey('foo')}
 ...
 ```
 
- * **application** : for retrieving application/servlet context attributes.
+ * **application**: para recuperar los atributos del contexto de la aplicación/servlet.
 
 ```java
 /*
  * =============================================================================
- * See javadoc API for class org.thymeleaf.context.WebServletContextVariablesMap
+ * Ver la IPA de javadoc para la clase org.thymeleaf.context.WebServletContextVariablesMap
  * =============================================================================
  */
 
-${application.foo}              // Retrieves the ServletContext atttribute 'foo'
+${application.foo}              // Recuperar el atributo del ServletContext 'foo'
 ${application.size()}
 ${application.isEmpty()}
 ${application.containsKey('foo')}
 ...
 ```
-
-Note there is **no need to specify a namespace for accessing request attributes**
-(as opposed to *request parameters*) because all request attributes are
-automatically added to the context as variables in the context root:
+Tenga en cuenta que **no se necesita especificar un espacio de nombres para 
+acceder a los atributos de la petición** (al contrario que los *parámetros de la 
+petición*) porque todos los atributos de la petición son agregados 
+automáticamente agregados al contexto como variables en el contexto raíz:
 
 ```java
 ${myRequestAttribute}
@@ -4849,72 +4851,73 @@ ${myRequestAttribute}
 
 ### Información de ejecución
 
- * **\#execInfo** : expression object providing useful information about the
-   template being processed inside Thymeleaf Standard Expressions.
+ * **\#execInfo**: objeto de expresión que ofrece información útil sobre la 
+   plantilla que está siendo procesada dentro de las Expresiones Estándar de 
+   Thymeleaf.
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.ExecutionInfo
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.ExecutionInfo
  * ======================================================================
  */
 
 /*
- * Return the name and mode of the 'leaf' template. This means the template
- * from where the events being processed were parsed. So if this piece of
- * code is not in the root template "A" but on a fragment being inserted
- * into "A" from another template called "B", this will return "B" as a
- * name, and B's mode as template mode.
+ * Devuelve el nombre y modo de la plantilla 'leaf'. Esto significa la plantilla
+ * desde donde se analizaron los eventos que se procesan. Así que si este pedazo 
+ * del código no está en la plantilla raíz "A" sino en un fragmento que se está 
+ * insertando en "A" desde otra plantilla llamada "B", esto devolverá "B" como
+ * nombre y modo B como modo plantilla.
  */
 ${#execInfo.templateName}
 ${#execInfo.templateMode}
 
 /*
- * Return the name and mode of the 'root' template. This means the template
- * that the template engine was originally asked to process. So if this
- * piece of code is not in the root template "A" but on a fragment being
- * inserted into "A" from another template called "B", this will still 
- * return "A" and A's template mode.
+ * Devuelve el nombre y modo de la plantilla 'raíz'. Esto significa la plantilla
+ * que originalmente se le pidió al motor de plantillas que procesara. Entonces 
+ * si esto el fragmento de código no está en la plantilla raíz "A" sino en un 
+ * fragmento que se está  insertado en "A" desde otra plantilla llamada "B", 
+ * esto aún devolver "A" y el modo de plantilla de A.
  */
 ${#execInfo.processedTemplateName}
 ${#execInfo.processedTemplateMode}
 
 /*
- * Return the stacks (actually, List<String> or List<TemplateMode>) of
- * templates being processed. The first element will be the 
- * 'processedTemplate' (the root one), the last one will be the 'leaf'
- * template, and in the middle all the fragments inserted in nested
- * manner to reach the leaf from the root will appear.
+ * Devuelve las pilas (en realidad, List<String> o List<TemplateMode>) de
+ * plantillas en proceso. El primer elemento será el
+ * 'processedTemplate' (la raíz), la última será la 'hoja'
+ * plantilla, y en el medio todos los fragmentos insertados en anidados
+ * Aparecerá la forma de llegar a la hoja desde la raíz.
  */
 ${#execInfo.templateNames}
 ${#execInfo.templateModes}
 
 /*
- * Return the stack of templates being processed similarly (and in the
- * same order) to 'templateNames' and 'templateModes', but returning
- * a List<TemplateData> with the full template metadata.
+ * Devuelve la pila de plantillas que se procesan de manera similar (y en el
+ * mismo orden) a 'templateNames' y 'templateModes', pero regresando
+ * una Lista<TemplateData> con los metadatos completos de la plantilla.
  */
 ${#execInfo.templateStack}
 ```
 
 ### Mensajes
 
- * **\#messages** : utility methods for obtaining externalized messages inside
-   variables expressions, in the same way as they would be obtained using `#{...}`
-   syntax.
+ * **\#messages**: métodos de utilidad para obtener mensajes externalizados 
+   dentro de las expresiones de variable, de la misma forma que se obtendrían 
+   usando la sintaxis `#{...}`.
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Messages
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Messages
  * ======================================================================
  */
 
 /*
- * Obtain externalized messages. Can receive a single key, a key plus arguments,
- * or an array/list/set of keys (in which case it will return an array/list/set of 
- * externalized messages).
- * If a message is not found, a default message (like '??msgKey??') is returned.
+ * Obtener mensajes externalizados. Puede recibir una sola clave, una clave más argumentos,
+ * o una matriz/lista/conjunto de claves (en cuyo caso devolverá una matriz/lista/conjunto 
+ * de mensajes externalizados).
+ * Si no se encuentra un mensaje, se devuelve un mensaje predeterminado (como '??msgKey??').
  */
 ${#messages.msg('msgKey')}
 ${#messages.msg('msgKey', param1)}
@@ -4926,8 +4929,8 @@ ${#messages.listMsg(messageKeyList)}
 ${#messages.setMsg(messageKeySet)}
 
 /*
- * Obtain externalized messages or null. Null is returned instead of a default
- * message if a message for the specified key is not found.
+ * Obtener mensajes externalizados o nulos. Se devuelve nulo en lugar de un valor 
+ * predeterminado mensaje si no se encuentra un mensaje para la clave especificada.
  */
 ${#messages.msgOrNull('msgKey')}
 ${#messages.msgOrNull('msgKey', param1)}
@@ -4941,18 +4944,19 @@ ${#messages.setMsgOrNull(messageKeySet)}
 
 ### URIs/URLs
 
- * **\#uris** : utility object for performing URI/URL operations (esp.
-   escaping/unescaping) inside Thymeleaf Standard Expressions.
+ * **\#uris**: objeto de utilidad par realizar operaciones sobre URI/URL 
+   (especialmente el escapado/no escapado) dentro de las Expresiones Estándar de 
+   Thymeleaf.
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Uris
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Uris
  * ======================================================================
  */
 
 /*
- * Escape/Unescape as a URI/URL path
+ * Escape/Unescape como ruta URI/URL
  */
 ${#uris.escapePath(uri)}
 ${#uris.escapePath(uri, encoding)}
@@ -4960,7 +4964,7 @@ ${#uris.unescapePath(uri)}
 ${#uris.unescapePath(uri, encoding)}
 
 /*
- * Escape/Unescape as a URI/URL path segment (between '/' symbols)
+ * Escape/Unescape como segmento de ruta URI/URL (entre símbolos '/')
  */
 ${#uris.escapePathSegment(uri)}
 ${#uris.escapePathSegment(uri, encoding)}
@@ -4968,7 +4972,7 @@ ${#uris.unescapePathSegment(uri)}
 ${#uris.unescapePathSegment(uri, encoding)}
 
 /*
- * Escape/Unescape as a Fragment Identifier (#frag)
+ * Escape/Unescape como identificador de fragmento (#frag)
  */
 ${#uris.escapeFragmentId(uri)}
 ${#uris.escapeFragmentId(uri, encoding)}
@@ -4976,7 +4980,7 @@ ${#uris.unescapeFragmentId(uri)}
 ${#uris.unescapeFragmentId(uri, encoding)}
 
 /*
- * Escape/Unescape as a Query Parameter (?var=value)
+ * Escape/Unescape como parámetro de consulta (?var=valor)
  */
 ${#uris.escapeQueryParam(uri)}
 ${#uris.escapeQueryParam(uri, encoding)}
@@ -4986,19 +4990,19 @@ ${#uris.unescapeQueryParam(uri, encoding)}
 
 ### Conversiones
 
- * **\#conversions** : utility object that allows the execution of the
-   *Conversion Service* at any point of a template:
+ * **\#conversions**: objeto de utilidad que permite la ejecución del 
+   *Servicio de Conversión* en cualquier punto de una plantilla:
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Conversions
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Conversions
  * ======================================================================
  */
 
 /*
- * Execute the desired conversion of the 'object' value into the
- * specified class.
+ * Ejecute la conversión deseada del valor del 'objeto' al
+ * clase especificada.
  */
 ${#conversions.convert(object, 'java.util.TimeZone')}
 ${#conversions.convert(object, targetClass)}
@@ -5006,18 +5010,18 @@ ${#conversions.convert(object, targetClass)}
 
 ### Fechas
 
- * **\#dates** : utility methods for `java.util.Date` objects:
+ * **\#dates**: métodos de utilidad para objetos `java.util.Date`:
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Dates
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Dates
  * ======================================================================
  */
 
 /*
- * Format date with the standard locale format
- * Also works with arrays, lists or sets
+ * Formatea la fecha con el formato local estándar
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#dates.format(date)}
 ${#dates.arrayFormat(datesArray)}
@@ -5025,8 +5029,8 @@ ${#dates.listFormat(datesList)}
 ${#dates.setFormat(datesSet)}
 
 /*
- * Format date with the ISO8601 format
- * Also works with arrays, lists or sets
+ * Formatea fecha con el formato ISO8601
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#dates.formatISO(date)}
 ${#dates.arrayFormatISO(datesArray)}
@@ -5034,33 +5038,33 @@ ${#dates.listFormatISO(datesList)}
 ${#dates.setFormatISO(datesSet)}
 
 /*
- * Format date with the specified pattern
- * Also works with arrays, lists or sets
+ * Da formato a la fecha con el patrón especificado
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#dates.format(date, 'dd/MMM/yyyy HH:mm')}
 ${#dates.arrayFormat(datesArray, 'dd/MMM/yyyy HH:mm')}
 ${#dates.listFormat(datesList, 'dd/MMM/yyyy HH:mm')}
 ${#dates.setFormat(datesSet, 'dd/MMM/yyyy HH:mm')}
 
-/*
- * Obtain date properties
- * Also works with arrays, lists or sets
++/*
+ * Obtiene propiedades de fecha
+ * También funciona con matrices, listas o conjuntos.
  */
-${#dates.day(date)}                    // also arrayDay(...), listDay(...), etc.
-${#dates.month(date)}                  // also arrayMonth(...), listMonth(...), etc.
-${#dates.monthName(date)}              // also arrayMonthName(...), listMonthName(...), etc.
-${#dates.monthNameShort(date)}         // also arrayMonthNameShort(...), listMonthNameShort(...), etc.
-${#dates.year(date)}                   // also arrayYear(...), listYear(...), etc.
-${#dates.dayOfWeek(date)}              // also arrayDayOfWeek(...), listDayOfWeek(...), etc.
-${#dates.dayOfWeekName(date)}          // also arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
-${#dates.dayOfWeekNameShort(date)}     // also arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
-${#dates.hour(date)}                   // also arrayHour(...), listHour(...), etc.
-${#dates.minute(date)}                 // also arrayMinute(...), listMinute(...), etc.
-${#dates.second(date)}                 // also arraySecond(...), listSecond(...), etc.
-${#dates.millisecond(date)}            // also arrayMillisecond(...), listMillisecond(...), etc.
+${#dates.day(date)}                    // también arrayDay(...), listDay(...), etc.
+${#dates.month(date)}                  // también arrayMonth(...), listMonth(...), etc.
+${#dates.monthName(date)}              // también arrayMonthName(...), listMonthName(...), etc.
+${#dates.monthNameShort(date)}         // también arrayMonthNameShort(...), listMonthNameShort(...), etc.
+${#dates.year(date)}                   // también arrayYear(...), listYear(...), etc.
+${#dates.dayOfWeek(date)}              // también arrayDayOfWeek(...), listDayOfWeek(...), etc.
+${#dates.dayOfWeekName(date)}          // también arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
+${#dates.dayOfWeekNameShort(date)}     // también arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
+${#dates.hour(date)}                   // también arrayHour(...), listHour(...), etc.
+${#dates.minute(date)}                 // también arrayMinute(...), listMinute(...), etc.
+${#dates.second(date)}                 // también arraySecond(...), listSecond(...), etc.
+${#dates.millisecond(date)}            // también arrayMillisecond(...), listMillisecond(...), etc.
 
 /*
- * Create date (java.util.Date) objects from its components
+ * Crea objetos de fecha (java.util.Date) a partir de sus componentes
  */
 ${#dates.create(year,month,day)}
 ${#dates.create(year,month,day,hour,minute)}
@@ -5068,14 +5072,14 @@ ${#dates.create(year,month,day,hour,minute,second)}
 ${#dates.create(year,month,day,hour,minute,second,millisecond)}
 
 /*
- * Create a date (java.util.Date) object for the current date and time
+ * Crea un objeto de fecha (java.util.Date) para la fecha y hora actuales
  */
 ${#dates.createNow()}
 
 ${#dates.createNowForTimeZone()}
 
 /*
- * Create a date (java.util.Date) object for the current date (time set to 00:00)
+ * Crea un objeto de fecha (java.util.Date) para la fecha actual (hora establecida en 00:00)
  */
 ${#dates.createToday()}
 
@@ -5084,18 +5088,18 @@ ${#dates.createTodayForTimeZone()}
 
 ### Calendarios
 
- * **\#calendars** : analogous to `#dates`, but for `java.util.Calendar` objects:
+ * **\#calendars** : análogo a `#dates`, pero para objetos `java.util.Calendar`:
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Calendars
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Calendars
  * ======================================================================
  */
 
 /*
- * Format calendar with the standard locale format
- * Also works with arrays, lists or sets
+ * Formatea el calendario con el formato local estándar
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#calendars.format(cal)}
 ${#calendars.arrayFormat(calArray)}
@@ -5103,8 +5107,8 @@ ${#calendars.listFormat(calList)}
 ${#calendars.setFormat(calSet)}
 
 /*
- * Format calendar with the ISO8601 format
- * Also works with arrays, lists or sets
+ * Formatea calendario con el formato ISO8601
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#calendars.formatISO(cal)}
 ${#calendars.arrayFormatISO(calArray)}
@@ -5112,8 +5116,8 @@ ${#calendars.listFormatISO(calList)}
 ${#calendars.setFormatISO(calSet)}
 
 /*
- * Format calendar with the specified pattern
- * Also works with arrays, lists or sets
+ * Da formato al calendario con el patrón especificado
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#calendars.format(cal, 'dd/MMM/yyyy HH:mm')}
 ${#calendars.arrayFormat(calArray, 'dd/MMM/yyyy HH:mm')}
@@ -5121,24 +5125,24 @@ ${#calendars.listFormat(calList, 'dd/MMM/yyyy HH:mm')}
 ${#calendars.setFormat(calSet, 'dd/MMM/yyyy HH:mm')}
 
 /*
- * Obtain calendar properties
- * Also works with arrays, lists or sets
+ * Obtiene propiedades de calendario
+ * También funciona con matrices, listas o conjuntos.
  */
-${#calendars.day(date)}                // also arrayDay(...), listDay(...), etc.
-${#calendars.month(date)}              // also arrayMonth(...), listMonth(...), etc.
-${#calendars.monthName(date)}          // also arrayMonthName(...), listMonthName(...), etc.
-${#calendars.monthNameShort(date)}     // also arrayMonthNameShort(...), listMonthNameShort(...), etc.
-${#calendars.year(date)}               // also arrayYear(...), listYear(...), etc.
-${#calendars.dayOfWeek(date)}          // also arrayDayOfWeek(...), listDayOfWeek(...), etc.
-${#calendars.dayOfWeekName(date)}      // also arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
-${#calendars.dayOfWeekNameShort(date)} // also arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
-${#calendars.hour(date)}               // also arrayHour(...), listHour(...), etc.
-${#calendars.minute(date)}             // also arrayMinute(...), listMinute(...), etc.
-${#calendars.second(date)}             // also arraySecond(...), listSecond(...), etc.
-${#calendars.millisecond(date)}        // also arrayMillisecond(...), listMillisecond(...), etc.
+${#calendars.day(date)}                // también arrayDay(...), listDay(...), etc.
+${#calendars.month(date)}              // también arrayMonth(...), listMonth(...), etc.
+${#calendars.monthName(date)}          // también arrayMonthName(...), listMonthName(...), etc.
+${#calendars.monthNameShort(date)}     // también arrayMonthNameShort(...), listMonthNameShort(...), etc.
+${#calendars.year(date)}               // también arrayYear(...), listYear(...), etc.
+${#calendars.dayOfWeek(date)}          // también arrayDayOfWeek(...), listDayOfWeek(...), etc.
+${#calendars.dayOfWeekName(date)}      // también arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
+${#calendars.dayOfWeekNameShort(date)} // también arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
+${#calendars.hour(date)}               // también arrayHour(...), listHour(...), etc.
+${#calendars.minute(date)}             // también arrayMinute(...), listMinute(...), etc.
+${#calendars.second(date)}             // también arraySecond(...), listSecond(...), etc.
+${#calendars.millisecond(date)}        // también arrayMillisecond(...), listMillisecond(...), etc.
 
 /*
- * Create calendar (java.util.Calendar) objects from its components
+ * Crea objetos de calendario (java.util.Calendar) a partir de sus componentes
  */
 ${#calendars.create(year,month,day)}
 ${#calendars.create(year,month,day,hour,minute)}
@@ -5151,14 +5155,15 @@ ${#calendars.createForTimeZone(year,month,day,hour,minute,second,timeZone)}
 ${#calendars.createForTimeZone(year,month,day,hour,minute,second,millisecond,timeZone)}
 
 /*
- * Create a calendar (java.util.Calendar) object for the current date and time
+ * Crea un objeto de calendario (java.util.Calendar) para la fecha y hora actuales
  */
 ${#calendars.createNow()}
 
 ${#calendars.createNowForTimeZone()}
 
 /*
- * Create a calendar (java.util.Calendar) object for the current date (time set to 00:00)
+ * Crea un objeto de calendario (java.util.Calendar) para la fecha actual (hora establecida en 
+ 00:00)
  */
 ${#calendars.createToday()}
 
@@ -5166,19 +5171,20 @@ ${#calendars.createTodayForTimeZone()}
 ```
 ### Temporales (java.time)
 
- * **\#temporals** : deal with date/time objects from the JDK8+ `java.time` API:
+ * **\#temporals** : trata con objetos fecha/hora de la IPA de JDK8+ `java.
+ time`:
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Temporals
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Temporals
  * ======================================================================
  */
 
 /*
  *
- * Format date with the standard locale format
- * Also works with arrays, lists or sets
+ * Formatea la fecha con el formato local estándar
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#temporals.format(temporal)}
 ${#temporals.arrayFormat(temporalsArray)}
@@ -5186,8 +5192,8 @@ ${#temporals.listFormat(temporalsList)}
 ${#temporals.setFormat(temporalsSet)}
 
 /*
- * Format date with the standard format for the provided locale
- * Also works with arrays, lists or sets
+ * Formatea la fecha con el formato estándar para la configuración regional proporcionada
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#temporals.format(temporal, locale)}
 ${#temporals.arrayFormat(temporalsArray, locale)}
@@ -5195,9 +5201,10 @@ ${#temporals.listFormat(temporalsList, locale)}
 ${#temporals.setFormat(temporalsSet, locale)}
 
 /*
- * Format date with the specified pattern
- * SHORT, MEDIUM, LONG and FULL can also be specified to used the default java.time.format.FormatStyle patterns
- * Also works with arrays, lists or sets
+ * Formatea la fecha con el patrón especificado.
+ * También se pueden especificar SHORT, MEDIUM, LARGE y COMPLETE para utilizar los 
+ * patrones java time.format.FormatStyle predeterminados.
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#temporals.format(temporal, 'dd/MMM/yyyy HH:mm')}
 ${#temporals.format(temporal, 'dd/MMM/yyyy HH:mm', 'Europe/Paris')}
@@ -5206,8 +5213,8 @@ ${#temporals.listFormat(temporalsList, 'dd/MMM/yyyy HH:mm')}
 ${#temporals.setFormat(temporalsSet, 'dd/MMM/yyyy HH:mm')}
 
 /*
- * Format date with the specified pattern and locale
- * Also works with arrays, lists or sets
+ * Formatea la fecha con el patrón y la configuración regional especificados
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#temporals.format(temporal, 'dd/MMM/yyyy HH:mm', locale)}
 ${#temporals.arrayFormat(temporalsArray, 'dd/MMM/yyyy HH:mm', locale)}
@@ -5215,8 +5222,8 @@ ${#temporals.listFormat(temporalsList, 'dd/MMM/yyyy HH:mm', locale)}
 ${#temporals.setFormat(temporalsSet, 'dd/MMM/yyyy HH:mm', locale)}
 
 /*
- * Format date with ISO-8601 format
- * Also works with arrays, lists or sets
+ * Formatea la fecha con formato ISO-8601
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#temporals.formatISO(temporal)}
 ${#temporals.arrayFormatISO(temporalsArray)}
@@ -5224,67 +5231,67 @@ ${#temporals.listFormatISO(temporalsList)}
 ${#temporals.setFormatISO(temporalsSet)}
 
 /*
- * Obtain date properties
- * Also works with arrays, lists or sets
+ * Obtiene las propiedades de la fecha
+ * También funciona con matrices, listas o conjuntos.
  */
-${#temporals.day(temporal)}                    // also arrayDay(...), listDay(...), etc.
-${#temporals.month(temporal)}                  // also arrayMonth(...), listMonth(...), etc.
-${#temporals.monthName(temporal)}              // also arrayMonthName(...), listMonthName(...), etc.
-${#temporals.monthNameShort(temporal)}         // also arrayMonthNameShort(...), listMonthNameShort(...), etc.
-${#temporals.year(temporal)}                   // also arrayYear(...), listYear(...), etc.
-${#temporals.dayOfWeek(temporal)}              // also arrayDayOfWeek(...), listDayOfWeek(...), etc.
-${#temporals.dayOfWeekName(temporal)}          // also arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
-${#temporals.dayOfWeekNameShort(temporal)}     // also arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
-${#temporals.hour(temporal)}                   // also arrayHour(...), listHour(...), etc.
-${#temporals.minute(temporal)}                 // also arrayMinute(...), listMinute(...), etc.
-${#temporals.second(temporal)}                 // also arraySecond(...), listSecond(...), etc.
-${#temporals.nanosecond(temporal)}             // also arrayNanosecond(...), listNanosecond(...), etc.
+${#temporals.day(temporal)}                    // también arrayDay(...), listDay(...), etc.
+${#temporals.month(temporal)}                  // también arrayMonth(...), listMonth(...), etc.
+${#temporals.monthName(temporal)}              // también arrayMonthName(...), listMonthName(...), etc.
+${#temporals.monthNameShort(temporal)}         // también arrayMonthNameShort(...), listMonthNameShort(...), etc.
+${#temporals.year(temporal)}                   // también arrayYear(...), listYear(...), etc.
+${#temporals.dayOfWeek(temporal)}              // también arrayDayOfWeek(...), listDayOfWeek(...), etc.
+${#temporals.dayOfWeekName(temporal)}          // también arrayDayOfWeekName(...), listDayOfWeekName(...), etc.
+${#temporals.dayOfWeekNameShort(temporal)}     // también arrayDayOfWeekNameShort(...), listDayOfWeekNameShort(...), etc.
+${#temporals.hour(temporal)}                   // también arrayHour(...), listHour(...), etc.
+${#temporals.minute(temporal)}                 // también arrayMinute(...), listMinute(...), etc.
+${#temporals.second(temporal)}                 // también arraySecond(...), listSecond(...), etc.
+${#temporals.nanosecond(temporal)}             // también arrayNanosecond(...), listNanosecond(...), etc.
 
 /*
- * Create temporal (java.time.Temporal) objects from its components
+ * Crea objetos temporales (java.time.Temporal) a partir de sus componentes
  */
-${#temporals.create(year,month,day)}                                // return a instance of java.time.LocalDate
-${#temporals.create(year,month,day,hour,minute)}                    // return a instance of java.time.LocalDateTime
-${#temporals.create(year,month,day,hour,minute,second)}             // return a instance of java.time.LocalDateTime
-${#temporals.create(year,month,day,hour,minute,second,nanosecond)}  // return a instance of java.time.LocalDateTime
+${#temporals.create(year,month,day)}                                // devuelve una instancia de java.time.LocalDate
+${#temporals.create(year,month,day,hour,minute)}                    // devuelve una instancia de java.time.LocalDateTime
+${#temporals.create(year,month,day,hour,minute,second)}             // devuelve una instancia de java.time.LocalDateTime
+${#temporals.create(year,month,day,hour,minute,second,nanosecond)}  // devuelve una instancia de java.time.LocalDateTime
 
 /*
- * Create a temporal (java.time.Temporal) object for the current date and time
+ * Crea un objeto temporal (java.time.Temporal) para la fecha y hora actuales
  */
-${#temporals.createNow()}                      // return a instance of java.time.LocalDateTime
-${#temporals.createNowForTimeZone(zoneId)}     // return a instance of java.time.ZonedDateTime
-${#temporals.createToday()}                    // return a instance of java.time.LocalDate
-${#temporals.createTodayForTimeZone(zoneId)}   // return a instance of java.time.LocalDate
+${#temporals.createNow()}                      // devuelve una instancia de java.time.LocalDateTime
+${#temporals.createNowForTimeZone(zoneId)}     // devuelve una instancia de java.time.ZonedDateTime
+${#temporals.createToday()}                    // devuelve una instancia de java.time.LocalDate
+${#temporals.createTodayForTimeZone(zoneId)}   // devuelve una instancia de java.time.LocalDate
 
 /*
- * Create a temporal (java.time.Temporal) object for the provided date
+ * Crea un objeto temporal (java.time.Temporal) para la fecha proporcionada
  */
-${#temporals.createDate(isoDate)}              // return a instance of java.time.LocalDate
-${#temporals.createDateTime(isoDate)}          // return a instance of java.time.LocalDateTime
-${#temporals.createDate(isoDate, pattern)}     // return a instance of java.time.LocalDate
-${#temporals.createDateTime(isoDate, pattern)} // return a instance of java.time.LocalDateTime
+${#temporals.createDate(isoDate)}              // devuelve una instancia de java.time.LocalDate
+${#temporals.createDateTime(isoDate)}          // devuelve una instancia de java.time.LocalDateTime
+${#temporals.createDate(isoDate, pattern)}     // devuelve una instancia de java.time.LocalDate
+${#temporals.createDateTime(isoDate, pattern)} // devuelve una instancia de java.time.LocalDateTime
 ```
 
 ### Numeros
 
- * **\#numbers** : utility methods for number objects:
+ * **\#numbers** : métodos de utilidad para objetos number:
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Numbers
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Numbers
  * ======================================================================
  */
 
 /*
  * ==========================
- * Formatting integer numbers
+ * Formatea números enteros
  * ==========================
  */
 
 /* 
- * Set minimum integer digits.
- * Also works with arrays, lists or sets
+ * Establece los dígitos enteros mínimos.
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#numbers.formatInteger(num,3)}
 ${#numbers.arrayFormatInteger(numArray,3)}
@@ -5292,10 +5299,10 @@ ${#numbers.listFormatInteger(numList,3)}
 ${#numbers.setFormatInteger(numSet,3)}
 
 
-/* 
- * Set minimum integer digits and thousands separator: 
- * 'POINT', 'COMMA', 'WHITESPACE', 'NONE' or 'DEFAULT' (by locale).
- * Also works with arrays, lists or sets
+/*
+ * Establece lod dígitos enteros mínimos y el separador de miles:
+ * 'POINT', 'COMMA', 'BLANK', 'NONE' or 'DEFAULT' (por configuración regional).
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#numbers.formatInteger(num,3,'POINT')}
 ${#numbers.arrayFormatInteger(numArray,3,'POINT')}
@@ -5305,13 +5312,13 @@ ${#numbers.setFormatInteger(numSet,3,'POINT')}
 
 /*
  * ==========================
- * Formatting decimal numbers
+ * Formatea números decimales
  * ==========================
  */
 
 /*
- * Set minimum integer digits and (exact) decimal digits.
- * Also works with arrays, lists or sets
+ * Establece dígitos enteros mínimos y dígitos decimales (exactos).
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#numbers.formatDecimal(num,3,2)}
 ${#numbers.arrayFormatDecimal(numArray,3,2)}
@@ -5319,8 +5326,9 @@ ${#numbers.listFormatDecimal(numList,3,2)}
 ${#numbers.setFormatDecimal(numSet,3,2)}
 
 /*
- * Set minimum integer digits and (exact) decimal digits, and also decimal separator.
- * Also works with arrays, lists or sets
+ * Establece dígitos enteros mínimos y dígitos decimales (exactos), y también el 
+ * separador decimal.
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#numbers.formatDecimal(num,3,2,'COMMA')}
 ${#numbers.arrayFormatDecimal(numArray,3,2,'COMMA')}
@@ -5328,9 +5336,9 @@ ${#numbers.listFormatDecimal(numList,3,2,'COMMA')}
 ${#numbers.setFormatDecimal(numSet,3,2,'COMMA')}
 
 /*
- * Set minimum integer digits and (exact) decimal digits, and also thousands and 
- * decimal separator.
- * Also works with arrays, lists or sets
+ * Establece los  mínimos dígitos enteros y dígitos decimales (exactos), y también 
+ * miles y el separador decimal.
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#numbers.formatDecimal(num,3,'POINT',2,'COMMA')}
 ${#numbers.arrayFormatDecimal(numArray,3,'POINT',2,'COMMA')}
@@ -5340,7 +5348,7 @@ ${#numbers.setFormatDecimal(numSet,3,'POINT',2,'COMMA')}
 
 /* 
  * =====================
- * Formatting currencies
+ * Formatea monedas
  * =====================
  */
 
@@ -5352,7 +5360,7 @@ ${#numbers.setFormatCurrency(numSet)}
 
 /* 
  * ======================
- * Formatting percentages
+ * Porcentajes de formato
  * ======================
  */
 
@@ -5362,7 +5370,7 @@ ${#numbers.listFormatPercent(numList)}
 ${#numbers.setFormatPercent(numSet)}
 
 /* 
- * Set minimum integer digits and (exact) decimal digits.
+ * Establece dígitos enteros mínimos y dígitos decimales (exactos).
  */
 ${#numbers.formatPercent(num, 3, 2)}
 ${#numbers.arrayFormatPercent(numArray, 3, 2)}
@@ -5371,14 +5379,14 @@ ${#numbers.setFormatPercent(numSet, 3, 2)}
 
 
 /*
- * ===============
- * Utility methods
- * ===============
+ * ===================
+ * Métodos de utilidad
+ * ===================
  */
 
 /*
- * Create a sequence (array) of integer numbers going
- * from x to y
+ * Crea una secuencia (matriz) de números enteros yendo
+ * de x a y
  */
 ${#numbers.sequence(from,to)}
 ${#numbers.sequence(from,to,step)}
@@ -5386,23 +5394,24 @@ ${#numbers.sequence(from,to,step)}
 
 ### Cadenas (String, en inglés)
 
- * **\#strings** : utility methods for `String` objects:
+ * **\#strings** : métodos de utilidad para objetos `String`:
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Strings
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Strings
  * ======================================================================
  */
 
 /*
- * Null-safe toString()
+ * toString() seguro para nulos
  */
-${#strings.toString(obj)}                           // also array*, list* and set*
+${#strings.toString(obj)}                      // también array*, list* y  set*
 
 /*
- * Check whether a String is empty (or null). Performs a trim() operation before check
- * Also works with arrays, lists or sets
+ * Comprueba si una cadena está vacía (o nula). Realiza una operación trim() 
+ * antes de verificar
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#strings.isEmpty(name)}
 ${#strings.arrayIsEmpty(nameArr)}
@@ -5410,9 +5419,9 @@ ${#strings.listIsEmpty(nameList)}
 ${#strings.setIsEmpty(nameSet)}
 
 /*
- * Perform an 'isEmpty()' check on a string and return it if false, defaulting to
- * another specified string if true.
- * Also works with arrays, lists or sets
+ * Realiza una verificación 'isEmpty()' en una cadena y devuélvala si es falsa, 
+ * de forma predeterminada otra cadena especificada si es verdadera.
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#strings.defaultString(text,default)}
 ${#strings.arrayDefaultString(textArr,default)}
@@ -5420,95 +5429,95 @@ ${#strings.listDefaultString(textList,default)}
 ${#strings.setDefaultString(textSet,default)}
 
 /*
- * Check whether a fragment is contained in a String
- * Also works with arrays, lists or sets
+ * Comprueba si un fragmento está contenido en una cadena
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.contains(name,'ez')}                     // also array*, list* and set*
-${#strings.containsIgnoreCase(name,'ez')}           // also array*, list* and set*
+${#strings.contains(name,'ez')}                   // también array*, list* y set*
+${#strings.containsIgnoreCase(name,'ez')}         // también array*, list* y set*
 
 /*
- * Check whether a String starts or ends with a fragment
- * Also works with arrays, lists or sets
+ * Comprueba si una cadena comienza o termina con un fragmento
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.startsWith(name,'Don')}                  // also array*, list* and set*
-${#strings.endsWith(name,endingFragment)}           // also array*, list* and set*
+${#strings.startsWith(name,'Don')}                  // también array*, list* y set*
+${#strings.endsWith(name,endingFragment)}           // también array*, list* y set*
 
 /*
- * Substring-related operations
- * Also works with arrays, lists or sets
+ * Operaciones relacionadas con subcadenas
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.indexOf(name,frag)}                      // also array*, list* and set*
-${#strings.substring(name,3,5)}                     // also array*, list* and set*
-${#strings.substringAfter(name,prefix)}             // also array*, list* and set*
-${#strings.substringBefore(name,suffix)}            // also array*, list* and set*
-${#strings.replace(name,'las','ler')}               // also array*, list* and set*
+${#strings.indexOf(name,frag)}                      // también array*, list* y set*
+${#strings.substring(name,3,5)}                     // también array*, list* y set*
+${#strings.substringAfter(name,prefix)}             // también array*, list* y set*
+${#strings.substringBefore(name,suffix)}            // también array*, list* y set*
+${#strings.replace(name,'las','ler')}               // también array*, list* y set*
 
 /*
- * Append and prepend
- * Also works with arrays, lists or sets
+ * Agregar y anteponer
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.prepend(str,prefix)}                     // also array*, list* and set*
-${#strings.append(str,suffix)}                      // also array*, list* and set*
+${#strings.prepend(str,prefix)}                     // también array*, list* y set*
+${#strings.append(str,suffix)}                      // también array*, list* y set*
 
 /*
- * Change case
- * Also works with arrays, lists or sets
+ * Cambia el caso (mayúsculas y minúsculas)
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.toUpperCase(name)}                       // also array*, list* and set*
-${#strings.toLowerCase(name)}                       // also array*, list* and set*
+${#strings.toUpperCase(name)}                       // también array*, list* y set*
+${#strings.toLowerCase(name)}                       // también array*, list* y set*
 
 /*
- * Split and join
+ * Split y  join
  */
 ${#strings.arrayJoin(namesArray,',')}
 ${#strings.listJoin(namesList,',')}
 ${#strings.setJoin(namesSet,',')}
-${#strings.arraySplit(namesStr,',')}                // returns String[]
-${#strings.listSplit(namesStr,',')}                 // returns List<String>
-${#strings.setSplit(namesStr,',')}                  // returns Set<String>
+${#strings.arraySplit(namesStr,',')}                // devuelve String[]
+${#strings.listSplit(namesStr,',')}                 // devuelve List<String>
+${#strings.setSplit(namesStr,',')}                  // devuelve Set<String>
 
 /*
  * Trim
- * Also works with arrays, lists or sets
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.trim(str)}                               // also array*, list* and set*
+${#strings.trim(str)}                               // también array*, list* y set*
 
 /*
- * Compute length
- * Also works with arrays, lists or sets
+ * Calcular longitud
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.length(str)}                             // also array*, list* and set*
+${#strings.length(str)}                             // también array*, list* y set*
 
 /*
- * Abbreviate text making it have a maximum size of n. If text is bigger, it
- * will be clipped and finished in "..."
- * Also works with arrays, lists or sets
+ * Abrevia el texto haciendo que tenga un tamaño máximo de n. Si el texto es más 
+ * grande, será recortado y terminado en "..."
+ * También funciona con matrices, listas o conjuntos.
  */
-${#strings.abbreviate(str,10)}                      // also array*, list* and set*
+${#strings.abbreviate(str,10)}                      // también array*, list* y set*
 
 /*
- * Convert the first character to upper-case (and vice-versa)
+ * Convertir el primer carácter a mayúsculas (y viceversa)
  */
-${#strings.capitalize(str)}                         // also array*, list* and set*
-${#strings.unCapitalize(str)}                       // also array*, list* and set*
+${#strings.capitalize(str)}                         // también array*, list* y set*
+${#strings.unCapitalize(str)}                       // también array*, list* y set*
 
 /*
- * Convert the first character of every word to upper-case
+ * Convierte el primer carácter de cada palabra a mayúsculas
  */
-${#strings.capitalizeWords(str)}                    // also array*, list* and set*
-${#strings.capitalizeWords(str,delimiters)}         // also array*, list* and set*
+${#strings.capitalizeWords(str)}                    // también array*, list* y set*
+${#strings.capitalizeWords(str,delimiters)}         // también array*, list* y set*
 
 /*
- * Escape the string
+ * Realiza el escapado de cadenas
  */
-${#strings.escapeXml(str)}                          // also array*, list* and set*
-${#strings.escapeJava(str)}                         // also array*, list* and set*
-${#strings.escapeJavaScript(str)}                   // also array*, list* and set*
-${#strings.unescapeJava(str)}                       // also array*, list* and set*
-${#strings.unescapeJavaScript(str)}                 // also array*, list* and set*
+${#strings.escapeXml(str)}                          // también array*, list* y set*
+${#strings.escapeJava(str)}                         // también array*, list* y set*
+${#strings.escapeJavaScript(str)}                   // también array*, list* y set*
+${#strings.unescapeJava(str)}                       // también array*, list* y set*
+${#strings.unescapeJavaScript(str)}                 // también array*, list* y set*
 
 /*
- * Null-safe comparison and concatenation
+ * Comparación y concatenación segura contra nulos
  */
 ${#strings.equals(first, second)}
 ${#strings.equalsIgnoreCase(first, second)}
@@ -5516,25 +5525,25 @@ ${#strings.concat(values...)}
 ${#strings.concatReplaceNulls(nullValue, values...)}
 
 /*
- * Random
+ * Aleatorización
  */
 ${#strings.randomAlphanumeric(count)}
 ```
 
 ### Objetos
 
- * **\#objects** : utility methods for objects in general
+ * **\#objects**: métodos de utilidad para objetos en general
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Objects
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Objects
  * ======================================================================
  */
 
 /*
- * Return obj if it is not null, and default otherwise
- * Also works with arrays, lists or sets
+ * Devuelve el objeto si no es nulo, de forma predeterminada en caso contrario
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#objects.nullSafe(obj,default)}
 ${#objects.arrayNullSafe(objArray,default)}
@@ -5544,19 +5553,20 @@ ${#objects.setNullSafe(objSet,default)}
 
 ### Booleanos
 
- * **\#bools** : utility methods for boolean evaluation
+
+* **\#bools**: métodos de utilidad para evaluación booleana
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Bools
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Bools
  * ======================================================================
  */
 
 /*
- * Evaluate a condition in the same way that it would be evaluated in a th:if tag
- * (see conditional evaluation chapter afterwards).
- * Also works with arrays, lists or sets
+ * Evalua una condición de la misma manera que se evaluaría en una etiqueta th:if
+ * (ver capítulo de evaluación condicional más adelante).
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#bools.isTrue(obj)}
 ${#bools.arrayIsTrue(objArray)}
@@ -5564,8 +5574,8 @@ ${#bools.listIsTrue(objList)}
 ${#bools.setIsTrue(objSet)}
 
 /*
- * Evaluate with negation
- * Also works with arrays, lists or sets
+ * Evalua con negación
+ * También funciona con matrices, listas o conjuntos.
  */
 ${#bools.isFalse(cond)}
 ${#bools.arrayIsFalse(condArray)}
@@ -5573,16 +5583,16 @@ ${#bools.listIsFalse(condList)}
 ${#bools.setIsFalse(condSet)}
 
 /*
- * Evaluate and apply AND operator
- * Receive an array, a list or a set as parameter
+ * Evalua y aplica el operador AND
+ * Recibe una matriz, una lista o un conjunto como parámetro
  */
 ${#bools.arrayAnd(condArray)}
 ${#bools.listAnd(condList)}
 ${#bools.setAnd(condSet)}
 
 /*
- * Evaluate and apply OR operator
- * Receive an array, a list or a set as parameter
+ * Evalua y aplica el operador OR
+ * Recibe una matriz, una lista o un conjunto como parámetro
  */
 ${#bools.arrayOr(condArray)}
 ${#bools.listOr(condList)}
@@ -5591,25 +5601,25 @@ ${#bools.setOr(condSet)}
 
 ### Matrices
 
- * **\#arrays** : utility methods for arrays
+ * **\#arrays** : métodos de utilidad para matrices
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Arrays
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Arrays
  * ======================================================================
  */
 
 /*
- * Converts to array, trying to infer array component class.
- * Note that if resulting array is empty, or if the elements
- * of the target object are not all of the same class,
- * this method will return Object[].
+ * Se convierte en una matriz, intentando inferir la clase del componente de la matriz.
+ * Tenga en cuenta que si la matriz resultante está vacía o si los elementos
+ * del objeto de destino no son todos de la misma clase,
+ * este método devolverá Objeto[].
  */
 ${#arrays.toArray(object)}
 
 /*
- * Convert to arrays of the specified component class.
+ * Convierte a matrices de la clase de componente especificada.
  */
 ${#arrays.toStringArray(object)}
 ${#arrays.toIntegerArray(object)}
@@ -5619,17 +5629,17 @@ ${#arrays.toFloatArray(object)}
 ${#arrays.toBooleanArray(object)}
 
 /*
- * Compute length
+ * Calcula la longitud
  */
 ${#arrays.length(array)}
 
 /*
- * Check whether array is empty
+ * Comprueba si la matriz está vacía
  */
 ${#arrays.isEmpty(array)}
 
 /*
- * Check if element or elements are contained in array
+ * Comprueba si el elemento o elementos están contenidos en la matriz
  */
 ${#arrays.contains(array, element)}
 ${#arrays.containsAll(array, elements)}
@@ -5637,72 +5647,72 @@ ${#arrays.containsAll(array, elements)}
 
 ### Listas
 
- * **\#lists** : utility methods for lists
+ * **\#lists** : métodos de utilidad para listas
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Lists
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Lists
  * ======================================================================
  */
 
 /*
- * Converts to list
+ * Se convierte en lista
  */
 ${#lists.toList(object)}
 
 /*
- * Compute size
+ * Cálculo del tamaño
  */
 ${#lists.size(list)}
 
 /*
- * Check whether list is empty
+ * Comprueba si la lista está vacía
  */
 ${#lists.isEmpty(list)}
 
 /*
- * Check if element or elements are contained in list
+ * Comprueba si el elemento o elementos están contenidos en la lista
  */
 ${#lists.contains(list, element)}
 ${#lists.containsAll(list, elements)}
 
 /*
- * Sort a copy of the given list. The members of the list must implement
- * comparable or you must define a comparator.
+ * Ordena una copia de la lista dada. Los miembros de la lista deben implementar
+ * comparable o debes definir un comparador.
  */
 ${#lists.sort(list)}
 ${#lists.sort(list, comparator)}
 ```
 
-### Conjuntos
+### Conjuntos (Sets)
 
- * **\#sets** : utility methods for sets
+ * **\#sets** : métodos de utilidad para conjuntos (sets)
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Sets
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Sets
  * ======================================================================
  */
 
 /*
- * Converts to set
+ * Se convierte en conjunto
  */
 ${#sets.toSet(object)}
 
 /*
- * Compute size
+ * Cálculo del tamaño
  */
 ${#sets.size(set)}
 
 /*
- * Check whether set is empty
+ * Comprueba si el conjunto está vacío
  */
 ${#sets.isEmpty(set)}
 
 /*
- * Check if element or elements are contained in set
+ * Comprueba si el elemento o elementos están contenidos en el conjunto
  */
 ${#sets.contains(set, element)}
 ${#sets.containsAll(set, elements)}
@@ -5710,27 +5720,27 @@ ${#sets.containsAll(set, elements)}
 
 ### Mapas
 
- * **\#maps** : utility methods for maps
+ * **\#maps** : métodos de utilidad para mapas
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Maps
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Maps
  * ======================================================================
  */
 
 /*
- * Compute size
+ * Cálculo del tamaño
  */
 ${#maps.size(map)}
 
 /*
- * Check whether map is empty
+ * Comprueba si el mapa está vacío
  */
 ${#maps.isEmpty(map)}
 
 /*
- * Check if key/s or value/s are contained in maps
+ * Comprueba si las claves o los valores están contenidos en los mapas
  */
 ${#maps.containsKey(map, key)}
 ${#maps.containsAllKeys(map, keys)}
@@ -5740,24 +5750,24 @@ ${#maps.containsAllValues(map, value)}
 
 ### Agregados
 
- * **\#aggregates** : utility methods for creating aggregates on arrays or
-   collections
+ * **\#aggregates**: métodos de utilidad para crear agregados de matrices o 
+   colecciones
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Aggregates
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Aggregates
  * ======================================================================
  */
 
 /*
- * Compute sum. Returns null if array or collection is empty
+ * Calcula la suma. Devuelve nulo si la matriz o colección está vacía
  */
 ${#aggregates.sum(array)}
 ${#aggregates.sum(collection)}
 
 /*
- * Compute average. Returns null if array or collection is empty
+ * Calcula el promedio. Devuelve nulo si la matriz o colección está vacía
  */
 ${#aggregates.avg(array)}
 ${#aggregates.avg(collection)}
@@ -5765,29 +5775,31 @@ ${#aggregates.avg(collection)}
 
 ### IDs
 
- * **\#ids** : utility methods for dealing with `id` attributes that might be
-   repeated (for example, as a result of an iteration).
+ * **\#ids**: métodos de utilidad para tratar con los atributos `id` que 
+   podrían estar repetidos (por ejemplo, como resultado de una iteración).
 
 ```java
 /*
  * ======================================================================
- * See javadoc API for class org.thymeleaf.expression.Ids
+ * Ver la IPA de javadoc para la clase org.thymeleaf.expression.Ids
  * ======================================================================
  */
 
 /*
- * Normally used in th:id attributes, for appending a counter to the id attribute value
- * so that it remains unique even when involved in an iteration process.
+ * Normalmente se usa en los atributos th:id, para agregar un contador al valor del 
+ * atributo id  para que siga siendo único incluso cuando esté involucrado en un 
+ * proceso de iteración.
  */
 ${#ids.seq('someId')}
 
 /*
- * Normally used in th:for attributes in <label> tags, so that these labels can refer to Ids
- * generated by means if the #ids.seq(...) function.
+ * Normalmente se usa en th:for atributos en etiquetas <label>, para que estas 
+ * etiquetas puedan hacer referencia a Ids.
+ * Generado mediante la función #ids.seq(...).
  *
- * Depending on whether the <label> goes before or after the element with the #ids.seq(...)
- * function, the "next" (label goes before "seq") or the "prev" function (label goes after 
- * "seq") function should be called.
+ * Dependiendo de si la <label> va antes o después del elemento con el #ids.seq(...)
+ * función, la función "siguiente" (la etiqueta va antes de "seq") o la función "anterior" 
+ * (la etiqueta va después. Se debe llamar a la función "seq").
  */
 ${#ids.next('someId')}
 ${#ids.prev('someId')}
@@ -5795,115 +5807,123 @@ ${#ids.prev('someId')}
 
 # 20 Apéndice C: Sintaxis del selector de marcado
 
-Thymeleaf's Markup Selectors are directly borrowed from Thymeleaf's parsing 
-library: [AttoParser](http://attoparser.org).
+Los selectores de marcado de Thymeleaf se toman prestados directamente de la 
+biblioteca de análisis de Thymeleaf: [AttoParser](http://attoparser.org).
 
-The syntax for this selectors has large similarities with that of selectors in
-XPath, CSS and jQuery, which makes them easy to use for most users. You can have
-a look at the complete syntax reference at the
-[AttoParser documentation](http://www.attoparser.org/apidocs/attoparser/2.0.4.RELEASE/org/attoparser/select/package-summary.html).
+La sintaxis de estos selectores tiene grandes similitudes con la de los 
+selectores en XPath, CSS y jQuery, lo que los hace fáciles de usar para la 
+mayoría de usuarios. Puedes echar un vistazo a la referencia de sintaxis 
+completa en la
+[documentación AttoParser](http://www.attoparser.org/apidocs/attoparser/2.0.4.
+RELEASE/org/attoparser/select/package-summary.html).
 
-For example, the following selector will select every `<div>` with the class `content`,
-in every position inside the markup (note this is not as concise as it could be,
-read on to know why):
+Por ejemplo, el siguiente selector seleccionará cada `<div>` con la clase 
+`content`, en cada posición dentro del marcado (tenga en cuenta que esto no es 
+tan conciso como podría ser, siga leyendo para saber por qué):
 
 ```html
 <div th:insert="~{mytemplate :: //div[@class='content']}">...</div>
 ```
 
-The basic syntax includes:
+La sintaxis básica incluye:
 
- * `/x` means direct children of the current node with name x.
+ * `/x` significa hijos directos del nodo actual con nombre x.
 
- * `//x` means children of the current node with name x, at any depth.
+ * `//x` significa hijos del nodo actual con nombre x, en cualquier profundidad.
 
- * `x[@z="v"]` means elements with name x and an attribute called z with value
+ * `x[@z="v"]` significa elementos con nombre x y un atributo llamado z con valor
    "v".
 
- * `x[@z1="v1" and @z2="v2"]` means elements with name x and attributes z1 and
-   z2 with values "v1" and "v2", respectively.
+ * `x[@z1="v1" y  @z2="v2"]` significa elementos con nombre x y atributos z1 y
+   z2 con valores "v1" y "v2", respectivamente.
 
- * `x[i]` means element with name x positioned in number i among its siblings.
+ * `x[i]` significa elemento con nombre x posicionado en el número i entre sus 
+   hermanos.
 
- * `x[@z="v"][i]` means elements with name x, attribute z with value "v" and
-   positioned in number i among its siblings that also match this condition.
+ * `x[@z="v"][i]` significa elementos con nombre x, atributo z con valor "v" y
+   posicionado en el número i entre sus hermanos que también cumplen esta 
+   condición.
 
-But more concise syntax can also be used:
+Pero también se puede utilizar una sintaxis más concisa:
 
- * `x` is exactly equivalent to `//x` (search an element with name or reference
-   `x` at any depth level, a *reference* being a `th:ref` or a `th:fragment` attribute).
+ * `x` es exactamente equivalente a `//x` (buscar un elemento con nombre o 
+   referencia `x` en cualquier nivel de profundidad, siendo una *referencia* un 
+   atributo `th:ref` o `th:fragment`).
 
- * Selectors are also allowed without element name/reference, as long as they
-   include a specification of arguments. So `[@class='oneclass']` is a valid
-   selector that looks for any elements (tags) with a class attribute with value
-   `"oneclass"`.
+ * También se permiten selectores sin nombre/referencia del elemento, siempre 
+   que incluyan una especificación de argumentos. Entonces `[@class='oneclass']` 
+   es un selector válido que busca cualquier elemento (etiqueta) con un atributo 
+   de clase con valor `"oneclass"`.
 
-Advanced attribute selection features:
+Funciones avanzadas de selección de atributos:
 
- * Besides `=` (equal), other comparison operators are also valid: `!=` (not
-   equal), `^=` (starts with) and `$=` (ends with). For example: `x[@class^='section']`
-   means elements with name `x` and a value for attribute `class` that starts
-   with `section`.
+ * Además de `=` (igual), también son válidos otros operadores de comparación: 
+   `!=` (no igual), `^=` (empieza por) y `$=` (termina en). Por ejemplo: 
+   `x[@class^='sección']` significa elementos con nombre `x` y un valor para el 
+   atributo `clase` que comienza con `sección`.
 
- * Attributes can be specified both starting with `@` (XPath-style) and without
-   (jQuery-style). So `x[z='v']` is equivalent to `x[@z='v']`.
+ * Se pueden especificar atributos tanto comenzando con `@` (estilo XPath) como 
+   sin (estilo jQuery). Entonces `x[z='v']` es equivalente a `x[@z='v']`.
  
- * Multiple-attribute modifiers can be joined both with `and` (XPath-style) and
-   also by chaining multiple modifiers (jQuery-style). So `x[@z1='v1' and @z2='v2']`
-   is actually equivalent to `x[@z1='v1'][@z2='v2']` (and also to `x[z1='v1'][z2='v2']`).
+ * Los modificadores de múltiples atributos se pueden unir tanto con `and` 
+   (estilo XPath) como también encadenando múltiples modificadores (estilo 
+   jQuery). Entonces `x [@z1='v1' y @z2='v2']` es en realidad equivalente a 
+   `x[@z1='v1'][@z2='v2']` (y también a `x[z1='v1'][z2='v2']`).
 
-Direct _jQuery-like_ selectors:
+Selectores directos tipo jQuery:
 
- * `x.oneclass` is equivalent to `x[class='oneclass']`.
+ * `x.oneclass` es equivalente a `x[class='oneclass']`.
 
- * `.oneclass` is equivalent to `[class='oneclass']`.
+ * `.oneclass` es equivalente a `[class='oneclass']`.
 
- * `x#oneid` is equivalent to `x[id='oneid']`.
+ * `x#oneid` es equivalente a `x[id='oneid']`.
 
- * `#oneid` is equivalent to `[id='oneid']`.
+ * `#oneid` es equivalente a `[id='oneid']`.
 
- * `x%oneref` means `<x>` tags that have a `th:ref="oneref"` or `th:fragment="oneref"`
-   attribute.
+ * `x%oneref` significa etiquetas `<x>` que tienen un atributo `th:ref="oneref"` 
+   o `th:fragment="oneref"`.
 
- * `%oneref` means any tags that have a `th:ref="oneref"` or `th:fragment="oneref"`
-   attribute. Note this is actually equivalent to simply `oneref` because
-   references can be used instead of element names.
+ * `%oneref` significa cualquier etiqueta que tenga un atributo 
+   `th:ref="oneref"` o `th:fragment="oneref"`. Tenga en cuenta que esto en 
+   realidad es equivalente a simplemente `oneref` porque se pueden usar 
+   referencias en lugar de nombres de elementos.
 
- * Direct selectors and attribute selectors can be mixed: `a.external[@href^='https']`.
+ * Se pueden mezclar selectores directos y selectores de atributos: 
+   `a.external[@href^='https']`.
 
-So the above Markup Selector expression:
+Entonces la expresión anterior del Selector de marcado:
 
 ```html
 <div th:insert="~{mytemplate :: //div[@class='content']}">...</div>
 ```
 
-Could be written as:
+Podría ser escrito como:
 
 ```html
 <div th:insert="~{mytemplate :: div.content}">...</div>
 ```
 
-Examining a different example, this:
+Examinando un ejemplo diferente, esto:
 
 ```html
 <div th:replace="~{mytemplate :: myfrag}">...</div>
 ```
 
-Will look for a `th:fragment="myfrag"` fragment signature (or `th:ref`
-references). But would also look for tags with name `myfrag` if they existed
-(which they don't, in HTML). Note the difference with:
+Buscará una firma de fragmento `th:fragment="myfrag"` (o `th:ref` referencias). 
+Pero también buscaría etiquetas con el nombre `myfrag` si existieran (lo cual no 
+es así en HTML). Note la diferencia con:
 
 ```html
 <div th:replace="~{mytemplate :: .myfrag}">...</div>
 ```
 
-...which will actually look for any elements with `class="myfrag"`, without
-caring about `th:fragment` signatures (or `th:ref` references). 
+... Que realmente buscará cualquier elemento con `class="myfrag"`, sin
+preocuparse por las firmas `th:fragment` (o referencias `th:ref`). 
 
 ### Coincidencia de clases multivalor
 
-Markup Selectors understand the class attribute to be **multivalued**, and
-therefore allow the application of selectors on this attribute even if the
-element has several class values.
+Los selectores de marcado entienden que el atributo de clase es **multivalor**, 
+por lo que permiten la aplicación de selectores en este atributo incluso si el 
+elemento tiene varios valores de clase.
 
-For example, `div.two` will match `<div class="one two three" />`
+Por ejemplo, `div.two` coincidirá con `<div class="one two three" />`

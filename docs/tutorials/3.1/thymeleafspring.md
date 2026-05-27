@@ -290,8 +290,10 @@ seleccionándiola por su nombre de bean (`mainView`, en este caso).
 4 Gestor Iniciador de Semillas de Romero de Spring
 ==================================================
 
-The source code for the examples shown in this and future chapters of this guide
-can be found in the _Spring Thyme Seed Starter Manager (STSM)_ example app:
+El código fuente para los ejemplos mostrados en este y futuros capítulos de esta 
+guía se encuentran en la aplicación de ejemplo 
+_Spring Thyme Seed Starter Manager (STSM)_: 
+
 
    * [Spring 5 STSM](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring5/thymeleaf-examples-spring5-stsm).
    * [Spring 6 STSM](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-stsm).
@@ -300,20 +302,21 @@ can be found in the _Spring Thyme Seed Starter Manager (STSM)_ example app:
 4.1 El Concepto
 ---------------
 
-At Thymeleaf we're huge fans of thyme, and every spring we prepare our seed
-starting kits with good soil and our favourite seeds, place them under the
-Spanish sun and patiently wait for our new plants to grow.
+En Thymeleaf somos grandes aficionados al tomillo, y cada primavera preparamos 
+nuestros kits de germinación de semillas con buena tierra y nuestras semillas 
+favoritas, colocándolas bajo el sol español y esperando pacientemente a que 
+nuestras nuevas plantas crezcan.
 
-But this year we got fed up with sticking labels to the seed starter containers
-for knowing which seed was in each cell of the container, so we decided to
-prepare an application using Spring MVC and Thymeleaf to help us catalogue our
-starters: _The Spring Thyme SeedStarter Manager_.
+Pero este año nos cansamos de pegar etiquetas a los compartimentos de germinación 
+de semillas para saber qué semilla había en cada compartimento, así que 
+decidimos crear una aplicación con Spring MVC y Thymeleaf para catalogar 
+nuestros semilleros: _The Spring Thyme SeedStarter Manager_.
 
-![STSM front page](images/thymeleafspring/stsm-view.png)
+![STSM página inicial](images/thymeleafspring/stsm-view.png)
 
-In a similar way to the Good Thymes Virtual Grocery application we developed in
-the _Using Thymeleaf_ tutorial, the STSM will allow us to exemplify the most
-important aspects of the integration of Thymeleaf as a template engine for
+De similar forma a la aplicación Good Thymes Virtual Grocery que desarrollamos 
+en el tutorial _Usando Thymeleaf_, STSM nos permitirá ejemplificar los aspectos
+más importantes de la integración de Thymeleaf como motor de plantillas para 
 Spring MVC.
 
 
@@ -321,13 +324,13 @@ Spring MVC.
 4.2 Capa de Negocio
 ------------------
 
-We will need a very simple business layer for our application. First of all,
-let's have a look at our model entities:
+Necesitaremos una capa de negocio muy simple para nuestra aplicación. En primer 
+lugar, echemos un vistazo a nuestras entidades de modelo:
 
-![STSM model](images/thymeleafspring/stsm-model.png)
+![Modelo de STSM](images/thymeleafspring/stsm-model.png)
 
-A couple of very simple service classes will provide the required business
-methods. Like:
+Un par de clases de servicio muy simples proporcionarán los métodos de negocio 
+requeridos. Como: 
 
 ```java
 @Service
@@ -347,7 +350,7 @@ public class SeedStarterService {
 }
 ```
 
-And:
+Y:
 
 ```java
 @Service
@@ -372,10 +375,11 @@ public class VarietyService {
 4.3 Configuración de Spring MVC
 ----------------------------
 
-Next we need to set up the Spring MVC configuration for the application, which
-will include not only the standard Spring MVC artifacts like resource handling
-or annotation scanning, but also the creation of the Template Engine and View
-Resolver instances.
+Lo siguiente que necesitamos es establecer la configuración de Spring MVC para 
+la aplicación, lo que incluirá no solo los artefactos estándar de Spring MVC 
+como la gestión de recursos o el análisis de anotaciones, sino también la 
+creación de las instancias del Motor de Plantillas (Template Engine) y del 
+Solucionador de Vistas (View Resolver).
 
 ```java
 @Configuration
@@ -400,8 +404,9 @@ public class SpringWebConfig
 
 
     /* ******************************************************************* */
-    /*  GENERAL CONFIGURATION ARTIFACTS                                    */
-    /*  Static Resources, i18n Messages, Formatters (Conversion Service)   */
+    /*  ARTEFACTOS DE CONFIGURACIÓN GENERALES                              */
+    /*  Recursos estáticiso, mensajes i18n, formateadores (Servicio de     */
+    /*  de conversión)                                                     */
     /* ******************************************************************* */
 
     @Override
@@ -439,37 +444,40 @@ public class SpringWebConfig
 
 
     /* **************************************************************** */
-    /*  THYMELEAF-SPECIFIC ARTIFACTS                                    */
+    /* ARTEFACTOS ESPECÍFICOS DE THYMELEAF                              */
     /*  TemplateResolver <- TemplateEngine <- ViewResolver              */
     /* **************************************************************** */
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
-        // SpringResourceTemplateResolver automatically integrates with Spring's own
-        // resource resolution infrastructure, which is highly recommended.
+        // SpringResourceTemplateResolver se integra automáticamente con la 
+        // infraestructura de resolución de recursos propia de Spring, lo cual 
+        // es altamente recomendable.
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
-        // HTML is the default value, added here for the sake of clarity.
+        // HTML es el valor por defecto, agregado aquí solo por claridad.
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        // Template cache is true by default. Set to false if you want
-        // templates to be automatically updated when modified.
+        // La cache de las plantillas está activada por defecto. Establézcala a 
+        // falso si quiere que las plantillas se actualicen automáticamente cuando 
+        // se modifiquen.
         templateResolver.setCacheable(true);
         return templateResolver;
     }
 
     @Bean
     public SpringTemplateEngine templateEngine(){
-        // SpringTemplateEngine automatically applies SpringStandardDialect and
-        // enables Spring's own MessageSource message resolution mechanisms.
+        // SpringTemplateEngine aplica automáticamente SpringStandardDialect y 
+        // habilita los mecanismos de resolución de mensajes MessageSource de Spring.
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-        // Enabling the SpringEL compiler with Spring 4.2.4 or newer can
-        // speed up execution in most scenarios, but might be incompatible
-        // with specific cases when expressions in one template are reused
-        // across different data types, so this flag is "false" by default
-        // for safer backwards compatibility.
+        // Habilitar el compilador SpringEL con Spring 4.2.4 o posterior 
+        // puede acelerar la ejecución en la mayoría de los casos, pero podría ser 
+        // incompatible con casos específicos en los que se reutilizan expresiones 
+        // de una plantilla en diferentes tipos de datos. Por lo tanto, este 
+        // flag indicador es "falso" por defecto para una compatibilidad con 
+        // versiones anteriores más segura.
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
@@ -489,9 +497,10 @@ public class SpringWebConfig
 4.4 El Controlador
 ------------------
 
-Of course, we will also need a controller for our application. As the STSM will
-only contain one web page with a list of seed starters and a form for adding new
-ones, we will write only one controller class for all the server interactions:
+Por supuesto, también necesitaremos un controlador para nuestra aplicación. Como 
+STSM solo contendrá una página web con una lista de germinadores de semillas y 
+un formulario para agregar nuevos, escribiremos solo una clase controladora 
+para todas las interacciones del servidor:
 
 ```java
 @Controller
@@ -508,12 +517,13 @@ public class SeedStarterMngController {
 }
 ```
 
-Now let's see what we can add to this controller class.
+Ahora veamos que podemos agregar a esta clase controladora.
 
 
 ### Atributos del Modelo
 
-First we will add some model attributes that we will need in the page:
+Lo primero que agregaremos son algunos atributos del modelo que necesitaremos 
+en la página:
 
 ```java
 @ModelAttribute("allTypes")
@@ -540,9 +550,9 @@ public List<SeedStarter> populateSeedStarters() {
 
 ### Métodos mapeados
 
-And now the most important part of a controller, the mapped methods: one for
-showing the form page, and another one for processing the addition of new `SeedStarter`
-objects.
+Y ahora la parte más importante de un controlador, los métodos mapeados: uno 
+para mostrar la página del formulario, y otro para procesar la agregación de 
+nuevos objetos `SeedStarter`.
 
 ```java
 @RequestMapping({"/","/seedstartermng"})
@@ -568,10 +578,10 @@ public String saveSeedstarter(
 4.5 Configuración de un Servicio de Conversión
 ----------------------------------------------
 
-In order to allow easy formatting of `Date` and also `Variety` objects in our view layer, we 
-configured our application so that a Spring `ConversionService` object was created and
-initialized (by the `WebMvcConfigurerAdapter` we extend) with a couple of *formatter*
-objects we will need. See it again:
+Para facilitar el formato de los objetos `Date` y `Variety` en nuestra capa de 
+vista, configuramos nuestra aplicación para que se creara e inicializara un 
+objeto `ConversionService` de Spring (mediante el `WebMvcConfigurerAdapter` que 
+extendemos) con un par de objetos de formato que necesitaremos. Véase de nuevo:
 
 ```java
 @Override
@@ -592,12 +602,14 @@ public DateFormatter dateFormatter() {
 }
 ```
 
-Spring *formatters* are implementations of the `org.springframework.format.Formatter` 
-interface. For more information on how the Spring conversion infrastructure works, 
-see the docs at [spring.io](http://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/validation.html#core-convert).
+Los *formateadores* de Spring son implementaciones de la interfaz 
+`org.springframework.format.Formatter`. Para obtener más información de cómo 
+trabaja la infraestructura de conversión de Spring, vea los documentos en  
+[spring.io](http://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/validation.html#core-convert).
 
-Let's have a look at the `DateFormatter`, which formats dates according to a format 
-string present at the `date.format` message key of our `Messages.properties`:
+Echemos un vistaz a `DateFormatter`, que da formato a fechas de acuerdo a la 
+cadena de formato presente en la clave de mensaje `date.format` de nuestro 
+`Messages.properties`:
 
 ```java
 public class DateFormatter implements Formatter<Date> {
@@ -630,7 +642,9 @@ public class DateFormatter implements Formatter<Date> {
 }
 ```
 
-The `VarietyFormatter` automatically converts between our `Variety` entities and the way we want to use them in our forms (basically, by their `id` field values):
+La clase `VarietyFormatter` automáticamente convierte entre nuestras entidades
+`Variety` y la forma en que queremos usarlas en nuestros formularios 
+(básicamente, por sus valores del campo `id`):
 
 ```java
 public class VarietyFormatter implements Formatter<Variety> {
@@ -655,8 +669,8 @@ public class VarietyFormatter implements Formatter<Variety> {
 
 }
 ```
-
-We will learn more on how these formatters affect the way our data is displayed later on. 
+Más adelante aprenderemos más de cómo estos formateadores afectan la forma en 
+que nuestros datos se muestran. 
 
 
 
@@ -664,7 +678,7 @@ We will learn more on how these formatters affect the way our data is displayed 
 5 Listado de Datos de Inicio de Semillas
 =======================================
 
-BThe first thing that our `/WEB-INF/templates/seedstartermng.html` page will show
+The first thing that our `/WEB-INF/templates/seedstartermng.html` page will show
 is a listing with the seed starters currently stored. For this we will need some
 externalized messages and also some expression evaluation on model attributes.
 Like this:

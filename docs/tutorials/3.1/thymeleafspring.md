@@ -678,35 +678,36 @@ que nuestros datos se muestran.
 5 Listado de Datos de Inicio de Semillas
 =======================================
 
-The first thing that our `/WEB-INF/templates/seedstartermng.html` page will show
-is a listing with the seed starters currently stored. For this we will need some
-externalized messages and also some expression evaluation on model attributes.
-Like this:
+La primera cosa que nuestra página `/WEB-INF/templates/seedstartermng.html` 
+mostrará es un listado con los semilleros de iniciación actualmente almacenados. 
+Para estos necesitaremos algunos mensajes externalizados y también alguna 
+evaluación de expresiones sobre los atributos del modelo.
+Como esto:
 
 ```html
 <div class="seedstarterlist" th:unless="${#lists.isEmpty(allSeedStarters)}">
     
-  <h2 th:text="#{title.list}">List of Seed Starters</h2>
+  <h2 th:text="#{title.list}">Lista de semilleros</h2>
   
   <table>
     <thead>
       <tr>
-        <th th:text="#{seedstarter.datePlanted}">Date Planted</th>
-        <th th:text="#{seedstarter.covered}">Covered</th>
-        <th th:text="#{seedstarter.type}">Type</th>
-        <th th:text="#{seedstarter.features}">Features</th>
-        <th th:text="#{seedstarter.rows}">Rows</th>
+        <th th:text="#{seedstarter.datePlanted}">Fecha de siembra</th>
+        <th th:text="#{seedstarter.covered}">Cubierta</th>
+        <th th:text="#{seedstarter.type}">Tipo</th>
+        <th th:text="#{seedstarter.features}">Características</th>
+        <th th:text="#{seedstarter.rows}">Filas</th>
       </tr>
     </thead>
     <tbody>
       <tr th:each="sb : ${allSeedStarters}">
         <td th:text="${{sb.datePlanted}}">13/01/2011</td>
-        <td th:text="#{|bool.${sb.covered}|}">yes</td>
-        <td th:text="#{|seedstarter.type.${sb.type}|}">Wireframe</td>
+        <td th:text="#{|bool.${sb.covered}|}">sí</td>
+        <td th:text="#{|seedstarter.type.${sb.type}|}">Estructura alámbrica</td>
         <td th:text="${#strings.arrayJoin(
                            #messages.arrayMsg(
                                #strings.arrayPrepend(sb.features,'seedstarter.feature.')),
-                           ', ')}">Electric Heating, Turf</td>
+                           ', ')}">Calefacción Eléctrica, Césped</td>
         <td>
           <table>
             <tbody>
@@ -724,10 +725,11 @@ Like this:
 </div>
 ```
 
-Lots to see here. Let's have a look at each fragment separately.
+Hay mucho que ver aquí. Analicemos cada fragmento por separado.
 
-First of all, this section will only be shown if there are any seed starters. We
-achieve that with a th:unless attribute and the `#lists.isEmpty(...)` function.
+En primer lugar, esta sección solo se mostrará si hay algún iniciador de 
+semillas. Logramos esto con un atributo th:unless y la función 
+`#lists.isEmpty(...)`.
 
 ```html
 <div class="seedstarterlist" th:unless="${#lists.isEmpty(allSeedStarters)}">
@@ -737,24 +739,31 @@ Note that all utility objects like `#lists` are available in Spring EL
 expressions just as they were in OGNL expressions in the Standard Dialect.
 
 The next thing to see is a lot of internationalized (externalized) texts, like:
+Tenga en cuenta que todos los objetos de utilidad como `#lists` están disponibles 
+en las expresiones de Spring EL, al igual que en las expresiones OGNL del 
+dialecto estándar.
+
+Lo siguiente que veremos son muchos textos internacionalizados (externalizados), 
+como:
 
 ```html
-<h2 th:text="#{title.list}">List of Seed Starters</h2>
+<h2 th:text="#{title.list}">Lista de semilleros</h2>
 
 <table>
   <thead>
     <tr>
-      <th th:text="#{seedstarter.datePlanted}">Date Planted</th>
-      <th th:text="#{seedstarter.covered}">Covered</th>
-      <th th:text="#{seedstarter.type}">Type</th>
-      <th th:text="#{seedstarter.features}">Features</th>
-      <th th:text="#{seedstarter.rows}">Rows</th>
+      <th th:text="#{seedstarter.datePlanted}">Fecha de siembra</th>
+      <th th:text="#{seedstarter.covered}">Cubierta</th>
+      <th th:text="#{seedstarter.type}">Tipo</th>
+      <th th:text="#{seedstarter.features}">Características</th>
+      <th th:text="#{seedstarter.rows}">Filas</th>
       ...
 ```
 
-This being a Spring MVC application, we already defined a `MessageSource` bean
-in our Spring configuration (`MessageSource` objects are the standard way of
-managing externalized texts in Spring MVC):
+Al tratarse de una aplicación Spring MVC, ya hemos definido un bean 
+de tipo `MessageSource` en nuestra configuración de Spring (los objetos 
+`MessageSource` son la forma estándar de gestionar los textos externos en Spring 
+MVC):
 
 ```java
 @Bean
@@ -765,9 +774,9 @@ public ResourceBundleMessageSource messageSource() {
 }
 ```
 
-...and that `basename` property indicates that we will have files like `Messages_es.properties`
-or `Messages_en.properties` in our classpath. Let's have a look at the Spanish
-version:
+...y esa propiedad `basename` indica que tendremos archivos como 
+`Messages_es.properties` o `Messages_en.properties` en nuestro classpath. Veamos 
+la versión en español:
 
 ```properties
 title.list=Lista de semilleros
@@ -790,58 +799,61 @@ seedstarter.feature.FERTILIZER=Fertilizante
 seedstarter.feature.PH_CORRECTOR=Corrector de PH
 ```
 
-In the first column of the table listing we will show the date when the seed
-starter was prepared. But **we will show it formatted** in the way we defined 
-in our `DateFormatter`. In order to do that we will use the double-brace 
-syntax (`${{...}}`), which will automatically apply the Spring Conversion Service,
-including the `DateFormatter` we registered at configuration.
+En la primera columna de la tabla mostraremos la fecha en que se preparó el 
+cultivo inicial. Sin embargo, **la mostraremos formateada** según lo definido en
+nuestro `DateFormatter`. Para ello, utilizaremos la sintaxis de doble llave 
+(`${{...}}`), que aplicará automáticamente el Servicio de Conversión de Spring, 
+incluyendo el `DateFormatter` que registramos en la configuración.
 
 ```html
 <td th:text="${{sb.datePlanted}}">13/01/2011</td>
 ```
-
-Next is showing whether the seed starter container is covered or not, by
-transforming the value of the boolean covered bean property into an
-internationalized _"yes"_ or _"no"_ with a literal substitution expression:
-
-```html
-<td th:text="#{|bool.${sb.covered}|}">yes</td>
-```
-
-Now we have to show the type of seed starter container. Type is a java enum with
-two values (`WOOD` and `PLASTIC`), and that's why we defined two properties in
-our `Messages` file called `seedstarter.type.WOOD` and `seedstarter.type.PLASTIC`.
-
-But in order to obtain the internationalized names of the types, we will need to
-add the `seedstarter.type.` prefix to the enum value by means of an expression,
-which result we will then use as the message key:
+A continuación se muestra si el recipiente de inicio de semillas está cubierto 
+o no, transformando el valor de la propiedad booleana "bean coverd" en un "sí" 
+o "no" internacionalizado con una expresión de sustitución literal:
 
 ```html
-<td th:text="#{|seedstarter.type.${sb.type}|}">Wireframe</td>
+<td th:text="#{|bool.${sb.covered}|}">sí</td>
 ```
+Ahora tenemos que mostrar el tipo de contenedor de semillas. El tipo es una 
+enumeración de Java con dos valores (`WOOD` y `PLASTIC`), y por eso definimos 
+dos propiedades en nuestro archivo `Messages` llamadas `seedstarter.type.WOOD` 
+y `seedstarter.type.PLASTIC`.
 
-The most difficult part of this listing is the _features_ column. In it we want
-to display all the features of our container ---that come in the form of an array
-of `Feature` enums---, separated by commas. Like _"Electric Heating, Turf"_.
+Pero para obtener los nombres internacionalizados de los tipos, necesitaremos 
+agregar el prefijo `seedstarter.type.` al valor de la enumeración mediante una 
+expresión, cuyo resultado utilizaremos luego como clave del mensaje:
 
-Note that this is particularly difficult because these enum values also need to
-be externalized, as we did with Types. The flow is then:
 
-1. Prepend the corresponding prefix to all the elements of the `features` array.
-2. Obtain the externalized messages corresponding to all the keys from step 1.
-3. Join all the messages obtained in step 2, using a comma as a delimiter.
+```html
+<td th:text="#{|seedstarter.type.${sb.type}|}">Estructura alámbrica</td>
+```
+La parte más difícil de este listado es la columna _features_. En ella queremos 
+mostrar todas las características de nuestro contenedor —--que vienen en forma de 
+un array de enumeraciones `Feature`--—, separadas por comas. Por ejemplo: 
+_"Calefacción Eléctrica, Césped"_.
 
-For achieving this, we create the following code:
+Tenga en cuenta que esto es particularmente difícil porque estos valores de 
+enumeración también deben externalizarse, como hicimos con los tipos. El flujo 
+es entonces:
+
+1. Anteponga el prefijo correspondiente a todos los elementos del array 
+`features`.
+2. Obtenga los mensajes externalizados correspondientes a todas las claves del 
+paso 1.
+3. Una todos los mensajes obtenidos en el paso 2, utilizando una coma como 
+delimitador.
+
+Para lograr esto, creamos el siguiente código:
 
 ```html
 <td th:text="${#strings.arrayJoin(
                    #messages.arrayMsg(
                        #strings.arrayPrepend(sb.features,'seedstarter.feature.')),
-                   ', ')}">Electric Heating, Turf</td>
+                   ', ')}">Calefacción Eléctrica, Césped</td>
 ```
-
-The last column of our listing will be quite simple, in fact. Even if it has a
-nested table for showing the contents of each row in the container:
+La última columna de nuestra lista será bastante simple, de hecho. Incluso si 
+tiene una tabla anidada para mostrar el contenido de cada fila en el contenedor:
 
 ```html
 <td>
@@ -868,13 +880,13 @@ nested table for showing the contents of each row in the container:
 6.1 Manejo del objeto de comando (Command Object)
 -------------------------------------------------
 
-_Command object_ is the name Spring MVC gives to form-backing beans, this is, to
-objects that model a form's fields and provide getter and setter methods that
-will be used by the framework for establishing and obtaining the values input by
-the user at the browser side.
+El _objeto de comando_ es el nombre que Spring MVC da a los beans de respaldo de 
+los formularios; es decir, a los objetos que modelan los campos de un formulario 
+y proporcionan métodos getter y setter que el framework utilizará para establecer 
+y obtener los valores introducidos por el usuario en el navegador.
 
-Thymeleaf requires you to specify the command object by using a `th:object`
-attribute in your `<form>` tag:
+Thymeleaf requiere que especifique el objeto de comando mediante el atributo 
+`th:object` en su etiqueta `<form>`:
 
 ```html
 <form action="#" th:action="@{/seedstartermng}" th:object="${seedStarter}" method="post">
@@ -882,59 +894,63 @@ attribute in your `<form>` tag:
 </form>
 ```
 
-This is consistent with other uses of `th:object,` but in fact this
-specific scenario adds some limitations in order to correctly integrate with
-Spring MVC's infrastructure:
+Esto es coherente con otros usos de `th:object`, pero de hecho, este escenario 
+específico añade algunas limitaciones para integrarse correctamente con la 
+infraestructura de Spring MVC:
 
- * Values for `th:object` attributes in form tags must be variable expressions (`${...}`)
-   specifying only the name of a model attribute, without property navigation.
-   This means that an expression like `${seedStarter}` is valid, but `${seedStarter.data}`
-   would not be.
- * Once inside the `<form>` tag, no other `th:object` attribute can be specified.
-   This is consistent with the fact that HTML forms cannot be nested.
+ * Los valores para los atributos `th:object` en las etiquetas de formulario 
+   deben ser expresiones variables (`${...}`) que especifiquen únicamente el
+   nombre de un atributo del modelo, sin navegación de propiedades. Esto 
+   significa que una expresión como `${seedStarter}` es válida, pero 
+   `${seedStarter.data}` no lo sería.
+
+ * Una vez dentro de la etiqueta `<form>`, no se puede especificar ningún otro 
+   atributo `th:object`. Esto es coherente con el hecho de que los formularios 
+   HTML no se pueden anidar.
 
 
 
 6.2 Entradas
 ----------
 
-Let's see now how to add an input to our form:
+Veamos ahora cómo agregar un campo de entrada a nuestro formulario:
 
 ```html
 <input type="text" th:field="*{datePlanted}" />
 ```
+Como puede ver, aquí introducimos un nuevo atributo: `th:field`. Esta es una 
+muy característica muy importante para la integración con Spring MVC, ya que se 
+encarga de todo el trabajo pesado de vincular su entrada con una propiedad en el 
+bean de respaldo del formulario. Puede considerarse equivalente al atributo 
+`path` en una etiqueta `<form:input>` de la biblioteca de etiquetas JSP de Spring 
+MVC.
 
-As you can see, we are introducing a new attribute here: `th:field.` This is a
-very important feature for Spring MVC integration because it does all the heavy
-work of binding your input with a property in the form-backing bean. You can see
-it as an equivalent of the path attribute in a <form:input> tag from Spring
-MVC's JSP tag library.
-
-The `th:field` attribute behaves differently depending on whether it is attached
-to an `<input>`, `<select>` or `<textarea>` tag (and also depending on the
-specific type of `<input>` tag). In this case (`input[type=text]`), the above
-line of code is similar to:
+El atributo `th:field` se comporta de manera diferente según si está asociado a 
+una etiqueta `<input>`, `<select>` o `<textarea>` (y también según el tipo 
+específico de etiqueta `<input>`). En este caso (`input[type=text]`), la línea 
+de código anterior es similar a:
 
 ```html
 <input type="text" id="datePlanted" name="datePlanted" th:value="*{datePlanted}" />
 ```
+...pero en realidad es algo más que eso, porque `th:field` también aplicará el 
+Servicio de Conversión de Spring registrado, incluido el `DateFormatter` que 
+vimos anteriormente (incluso si la expresión del campo no está entre corchetes 
+dobles). Gracias a esto, la fecha se mostrará con el formato correcto.
 
-...but in fact it is a little bit more than that, because `th:field` will also 
-apply the registered Spring Conversion Service, including the `DateFormatter` we 
-saw before (even if the field expression is not double-bracketed). Thanks to this, 
-the date will be shown correctly formatted.
+Los valores para los atributos `th:field` deben ser expresiones de selección 
+(`*{...}`), lo cual tiene sentido dado que se evaluarán en el bean que respalda 
+el formulario y no en las variables de contexto (o atributos del modelo en la 
+jerga de Spring MVC).
 
-Values for `th:field` attributes must be selection expressions (`*{...}`), which
-makes sense given the fact that they will be evaluated on the form-backing bean
-and not on the context variables (or model attributes in Spring MVC jargon).
+A diferencia de las que se encuentran en `th:object`, estas expresiones pueden 
+incluir la navegación de propiedades (de hecho, cualquier expresión permitida 
+para el atributo path de una etiqueta JSP `<form:input>` estará permitida aquí).
 
-Contrary to the ones in `th:object`, these expressions can include property
-navigation (in fact any expression allowed for the path attribute of a `<form:input>`
-JSP tag will be allowed here).
-
-Note that `th:field` also understands the new types of `<input>` element
-introduced by HTML5 like `<input type="datetime" ... />`, `<input type="color" ... />`,
-etc., effectively adding complete HTML5 support to Spring MVC.
+Tenga en cuenta que `th:field` también reconoce los nuevos tipos de elementos 
+HTML`<input>` introducidos por HTML5, como `<input type="datetime" ... />`, 
+`<input type="color" ... />`, etc., lo que añade compatibilidad total con HTML5 
+a Spring MVC.
 
 
 
@@ -946,7 +962,7 @@ our HTML page:
 
 ```html
 <div>
-  <label th:for="${#ids.next('covered')}" th:text="#{seedstarter.covered}">Covered</label>
+  <label th:for="${#ids.next('covered')}" th:text="#{seedstarter.covered}">Cubierta</label>
   <input type="checkbox" th:field="*{covered}" />
 </div>
 ```
@@ -1023,7 +1039,7 @@ checkboxes ---except that they are not multivalued, of course:
 <ul>
   <li th:each="ty : ${allTypes}">
     <input type="radio" th:field="*{type}" th:value="${ty}" />
-    <label th:for="${#ids.prev('type')}" th:text="#{${'seedstarter.type.' + ty}}">Wireframe</label>
+    <label th:for="${#ids.prev('type')}" th:text="#{${'seedstarter.type.' + ty}}">Estructura alámbrica</label>
   </li>
 </ul>
 ```
@@ -1046,7 +1062,7 @@ Let's re-build the type field as a dropdown select:
 <select th:field="*{type}">
   <option th:each="type : ${allTypes}" 
           th:value="${type}" 
-          th:text="#{${'seedstarter.type.' + type}}">Wireframe</option>
+          th:text="#{${'seedstarter.type.' + type}}">Estructura alámbrica</option>
 </select>
 ```
 

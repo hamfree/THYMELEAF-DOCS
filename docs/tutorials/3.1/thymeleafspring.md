@@ -85,8 +85,8 @@ características específicas:
 Dese cuenta que la mayoría de las veces _no debería estar usando este dialecto 
 directamente en un objeto normal `TemplateEngine`_ como parte de su configuración.
 A menos de que tenga unas necesidades de integración con Spring muy específicas,
-debería crear una instancia de una nueva clase de motor de plantillas que realice 
-todas lasautomáticamente todos los pasos de configuración necesarios: 
+debería crear una instancia de una nueva clase de motor de plantillas que realice
+automáticamente todos los pasos de configuración necesarios: 
 `org.thymeleaf.spring6.SpringTemplateEngine`.
 
 Un ejemplo de la configuración de un bean:
@@ -169,7 +169,7 @@ O, usando la configuración basada en XML de  Spring:
 3.1 Vistas y solucionadores de vistas en Spring MVC
 ---------------------------------------------------
 
-Hay dos interfaces en Spring MVC que componen el núcloe de su sistema de 
+Hay dos interfaces en Spring MVC que componen el núcleo de su sistema de 
 plantillas:
 
  * `org.springframework.web.servlet.View`
@@ -182,7 +182,7 @@ motor de plantillas como Thymeleaf.
 
 Los ViewResolvers son los objetos a cargo de obtener los objetos View para una 
 operación específica y la regionalización. Típicamente, los controladores piden 
-a los ViewResolvers redirigir a una vista con un nombre específico (una String 
+a los ViewResolvers redirigir a una vista con un nombre específico (una cadena 
 devuelta por el método controlador), y luego todos los ViewResolvers, en la 
 aplicación se ejecutan en una cadena ordenada hasta que uno de ellos es capaz 
 de resolver esa vista, en cuyo caso se devuelve un objeto View y se le pasa el 
@@ -283,12 +283,12 @@ public ThymeleafView mainView() {
 ```
 
 Al hacer esto, será capaz de ejecutar específicamente esta vista de bean 
-seleccionándiola por su nombre de bean (`mainView`, en este caso).
+seleccionándola por su nombre de bean (`mainView`, en este caso).
 
 
 
-4 Gestor Iniciador de Semillas de Romero de Spring
-==================================================
+4 Gestor Spring Thyme Seed Starter Manager
+==========================================
 
 El código fuente para los ejemplos mostrados en este y futuros capítulos de esta 
 guía se encuentran en la aplicación de ejemplo 
@@ -314,7 +314,7 @@ nuestros semilleros: _The Spring Thyme SeedStarter Manager_.
 
 ![STSM página inicial](images/thymeleafspring/stsm-view.png)
 
-De similar forma a la aplicación Good Thymes Virtual Grocery que desarrollamos 
+De forma similar a la aplicación Good Thymes Virtual Grocery que desarrollamos 
 en el tutorial _Usando Thymeleaf_, STSM nos permitirá ejemplificar los aspectos
 más importantes de la integración de Thymeleaf como motor de plantillas para 
 Spring MVC.
@@ -607,7 +607,7 @@ Los *formateadores* de Spring son implementaciones de la interfaz
 trabaja la infraestructura de conversión de Spring, vea los documentos en  
 [spring.io](http://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/validation.html#core-convert).
 
-Echemos un vistaz a `DateFormatter`, que da formato a fechas de acuerdo a la 
+Echemos un vistazo a `DateFormatter`, que da formato a fechas de acuerdo a la 
 cadena de formato presente en la clave de mensaje `date.format` de nuestro 
 `Messages.properties`:
 
@@ -848,6 +848,7 @@ Para lograr esto, creamos el siguiente código:
                        #strings.arrayPrepend(sb.features,'seedstarter.feature.')),
                    ', ')}">Calefacción Eléctrica, Césped</td>
 ```
+
 La última columna de nuestra lista será bastante simple, de hecho. Incluso si 
 tiene una tabla anidada para mostrar el contenido de cada fila en el contenedor:
 
@@ -915,7 +916,7 @@ Veamos ahora cómo agregar un campo de entrada a nuestro formulario:
 <input type="text" th:field="*{datePlanted}" />
 ```
 Como puede ver, aquí introducimos un nuevo atributo: `th:field`. Esta es una 
-muy característica muy importante para la integración con Spring MVC, ya que se 
+característica muy importante para la integración con Spring MVC, ya que se 
 encarga de todo el trabajo pesado de vincular su entrada con una propiedad en el 
 bean de respaldo del formulario. Puede considerarse equivalente al atributo 
 `path` en una etiqueta `<form:input>` de la biblioteca de etiquetas JSP de Spring 
@@ -1020,10 +1021,6 @@ de secuencia generado para un id de entrada específico.
 > automáticamente para evitar problemas con los navegadores que no envían los 
 > valores de las casillas de verificación sin marcar al servidor al enviar el 
 > formulario.
-
-> Don't worry about those hidden inputs with `name="_features"`: they are
-> automatically added in order to avoid problems with browsers not sending
-> unchecked checkbox values to the server upon form submission.
 
 Tenga en cuenta también que si nuestra propiedad features contenía algunos 
 valores seleccionados en nuestro bean de respaldo del formulario, `th:field` se 
@@ -1156,7 +1153,7 @@ alturas... excepto por una cosa `extraña`:
 Si recuerdas del tutorial _"Usando Thymeleaf"_, la sintaxis `__${...}__` es una 
 expresión de preprocesamiento, que es una expresión interna que se evalúa antes 
 de evaluar la expresión completa. Pero, ¿por qué esa forma de especificar el 
-índice de fila? ¿No bastaría con:
+índice de fila? ¿No bastaría con?:
 
 ```html
 <select th:field="*{rows[rowStat.index].variety}">
@@ -1399,10 +1396,10 @@ Nuestra aplicación ya está lista. Pero echemos un segundo vistazo a la página
 `.html` que creamos...
 
 Una de las consecuencias más agradables de trabajar con Thymeleaf es que, después 
-de haberde toda la funcionalidad que hemos añadido a nuestro HTML, aún podemos 
-usarlo como prototipo (lo llamamos una _Plantilla Natural_). Abramos 
-`seedstarterng.html` directamente en nuestro navegador sin ejecutar nuestra 
-aplicación:
+de haber terminado de definir toda la funcionalidad que hemos añadido a nuestro 
+HTML, aún podemos usarlo como prototipo (lo llamamos una _Plantilla Natural_). 
+Abramos `seedstarterng.html` directamente en nuestro navegador sin ejecutar 
+nuestra aplicación:
 
 ![Plantillas naturales en STSM](images/thymeleafspring/stsm-natural-templating.png)
 
@@ -1506,8 +1503,11 @@ del Servicio de conversión donde sea necesario:
 
 Sintaxis para este objeto de utilidad:
 
-  * `#conversions.convert(Object,Class)`: convierte el objeto a la clase especificada.
-  * `#conversions.convert(Object,String)`: Igual que lo anterior, pero especificando la clase de destino como una cadena (tenga en cuenta que se puede omitir el paquete `java.lang.`).
+  * `#conversions.convert(Object,Class)`: convierte el objeto a la clase 
+    especificada.
+  * `#conversions.convert(Object,String)`: Igual que lo anterior, pero 
+    especificando la clase de destino como una cadena (tenga en cuenta que se 
+    puede omitir el paquete `java.lang.`).
 
 
 
@@ -1660,11 +1660,17 @@ public String showContentPart() {
 11.1 Integración con `RequestDataValueProcessor`
 -------------------------------------------------
 
-Thymeleaf seamlessly integrates with Spring's `RequestDataValueProcessor` interface. This interface allows the interception of link URLs, form URLs and form field values before they are written to the markup result, as well as transparently adding hidden form fields that enable security features like e.g. protection agains CSRF (Cross-Site Request Forgery).
+Thymeleaf se integra a la perfección con la interfaz `RequestDataValueProcessor` 
+de Spring. Esta interfaz permite interceptar las URL de enlaces, las URL de 
+formularios y los valores de los campos de formulario antes de que se escriban 
+en el resultado del marcado, además de añadir de forma transparente campos de 
+formulario ocultos que habilitan funciones de seguridad como la protección 
+contra CSRF (falsificación de solicitudes entre sitios).
 
-An implementation of `RequestDataValueProcessor` can be easily configured at the Application Context. It needs to implement
-the `org.springframework.web.servlet.support.RequestDataValueProcessor` interface and have 
-`requestDataValueProcessor` as a bean name:
+Una implementación de `RequestDataValueProcessor` se puede configurar 
+fácilmente en el contexto de la aplicación. Debe implementar la interfaz 
+`org.springframework.web.servlet.support.RequestDataValueProcessor` y tener 
+`requestDataValueProcessor` como nombre de bean:
 
 ```java
 @Bean
@@ -1673,34 +1679,50 @@ public RequestDataValueProcessor requestDataValueProcessor() {
 }
 ```
 
-...and Thymeleaf will use it this way:
+...y Thymeleaf lo utilizará de esta manera:
 
-  * `th:href` and `th:src` call `RequestDataValueProcessor.processUrl(...)` before rendering the URL.
+  * `th:href` y `th:src` llaman a `RequestDataValueProcessor.processUrl(...)` 
+    antes de renderizar la URL.
 
-  * `th:action` calls `RequestDataValueProcessor.processAction(...)` before rendering the form's `action` attribute, and additionally it detects when this attribute is being applied on a `<form>` tag ---which should be the only place, anyway---, and in such case calls `RequestDataValueProcessor.getExtraHiddenFields(...)` and adds the returned hidden fields just before the closing `</form>` tag.
+  * `th:action` llama a  `RequestDataValueProcessor.processAction(...)` antes 
+    de renderizar el atributo del formulario  `action`, y adicionalmente detecta 
+    cuando el atributo está siendo aplicado en una etiqueta `<form>` 
+    --—que, de todos modos, debería ser el único lugar---, y en tal caso llama a 
+    `RequestDataValueProcessor.getExtraHiddenFields(...)` y agrega los campos 
+    ocultos devueltos justo antes de la etiqueta de cierre `</form>`.
 
-  * `th:value` calls `RequestDataValueProcessor.processFormFieldValue(...)` for rendering the value it refers to, unless there is a `th:field` present in the same tag (in which case `th:field` will take care).
+  * `th:value` llama a  `RequestDataValueProcessor.processFormFieldValue(...)`
+    para representar el valor al que se refiere, a menos que haya un `th:field` 
+    presente en la misma etiqueta (en cuyo caso `th:field` se encargará de ello).
 
-  * `th:field` calls `RequestDataValueProcessor.processFormFieldValue(...)` for rendering the value of the field it applies to (or the tag body if it is a `<textarea>`).
+  * `th:field` llama a  `RequestDataValueProcessor.processFormFieldValue(...)` 
+    para mostrar el valor del campo al que se aplica (o el cuerpo de la etiqueta 
+    si es un `<textarea>`).
 
 
-> Note there are very few scenarios in which you would need to explicitly implement `RequestDataValueProcessor`
-> in your application. In most cases, this will be used automatically by security libraries you transparently use, 
-> like e.g. Spring Security's CSRF support.
+> Tenga en cuenta que existen muy pocos escenarios en los que necesite 
+> implementar explícitamente `RequestDataValueProcessor` en su aplicación. En la 
+> mayoría de los casos, las bibliotecas de seguridad que utilice de forma 
+> transparente lo usarán automáticamente, como por ejemplo, la compatibilidad 
+> con CSRF de Spring Security.
 
 
 
 11.1 Creación de URI para controladores
 ---------------------------------------
 
-Since version 4.1, Spring allows the possibility to build links to annotated controllers directly from views, without the 
-need to know the URIs these controllers are mapped to.
+Desde la versión 4.1, Spring permite crear enlaces a controladores anotados 
+directamente desde las vistas, sin necesidad de conocer las URI a las que están 
+mapeados dichos controladores.
 
-In Thymeleaf, this can be achieved by means of the `#mvc.url(...)` expression object method, which allows the 
-specification of controller methods by the capital letters of the controller class they are in, followed by 
-the name of the method itself. This is equivalent to JSP's `spring:mvcUrl(...)` custom function. 
+En Thymeleaf, esto se logra mediante el método de objeto de expresión 
+`#mvc.url(...)`, que permite especificar los métodos del controlador mediante 
+las letras mayúsculas de la clase del controlador a la que pertenecen, seguidas 
+del nombre del método. Esto equivale a la función personalizada 
+`spring:mvcUrl(...)` de JSP.
 
-For example, for:
+Por ejemplo, para:
+
 ```java
 public class ExampleController {
 
@@ -1712,14 +1734,15 @@ public class ExampleController {
 
 }
 ```
-The following code will create a link to it:
+El siguiente código creará un enlace al mismo:
+
 ```html
 <a th:href="${(#mvc.url('EC#getData')).build()}">Get Data Param</a>
 <a th:href="${(#mvc.url('EC#getDataParam').arg(0,'internal')).build()}">Get Data Param</a>
 ``` 
 
-You can read more about this mechanism 
-at http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-links-to-controllers-from-views
+Puedes leer más sobre este mecanismo en 
+http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-links-to-controllers-from-views
 
 
 12 Integración con Spring WebFlow
@@ -1729,21 +1752,22 @@ at http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-re
 12.1 Configuración básica
 -------------------------
 
-The Thymeleaf + Spring integration packages include integration with Spring
-WebFlow.
+Los paquetes de integración de Thymeleaf + Spring incluyen la integración con 
+Spring WebFlow.
 
-_Note: Spring WebFlow 3.0+ is required when Thymeleaf is used with Spring 6, and
-Spring WebFlow 2.5 is needed with Spring 5._
+Nota: Se requiere Spring WebFlow 3.0 o superior al usar Thymeleaf con Spring 6, 
+y Spring WebFlow 2.5 con Spring 5.
 
-WebFlow includes some AJAX capabilities for rendering fragments of the displayed
-page when specific events (_transitions_) are triggered, and in order to enable
-Thymeleaf to attend these AJAX requests, we will have to use a different `ViewResolver`
-implementation, configured like this:
+WebFlow incluye funcionalidades AJAX para renderizar fragmentos de la página 
+mostrada cuando se activan eventos específicos (transiciones). Para que 
+Thymeleaf pueda gestionar estas solicitudes AJAX, será necesario usar una 
+implementación de `ViewResolver` diferente, configurada de la siguiente manera:
+
 
 ```java
 @Bean
 public FlowDefinitionRegistry flowRegistry() {
-    // NOTE: Additional configuration might be needed in your app
+    // NOTA: Es posible que se requiera configuración adicional en su aplicación.
     return getFlowDefinitionRegistryBuilder()
             .addFlowLocation("...")
             .setFlowBuilderServices(flowBuilderServices())
@@ -1752,13 +1776,13 @@ public FlowDefinitionRegistry flowRegistry() {
 
 @Bean
 public FlowExecutor flowExecutor() {
-    // NOTE: Additional configuration might be needed in your app
+    // NOTA: Es posible que se requiera configuración adicional en su aplicación.
     return getFlowExecutorBuilder(flowRegistry()).build();
 }
 
 @Bean
 public FlowBuilderServices flowBuilderServices() {
-    // NOTE: Additional configuration might be needed in your app
+    // NOTA: Es posible que se requiera configuración adicional en su aplicación.
     return getFlowBuilderServicesBuilder()
             .setViewFactoryCreator(viewFactoryCreator())
             .build();
@@ -1776,7 +1800,7 @@ public ViewFactoryCreator viewFactoryCreator() {
 @Bean
 public ViewResolver thymeleafViewResolver() {
     AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
-    // We need to set a special ThymeleafView implementation: FlowAjaxThymeleafView
+    // Necesitamos configurar una implementación especial de ThymeleafView: FlowAjaxThymeleafView
     viewResolver.setViewClass(FlowAjaxThymeleafView.class);
     viewResolver.setTemplateEngine(templateEngine());
     return viewResolver;
@@ -1784,10 +1808,12 @@ public ViewResolver thymeleafViewResolver() {
 
 ```
 
-Note the above is not a complete configuration: you will still need to configure your handlers, etc. Refer to the
-Spring WebFlow documentation for that.
+Tenga en cuenta que la configuración anterior no está completa: aún deberá 
+configurar sus manejadores, etc. Consulte la documentación de Spring WebFlow 
+para obtener más información.
 
-From here on, you can specify Thymeleaf templates in your view-state's:
+A partir de aquí, puede especificar las plantillas de Thymeleaf en sus estados 
+de vista:
 
 ```xml
 <view-state id="detail" view="bookingDetail">
@@ -1795,22 +1821,24 @@ From here on, you can specify Thymeleaf templates in your view-state's:
 </view-state>
 ```
 
-In the above example, `bookingDetail` is a Thymeleaf template specified in the
-usual way, understandable by any of the _Template Resolvers_ configured at the `TemplateEngine`.
+En el ejemplo anterior, `bookingDetail` es una plantilla Thymeleaf especificada 
+de la forma habitual, comprensible para cualquiera de los _Template Resolvers_ 
+configurados en el `TemplateEngine`.
 
 
 
 12.2 Fragmentos AJAX en Spring WebFlow
 -------------------------------------
 
-> Note that what is explained here is just the way to create AJAX fragments to be used
-> with Spring WebFlow. If you are not using WebFlow, creating a Spring MVC controller that
-> responds to an AJAX request and returns a chunk of HTML is as straightforward as creating
-> any other template-returning controller, with the only exception that you would probably
-> be returning a fragment like `"main :: admin"` from your controller method.
+> Tenga en cuenta que lo que se explica aquí es simplemente la forma de crear 
+> fragmentos AJAX para usar con Spring WebFlow. Si no usa WebFlow, crear un 
+> controlador Spring MVC que responda a una solicitud AJAX y devuelva un 
+> fragmento HTML es tan sencillo como crear cualquier otro controlador que 
+> devuelva una plantilla, con la única excepción de que probablemente devolverá 
+> un fun fragmento como `"main :: admin"` desde el método de su controlador.
 
-WebFlow allows the specification of fragments to be rendered via AJAX with `<render>`
-tags, like this:
+WebFlow permite especificar los fragmentos que se renderizarán mediante AJAX con 
+etiquetas `<render>`, como esta:
 
 ```xml
 <view-state id="detail" view="bookingDetail">
@@ -1820,20 +1848,21 @@ tags, like this:
 </view-state>
 ```
 
-These fragments (`hoteldata`, in this case) can be a comma-separated list of
-fragments specified at the markup with `th:fragment`:
+Estos fragmentos (en este caso, `hoteldata`) pueden ser una lista de fragmentos 
+separados por comas, especificados en el marcado con `th:fragment`:
 
 ```xml
 <div id="data" th:fragment="hoteldata">
-    This is a content to be changed
+   Este es un contenido que se modificará.
 </div>
 ```
 
-_Always remember that the specified fragments must have an `id` attribute, so
-that the Spring JavaScript libraries running on the browser are capable of
-substituting the markup._
+_Recuerda siempre que los fragmentos especificados deben tener un atributo `id`, 
+para que las bibliotecas JavaScript de Spring que se ejecutan en el navegador 
+puedan sustituir el marcado._
 
-`<render>` tags can also be specified using DOM selectors:
+Las etiquetas `<render>` también se pueden especificar utilizando selectores 
+DOM:
 
 ```html
 <view-state id="detail" view="bookingDetail">
@@ -1843,15 +1872,16 @@ substituting the markup._
 </view-state>
 ```
 
-...and this will mean no `th:fragment` is needed:
+...y esto significa que no se necesita ningún `th:fragment`:
 
 ```html
 <div id="data">
-    This is a content to be changed
+   Este es un contenido que se modificará.
 </div>
 ```
 
-As for the code that triggers the `updateData` transition, it looks like:
+En cuanto al código que activa la transición `updateData`, tiene el siguiente 
+aspecto:
 
 ```html
 <script type="text/javascript" th:src="@{/resources/dojo/dojo.js}"></script>
@@ -1861,7 +1891,7 @@ As for the code that triggers the `updateData` transition, it looks like:
   ...
 
 <form id="triggerform" method="post" action="">
-    <input type="submit" id="doUpdate" name="_eventId_updateData" value="Update now!" />
+    <input type="submit" id="doUpdate" name="_eventId_updateData" value="¡Actualiza ahora!" />
 </form>
 
 <script type="text/javascript">

@@ -5,9 +5,16 @@ version: @documentVersion@
 thymeleafVersion: @projectVersion@
 ---
 
-# 1 Presentando Thymeleaf
 
-## 1.1 ¿Qué es Thymeleaf?
+
+
+1 Presentando Thymeleaf
+=======================
+
+
+
+1.1 ¿Qué es Thymeleaf?
+----------------------
 
 Thymeleaf es un motor de plantillas del lado del servidor realizado en Java 
 tanto para la web como para entornos aislados, capaz de procesar HTML, XML, 
@@ -24,7 +31,9 @@ Thymeleaf también ha sido diseñado desde el principio con los Estándares Web 
 mente -- especialmente **HTML5** -- permitiéndole crear plantillas plenamente 
 validadas si es lo que necesita.
 
-## 1.2 ¿Qué clase de plantillas puede procesar Thymeleaf?
+
+1.2 ¿Qué clase de plantillas puede procesar Thymeleaf?
+------------------------------------------------------
 
 Tal como está, Thymeleaf le permite procesar ses clases de plantillas, cada una 
 de las cuales se llama **Modo de Plantilla**:
@@ -78,7 +87,8 @@ incontrolados, externos en formato HTML podrían ser incluídos en plantillas de
 aplicación, sabiendo de forma segura que no se ejecutará ningún código 
 Thymeleaf que estos recursos puedan incluir.
 
-## 1.3 Dialectos: El dialecto estándar
+1.3 Dialectos: El dialecto estándar
+-----------------------------------
 
 Thymeleaf es un motor de plantillas extremadamente extensible (en realidad podría 
 ser llamado un _marco de trabajo de motor de plantillas_) que le permite definir 
@@ -145,7 +155,8 @@ plantilla y reduce el esfuerzo requerido para transformar un prototipo estático
 en un fichero de plantilla funcional. La habilidad para hacer esto es una 
 funcionalidad llamada _Plantillado Natural_.
 
-# 2 La tienda de comestibles virtual Good Thymes
+2 La tienda de comestibles virtual Good Thymes
+==============================================
 
 El código fuente para los ejemplos mostrados en este, y futuros capítulos de 
 esta guía, se puede encontrar en el ejemplo _Good Thymes Virtual Grocery (GTVG)
@@ -154,7 +165,8 @@ el cual tiene dos versiones (equivalentes):
    * basado en `javax.*`: [gtvg-javax](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-javax).
    * basado en `jakarta.*`: [gtvg-jakarta](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-jakarta).
 
-## 2.1 Un sitio web para una tienda de comestibles
+2.1 Un sitio web para una tienda de comestibles
+-----------------------------------------------
 
 Para explicar mejor los conceptos involucrados en el procesamiento de 
 plantillas con Thymeleaf, este tutorial usará una aplicación de demostración que 
@@ -181,11 +193,14 @@ public class ProductService {
     ...
 
     public List<Product> findAll() {
+        
         return ProductRepository.getInstance().findAll();
     }
 
     public Product findById(Integer id) {
+        
         return ProductRepository.getInstance().findById(id);
+   
     }
     
 }
@@ -249,7 +264,7 @@ private boolean process(HttpServletRequest request, HttpServletResponse response
         response.setDateHeader("Expires", 0);
 
         /*
-         * Obtiene el flujo escritor (writer) de la respuesta (response)
+         * Obtener el escritor (writer) de respuesta (response)
          */
         final Writer writer = response.getWriter();
 
@@ -299,7 +314,8 @@ Al final se verá así:
 
 Pero primero veamos cómo se inicializa el motor de plantillas.
 
-## 2.2 Creación y configuración del Motor de Plantillas
+2.2 Creación y configuración del Motor de Plantillas
+----------------------------------------------------
 
 El método _init(...)_ en nuestro filtro contenía esta línea: 
 
@@ -317,7 +333,7 @@ private static ITemplateEngine buildTemplateEngine(final IWebApplication applica
 
     // HTML es el modo por defecto, pero lo estableceremos igualmente para entender mejor el código
     templateResolver.setTemplateMode(TemplateMode.HTML);
-    // Esto convertíra "home" en "/WEB-INF/templates/home.html"
+    // Esto convertirá "home" en "/WEB-INF/templates/home.html"
     templateResolver.setPrefix("/WEB-INF/templates/");
     templateResolver.setSuffix(".html");
     // Establece la caché TTL de la plantilla a 1 hora. Si no establece, las entradas existirían en la caché hasta que la LRU las expulse 
@@ -439,9 +455,12 @@ necesitamos.
 Nuestro Motor de Plantillas está ahora listo y podemos empezar a crear nuestras 
 páginas usando Thymeleaf.
 
-# 3 Uso de textos
+3 Uso de textos
+================
 
-## 3.1 Una bienvenida en varios idiomas
+
+3.1 Una bienvenida en varios idiomas
+------------------------------------
 
 Nuestra primera tarea será crear una página de inicio para nuestro sitio de la 
 tienda de comestibles.
@@ -557,8 +576,9 @@ Ahora bien, ¿dónde está este texto externalizado?
 
 La ubicación del texto externalizado en Thymeleaf es completamente configurable, y 
 dependerá de la implementación específica de `org.thymeleaf.messageresolver.IMessageResolver`
-que será usada, pero podríamos crear nuestras propias implementaciones si 
-quisiéramos, por ejemplo, obtener los mensajes de una base de datos.
+que será usada. Normalmente, se utilizará una implementación basada en archivos 
+`.properties`, pero podríamos crear nuestras propias implementaciones si 
+quisiéramos, por ejemplo, para obtener mensajes de una base de datos.
 
 Sin embargo, no hemos especificado un solucionador de mensajes para nuestro motor 
 de plantillas durante la inicialización, y eso significa que nuestra aplicación 
@@ -571,7 +591,7 @@ con el mismo nombre que la plantilla, como:
 
  * `/WEB-INF/templates/home_en.properties` para textos en inglés.
  * `/WEB-INF/templates/home_es.properties` para textos en lenguaje español.
- * `/WEB-INF/templates/home_pt_BR.properties` para textos en lenguaje portugues (Brasil).
+ * `/WEB-INF/templates/home_pt_BR.properties` para textos en lenguaje portugués (Brasil).
  * `/WEB-INF/templates/home.properties` para los textos por defecto (si la 
    configuración regional no coincide).
 
@@ -641,7 +661,7 @@ estas interfaces:
  * `org.thymeleaf.context.Context` implementa `IContext`
  * `org.thymeleaf.context.WebContext` implementa `IWebContext`
 
-Y como puede ver en el código del controlado, `WebContext` es el que usamos. De 
+Y como puede ver en el código del controlador, `WebContext` es el que usamos. De 
 hecho tenemos que hacerlo, porque el uso de un `WebApplicationTemplateResolver` 
 requiere que usemos un contexto que implemente `IWebContext`.
 
@@ -671,7 +691,6 @@ que procese la plantilla (por su nombre) usando el contexto, y pasándole un
 escritor de respuesta (response writer) de forma que la respuesta pueda escribir
 en él: 
 
-
 ```java
 templateEngine.process("home", ctx, writer);
 ```
@@ -698,7 +717,8 @@ Veamos los resultados de esto usando la configuración regional española:
 </html>
 ```
 
-## 3.2 Más sobre textos y variables
+3.2 Más sobre textos y variables
+--------------------------------
 
 ### Texto no escapado
 
@@ -721,7 +741,7 @@ sido escapada y, por lo tanto, será visualizada en el navegador.
 
 Este es el comportamiento por defecto del atributo `th:text`. Si queremos que 
 Thymeleaf respete nuestras etiquetas HTML y no las escape, tendremos que usar un 
-atributo diferente: `th:utext` (para "texto sin escape"):
+atributo diferente: `th:utext` (para "texto sin escapar"):
 
 ```html
 <p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
@@ -794,11 +814,15 @@ Existen muchas posibilidades en los valores de los atributos: mensajes,
 expresiones de variables... y mucho más. El siguiente capítulo nos mostrará 
 cuáles son todas estas posibilidades.
 
-# 4 Sintaxis de expresiones estándar
+4 Sintaxis de expresiones estándar
+==================================
 
 Nos tomaremos un pequeño descanso en el desarrollo de nuestra tienda virtual de 
 comestibles para aprender sobre una de las partes más importantes del Dialecto 
 Estándar de Thymeleaf: La sintaxis de las Expresiones Estándar de Thymeleaf:
+
+Ya hemos visto dos tipos de valores de atributos válidos expresados en esta 
+sintaxis: expresiones de mensajes y variables:
 
 ```html
 <p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
@@ -809,7 +833,6 @@ Estándar de Thymeleaf: La sintaxis de las Expresiones Estándar de Thymeleaf:
 Pero existen más tipos de expresiones, y más detalles interesantes que aprender 
 sobre las que ya conocemos. Primero, veamos un breve resumen de las 
 características de las expresiones estándar:
-
 
  * Expresiones simples:
     * Expresiones de Variable: `${...}`
@@ -848,7 +871,8 @@ Todas estas características pueden combinarse y anidarse:
 'Usuario es del tipo: ' + ( ' + (${user.isAdmin()} ? 'Administrador' : (${user.type} ?: 'Desconocido'))
 ```
 
-## 4.1 Mensajes
+4.1 Mensajes
+------------
 
 Como ya sabemos, las expresiones de mensaje `#{...}` nos permiten vincular esto:
 
@@ -906,7 +930,8 @@ La misma clave del mensaje puede provenir de una variable:
 </p>
 ```
 
-## 4.2 Variables
+4.2 Variables
+-------------
 
 Ya mencionamos que las expresiones `${...}` son en realidad expresiones OGNL
 (Lenguaje de Navegación Objeto-Gráfico) ejecutadas sobre el mapa de variables 
@@ -981,7 +1006,7 @@ ${person.createCompleteName()}
 ${person.createCompleteNameWithSeparator('-')}
 ```
 
-### Objetos básicos de Expresiones OGNL
+### Objetos básicos de Expresiones
 
 Cuando se evaluan las expresiones OGNL en las variables del contexto, algunos 
 objetos se ponen a disposición de las expresiones para mayor flexibilidad. Estos 
@@ -1065,11 +1090,11 @@ templateEngine.process("home", ctx, writer);
 </p>
 ```
 
-## 4.3 Expresiones en selecciones (sintaxis de asterisco)
+4.3 Expresiones en selecciones (sintaxis de asterisco)
+------------------------------------------------------
 
 No solo las expresiones de variables pueden ser escritas como `${...}`, si no 
 también como `*{...}`.
-
 
 Sin embargo, existe una diferencia importante: la sintaxis del asterisco evalúa 
 las expresiones en _objetos seleccionados_ en lugar de en todo el contexto. 
@@ -1130,14 +1155,14 @@ de dólar y asterisco son equivalentes.
   <p>Nacionalidad: <span th:text="*{session.user.nationality}">Saturno</span>.</p>
 </div>
 ```
-## 4.4 Enlaces a URL
+4.4 Enlaces a URL
+-----------------
 
 Debido a su importancia, las URL son ciudadanas de primera clase en las 
 plantillas de aplicaciones web, y el _Dialecto Estándar de Thymeleaf_ tiene una 
 sintaxis especial para ellas, la sintaxis `@`: `@{...}`
 
 Hay diferentes tipos de URLs:
-There are different types of URLs:
 
  * URLs absolutas: `http://www.thymeleaf.org`
  *  URL relativas, las cuales pueden ser:
@@ -1227,7 +1252,8 @@ servidor (en vez de relativas a la raíz del contexto) para enlazar a diferentes
 contextos en el mismo servidor. Estas URL se especificarán como 
 `@{~/path/to/something}`
 
-## 4.5 Fragmentos
+4.5 Fragmentos
+--------------
 
 Las expresiones de fragmento son una forma fácil de representar fragmentos de 
 marco y moverlos entre las plantillas. Esto nos permite replicarlas, pasarlas 
@@ -1253,7 +1279,8 @@ Más tarde en este tutorial hay una sección entera dedicada al Diseño de
 Plantillas, incluyendo una explicación más profunda de las expresiones de 
 fragmento.
 
-## 4.6 Literales
+4.6 Literales
+-------------
 
 ### Literales de texto
 
@@ -1323,7 +1350,8 @@ en lugar de:
 <div th:class="'content'">...</div>
 ```
 
-## 4.7 Agregar textos
+4.7 Agregar textos
+------------------
 
 Los textos, sin importar si son literales o el resultado de evaluar expresiones 
 variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
@@ -1332,7 +1360,8 @@ variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
 <span th:text="'El nombre del usuario es ' + ${user.name}">
 ```
 
-## 4.8 Sustituciones de literales
+4.8 Sustituciones de literales
+------------------------------
 
 Las sustituciones literales permiten formatear fácilmente cadenas que contienen 
 valores de variables sin la necesidad de agregar literales con '...' + '...'`.
@@ -1359,7 +1388,8 @@ Las sustituciones literales se pueden combinar con otros tipos de expresiones:
 > otros literales (`'...'`), tokens booleanos/numéricos, expresiones 
 > condicionales, etc. 
 
-## 4.9 Operaciones aritméticas
+4.9 Operaciones aritméticas
+---------------------------
 
 También se encuentran disponibles algunas operaciones aritméticas: 
 `+`, `-`, `*`, `/` y `%`.
@@ -1378,7 +1408,8 @@ del motor de Expresiones Estándar de Thymeleaf):
 Dese cuenta de que existen aliases textuales para algunos de estos operadores: 
 `div` (`/`), `mod` (`%`).
 
-## 4.10 Comparadores e igualdad 
+4.10 Comparadores e igualdad
+----------------------------
 
 Los valores en las expresiones pueden compararse con los símbolos 
 `>`, `<`, `>=` y `<=`, y los operadores `==` y `!=` se pueden utilizar para 
@@ -1395,7 +1426,8 @@ Una alternativa más simple podría ser usar los alias textuales que existen par
 algunos de estos operandos: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), 
 `not` (`!`). También `eq` (`==`), `neq`/`ne` (`!=`).
 
-## 4.11 Expresiones condicionales
+4.11 Expresiones condicionales
+------------------------------
 
 Las _expresiones condicionales_ están destinadas a evaluar solo una de dos 
 expresiones dependiendo del resultado de evaluar una condición (que es en sí 
@@ -1431,7 +1463,8 @@ un valor nulo si la condición es falsa:
 </tr>
 ```
 
-## 4.12 Expresiones predeterminadas (operador Elvis)
+4.12 Expresiones predeterminadas (operador Elvis)
+-------------------------------------------------
 
 Una _expresión por defecto_ es una clase especial de valor condicional sin una 
 parte _then_. Es el equivalente al _Operador elvis_ presente en algunos lenguajes 
@@ -1464,7 +1497,8 @@ paréntesis:
 </p>
 ```
 
-## 4.13 El token de no operación
+4.13 El token de no operación
+-----------------------------
 
 La ficha No-Operación se representa por un símbolo de subrayado (`_`).
 
@@ -1486,7 +1520,8 @@ punto de vista de diseño:
 <span th:text="${user.name} ?: _">usuario no autenticado</span>
 ```
 
-## 4.14 Conversión y Formato de datos 
+4.14 Conversión y Formato de datos
+----------------------------------
 
 Thymeleaf define una sintaxis de *dobles llaves* para las expresiones de 
 variables (`${...}`) y selección (`*{...}`) que nos permite aplicar 
@@ -1520,7 +1555,8 @@ sección [Más sobre la configuración](#15-más-sobre-la-configuración).
 > en la configuración de Spring estarán disponibles automáticamente para las 
 > expresiones `${{...}}` y `*{{...}}`.
 
-## 4.15 Preprocesamiento
+4.15 Preprocesamiento
+---------------------
 
 Además de todas estas funciones para el procesamiento de expresiones, Thymeleaf 
 cuenta con la función de preprocesar expresiones.
@@ -1567,12 +1603,14 @@ en francés creará el siguiente equivalente:
 La cadena de preprocesamiento `__` se puede escapar en los atributos 
 usando `\_\_`.
 
-# 5 Establecer valores de atributos
+5 Establecer valores de atributos
+=================================
 
 Este capítulo explicará la forma en que podemos establecer (o modificar) valores 
 de atributos en nuestro marcado.
 
-## 5.1 Establecer el valor de cualquier atributo
+5.1 Establecer el valor de cualquier atributo
+---------------------------------------------
 
 Digamos que nuestro sitio web publica un boletín informativo y queremos que 
 nuestros usuarios puedan suscribirse a él, por lo que creamos una plantilla 
@@ -1635,7 +1673,8 @@ Dados los archivos de mensajes necesarios, esto generará:
 <img src="/gtgv/images/gtvglogo.png" title="Logo de Good Thymes" alt="Logo de Good Thymes" />
 ```
 
-## 5.2 Establecer valores para atributos específicos
+5.2 Establecer valores para atributos específicos
+-------------------------------------------------
 
 A estas alturas, es posible que estés pensando en algo como esto:
 
@@ -1734,7 +1773,9 @@ específico:
 `th:xmlbase`           `th:xmllang`           `th:xmlspace`          
 ---------------------- ---------------------- ----------------------
 
-## 5.3 Establecer más de un valor a la vez
+
+5.3 Establecer más de un valor a la vez
+---------------------------------------
 
 Existen dos atributos bastante especiales, llamados `th:alt-title` y 
 `th:lang-xmllang`, que permiten asignar el mismo valor a dos atributos 
@@ -1764,7 +1805,8 @@ Para nuestra pagína de inicio GTVG, esto nos permitirá substituir esto:
      th:src="@{/images/gtvglogo.png}" th:alt-title="#{logo}" />
 ```
 
-## 5.4 Anexar y anteponer
+5.4 Anexar y anteponer
+----------------------
 
 Thymeleaf también ofrece los atributos `th:attrappend` y `th:attrprepend`, que 
 añaden (sufijo) o anteponen (prefijo) el resultado de su evaluación a los 
@@ -1797,7 +1839,8 @@ existentes:
 (No te preocupes por el atributo `th:each`. Es un _atributo iterativo_ y 
 hablaremos de él más adelante).
 
-## 5.5 Atributos booleanos de valor fijo
+5.5 Atributos booleanos de valor fijo
+-------------------------------------
 
 HTML utiliza el concepto de _atributos booleanos_, atributos que no tienen valor 
 y la presencia de uno significa que el valor es "verdadero". En XHTML, estos 
@@ -1832,7 +1875,9 @@ estándar:
 |    `th:readonly`    | `th:required`  |  `th:reversed`  |
 |     `th:scoped`     | `th:seamless`  |  `th:selected`  |
 
-## 5.6 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
+
+5.6 Establecer el valor de cualquier atributo (procesador de atributos predeterminado)
+--------------------------------------------------------------------------------------
 
 Thymeleaf ofrece un *procesador de atributos predeterminado* que nos permite 
 establecer el valor de *cualquier* atributo, incluso si no se ha definido un 
@@ -1850,7 +1895,8 @@ Dará como resultado:
 <span whatever="John Apricot">...</span>
 ```
 
-## 5.7 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
+5.7 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
+-----------------------------------------------------------------------------
 
 También es posible utilizar una sintaxis completamente diferente para aplicar 
 procesadores a sus plantillas de una manera más compatible con HTML5.
@@ -1878,7 +1924,8 @@ Esto se puede usar, por ejemplo, para el elemento `th:block` (o también
 `th:*`, no la reemplaza. No se pretende discontinuar la sintaxis con espacio de 
 nombres en el futuro.
 
-# 6 Iteración
+6 Iteración
+===========
 
 Hasta ahora hemos creado una página de inicio, una página de perfil de usuario y 
 una página para que los usuarios se suscriban a nuestro boletín informativo... 
@@ -1886,7 +1933,8 @@ pero ¿qué pasa con nuestros productos? Para ello, necesitaremos una forma de
 iterar sobre los artículos de una colección para crear nuestra página de 
 producto.
 
-## 6.1 Conceptos básicos de iteración
+6.1 Conceptos básicos de iteración
+-----------------------------------
 
 Para mostrar los productos en nuestra página 
 `/WEB-INF/templates/product/list.html`, usaremos una tabla. Cada producto se 
@@ -1990,7 +2038,8 @@ consideran _iterables_ mediante un atributo `th:each`:
  * Cualquier otro objeto se tratará como si fuera una lista de un solo valor que 
    contiene el objeto mismo.
 
-## 6.2 Mantener el estado de la iteración
+6.2 Mantener el estado de la iteración
+--------------------------------------
 
 Cuando usa `th:each`, Thymeleaf ofrece un mecanismo útil para seguir la pista del 
 estado de tu iteración: _la variable status_.
@@ -2105,7 +2154,8 @@ iteración:
 </table>
 ```
 
-## 6.3 Optimización mediante recuperación diferida de datos
+6.3 Optimización mediante recuperación diferida de datos
+--------------------------------------------------------
 
 Algunas veces podríamos querer optimizar la adquisición de colecciones de datos 
 (p. ej. desde una base de datos) así que estas colecciones se recuperan únicamente si 
@@ -2148,9 +2198,11 @@ llamará) si la `condition` evalúa a `false` en un código como:
 </ul>
 ```
 
-# 7 Evaluación condicional
+7 Evaluación condicional
+========================
 
-## 7.1 Condicionales simples: "if" y "unless"
+7.1 Condicionales simples: "if" y "unless"
+------------------------------------------
 
 Algunas veces necesitarás que un fragmento de su plantilla solo aparezca en el resultado
 si se cumple una cierta condición.
@@ -2264,7 +2316,8 @@ el ejemplo previo en vez de usar un `not` dentro de la expresión OGNL:
    th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
 ```
 
-## 7.2 Sentencias Switch
+7.2 Sentencias Switch
+---------------------
 
 También hay una forma de mostrar contenido condicionalmente usando el equivalente de una 
 estructura _switch_ en Java: el conjunto de atributos `th:switch` / `th:case`.
@@ -2289,9 +2342,11 @@ La opción predeterminada se especifica como `th:case="*"`:
 </div>
 ```
 
-# 8 Diseño de plantillas
+8 Diseño de plantillas
+======================
 
-## 8.1 Incluyendo fragmentos de plantilla
+8.1 Incluyendo fragmentos de plantilla
+--------------------------------------
 
 ### Definición y referencia de fragmentos
 
@@ -2467,7 +2522,8 @@ Así, un fragmento HTML como este:
 </body>
 ```
 
-## 8.2 Firmas de fragmentos parametrizables
+8.2 Firmas de fragmentos parametrizables
+----------------------------------------
 
 Para crear un mecanismo más funcional para los fragmentos de plantilla, los 
 fragmentos definidos con `th:fragment` pueden especificar un conjunto de 
@@ -2538,7 +2594,8 @@ Esto resulta útil para validar parámetros en una firma de fragmento:
 <header th:fragment="contentheader(title)" th:assert="${!#strings.isEmpty(title)}">...</header>
 ```
 
-## 8.3 Eliminación de fragmentos de plantilla
+8.3 Eliminación de fragmentos de plantilla
+------------------------------------------
 
 Gracias a las *expresiones de fragmento*, podemos especificar parámetros para 
 fragmentos que no son textos, números ni objetos bean, sino fragmentos de 
@@ -2725,7 +2782,8 @@ condición en una operación *predeterminada*:
 ...
 ```
 
-## 8.4 Eliminación de fragmentos de plantilla
+8.4 Eliminación de fragmentos de plantilla
+------------------------------------------
 
 Volviendo a la aplicación de ejemplo, revisemos la última versión de nuestra 
 plantilla de lista de productos:
@@ -3036,7 +3094,8 @@ Tenga en cuenta también que `th:remove` considera que `null` es un sinónimo de
 En este caso, si `${condition}` es falso, se devolverá `null` y, por lo tanto, 
 no se realizará ninguna eliminación.
 
-## 8.5 Herencia de diseño
+8.5 Herencia de diseño
+----------------------
 
 Para tener un solo archivo como diseño, se pueden usar fragmentos. Un ejemplo de 
 un diseño simple con `title` y `content` usa `th:fragment` y `th:replace`:
@@ -3085,7 +3144,8 @@ respectivamente.
 Si se desea, el diseño puede estar compuesto por varios fragmentos como _header_ 
 y _footer_.
 
-# 9 Variables locales
+9 Variables locales
+===================
 
 Thymeleaf llama _variables locales_ a las variables que se definen para un 
 fragmento específico de una plantilla, y que solo están disponibles para la 
@@ -3191,7 +3251,8 @@ que `th:text`, podríamos haber solucionado todo en la etiqueta `span`:
 Quizás estés pensando: ¿Precedencia? ¡Aún no hemos hablado de eso! Bueno, no te 
 preocupes, porque de eso trata precisamente el siguiente capítulo.
 
-# 10 Precedencia de atributos
+10 Precedencia de atributos
+===========================
 
 ¿Qué ocurre al escribir más de un atributo `th:*` en la misma etiqueta? Por 
 ejemplo:
@@ -3232,9 +3293,12 @@ dará exactamente los mismos resultados si se invierte la posición del atributo
 </ul>
 ```
 
-# 11 Comentarios y bloques
+11 Comentarios y bloques
+========================
 
-## 11.1. Comentarios HTML/XML estándar
+
+11.1. Comentarios HTML/XML estándar
+-----------------------------------
 
 Los comentarios HTML/XML estándar `<!-- ... -->` se pueden usar en cualquier 
 parte de las plantillas de Thymeleaf. El contenido de estos comentarios no será 
@@ -3247,7 +3311,8 @@ procesado por Thymeleaf y se copiará textualmente en el resultado:
 </div>
 ```
 
-## 11.2. Bloques de comentarios a nivel de analizador de Thymeleaf
+11.2. Bloques de comentarios a nivel de analizador de Thymeleaf
+-----------------------------------------------------------------
 
 Los bloques de comentarios a nivel de analizador son código que simplemente se 
 eliminará de la plantilla cuando Thymeleaf la analice. Tienen este aspecto:
@@ -3288,7 +3353,8 @@ por ejemplo:
 </table>
 ```
 
-## 11.3. Bloques de comentarios exclusivos del prototipo de Thymeleaf
+11.3. Bloques de comentarios exclusivos del prototipo de Thymeleaf
+--------------------------------------------------------------------
 
 Thymeleaf permite la definición de bloques de comentarios especiales marcados 
 como comentarios cuando la plantilla está abierta estáticamente (es decir, como 
@@ -3322,7 +3388,8 @@ tanto, al ejecutar la plantilla, Thymeleaf verá esto:
 Al igual que con los bloques de comentarios a nivel de analizador, esta 
 característica es independiente del dialecto.
 
-## 11.4. Etiqueta sintética `th:block`
+11.4. Etiqueta sintética `th:block`
+-----------------------------------
 
 El único procesador de elementos (no un atributo) de Thymeleaf incluido en los 
 dialectos estándar es `th:block`.
@@ -3370,9 +3437,11 @@ Tenga en cuenta como esta solución permite que las plantillas sean HTML válido
 funciona correctamente cuando se abren estáticamente en navegadores como 
 prototipos. 
 
-# 12 Inserción en línea
+12 Inserción en línea
+=====================
 
-## 12.1 Inserción de expresiones en línea
+12.1 Inserción de expresiones en línea
+--------------------------------------
 
 Aunque el Dialecto Estándar nos permite hacer casi todo usando atributos de 
 etiqueta, hay situaciones en las que preferiríamos escribir expresiones 
@@ -3466,7 +3535,8 @@ Esto dará como resultado:
 <p>¡Una matriz doble se ve así: [[1, 2, 3], [4, 5]]!</p>
 ```
 
-## 12.2 Inserción de texto en línea
+12.2 Inserción de texto en línea
+--------------------------------
 
 La *inserción de texto en línea* es muy similar a la función de 
 *inserción de expresiones* que acabamos de ver, pero en realidad añade más 
@@ -3481,7 +3551,8 @@ salida).
 Veremos más sobre esto en el próximo capítulo sobre los *modos de plantilla 
 textual*.
 
-## 12.3 Inserción de JavaScript en línea
+12.3 Inserción de JavaScript en línea
+-------------------------------------
 
 La inserción en línea de JavaScript permite una mejor integración de los bloques
 de código `<script>` de JavaScript en las plantillas que se procesan en el modo 
@@ -3638,7 +3709,8 @@ de clases y, si está presente, la usará. De lo contrario, aplicará un mecanis
 de serialización integrado que cubre las necesidades de la mayoría de los 
 escenarios y produce resultados similares (pero es menos flexible).
 
-## 12.4 Inserción de CSS
+12.4 CSS incrustado
+-------------------
 
 Thymeleaf también permite el uso de incrustación en etiquetas CSS `<style>`, 
 como:
@@ -3697,9 +3769,11 @@ encapsular expresiones en línea en comentarios. Véase:
     }
 </style>
 ```
-# 13 Modos de plantilla textual
+13 Modos de plantilla textual
+=============================
 
-## 13.1 Sintaxis textual
+13.1 Sintaxis textual
+---------------------
 
 Tres de los *modos de plantilla* de Thymeleaf se consideran **textuales**: 
 `TEXT`, `JAVASCRIPT` y `CSS`. Esto los diferencia de los modos de plantilla de 
@@ -3812,6 +3886,16 @@ Gracias,
   La Tienda de Thymeleaf
 ```
 
+Tenga en cuenta que `[# th:each="..."]` y `[/]` ocupan cada una su propia línea 
+en la plantilla, y el salto de línea al final de cada una de ellas forma parte 
+del texto circundante y, por lo tanto, se incluye en la salida. Esto significa 
+que la línea `[# ...]` añade una línea en blanco adicional antes del primer 
+elemento, cada límite de iteración añade una línea en blanco entre elementos, y 
+la línea `[/]` añade una línea en blanco adicional antes de "Gracias,". Si se 
+necesita una salida compacta, las etiquetas pueden colocarse al final de líneas 
+de contenido adyacentes en lugar de en líneas propias.
+
+
 Otro ejemplo en modo de plantilla `JAVASCRIPT`: un archivo `greeter.js` que 
 procesamos como plantilla de texto y cuyo resultado invocamos desde nuestras 
 páginas HTML. Nota: Este no es un bloque `<script>` en una plantilla HTML, sino 
@@ -3843,6 +3927,11 @@ var greeter = function() {
 };
 ```
 
+> Tenga en cuenta que el modo de plantilla `TEXTO` está sujeto a restricciones 
+> más estrictas en la evaluación de expresiones por motivos de seguridad. 
+> Consulte el [Apéndice D: Restricciones de expresiones](#21-apéndice-d-restricciones-en-expresiones).
+
+
 ### Atributos de elementos escapados
 
 Para evitar interacciones con partes de la plantilla que podrían procesarse en 
@@ -3869,7 +3958,8 @@ pero es una buena idea si procesamos una plantilla HTML con un bloque
 nuestro navegador no tome ese `<user.age` como nombre de una etiqueta de 
 apertura al abrir estáticamente el archivo como prototipo.
 
-## 13.2 Extensibilidad
+13.2 Extensibilidad
+-------------------
 
 Una de las ventajas de esta sintaxis es que es tan extensible como la de 
 *markup*. Los desarrolladores pueden definir sus propios dialectos con elementos 
@@ -3881,7 +3971,8 @@ usarlos en modos de plantilla textual:
   [#miorg:hazalgo miorg:attrimportante="211"]algun texto[/miorg:hazalgo]
 ```
 
-## 13.3 Bloques de comentarios de solo prototipos textuales: agregar código
+13.3 Bloques de comentarios de solo prototipos textuales: agregar código
+------------------------------------------------------------------------
 
 Los modos de plantilla `JAVASCRIPT` y `CSS` (no disponibles para `TEXT`) 
 permiten incluir código entre una sintaxis de comentario especial `/*[+...+]*/` 
@@ -3927,7 +4018,8 @@ var f = function() {
 ...
 ```
 
-## 13.4 Bloques de comentarios de nivel de analizador textual: eliminación de código
+13.4 Bloques de comentarios de nivel de analizador textual: eliminación de código
+---------------------------------------------------------------------------------
 
 De forma similar a los bloques de comentarios de solo prototipo, los tres modos 
 de plantilla textual (`TEXT`, `JAVASCRIPT` y `CSS`) permiten indicar a Thymeleaf 
@@ -3956,7 +4048,8 @@ Bienvenido [(${session.user.name})]!
 ...
 ```
 
-## 13.5 Plantillas naturales de JavaScript y CSS
+13.5 Plantillas naturales de JavaScript y CSS
+---------------------------------------------
 
 Como se vio en el capítulo anterior, la inserción en línea de JavaScript y CSS 
 ofrece la posibilidad de incluir expresiones en línea dentro de los comentarios 
@@ -4009,7 +4102,8 @@ Por lo tanto, Thymeleaf 3.0 permite el desarrollo de
 **scripts JavaScript complejos y hojas de estilo CSS en forma de plantillas 
 naturales**, válidas tanto como *prototipo* como *plantilla de trabajo*.
 
-# 14 Algunas páginas más para nuestra tienda de comestibles
+14 Algunas páginas más para nuestra tienda de comestibles
+=========================================================
 
 Ahora que sabemos mucho sobre el uso de Thymeleaf, podemos añadir nuevas páginas 
 a nuestro sitio web para la gestión de pedidos.
@@ -4017,7 +4111,8 @@ a nuestro sitio web para la gestión de pedidos.
 Ten en cuenta que nos centraremos en el código HTML, pero puedes consultar el 
 código fuente incluido si quieres ver los controladores correspondientes.
 
-## 14.1 Lista de pedidos
+14.1 Lista de pedidos
+---------------------
 
 Comencemos creando una página de lista de pedidos, 
 `/WEB-INF/templates/order/list.html`:
@@ -4080,7 +4175,8 @@ resultado en una lista de números, que luego se agrega mediante la función
 
 Tienes que amar el poder de OGNL.
 
-## 14.2 Detalles del pedido
+14.2 Detalles del pedido
+------------------------
 
 Ahora, para la página de detalles del pedido, en la que haremos un uso intensivo 
 de la sintaxis de asterisco:
@@ -4171,9 +4267,11 @@ En realidad no hay muchas novedades aquí, excepto esta selección de objetos an
 <p><b>Nombre:</b> <span th:text="${order.customer.name}">Federico Tomate</span></p>
 ```
 
-# 15 Más sobre la configuración
+ 15 Más sobre la configuración
+==============================
 
-## 15.1 Resolvedores de plantillas
+15.1 Resolvedores de plantillas
+-------------------------------
 
 Para nuestra tienda de comestibles virtual Good Thymes, elegimos una 
 implementación de `ITemplateResolver` llamada `WebApplicationTemplateResolver` 
@@ -4336,7 +4434,8 @@ remotos basados en URL. Este problema de rendimiento potencial podría mitigarse
 en gran medida mediante el uso de la caché de plantillas (en cuyo caso, las 
 plantillas solo se *resuelven* la primera vez que se accede a ellas).
 
-## 15.2 Resolvedores de mensajes
+15.2 Resolvedores de mensajes
+-----------------------------
 
 No especificamos explícitamente una implementación de Message Resolver para 
 nuestra aplicación Grocery y, como se explicó anteriormente, esto significaba 
@@ -4389,7 +4488,8 @@ razón que los solucionadores de plantillas: los solucionadores de mensajes est�
 ordenados y, si el primero no puede resolver un mensaje específico, se le 
 pregunta al segundo, luego al tercero, etc.
 
-## 15.3 Servicios de conversión
+15.3 Servicios de conversión
+----------------------------
 
 El *servicio de conversión* que nos permite realizar operaciones de conversión y 
 formato de datos mediante la sintaxis de *doble llave* (`${{...}}`) es
@@ -4415,7 +4515,8 @@ templateEngine.setDialect(dialect);
 > una implementación de `IStandardConversionService` que integra la 
 > infraestructura *Conversion Service* de Spring en Thymeleaf.
 
-## 15.4 Registro de trazas
+15.4 Registro de trazas
+-----------------------
 
 Thymeleaf presta mucha atención al registro y siempre intenta ofrecer la máxima 
 información útil a través de su interfaz.
@@ -4450,7 +4551,8 @@ log4j.logger.org.thymeleaf.TemplateEngine.TIMER=TRACE
 log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE
 ```
 
-# 16 Caché de plantillas
+16 Caché de plantillas
+======================
 
 Thymeleaf funciona gracias a un conjunto de analizadores (para marcado y texto) 
 que analizan las plantillas en secuencias de eventos (etiqueta de apertura, 
@@ -4512,9 +4614,11 @@ templateEngine.clearTemplateCache();
 templateEngine.clearTemplateCacheFor("/users/userList");
 ```
 
-# 17 Lógica de plantilla desacoplada
+17 Lógica de plantilla desacoplada
+==================================
 
-## 17.1 Lógica desacoplada: El concepto
+17.1 Lógica desacoplada: El concepto
+------------------------------------
 
 Hasta ahora, hemos trabajado para nuestra tienda de comestibles con plantillas 
 diseñadas de la *forma habitual*, insertando la lógica en forma de atributos.
@@ -4618,7 +4722,8 @@ desarrolladores, por ejemplo, el hecho de que los usuarios `<table>` necesitará
 un `id="usersTable"`, pero en muchos escenarios, una plantilla HTML pura será un 
 artefacto de comunicación mucho mejor entre los equipos de diseño y desarrollo.
 
-## 17.2 Configuración de plantillas desacopladas
+17.2 Configuración de plantillas desacopladas
+---------------------------------------------
 
 ### Habilitación de plantillas desacopladas
 
@@ -4653,7 +4758,8 @@ de plantilla original, pero dejando otros para el archivo de lógica desacoplada
 El caso más común para esto es usar el nuevo atributo `th:ref` (en la versión 
 3.0).
 
-## 17.3 El atributo th:ref
+17.3 El atributo th:ref
+-----------------------
 
 `th:ref` es solo un atributo de marcador. No tiene ninguna función desde el 
 punto de vista del procesamiento y simplemente desaparece cuando se procesa la 
@@ -4686,7 +4792,8 @@ Tenga en cuenta que esta aplicabilidad del atributo `th:ref` **no solo se aplica
 a los archivos de plantilla de lógica desacoplada**: funciona igual en otros 
 tipos de escenarios, como en las expresiones de fragmentos (`~{...}`).
 
-## 17.4 Impacto en el rendimiento de las plantillas desacopladas
+17.4 Impacto en el rendimiento de las plantillas desacopladas
+-------------------------------------------------------------
 
 El impacto es extremadamente pequeño. Cuando una plantilla resuelta se marca 
 para usar lógica desacoplada y no se almacena en caché, el recurso de lógica de 
@@ -4706,7 +4813,8 @@ almacenarse en caché, se almacenará en caché con los atributos inyectados. Po
 lo tanto, la sobrecarga de usar *plantillas desacopladas* para plantillas 
 almacenables en caché, una vez almacenadas, será absolutamente *cero*.
 
-## 17.5 Resolución de lógica desacoplada
+17.5 Resolución de lógica desacoplada
+-------------------------------------
 
 El usuario puede configurar la forma en que Thymeleaf resuelve los recursos 
 lógicos desacoplados correspondientes a cada plantilla. Esto se determina 
@@ -4736,7 +4844,8 @@ decoupledResolver.setPrefix("../viewlogic/");
 templateEngine.setDecoupledTemplateLogicResolver(decoupledResolver);
 ```
 
-# 18 Apéndice A: Objetos básicos de expresión
+18 Apéndice A: Objetos básicos de expresión
+===========================================
 
 Algunos objetos y mapas de variables siempre están disponibles. Veámoslos:
 
@@ -4807,7 +4916,7 @@ ${param.containsKey('foo')}
 ...
 ```
 
- * **session** : for retrieving session attributes.
+ * **session** : para recuperar atributos de sesión.
 
 ```java
 /*
@@ -4847,7 +4956,8 @@ automáticamente agregados al contexto como variables en el contexto raíz:
 ${myRequestAttribute}
 ```
 
-# 19 Apéndice B: Objetos de utilidad de expresión
+19 Apéndice B: Objetos de utilidad de expresión
+===============================================
 
 ### Información de ejecución
 
@@ -5805,7 +5915,8 @@ ${#ids.next('someId')}
 ${#ids.prev('someId')}
 ```
 
-# 20 Apéndice C: Sintaxis del selector de marcado
+20 Apéndice C: Sintaxis del selector de marcado
+===============================================
 
 Los selectores de marcado de Thymeleaf se toman prestados directamente de la 
 biblioteca de análisis de Thymeleaf: [AttoParser](http://attoparser.org).
@@ -5825,52 +5936,57 @@ tan conciso como podría ser, siga leyendo para saber por qué):
 <div th:insert="~{mytemplate :: //div[@class='content']}">...</div>
 ```
 
+Todas las expresiones de selección son absolutas, es decir, se calculan desde la 
+raíz de la plantilla seleccionada en el lado izquierdo de `::`, incluso si se 
+trata de la plantilla actual.
+
 La sintaxis básica incluye:
 
- * `/x` significa hijos directos del nodo actual con nombre x.
+* `n/x` significa hijos directos de `n` con nombre x. Si `/x`, entonces son 
+hijos directos de la raíz.
 
- * `//x` significa hijos del nodo actual con nombre x, en cualquier profundidad.
+* `n//x` significa hijos de `n` con nombre x, a cualquier profundidad. Si `//x`, 
+entonces se calculan desde la raíz.
 
  * `x[@z="v"]` significa elementos con nombre x y un atributo llamado z con valor
-   "v".
+"v".
 
  * `x[@z1="v1" y  @z2="v2"]` significa elementos con nombre x y atributos z1 y
-   z2 con valores "v1" y "v2", respectivamente.
+z2 con valores "v1" y "v2", respectivamente.
 
  * `x[i]` significa elemento con nombre x posicionado en el número i entre sus 
-   hermanos.
+hermanos.
 
  * `x[@z="v"][i]` significa elementos con nombre x, atributo z con valor "v" y
-   posicionado en el número i entre sus hermanos que también cumplen esta 
-   condición.
+posicionado en el número i entre sus hermanos que también cumplen esta condición.
 
 Pero también se puede utilizar una sintaxis más concisa:
 
  * `x` es exactamente equivalente a `//x` (buscar un elemento con nombre o 
-   referencia `x` en cualquier nivel de profundidad, siendo una *referencia* un 
-   atributo `th:ref` o `th:fragment`).
+ referencia `x` en cualquier nivel de profundidad, siendo una *referencia* un 
+ atributo `th:ref` o `th:fragment`).
 
  * También se permiten selectores sin nombre/referencia del elemento, siempre 
-   que incluyan una especificación de argumentos. Entonces `[@class='oneclass']` 
-   es un selector válido que busca cualquier elemento (etiqueta) con un atributo 
-   de clase con valor `"oneclass"`.
+ que incluyan una especificación de argumentos. Entonces `[@class='oneclass']` 
+ es un selector válido que busca cualquier elemento (etiqueta) con un atributo 
+ de clase con valor `"oneclass"`.
 
 Funciones avanzadas de selección de atributos:
 
  * Además de `=` (igual), también son válidos otros operadores de comparación: 
-   `!=` (no igual), `^=` (empieza por) y `$=` (termina en). Por ejemplo: 
-   `x[@class^='sección']` significa elementos con nombre `x` y un valor para el 
-   atributo `clase` que comienza con `sección`.
+ `!=` (no igual), `^=` (empieza por) y `$=` (termina en). Por ejemplo: 
+ `x[@class^='sección']` significa elementos con nombre `x` y un valor para el 
+ atributo `clase` que comienza con `sección`.
 
  * Se pueden especificar atributos tanto comenzando con `@` (estilo XPath) como 
-   sin (estilo jQuery). Entonces `x[z='v']` es equivalente a `x[@z='v']`.
+ sin (estilo jQuery). Entonces `x[z='v']` es equivalente a `x[@z='v']`.
  
  * Los modificadores de múltiples atributos se pueden unir tanto con `and` 
-   (estilo XPath) como también encadenando múltiples modificadores (estilo 
-   jQuery). Entonces `x [@z1='v1' y @z2='v2']` es en realidad equivalente a 
-   `x[@z1='v1'][@z2='v2']` (y también a `x[z1='v1'][z2='v2']`).
+ (estilo XPath) como también encadenando múltiples modificadores (estilo 
+ jQuery). Entonces `x [@z1='v1' y @z2='v2']` es en realidad equivalente a 
+ `x[@z1='v1'][@z2='v2']` (y también a `x[z1='v1'][z2='v2']`).
 
-Selectores directos tipo jQuery:
+Selectores directos _tipo jQuery_:
 
  * `x.oneclass` es equivalente a `x[class='oneclass']`.
 
@@ -5881,15 +5997,15 @@ Selectores directos tipo jQuery:
  * `#oneid` es equivalente a `[id='oneid']`.
 
  * `x%oneref` significa etiquetas `<x>` que tienen un atributo `th:ref="oneref"` 
-   o `th:fragment="oneref"`.
+ o `th:fragment="oneref"`.
 
  * `%oneref` significa cualquier etiqueta que tenga un atributo 
-   `th:ref="oneref"` o `th:fragment="oneref"`. Tenga en cuenta que esto en 
-   realidad es equivalente a simplemente `oneref` porque se pueden usar 
-   referencias en lugar de nombres de elementos.
+ `th:ref="oneref"` o `th:fragment="oneref"`. Tenga en cuenta que esto en 
+ realidad es equivalente a simplemente `oneref` porque se pueden usar 
+ referencias en lugar de nombres de elementos.
 
  * Se pueden mezclar selectores directos y selectores de atributos: 
-   `a.external[@href^='https']`.
+ `a.external[@href^='https']`.
 
 Entonces la expresión anterior del Selector de marcado:
 
@@ -5909,7 +6025,7 @@ Examinando un ejemplo diferente, esto:
 <div th:replace="~{mytemplate :: myfrag}">...</div>
 ```
 
-Buscará una firma de fragmento `th:fragment="myfrag"` (o `th:ref` referencias). 
+Buscará una firma de fragmento `th:fragment="myfrag"` (o referencias `th:ref`). 
 Pero también buscaría etiquetas con el nombre `myfrag` si existieran (lo cual no 
 es así en HTML). Note la diferencia con:
 
@@ -5927,3 +6043,133 @@ por lo que permiten la aplicación de selectores en este atributo incluso si el
 elemento tiene varios valores de clase.
 
 Por ejemplo, `div.two` coincidirá con `<div class="one two three" />`
+
+21 Apéndice D: Restricciones en expresiones
+===========================================
+
+Por motivos de seguridad, Thymeleaf aplica restricciones al uso de ciertas 
+expresiones estándar de Thymeleaf según el contexto en el que se evalúan. 
+Existen dos tipos de restricciones:
+
+* Restricciones generales, aplicadas a todas las expresiones: se prohíbe el uso 
+estático (instanciación, llamada a métodos estáticos…) de la mayoría de las 
+clases de la infraestructura base de Thymeleaf, Spring y Java/Jakarta, así como 
+de varios paquetes de frameworks de terceros muy conocidos. **Esto no pretende 
+ser un filtro exhaustivo**, sino una simple herramienta que prohíbe un conjunto 
+de las clases comunes más obvias que podrían usarse indebidamente.
+* Restricciones más estrictas aplicadas en contextos específicos sobre el uso de 
+ciertos tipos de sintaxis de expresiones y objetos disponibles. Estas 
+restricciones se denominan colectivamente 
+* **modo de evaluación de expresiones restringidas**.
+
+Cabe destacar, sin embargo, que **estas restricciones no sustituyen la 
+validación adecuada de los datos de entrada**. Es responsabilidad de la 
+aplicación validar y depurar todos los datos procedentes de usuarios o fuentes 
+externas antes de su uso, incluso antes de añadirlos al contexto de la 
+plantilla. Thymeleaf es únicamente un motor de plantillas, y estas restricciones 
+de expresión están concebidas como un mecanismo de seguridad adicional, no como 
+la primera línea de defensa.
+
+### Modo restringido: Contextos en los que se aplica
+
+El modo de evaluación de expresiones restringidas se aplica cuando las 
+expresiones se evalúan en los siguientes contextos:
+
+* **Expresiones de preprocesamiento**: `__...__`
+* **Salida de texto sin escape**: `th:utext` y expresiones en línea sin escape.
+
+* **Atributos del controlador de eventos de JavaScript**: todos los procesadores 
+de atributos `th:on*` cuyo valor es una expresión estándar de Thymeleaf.
+
+* **El procesador de atributos `th:attr`** cuando se utiliza para crear 
+atributos con nombres arbitrarios.
+
+* **El procesador de atributos predeterminado**, que permite la representación 
+de cualquier atributo con un nombre arbitrario.
+
+* **Nombres de plantillas y fragmentos, y parámetros de fragmentos** en 
+expresiones de fragmento (`~{...}`) y en atributos `th:insert`, `th:replace`, 
+`th:include` y `th:substituteby`.
+
+* **La parte base (sin parámetros) de las expresiones URL**: bases URL `@{...}`,
+`th:href` y `th:src` (los parámetros URL dentro de las expresiones de enlace no 
+están restringidos).
+
+* **Todas las expresiones de salida en el modo de plantilla `TEXTO`**, estén o 
+no escapadas, debido a la falta de conocimiento sobre el contexto específico en 
+el que se utilizarán.
+
+Es importante recordar que **Thymeleaf no aplicará estas comprobaciones en 
+ningún otro escenario que no sean los mencionados anteriormente**, por lo que se 
+debe asumir que las expresiones se ejecutan sin restricciones en otros contextos.
+
+
+### Modo restringido: Restricciones aplicadas
+
+Cuando las expresiones se evalúan en modo restringido, se prohíbe lo siguiente:
+
+* Acceso a los parámetros de la solicitud mediante `${param.*}`.
+
+* Instanciación de nuevos objetos (p. ej., `new com.example.SomeClass()`).
+
+* Acceso a clases estáticas y sus miembros (sintaxis `@identificador@` de OGNL 
+o `T(identificador)` de Spring EL).
+
+* Acceso a algunos objetos de utilidad de expresiones de contexto de Thymeleaf, 
+como `#execInfo`.
+
+* En los atributos del controlador de eventos `th:on*` en concreto: expresiones 
+variables que devuelvan valores de un tipo distinto de numérico o booleano 
+también están prohibidas.
+
+* En las aplicaciones Spring: acceso a beans del contexto de la aplicación 
+mediante la sintaxis `@nombreBean`.
+
+Intentar evaluar una expresión restringida en alguno de los escenarios 
+anteriores provocará una excepción de procesamiento de plantillas en tiempo de 
+ejecución.
+
+Es importante tener en cuenta que **cualquier comprobación que no esté 
+explícitamente enumerada anteriormente no se realizará**, y que estas 
+comprobaciones nunca podrán considerarse un sustituto de la validación de datos 
+y de la entrada del usuario en el código de la aplicación.
+
+
+### Nota importante para desarrolladores de aplicaciones
+
+Estas restricciones son una medida de seguridad, no una opción de configuración. 
+Están diseñadas para prevenir ciertas vulnerabilidades de inyección que podrían 
+surgir del uso de datos de entrada controlados por el usuario en posiciones 
+sensibles de las expresiones. El motor de plantillas las aplica automáticamente 
+y no se pueden desactivar para expresiones o plantillas individuales.
+
+Dicho esto, ningún mecanismo de seguridad del motor de plantillas puede 
+reemplazar una validación de entrada minuciosa y cuidadosa a nivel de 
+aplicación. Todos los datos provenientes de usuarios o de cualquier otra fuente 
+externa (parámetros de solicitud, encabezados, cookies, contenido de 
+bases de datos, respuestas de servicios de terceros, etc.) deben validarse y, 
+cuando corresponda, desinfectarse antes de su uso, independientemente de dónde 
+o cómo aparezcan finalmente en una plantilla.
+
+Confiar en datos externos sin validación y depender únicamente de las 
+restricciones de expresiones de Thymeleaf para la protección no es una postura 
+de seguridad aceptable.
+
+Además, Thymeleaf, al ser un motor de plantillas y no un framework de aplicación 
+completo, carece de la capacidad técnica para verificar si los valores que una 
+aplicación introduce en el contexto para el procesamiento de plantillas 
+provienen de la entrada directa del usuario en solicitudes o interacciones 
+actuales o anteriores. Por lo tanto, bajo ninguna circunstancia debe asumirse 
+que podrá verificar dicho origen. Independientemente del origen de las 
+expresiones que se ejecuten, **se ejecutarán** si no coinciden con ninguno de 
+los filtros mencionados anteriormente, en los contextos específicos indicados.
+
+Finalmente, si una expresión que antes funcionaba provoca un error de 
+restricción tras una actualización de Thymeleaf, lo más probable es que se 
+estuviera utilizando de una forma que suponga un riesgo potencial para la 
+seguridad. El enfoque recomendado es refactorizar la lógica de la plantilla para 
+que los datos afectados se introduzcan en el contexto de la plantilla mediante 
+el código de la aplicación, en lugar de calcularse directamente dentro de la 
+expresión de la plantilla en un contexto restringido. Y, por supuesto, es 
+fundamental garantizar que dichos datos se hayan validado correctamente antes de 
+que lleguen al contexto de la plantilla.

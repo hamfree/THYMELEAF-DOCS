@@ -11,21 +11,17 @@ thymeleafVersion: @projectVersion@
 Prólogo
 =======
 
-Este tutorial explica cómo Thymeleaf puede integrarse con Spring Framework, 
-especialmente (pero no solo) Spring MVC.
+Este tutorial explica cómo Thymeleaf puede integrarse con Spring Framework, especialmente (pero no solo) Spring MVC.
 
-Tenga en cuenta que Thymeleaf tiene integraciones para ambas versiones 5.x como 
-de la versión 6.x de Spring Framework, proporcionadas por dos bibliotecas 
-separadas llamadas `thymeleaf-spring5` y `thymeleaf-spring6`. Estas librerías 
-son empaquetadas en ficheros '.jar' llamados `thymeleaf-spring5-{version}.jar` y 
-`thymeleaf-spring6-{version}.jar'` y necesitan agregarse a su classpath para 
-utilizar las integraciones de Thymeleaf con Spring en su aplicación.
+Tenga en cuenta que Thymeleaf tiene integraciones para ambas versiones 5.x como de la versión 6.x de Spring Framework, 
+proporcionadas por dos bibliotecas separadas llamadas `thymeleaf-spring5` y `thymeleaf-spring6`. Estas librerías son 
+empaquetadas en ficheros '.jar' llamados `thymeleaf-spring5-{version}.jar` y `thymeleaf-spring6-{version}.jar'` y 
+necesitan agregarse a su classpath para utilizar las integraciones de Thymeleaf con Spring en su aplicación.
 
-Los ejemplos de código y la aplicación de ejemplo en este tutorial hacen uso de 
- **Spring 6.x** y sus integraciones de Thymeleaf correspondientes, pero 
-los contenidos de este texto son válidos también para Spring 5.x. Si su aplicación 
-usa Spring 5.x, todo lo que debe hacer es reemplazar el paquete 
-`org.thymeleaf.spring6` con `org.thymeleaf.spring5` en los ejemplos de código.
+Los ejemplos de código y la aplicación de ejemplo en este tutorial hacen uso de  **Spring 6.x** y sus integraciones de 
+Thymeleaf correspondientes, pero los contenidos de este texto son válidos también para Spring 5.x. Si su aplicación usa 
+Spring 5.x, todo lo que debe hacer es reemplazar el paquete `org.thymeleaf.spring6` con `org.thymeleaf.spring5` en los 
+ejemplos de código.
 
 
 1 Integrando Thymeleaf con Spring
@@ -56,6 +52,7 @@ estándar en profundidad.
 
 2 El Dialecto SpringStandard
 ============================
+
 Para lograr una integración más fácil y mejor, Thymeleaf proporciona 
 un dialecto que implementa específicamente todas las características necesarias 
 para que funcione correctamente con Spring.
@@ -291,9 +288,7 @@ seleccionándola por su nombre de bean (`mainView`, en este caso).
 ==========================================
 
 El código fuente para los ejemplos mostrados en este y futuros capítulos de esta 
-guía se encuentran en la aplicación de ejemplo 
-_Spring Thyme Seed Starter Manager (STSM)_: 
-
+guía se encuentran en la aplicación de ejemplo _Spring Thyme Seed Starter Manager (STSM)_: 
 
    * [Spring 5 STSM](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring5/thymeleaf-examples-spring5-stsm).
    * [Spring 6 STSM](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-stsm).
@@ -322,7 +317,7 @@ Spring MVC.
 
 
 4.2 Capa de Negocio
-------------------
+-------------------
 
 Necesitaremos una capa de negocio muy simple para nuestra aplicación. En primer 
 lugar, echemos un vistazo a nuestras entidades de modelo:
@@ -373,7 +368,7 @@ public class VarietyService {
 
 
 4.3 Configuración de Spring MVC
-----------------------------
+-------------------------------
 
 Lo siguiente que necesitamos es establecer la configuración de Spring MVC para 
 la aplicación, lo que incluirá no solo los artefactos estándar de Spring MVC 
@@ -675,8 +670,8 @@ que nuestros datos se muestran.
 
 
 
-5 Listado de Datos de Inicio de Semillas
-=======================================
+5 Listado de Datos de Semilleros de Iniciación
+==============================================
 
 La primera cosa que nuestra página `/WEB-INF/templates/seedstartermng.html` 
 mostrará es un listado con los semilleros de iniciación actualmente almacenados. 
@@ -820,10 +815,10 @@ Pero para obtener los nombres internacionalizados de los tipos, necesitaremos
 agregar el prefijo `seedstarter.type.` al valor de la enumeración mediante una 
 expresión, cuyo resultado utilizaremos luego como clave del mensaje:
 
-
 ```html
 <td th:text="#{|seedstarter.type.${sb.type}|}">Estructura alámbrica</td>
 ```
+
 La parte más difícil de este listado es la columna _features_. En ella queremos 
 mostrar todas las características de nuestro contenedor —--que vienen en forma de 
 un array de enumeraciones `Feature`--—, separadas por comas. Por ejemplo: 
@@ -1561,7 +1556,7 @@ public String showContentPart() {
 }
 ```
 
-Thymeleaf devolverá únicamente el fragmento `content` de la plantilla `index`, 
+...Thymeleaf devolverá únicamente el fragmento `content` de la plantilla `index`, 
 cuya ubicación probablemente será algo como `/WEB-INF/templates/index.html`, una 
 vez aplicados el prefijo y el sufijo. Por lo tanto, el resultado será 
 completamente equivalente a especificar `index :: content`:
@@ -1658,7 +1653,7 @@ public String showContentPart() {
 
 
 11.1 Integración con `RequestDataValueProcessor`
--------------------------------------------------
+------------------------------------------------
 
 Thymeleaf se integra a la perfección con la interfaz `RequestDataValueProcessor` 
 de Spring. Esta interfaz permite interceptar las URL de enlaces, las URL de 
@@ -1734,6 +1729,7 @@ public class ExampleController {
 
 }
 ```
+
 El siguiente código creará un enlace al mismo:
 
 ```html

@@ -1,5 +1,5 @@
 ---
-title: Standard URL Syntax
+title: Sintaxis estándar de URL
 ---
 
 
@@ -10,7 +10,7 @@ of the so-called *link expressions*, a type of *Thymeleaf
 Standard Expression*: `@{...}`
 
 
-Absolute URLs
+URLs absolutas
 -------------
 
 Absolute URLs allow you to create links to other servers. They start by
@@ -29,7 +29,7 @@ configured at your server and performing modifications at the
 ```
 
 
-Context-relative URLs
+URLs relativas al contexto
 ---------------------
 
 The most used type of URLs are *context-relative* ones. These are URLs
@@ -52,7 +52,7 @@ output:
 ```
 
 
-Server-relative URLs
+URL relativas al servidor
 --------------------
 
 *Server-relative* URLs are very similar to *context-relative* URLs,
@@ -73,7 +73,7 @@ will output:
 ```
 
 
-Protocol-relative URLs
+URL relativas al protocolo
 ----------------------
 
 *Protocol-relative* URLs are in fact absolute URLs which will keep the
@@ -92,7 +92,7 @@ scripts, etc.:
 ```
 
 
-Adding parameters
+Agregar parámetros
 -----------------
 
 How do we add parameters to the URLs we create with `@{...}`
@@ -136,7 +136,7 @@ Which would output as:
 
 
 
-URL fragment identifiers
+Identificadores de fragmentos de URL
 ------------------------
 
 Fragment identifiers can be included in URLs, both with and without
@@ -153,7 +153,7 @@ parameters. They will always be included at the URL base, so that:
 ```
 
 
-URL rewriting
+Reescritura de URL
 -------------
 
 Thymeleaf allows you to configure _URL rewriting filters_ in your application,
@@ -175,7 +175,7 @@ A very common (and recommended) technology for URL Rewriting is
 [URLRewriteFilter](http://tuckey.org/urlrewrite/).
 
 
-Only for th:href's?
+¿Solo para th:href?
 -------------------
 
 Do not think URL `@{...}` expressions are only used in `th:href`
@@ -197,7 +197,7 @@ externalized/internationalized string:
 ```
 
 
-Using expressions in URLs
+Uso de expresiones en las URL
 -------------------------
 
 What if we needed to write an URL expression like this:

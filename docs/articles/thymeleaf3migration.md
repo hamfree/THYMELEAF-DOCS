@@ -1,5 +1,5 @@
 ---
-title: Thymeleaf 3 ten-minute migration guide
+title: Guía de migración de Thymeleaf 3 en diez minutos
 ---
 
 
@@ -13,7 +13,7 @@ Let's have a quick look at each of the important new concepts and features this
 new version brings:
 
 
-Template changes
+Cambios en la plantilla
 ----------------
 
 The only change we *recommend* doing to your templates is removing any `th:inline="text"`
@@ -26,7 +26,7 @@ See more information about this below in the *Improved inlining mechanism*
 section.
 
 
-Configuration changes
+Cambios de configuración
 ---------------------
 
 Let's show an example of the Thymeleaf 3 configuration using the *thymeleaf-spring4*
@@ -117,7 +117,7 @@ You can also find some additional information (links to binaries and javadocs)
 at [the Thymeleaf 3.0.0.BETA03 announcement](http://forum.thymeleaf.org/Thymeleaf-3-0-0-BETA03-just-published-td4029622.html).
 
 
-Full HTML5 markup support
+Compatibilidad total con el marcado HTML5
 -------------------------
 
 Thymeleaf 3.0 is no longer XML-based, thanks to its new parsing system, so there
@@ -134,7 +134,7 @@ For an explanation of the new parsing system, see [Full HTML5 support, new
 parsing infrastructure](https://github.com/thymeleaf/thymeleaf/issues/390)
 
 
-Template modes
+Modos de plantilla
 --------------
 
 Thymeleaf 3 replaces the set of template modes from previous versions. The new
@@ -161,7 +161,7 @@ at [Thymeleaf 3.0 Template Mode set](https://github.com/thymeleaf/thymeleaf/issu
 You can see a simple example exercising the new template modes at
 [https://github.com/jmiguelsamper/thymeleaf3-template-modes-example](https://github.com/jmiguelsamper/thymeleaf3-template-modes-example)
 
-### Textual template modes
+### Modos de plantilla de texto
 
 The new textual template modes bring to Thymeleaf the ability to output **CSS**,
 **Javascript** and **plain text**. This is handy if you want to use the values
@@ -179,7 +179,7 @@ syntax has been introduced. For example, you can iterate like:
 
 For a full explanation of this new syntax, take a look at [New syntax for textual template modes](https://github.com/thymeleaf/thymeleaf/issues/395)
 
-### Improved inlining mechanism
+### Mecanismo de alineación mejorado
 
 Sometimes it is handy to be able to output data without using extra tags or
 attributes, as in:
@@ -197,7 +197,7 @@ make innecesary the `th:inline="text"` attribute because inlining now exists in
 `HTML` mode itself. Take a look at the discussion on [Refactoring of the inlining mechanism](https://github.com/thymeleaf/thymeleaf/issues/396)
 
 
-Fragment Expressions
+Expresiones de fragmentos
 --------------------
 
 Thymeleaf 3.0 introduces a new type of expression as a part of the general *Thymeleaf
@@ -244,7 +244,7 @@ But the possibilities don't end here: we can use fragment expressions for much
 more, which you can learn about here: [Fragment Expressions](https://github.com/thymeleaf/thymeleaf/issues/451).
 
 
-The No-Operation token
+El token de no operación
 ----------------------
 
 Another new feature of *Thymeleaf Standard Expressions* in Thymeleaf 3.0 is the
@@ -271,7 +271,7 @@ authenticated.
 Learn more about this new capability here: [The NO-OP token](https://github.com/thymeleaf/thymeleaf/issues/452).
 
 
-Decoupled Template Logic
+Lógica de plantillas desacopladas
 ------------------------
 
 Thymeleaf 3.0 allows the complete (and optional) *decoupling* of template logic
@@ -328,7 +328,7 @@ external tools or systems without the need to modify such markup.
 For more information, see [Decoupled Template Logic](https://github.com/thymeleaf/thymeleaf/issues/465).
 
 
-Performance improvements
+Mejoras en el rendimiento
 ------------------------
 
 Even with all the great new features, the main achievement of Thymeleaf 3.0 is a
@@ -364,7 +364,7 @@ contributions to the OGNL codebase that should benefit Thymeleaf's performance
 in environments such as those based on the new MVC1.0 (JSR371) standard.
 
 
-Independence from the Servlet API
+Independencia de la API de Servlet
 ---------------------------------
 
 Versions prior to Thymeleaf 3.0 were already *independent from the Java Servlet
@@ -382,7 +382,7 @@ For more information see: [New extension point: Link Builders](https://github.co
 and [Generalisation of the IEngineContext mechanism](https://github.com/thymeleaf/thymeleaf/issues/459).
 
 
-Integration into Reactive Frameworks and Architectures
+Integración en marcos y arquitecturas reactivas
 ------------------------------------------------------
 
 *Reactive* is one of the key buzzwords of the moment, and reactive architectures
@@ -406,7 +406,7 @@ turns Thymeleaf into a highly efficient way of publishing reactively-generated,
 data-oriented markup from the server side.
 
 
-New Dialect system
+Nuevo sistema de dialectos
 ------------------
 
 Thymeleaf 3 features a brand new dialect system. If you developed a Thymeleaf
@@ -449,7 +449,7 @@ For further explanation of these features, take a look at:
  - [New Processor API](https://github.com/thymeleaf/thymeleaf/issues/399)
 
 
-Refactoring of the core APIs
+Refactorización de las API principales
 ----------------------------
 
 The core APIs have been refactored heavily, browse the following issues for
@@ -460,7 +460,7 @@ details:
 -   [Refactoring of the Message Resolution API](https://github.com/thymeleaf/thymeleaf/issues/421)
 
 
-Final thoughts
+Reflexiones finales
 --------------
 
 Thymeleaf 3 is a major achievement on the Thymeleaf Template Engine project

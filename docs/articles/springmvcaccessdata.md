@@ -1,12 +1,12 @@
 ---
-title: 'Spring MVC and Thymeleaf: how to access data from templates'
+title: 'Spring MVC y Thymeleaf: cómo acceder a los datos desde las plantillas'
 author: 'Rafa&#322; Borowiec &mdash; <a href="http://blog.codeleak.pl">http://blog.codeleak.pl</a>'
 ---
 
 In a typical Spring MVC application, `@Controller` classes are responsible for preparing a model map with data and selecting a view to be rendered. This _model map_ allows for the complete abstraction of the view technology and, in the case of Thymeleaf, it is transformed into a Thymeleaf context object (part of the Thymeleaf _template execution context_) that makes all the defined variables available to expressions executed in templates.
 
 
-Spring model attributes
+Atributos del modelo Spring
 -----------------------
 
 Spring MVC calls the pieces of data that can be accessed during the execution of views _model attributes_. The equivalent term in Thymeleaf language is _context variables_.
@@ -58,7 +58,7 @@ You can access model attributes in views with Thymeleaf as follows:
 ```
 
 
-Request parameters
+Parámetros de solicitud
 ------------------
 
 Request parameters can be easily accessed in Thymeleaf views. Request parameters are passed from the client to server like:
@@ -102,7 +102,7 @@ Another way to access request parameters is by using the special `#request` obje
     <p th:text="${#request.getParameter('q')}" th:unless="${#request.getParameter('q') == null}">Test</p>
 ```
 
-Session attributes
+Atributos de sesión
 ------------------
 
 In the below example we add `mySessionAttribute` to session:
@@ -124,7 +124,7 @@ Similarly to the request parameters, session attributes can be accessed by using
 Or by using `#session`, that gives you direct access to the `javax.servlet.http.HttpSession` object: `${#session.getAttribute('mySessionAttribute')}`
 
 
-ServletContext attributes
+Atributos de ServletContext
 -------------------------
 
 The ServletContext attributes are shared between requests and sessions. In order to access ServletContext attributes in Thymeleaf you can use the `#servletContext.` prefix:
@@ -144,7 +144,7 @@ The ServletContext attributes are shared between requests and sessions. In order
 ```
 
 
-Spring beans
+Beans de Spring
 ------------
 
 Thymeleaf allows accessing beans registered at the Spring Application Context with the `@beanName` syntax, for example:
@@ -172,7 +172,7 @@ In the above example, `@urlService` refers to a Spring Bean registered at your c
 This is fairly easy and useful in some scenarios.
 
 
-References
+Referencias
 ----------
 
 - [Thymeleaf + Spring 3][2]

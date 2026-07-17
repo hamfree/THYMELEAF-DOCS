@@ -1,5 +1,5 @@
 ---
-title: 'Spring MVC view layer: Thymeleaf vs. JSP'
+title: 'Capa de vista de Spring MVC: Thymeleaf vs. JSP'
 ---
 
 
@@ -11,7 +11,7 @@ All the code seen here comes from a working application.  You can view or
 download the source code from [its GitHub repo](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-thvsjsp).
 
 
-Common requirements
+Requisitos comunes
 -------------------
 
 Our customers need a form for subscribing new members to a message list,
@@ -44,7 +44,7 @@ Spring configuration, check the source code in the downloadable
 package)*
 
 
-Doing it with JSP
+Hacerlo con JSP
 -----------------
 
 This is our page:
@@ -110,7 +110,7 @@ And this is our JSP code, making use of both JSTL (`core`) and Spring
 ```
 
 
-Doing it with Thymeleaf
+Haciéndolo con Thymeleaf
 -----------------------
 
 Now, let's do the same with Thymeleaf. This is our page:
@@ -188,7 +188,7 @@ Things to notice here:
     executes our page.
 
 
-Let's change the page style!
+¡Cambiemos el estilo de la página!
 ----------------------------
 
 Imagine that now our pages are written we suddenly decide that we do not
@@ -199,7 +199,7 @@ deciding on a specific one.
 
 Let's see the steps we would have to take with each technology:
 
-### Changing the page style using JSP
+### Cambiar el estilo de la página usando JSP
 
 **Step 1**: *Deploy the application into our development server and
 start it up*. Our JSP page will not render without starting the server,
@@ -224,7 +224,7 @@ different tones of blue before deciding on the one we like.
 
 Done!
 
-### Changing the page style using Thymeleaf
+### Cambiar el estilo de la página usando Thymeleaf
 
 **Step 1**: *Double-click on the `.html` template file itself and let
 our browser open it*. Being a Thymeleaf template, it will show just
@@ -246,7 +246,7 @@ refreshed in our browser just by pressing F5.
 
 Done!
 
-### That was a big difference!
+### ¡Esa fue una gran diferencia!
 
 The difference in the number of steps is not really important here (we
 could also have used firebug with the Thymeleaf template). What is
@@ -267,7 +267,7 @@ being developed, the Java logic needed to show this or other previous
 pages wasn't still working alright, and we had to show the new colour to
 our customer? (or even let him/her choose on the fly!)...
 
-### And what about trying to use the JSP as a static prototype?
+### ¿Y qué hay de intentar usar JSP como prototipo estático?
 
 OK, you can say now, *but why did we start the application to modify the
 JSP instead of just opening it like you did with the Thymeleaf one?
@@ -295,7 +295,7 @@ when we double-clicked on it:
 Definitely not in the same league, right?
 
 
-Got HTML5?
+¿Tienes HTML5?
 ----------
 
 But hey -- we said at the beginning that our page was going to be HTML5,
@@ -315,9 +315,9 @@ do not understand (`email`) as a `text` input, and will silently ignore
 the `placeholder` attribute in the same way they ignore Thymeleaf's
 `th:*` ones.
 
-### Doing HTML5 with JSP
+### Cómo usar HTML5 con JSP
 
-#### Before Spring 3.1
+#### Antes de Spring 3.1
 
 Spring MVC's JSP tag libraries didn't offer complete support for HTML5
 until Spring 3.1, so before this version there was no way to write an
@@ -339,7 +339,7 @@ plain-HTML tag work as if an `<sf:email/>` tag existed:
        value="<s:eval expression='subscription.email' />" />
 ```
 
-#### Since Spring 3.1
+#### Desde Spring 3.1
 
 In Spring 3.1 there still is no `<sf:email ...>` tag, but the existing
 `<sf:input ...>` allows us to specify a `type` attribute with value
@@ -351,7 +351,7 @@ In Spring 3.1 there still is no `<sf:email ...>` tag, but the existing
 
 And this will correctly perform our *form bindings* :-).
 
-### Doing HTML5 with Thymeleaf
+### Usando HTML5 con Thymeleaf
 
 Thymeleaf has complete support for HTML5 (even with Spring 3.0), so we
 will only have to change the `type` of our input and add a

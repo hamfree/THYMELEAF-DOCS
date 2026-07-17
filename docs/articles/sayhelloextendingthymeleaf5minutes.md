@@ -1,75 +1,77 @@
 ---
-title: Say Hello! Extending Thymeleaf in 5 minutes
+title: ¡Saluda! Cómo extender Thymeleaf en 5 minutos.
 ---
 
+Ampliar Thymeleaf es sencillo: solo tenemos que crear un dialecto y añadirlo a 
+nuestro motor de plantillas. Veamos cómo.
 
-Extending Thymeleaf is easy: we only have to create a dialect and add
-it to our template engine. Let's see how.
-
-All the code seen here comes from a working application. You can view or
-download the source code from [its GitHub repo](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello).
-
-
-Dialects
---------
-
-Thymeleaf Dialects are sets of features we can use in your templates.
-These features include:
-
--   **Processing logic** specified via *processors* that apply to
-    attributes in our tags (or tags themselves).
--   **Preprocessing and Postprocessing logic** specified via *pre-processors*
-    and *post-processors* that apply to our template before (pre) or
-    after (post) processing actually takes place.
--   **Expression objects** which can be used in Thymeleaf Standard
-    Expressions (like `#arrays`, `#dates`, etc.) in order to perform
-    the specialized operations we might need.
-
-All of these features are optional, and a dialect can specify only some
-of them. For example, a dialect might not need to specify any processors,
-but declare a couple of *expression objects*.
-
-If you've seen fragments of code written in the *Standard Dialects*, you
-should have noticed that the processable attributes start with `th:`.
-That "`th`" is called the **dialect prefix**, and it means that all tags
-and attributes processed by that dialect will start with such prefix. Each
-dialect can specify its own prefix.
-
-It is important also to note that **a Template Engine can be set several
-dialects at a time**, thus allowing the processing of templates
-including features from all of the specified dialects (think of dialects
-as a sort of *JSP taglibs* in steroids). What's more, some of these
-dialects can *share prefix*, effectively acting as an aggregate dialect.
+Todo el código que se muestra aquí proviene de una aplicación en funcionamiento. 
+Puedes ver o descargar el código fuente desde 
+[su repositorio de GitHub](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello).
 
 
-The simplest dialect ever: Say Hello!
+Dialectos
+---------
+
+Los dialectos de Thymeleaf son conjuntos de características que podemos usar en 
+tus plantillas.
+
+Estas características incluyen:
+
+- **Lógica de procesamiento**: se especifica mediante *procesadores* que se 
+  aplican a los atributos de nuestras etiquetas (o a las etiquetas mismas).
+- **Lógica de preprocesamiento y posprocesamiento**: se especifica mediante 
+  *preprocesadores* y *posprocesadores* que se aplican a nuestra plantilla 
+  antes (pre) o después (post) del procesamiento.
+- **Objetos de expresión**: se pueden usar en las expresiones estándar de 
+  Thymeleaf (como `#arrays`, `#dates`, etc.) para realizar las operaciones 
+  especializadas que podamos necesitar.
+
+Todas estas características son opcionales, y un dialecto puede especificar 
+solo algunas. Por ejemplo, un dialecto podría no necesitar especificar ningún 
+procesador, sino declarar un par de *objetos de expresión*.
+
+Si ha visto fragmentos de código escritos en los *dialectos estándar*, habrá 
+notado que los atributos procesables comienzan con `th:`. Ese "th:" se 
+denomina **prefijo de dialecto**, e indica que todas las etiquetas y atributos 
+procesados por ese dialecto comenzarán con dicho prefijo. Cada dialecto puede 
+especificar su propio prefijo.
+
+También es importante tener en cuenta que **un motor de plantillas puede 
+configurarse con varios dialectos a la vez**, lo que permite procesar plantillas 
+que incluyen características de todos los dialectos especificados (piense en los 
+dialectos como una especie de *bibliotecas de etiquetas JSP* mejoradas). Además, 
+algunos de estos dialectos pueden *compartir prefijo*, actuando efectivamente 
+como un dialecto agregado.
+
+
+El dialecto más simple de todos: ¡Di hola!
 -------------------------------------
 
-Let's create a dialect for one of our applications. This will be a
-Spring MVC application, so we will be already using the SpringStandard
-dialect (have a look at the [Thymeleaf + Spring tutorial](/docs/documentation.html) 
-for more details). But we want to add a
-new attribute that allows us to say hello to whoever we want, like this:
+Vamos a crear un dialecto para una de nuestras aplicaciones. Será una aplicación 
+Spring MVC, así que ya usaremos el dialecto SpringStandard (consulta el 
+[tutorial Thymeleaf + Spring](/docs/documentation.html) para más detalles). Pero 
+queremos añadir un nuevo atributo que nos permita saludar a quien queramos, así:
 
 ```html
 <p hello:sayto="World">Hi ya!</p>
 ```
 
-### The processor
+### El procesador
 
-First, we will have to create the attribute processor that will take
-care of displaying our salutation message.
+Primero, tendremos que crear el procesador de atributos que se encargará de 
+mostrar nuestro mensaje de saludo.
 
-All processors implement the `org.thymeleaf.processor.IProcessor` interface,
-and specifically a tag processor implements the
-`org.thymeleaf.processor.element.IElementTagProcessor` because it is a processor
-that applies on an *element* (in XML/HTML jargon), and specifically on the 
-*open tag* of such element.
+Todos los procesadores implementan la interfaz `org.thymeleaf.processor.IProcessor`, 
+y en concreto, un procesador de etiquetas implementa la interfaz 
+`org.thymeleaf.processor.element.IElementTagProcessor`, ya que se trata de un 
+procesador que se aplica a un *elemento* (en la jerga XML/HTML), y 
+específicamente a la *etiqueta de apertura* de dicho elemento.
 
-Besides, this is a processor that will be triggered by a specific attribute
-in such *open tag* (`hello:sayto`), so we will be extending a useful abstract
-class that will give us most of the class infrastructure we need:
-`org.thymeleaf.processor.element.AbstractAttributeTagProcessor`.
+Además, este procesador se activará mediante un atributo específico de dicha 
+*etiqueta de apertura* (`hello:sayto`), por lo que extenderemos una útil clase 
+abstracta que nos proporcionará la mayor parte de la infraestructura de clases 
+necesaria: `org.thymeleaf.processor.element.AbstractAttributeTagProcessor`.
 
 ```java
 public class SayToAttributeTagProcessor extends AbstractAttributeTagProcessor {
@@ -80,14 +82,14 @@ public class SayToAttributeTagProcessor extends AbstractAttributeTagProcessor {
 
     public SayToAttributeTagProcessor(final String dialectPrefix) {
         super(
-            TemplateMode.HTML, // This processor will apply only to HTML mode
-            dialectPrefix,     // Prefix to be applied to name for matching
-            null,              // No tag name: match any tag name
-            false,             // No prefix to be applied to tag name
-            ATTR_NAME,         // Name of the attribute that will be matched
-            true,              // Apply dialect prefix to attribute name
-            PRECEDENCE,        // Precedence (inside dialect's precedence)
-            true);             // Remove the matched attribute afterwards
+            TemplateMode.HTML, // Este procesador se aplicará únicamente al modo HTML.
+            dialectPrefix,     // Prefijo que se aplicará al nombre para que coincida
+            null,              // Sin nombre de etiqueta: coincide con cualquier nombre de etiqueta
+            false,             // No se aplicará ningún prefijo al nombre de la etiqueta.
+            ATTR_NAME,         // Nombre del atributo que se comparará
+            true,              // Aplicar prefijo dialectal al nombre del atributo
+            PRECEDENCE,        // Precedencia (dentro de la precedencia del dialecto)
+            true);             // Elimine el atributo coincidente posteriormente.
     }
 
 
@@ -105,42 +107,41 @@ public class SayToAttributeTagProcessor extends AbstractAttributeTagProcessor {
 }
 ```
 
-### The dialect class
+### La clase de dialecto
 
-Creating our processor was very easy, but now we will need to create the
-*dialect class*, which will be in charge of telling Thymeleaf that our
-processor is available.
+Crear nuestro procesador fue muy sencillo, pero ahora necesitamos crear la 
+*clase de dialecto*, que se encargará de indicarle a Thymeleaf que nuestro 
+procesador está disponible.
 
-The most basic dialect interface, `org.thymeleaf.dialect.IDialect`, only
-tells Thymeleaf that a specific class is a *dialect*. But the engine will
-need to know what that dialect is capable of offering, and in order to
-declare that, the dialect class will implement one or several of a set
-of `IDialect` sub-interfaces.
+La interfaz de dialecto más básica, `org.thymeleaf.dialect.IDialect`, solo le 
+indica a Thymeleaf que una clase específica es un dialecto. Sin embargo, el 
+motor necesita saber qué funcionalidades ofrece ese dialecto, y para 
+declararlas, la clase de dialecto implementará una o varias subinterfaces de un 
+conjunto de `IDialect`.
 
-Specifically, out dialect will offer *processors, and as such it will
-implement the `org.thymeleaf.dialect.IProcessorDialect`. And in order
-to make it easier, instead of directly implementing the interface we
-will extend an abstract class called `org.thymeleaf.dialect.AbstractProcessorDialect`:
+En concreto, nuestro dialecto ofrecerá procesadores y, por lo tanto, 
+implementará la interfaz `org.thymeleaf.dialect.IProcessorDialect`. Para 
+simplificarlo, en lugar de implementar directamente la interfaz, extenderemos 
+una clase abstracta llamada `org.thymeleaf.dialect.AbstractProcessorDialect`.
 
 ```java
 public class HelloDialect extends AbstractProcessorDialect {
 
     public HelloDialect() {
         super(
-                "Hello Dialect",    // Dialect name
-                "hello",            // Dialect prefix (hello:*)
-                1000);              // Dialect precedence
+                "Hello Dialect",    // Nombre del dialecto
+                "hello",            // Prefijo dialectal (hello:*)
+                1000);              // precedencia del dialecto
     }
 
-    
     /*
-     * Initialize the dialect's processors.
+     * Inicializa los procesadores del dialecto.
      *
-     * Note the dialect prefix is passed here because, although we set
-     * "hello" to be the dialect's prefix at the constructor, that only
-     * works as a default, and at engine configuration time the user
-     * might have chosen a different prefix to be used.
-     */
+     * Nótese que el prefijo del dialecto se pasa aquí porque, aunque establecimos
+     * "hello" como prefijo del dialecto en el constructor, esto solo
+     * funciona por defecto, y en el momento de la configuración del motor, el usuario
+     * podría haber elegido un prefijo diferente.
+     */    
     public Set<IProcessor> getProcessors(final String dialectPrefix) {
         final Set<IProcessor> processors = new HashSet<IProcessor>();
         processors.add(new SayToAttributeTagProcessor(dialectPrefix));
@@ -152,11 +153,12 @@ public class HelloDialect extends AbstractProcessorDialect {
 ```
 
 
-Using the hello dialect
------------------------
+Usando el dialecto hello
+------------------------
 
-Using our new dialect is very easy. This being a Spring MVC application,
-we just have to add it to our `templateEngine` bean during configuration. 
+Utilizar nuestro nuevo dialecto es muy sencillo. Al tratarse de una aplicación 
+Spring MVC, solo tenemos que añadirlo a nuestro bean `templateEngine` durante 
+la configuración.
 
 ```java
 @Bean
@@ -168,22 +170,20 @@ public SpringTemplateEngine templateEngine(){
     return templateEngine;
 }
 ```
+Tenga en cuenta que al usar `addDialect(...)` (en lugar de `setDialect(...)`) le 
+estamos indicando al motor que queremos usar nuestro nuevo dialecto *además* del 
+dialecto `StandardDialect` predeterminado. Por lo tanto, todos los atributos 
+`th:*` estándar también estarán disponibles.
 
-Note that by using `addDialect(...)` (instead of `setDialect(...)`) we are telling 
-the engine that we want to make use of our new dialect *in addition to* the 
-default `StandardDialect`. So all the standard `th:*` attributes will be also
-available.
-
-
-And now our new attribute would work seamlessly:
+Y ahora nuestro nuevo atributo funcionaría a la perfección:
 
 ```html
 <p>Hello World!</p>
 ```
 
 
-Want to know more?
-------------------
+¿Quieres saber más?
+-------------------
 
-Then have a look at [*"Say Hello Again! Extending Thymeleaf even more in
-another 5 minutes"*](sayhelloagainextendingthymeleafevenmore5minutes.html).
+Luego, echa un vistazo a 
+[*"¡Saluda de nuevo! Prolonga Thymeleaf aún más en otros 5 minutos"*](sayhelloagainextendingthymeleafevenmore5minutes.html).

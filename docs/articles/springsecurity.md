@@ -1,5 +1,5 @@
 ---
-title: Thymeleaf + Spring Security integration basics
+title: Conceptos básicos de la integración de Thymeleaf y Spring Security
 author: 'Jos&eacute; Miguel Samper \<jmiguelsamper AT users.sourceforge.net\>'
 ---
 
@@ -15,7 +15,7 @@ Spring MVC and Spring WebFlux applications since Spring Security 5, but this
 article will focus on a Spring MVC configuration.
 
 
-Prerequisites
+Requisitos previos
 -------------
 
 We assume you are familiar with Thymeleaf and Spring Security, and you
@@ -24,7 +24,7 @@ Spring Security, you could be interested on reading the [Spring Security
 Documentation](http://static.springsource.org/spring-security/site/reference.html).
 
 
-Login pages
+Páginas de inicio de sesión
 -----------
 
 With Spring Security you could specify any URL to act as a login page,
@@ -93,7 +93,7 @@ Our **login.html** template is as follows:
 ```
 
 
-Error page
+Página de error
 ----------
 
 We can also configure an error page based on Thymeleaf. In this case Spring
@@ -143,7 +143,7 @@ response status that has been set (which in this case will always be `500`, but 
 to use this `error.html` in other error reporting scenarios).
 
 
-Spring Security Dialect
+Dialecto de Spring Security
 -----------------------
 
 In Spring MVC environments, the [Spring Security integration

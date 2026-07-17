@@ -1,41 +1,40 @@
 ---
-title: Say Hello Again! Extending Thymeleaf even more in another 5 minutes
+title: ¡Saluda de nuevo! Ampliando Thymeleaf aún más en otros 5 minutos.
 ---
 
+Este artículo es una continuación de 
+[*"¡Hola! Ampliando Thymeleaf en 5 minutos"*](sayhelloextendingthymeleaf5minutes.html) 
+y debe leerse después de este. El código de este artículo proviene de la misma 
+aplicación de ejemplo, que puede ver o descargar desde 
+[su repositorio de GitHub](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello).
 
-This article is a continuation of [*"Say Hello! Extending Thymeleaf in 5
-minutes"*](sayhelloextendingthymeleaf5minutes.html) and is meant to be
-read after it.  Code in this article comes from the same example application,
-which you can view or download from [its GitHub repo](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-sayhello).
 
+Algunas mejoras para nuestro dialecto de 'hola'
+-----------------------------------------------
 
-Some improvements for our 'hello' dialect
------------------------------------------
-
-So far our `HelloDialect` allowed us to turn this:
+Hasta ahora nuestro `HelloDialect` nos permitió cambiar esto:
 
 ```html
 <p hello:sayto="World">Hi ya!</p>
 ```
 
-...into this:
+...en esto:
 
 ```html
 <p>Hello World!</p>
 ```
+Y funciona perfectamente... pero queremos añadir algunas funciones adicionales 
+interesantes. Por ejemplo:
 
-And it works just fine... but we want to add some nice additional
-features. For example:
+- Permitir expresiones de Spring EL como valores de atributos, como en la mayoría 
+  de las etiquetas en el dialecto *Spring Thymeleaf*. Por ejemplo: 
+  `hello:sayto="${user.name}"`
+- Internacionalizar la salida: decir *Hello* en inglés, *Hola* en español, 
+  *Ol&úa* en portugués, etc.
 
--   Allow Spring EL expressions as attribute values, like in most tags
-    in the *Spring Thymeleaf Dialect*. For example:
-    `hello:sayto="${user.name}"`
--   Internationalize output: say *Hello* for English, *Hola* for
-    Spanish, *Ol&aacute;* for Portuguese, etc.
-
-And we will need all that because we want to be able to create a new
-attribute, called "`saytoplanet`" and salute all the planets in the
-solar system, with a template like this:
+Y necesitaremos todo esto porque queremos poder crear un nuevo
+atributo, llamado "`saytoplanet`", y saludar a todos los planetas del
+sistema solar, con una plantilla como esta:
 
 ```html
 <ul>
@@ -43,8 +42,8 @@ solar system, with a template like this:
 </ul>
 ```
 
-...backed by a Spring MVC controller that includes all those planets as
-a model attribute called `planets`:
+...respaldado por un controlador Spring MVC que incluye todos esos planetas como un atributo del modelo llamado 
+`planets`:
 
 ```java
 @Controller
@@ -70,26 +69,26 @@ public class SayHelloController {
 ```
 
 
-Adding a new processor to our dialect
--------------------------------------
+Añadiendo un nuevo procesador a nuestro dialecto
+------------------------------------------------
 
-The first thing we want to do is add a new *processor* to our existing
-`HelloDialect`. For this we modify the dialect's `getProcessors()`
-method in order to include our new `SayToPlanetAttrProcessor` class:
+Lo primero que queremos hacer es añadir un nuevo *procesador* a nuestro 
+`HelloDialect` existente. Para ello, modificamos el método `getProcessors()` del 
+dialecto para incluir nuestra nueva clase `SayToPlanetAttrProcessor`:
 
 ```java
 public class HelloDialect extends AbstractProcessorDialect {
 
   ...
 
-  /*
-   * Initialize the dialect's processors.
-   *
-   * Note the dialect prefix is passed here because, although we set
-   * "hello" to be the dialect's prefix at the constructor, that only
-   * works as a default, and at engine configuration time the user
-   * might have chosen a different prefix to be used.
-   */
+    /*
+     * Inicializa los procesadores del dialecto.
+     *
+     * Nótese que el prefijo del dialecto se pasa aquí porque, aunque establecimos
+     * "hello" como prefijo del dialecto en el constructor, esto solo
+     * funciona por defecto, y en el momento de la configuración del motor, el usuario
+     * podría haber elegido un prefijo diferente.
+     */
   public Set<IProcessor> getProcessors(final String dialectPrefix) {
       final Set<IProcessor> processors = new HashSet<IProcessor>();
       processors.add(new SayToAttributeTagProcessor(dialectPrefix));
@@ -103,22 +102,22 @@ public class HelloDialect extends AbstractProcessorDialect {
 ```
 
 
-Using expressions as attribute values
--------------------------------------
+Utilizar expresiones como valores de atributos
+----------------------------------------------
 
-Now we want to add to our new processor the ability of parsing and
-executing expressions in the same way we can do in the *Standard* and
-*SpringStandard* dialects, this is, *Thymeleaf standard expressions*:
+Ahora queremos añadir a nuestro nuevo procesador la capacidad de analizar y 
+ejecutar expresiones del mismo modo que podemos hacerlo en los dialectos 
+*Standard* y *SpringStandard*, es decir, expresiones estándar de Thymeleaf:
 
--   `${...}` Spring EL variable expressions.
--   `#{...}` externalization of messages.
--   `@{...}` link specifications.
--   `(cond)? (then) : (else)` conditional/default expressions.
+-   `${...}` Expresiones de variables de Spring EL.
+-   `#{...}` externalización de mensajes.
+-   `@{...}` especificaciones del enlace.
+-   `(cond)? (then) : (else)` expresiones condicionales/predeterminadas.
 -   etc...
 
-In order to achieve this, we will make use of the *Standard Expression
-Parser*, which will parse the attribute value into an executable
-*expression* object:
+Para lograr esto, utilizaremos el *Analizador de expresiones estándar*, que 
+analizará el valor del atributo y lo convertirá en un objeto de *expresión* 
+ejecutable:
 
 ```java
 public class SayToPlanetAttributeTagProcessor extends AbstractAttributeTagProcessor {
@@ -131,14 +130,14 @@ public class SayToPlanetAttributeTagProcessor extends AbstractAttributeTagProces
     
     public SayToPlanetAttributeTagProcessor(final String dialectPrefix) {
         super(
-            TemplateMode.HTML, // This processor will apply only to HTML mode
-            dialectPrefix,     // Prefix to be applied to name for matching
-            null,              // No tag name: match any tag name
-            false,             // No prefix to be applied to tag name
-            ATTR_NAME,         // Name of the attribute that will be matched
-            true,              // Apply dialect prefix to attribute name
-            PRECEDENCE,        // Precedence (inside dialect's precedence)
-            true);             // Remove the matched attribute afterwards
+            TemplateMode.HTML, // Este procesador se aplicará únicamente al modo HTML
+            dialectPrefix,     // Prefijo que se aplicará al nombre para que coincida
+            null,              // Sin nombre de etiqueta: coincide con cualquier nombre de etiqueta
+            false,             // No se aplicará ningún prefijo al nombre de la etiqueta.
+            ATTR_NAME,         // Nombre del atributo que se comparará
+            true,              // Aplicar prefijo dialectal al nombre del atributo
+            PRECEDENCE,        // Precedencia (dentro de la precedencia del dialecto)
+            true);             // Elimine el atributo coincidente posteriormente.
     }
 
 
@@ -146,11 +145,10 @@ public class SayToPlanetAttributeTagProcessor extends AbstractAttributeTagProces
             final ITemplateContext context, final IProcessableElementTag tag,
             final AttributeName attributeName, final String attributeValue,
             final IElementTagStructureHandler structureHandler) {
-
         /*
-         * In order to evaluate the attribute value as a Thymeleaf Standard Expression,
-         * we first obtain the parser, then use it for parsing the attribute value into
-         * an expression object, and finally execute this expression object.
+         * Para evaluar el valor del atributo como una expresión estándar de Thymeleaf,
+         * primero obtenemos el analizador, luego lo usamos para analizar el valor del atributo en
+         * un objeto de expresión y, finalmente, ejecutamos este objeto de expresión.
          */
         final IEngineConfiguration configuration = context.getConfiguration();
 
@@ -162,8 +160,8 @@ public class SayToPlanetAttributeTagProcessor extends AbstractAttributeTagProces
         final String planet = (String) expression.execute(context);
 
         /*
-         * Set the salutation as the body of the tag, HTML-escaped and
-         * non-processable (hence the 'false' argument)
+         * Establece el saludo como el cuerpo de la etiqueta, con caracteres de escape HTML y
+         * no procesable (de ahí el argumento 'false').
          */
         structureHandler.setBody("Hello, planet " + planet, false);
         
@@ -172,24 +170,23 @@ public class SayToPlanetAttributeTagProcessor extends AbstractAttributeTagProces
 }
 ```
 
-Note that, as we did in the previous article, we are extending the
-`AbstractAttributeTagProcessor` convenience abstract class.
+Nótese que, como hicimos en el artículo anterior, estamos extendiendo la clase 
+abstracta de conveniencia `AbstractAttributeTagProcessor`.
 
 
-Adding internationalization
+Añadir internacionalización
 ---------------------------
 
-Now we want to internationalize the message returned by our attribute
-processor. This means replacing this English-only message building
-code:
+Ahora queremos internacionalizar el mensaje que devuelve nuestro procesador de atributos.
+Esto significa reemplazar este código de construcción de mensajes que solo está en inglés:
 
 ```java
 "Hello, planet " + planet;
 ```
 
-...with a message built from an externalized String that we must somehow
-obtain from our code. The context object (`ITemplateContext`) offers
-what we need:
+...con un mensaje construido a partir de una cadena externa que debemos obtener 
+de alguna manera desde nuestro código. El objeto de contexto (`ITemplateContext`) 
+ofrece lo que necesitamos:
 
 ```java
     public String getMessage(
@@ -199,24 +196,25 @@ what we need:
             final boolean useAbsentMessageRepresentation);
 ```
 
-Its arguments have the following meaning:
+Sus argumentos tienen el siguiente significado:
 
-  - `origin`  the *origin* class to be used for message resolution. When 
-    calling from a processor, this is normally the processor class itself. 
-  - `key` the key of the message to be retrieved.
-  - `messageParameters` the parameters to be applied to the requested message.
-  - `useAbsentMessageRepresentation` whether an *absent message representation* 
-    should be returned in the case that the message does not exist or not
+- `origin`: la clase *origin* que se utilizará para la resolución de mensajes. 
+   Al llamar desde un procesador, normalmente se trata de la propia clase del 
+   procesador.
+- `key`: la clave del mensaje que se va a recuperar.
+- `messageParameters`: los parámetros que se aplicarán al mensaje solicitado.
+- `useAbsentMessageRepresentation`: indica si se debe devolver una 
+   *representación de mensaje ausente* en caso de que el mensaje no exista.
 
-So let's use this to achieve some internationalization. First we will
-need some `.properties` files, like
-`SayToPlanetAttributeTagProcessor_es.properties` for Spanish:
+Así que usemos esto para lograr cierta internacionalización. Primero 
+necesitaremos algunos archivos `.properties`, como:
+`SayToPlanetAttributeTagProcessor_es.properties` para español:
 
 ```html
     msg.helloplanet=&iexcl;Hola, planeta {0}!
 ```    
 
-`SayToPlanetAttributeTagProcessor_pt.properties` for Portuguese:
+`SayToPlanetAttributeTagProcessor_pt.properties` para el portugués:
 
 ```html
 msg.helloplanet=Ol&aacute;, planeta {0}!
@@ -224,8 +222,8 @@ msg.helloplanet=Ol&aacute;, planeta {0}!
 
 ...etc.
 
-And now we will have to modify the `SayToPlanetAttributeTagProcessor` processor
-class to make use of these messages:
+Y ahora tendremos que modificar la clase del procesador 
+`SayToPlanetAttributeTagProcessor` para que utilice estos mensajes:
 
 ```java
 protected void doProcess(
@@ -234,9 +232,9 @@ protected void doProcess(
         final IElementTagStructureHandler structureHandler) {
 
     /*
-     * In order to evaluate the attribute value as a Thymeleaf Standard Expression,
-     * we first obtain the parser, then use it for parsing the attribute value into
-     * an expression object, and finally execute this expression object.
+     * Para evaluar el valor del atributo como una expresión estándar de Thymeleaf,
+     * primero obtenemos el analizador, luego lo usamos para analizar el valor del atributo en
+     * un objeto de expresión y, finalmente, ejecutamos este objeto de expresión.
      */
     final IEngineConfiguration configuration = context.getConfiguration();
 
@@ -248,15 +246,14 @@ protected void doProcess(
     final String planet = (String) expression.execute(context);
 
     /*
-     * This 'getMessage(...)' method will first try to resolve the message
-     * from the configured Spring Message Sources (because this is a Spring
-     * -enabled application).
-     * 
-     * If not found, it will try to resolve it from a classpath-bound
-     * .properties with the same name as the specified 'origin', which
-     * in this case is this processor's class itself. This allows resources
-     * to be packaged if needed in the same .jar files as the processors
-     * they are used in.
+     * Este método 'getMessage(...)' intentará primero resolver el mensaje
+     * a partir de las fuentes de mensajes de Spring configuradas (ya que se trata de una aplicación habilitada para Spring).
+     *
+     * Si no lo encuentra, intentará resolverlo a partir de un archivo .properties vinculado al classpath
+     * con el mismo nombre que el 'origin' especificado, que
+     * en este caso es la propia clase de este procesador. Esto permite que los recursos
+     * se empaqueten, si es necesario, en los mismos archivos .jar que los procesadores
+     * en los que se utilizan.
      */
     final String i18nMessage =
             context.getMessage(
@@ -266,16 +263,16 @@ protected void doProcess(
                     true);
 
     /*
-     * Set the computed message as the body of the tag, HTML-escaped and
-     * non-processable (hence the 'false' argument)
+     * Establece el mensaje calculado como el cuerpo de la etiqueta, con caracteres de escape HTML y
+     * no procesable (de ahí el argumento 'false').
      */
     structureHandler.setBody(HtmlEscape.escapeHtml5(i18nMessage), false);
     
 }
 ```
 
-And that's it! Let's have a look at the results of executing our
-template with Spanish locale:
+¡Y eso es todo! Veamos los resultados de ejecutar nuestra plantilla con la 
+configuración regional en español:
 
 -   &iexcl;Hola, planeta Mercury!
 -   &iexcl;Hola, planeta Venus!
@@ -287,18 +284,17 @@ template with Spanish locale:
 -   &iexcl;Hola, planeta Neptune!
 
 
-Exercise for the reader: internationalize the planet names
-----------------------------------------------------------
+Ejercicio para el lector: internacionaliza los nombres de los planetas
+----------------------------------------------------------------------
 
-Now we've applied internationalization to the message output by our
-attribute processor, but our planet names are still all in English
-because they are *hard coded* variables in our context (in Spring
-language, *model attributes*).
+Ahora hemos aplicado la internacionalización a la salida de mensajes de nuestro 
+procesador de atributos, pero los nombres de nuestros planetas siguen estando 
+todos en inglés porque son variables *codificadas* en nuestro contexto (en el 
+lenguaje de Spring, *atributos del modelo*).
 
-So, how about internationalizing those planet names? The `#{...}`
-expressions we can use in this attribute now should make this quite
-easy, and there are also some examples in articles like [*"Getting
-started with the Standard Dialect in 5
-minutes"*](standarddialect5minutes.html) and the
-[tutorials](/docs/documentation.html) quite similar to this scenario.
-
+¿Qué tal si internacionalizamos los nombres de los planetas? Las expresiones 
+`#{...}` que podemos usar en este atributo ahora deberían facilitarlo bastante. 
+Además, hay algunos ejemplos en artículos como 
+[*"Introducción al dialecto estándar en 5 minutos"*](standarddialect5minutes.html) 
+y los [tutoriales](/docs/documentation.html) que son bastante similares a este 
+caso.

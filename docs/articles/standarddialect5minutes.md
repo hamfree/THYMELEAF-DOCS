@@ -1,5 +1,5 @@
 ---
-title: Getting started with the Standard dialects in 5 minutes
+title: Primeros pasos con los dialectos estándar en 5 minutos
 ---
 
 
@@ -10,7 +10,7 @@ tutorials -- which are much more comprehensive -- but it will teach you
 enough for getting the feel of the technology.
 
 
-Standard dialects?
+¿Dialectos estándar?
 ------------------
 
 Thymeleaf is very, very extensible, and it allows you to define your own
@@ -35,7 +35,7 @@ Also note we usually refer to features in the Standard dialects when we
 talk about Thymeleaf without being more specific.
 
 
-Standard Expression syntax
+Sintaxis de expresiones estándar
 --------------------------
 
 Most Thymeleaf attributes allow their values to be set as or containing
@@ -48,7 +48,7 @@ dialects they are used in. These can be of five types:
   - `@{...}` : Link (URL) expressions.
   - `~{...}` : Fragment expressions.
 
-### Variable expressions
+### Expresiones de variables
 
 Variable expressions are OGNL expressions --or Spring EL if you're integrating
 Thymeleaf with Spring-- executed on the *context variables* --- also called
@@ -81,7 +81,7 @@ Here `${books}` selects the variable called `books` from the context, and
 evaluates it as an *iterable* to be used at a `th:each` loop.
 
 
-### Selection expressions
+### Expresiones de selección
 
 Selection expressions are just like variable expressions, except they
 will be executed on a previously selected object instead of the whole
@@ -111,7 +111,7 @@ So that would be equivalent to:
 }
 ```
 
-### Message (i18n) expressions
+### Expresiones de mensajes (i18n)
 
 Message expressions (often called *text externalization*, 
 *internationalization* or *i18n*) allows us to
@@ -149,7 +149,7 @@ or you want to specify variables as parameters:
 #{${config.adminWelcomeKey}(${session.user.name})}
 ```
 
-### Link (URL) expressions
+### Expresiones de enlace (URL)
 
 Link expressions are meant to build URLs and add useful context and session info to
 them (a process usually called *URL rewriting*).
@@ -224,7 +224,7 @@ means that a filter can perform customized URL-rewriting for the application by
 means of wrapping the `HttpServletResponse` object (a commonly used mechanism).
 
 
-### Fragment expressions
+### Expresiones de fragmentos
 
 Fragment expressions are an easy way to represent fragments of markup and move
 them around templates. Thanks to these expressions, fragments can be replicated,
@@ -250,7 +250,7 @@ Fragment expressions can have arguments:
 
 
 
-### Literals and operations
+### Literales y operaciones
 
 A good bunch of types of literals and operations are available:
 
@@ -282,7 +282,7 @@ A good bunch of types of literals and operations are available:
     -   If-then-else: `(if) ? (then) : (else)`
     -   Default: `(value) ?: (defaultvalue)`
 
-### Expression preprocessing
+### Preprocesamiento de expresiones
 
 One last thing to know about expressions is there is something called
 *expression preprocessing*, specified between `__`, which looks like
@@ -299,7 +299,7 @@ case an internationalization one (which would look for the message with
 key `selection.ALL`).
 
 
-Some basic attributes
+Algunos atributos básicos
 ---------------------
 
 Let's have a look at a couple of the most basic attributes in the
@@ -337,7 +337,7 @@ the attributes which values they set:
 ```
 
 
-Want to know more?
+¿Quieres saber más?
 ------------------
 
 Then the [*"Using Thymeleaf"*](/docs/documentation.html) tutorial is what

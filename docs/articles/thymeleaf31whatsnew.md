@@ -1,43 +1,43 @@
 ---
-title: "Thymeleaf 3.1: What's new and how to migrate"
+title: "Thymeleaf 3.1: Novedades y cómo migrar"
 ---
 
 Latest version is Thymeleaf `3.1.4.RELEASE`.
 
-## What's new
+## Qué hay de nuevo
 
-### Support for Servlet API 5.0 and the `jakarta.*` class namespace
+### Compatibilidad con la API 5.0 de Servlet y el espacio de nombres de clases `jakarta.*`.
 
 Thymeleaf 3.1 adds support for the new `jakarta.*` class namespace in the Servlet API since version 5.0, without removing support for
 the `javax.*` classes in previous versions.
 
-### Support for Spring 6.0
+### Compatibilidad con Spring 6.0
 
 Thymeleaf 3.1 adds a new `thymeleaf-spring6` core library for integration with Spring Framework 6.0.
 
 Support for versions of Spring older than Spring 5.0 has been removed.
 
-### Support for Spring Security 6.0
+### Compatibilidad con Spring Security 6.0
 
 Thymeleaf 3.1 adds a new `thymeleaf-extras-springsecurity6` core library for integration with Spring Security 6.0.
 
 Support for versions of Spring Security older than Spring Security 5.0 has been removed.
 
-### Core support for the `java.time` package
+### Soporte principal para el paquete `java.time`
 
 The `thymeleaf-extras-java8time` extras module has been integrated into the Thymeleaf core: the `#temporals` expression utility object is now always available.
 
-### Java compatibility
+### Compatibilidad con Java
 
 JDK 8 is now the minimum generally required version.
 
 JDK 17 is the minimum required version for the `thymeleaf-spring6` and `thymeleaf-extras-springsecurity6` core libraries.
 
-### Removal of web-API based expression utility objects
+### Eliminación de objetos de utilidad de expresión basados en la API web
 
 The `#request`, `#response`, `#session`, and `#servletContext` are no longer available to expressions in Thymeleaf 3.1.
 
-### Tighter restrictions on the use of classes in expressions
+### Restricciones más estrictas sobre el uso de clases en expresiones
 
 Thymeleaf 3.1 establishes a general restriction on the use of classes from core packages: `java.*`, `javax.*`, `jakarta.*`, `jdk.*`, `org.ietf.jgss.*`, `org.omg.*`, `org.w3c.dom.*`, `org.xml.sax.*`, `com.sun.*` and `sun.*`.
 
@@ -51,7 +51,7 @@ As an exception to this restriction, some classes in these packages are always _
 
 * Other commonly used classes in `java.util.*`: `java.util.Properties`, `java.util.Optional`, `java.util.stream.Stream`, `java.util.Locale`, `java.util.Date`, `java.util.Calendar`.
 
-### Deprecation of some artifacts and removal of previously deprecated ones
+### Desuso de algunos artefactos y eliminación de los que ya habían sido descontinuados
 
 Some artifacts have been deprecated in Thymeleaf 3.1.
 
@@ -63,14 +63,14 @@ Also, artifacts previously deprecated in 3.0 have been removed:
 * Removed `th:substituteby`, deprecated previously in favour of `th:replace`.
 * Removed deprecated use of `execInfo` as a context variable (`${execInfo}`), available since 3.0 as an expression utility object (`${#execInfo}`).
 
-### Other minor improvements
+### Otras mejoras menores
 
 * General update of dependency versions.
 * Allow `#temporals` expression utility object to format temporals in non-default locales.
 * Support iterating (e.g. `th:each`) directly on java streams (`java.util.stream.Stream`).
 * Allow `SpringTemplateEngine` instances to be configured a custom (even non-Spring) message resolver.
 
-### (For developers) Total overhaul of the project source repository structure
+### (Para desarrolladores) Revisión completa de la estructura del repositorio de código fuente del proyecto.
 
 Thymeleaf 3.1 includes a total overhaul of the (previously multiple) source repositories and big improvements in how example applications are dealt with from
 a development perspective:
@@ -87,15 +87,15 @@ a development perspective:
 * Migration of all the testing infrastructure to JUnit 5.
 
 
-## Migrating to Thymeleaf 3.1
+## Migrando a Thymeleaf 3.1
 
-### JDK version
+### Versión de JDK
 
 Thymeleaf 3.1 moves its minimum compatibility level to JDK 8, but the `thymeleaf-spring6` and `thymeleaf-extras-springsecurity6` require JDK 17 because this is the version of the JDK
 required by Spring 6.0.
 
 
-### Web related structures
+### Estructuras relacionadas con la web
 
 _(NOTE: In Spring-based web applications, what is explained here will be hidden from the developers and therefore will not affect their apps. Spring users can safely skip this section.)_
 
@@ -140,7 +140,7 @@ Also, note that your application will be able to keep using the classes specific
 that the use of these abstractions will be needed.
 
 
-### Spring 6.0 and Spring Security 6.0 (and Spring Boot 3.0)
+### Spring 6.0 y Spring Security 6.0 (y Spring Boot 3.0)
 
 Thymeleaf's new integrations with Spring 6.0 and Spring Security 6.0 are configured in an equivalent way as they were (and still are) for Spring 5.x.
 
@@ -151,7 +151,7 @@ In the case of Spring Boot bases applications, no changes are needed. The new Sp
 the Thymeleaf Spring Boot starter.
 
 
-### Expression restrictions
+### Restricciones de expresión
 
 In order to improve the security of your templates, Thymeleaf 3.1 has adopted a series of restrictions on variable expressions (`${...}` and `*{...}`) that might affect 
 your existing code.
@@ -176,7 +176,7 @@ If some of your templates absolutely need to execute expressions on objects of t
 that delegates its methods to the original object, and that will be usable from variable expressions.
 
 
-### Deprecation of th:include
+### Desuso de th:include
 
 If your templates make use of the `th:include` attribute, please note that this will still be allowed in Thymeleaf 3.1 but will be removed in a future version of the library. It
 is strongly recommended that you replace your uses of `th:include` with `th:insert`, but noting that they do not work in exactly the same way.
@@ -256,7 +256,7 @@ The result would be:
 ```
 
 
-### Deprecation of unwrapped fragment expressions
+### Desuso de expresiones de fragmentos sin envolver
 
 Fragment expressions in Thymeleaf are expressed like `~{...}`, and they can be used in many kinds of attributes and expressions, though they typically appear as
 the values for `th:insert` and `th:replace` attributes.

@@ -3,32 +3,31 @@ title: Conceptos básicos de la integración de Thymeleaf y Spring Security
 author: 'Jos&eacute; Miguel Samper \<jmiguelsamper AT users.sourceforge.net\>'
 ---
 
-Have you switched to Thymeleaf but your login and error pages are still
-using JSP?  In this article we will see how to configure your Spring application
-to use Thymeleaf for login and error pages.
+¿Has migrado a Thymeleaf, pero tus páginas de inicio de sesión y de error aún 
+usan JSP? En este artículo veremos cómo configurar tu aplicación Spring para 
+usar Thymeleaf en las páginas de inicio de sesión y de error.
 
-All the code seen here comes from a working application. You can view or
-download the source code from [its GitHub repo](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/springsecurity6/thymeleaf-examples-springsecurity6-websecurity).
+Todo el código que se muestra aquí proviene de una aplicación en funcionamiento. 
+Puede ver o descargar el código fuente desde [su repositorio de GitHub](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/springsecurity6/thymeleaf-examples-springsecurity6-websecurity).
 
-**Note** that the Thymeleaf integration packages for Spring Security support both
-Spring MVC and Spring WebFlux applications since Spring Security 5, but this
-article will focus on a Spring MVC configuration.
+**Nota:** Los paquetes de integración de Thymeleaf para Spring Security admiten 
+aplicaciones Spring MVC y Spring WebFlux desde Spring Security 5, pero este 
+artículo se centrará en una configuración Spring MVC.
 
 
 Requisitos previos
 -------------
 
-We assume you are familiar with Thymeleaf and Spring Security, and you
-have a working application using these technologies. If you don't know
-Spring Security, you could be interested on reading the [Spring Security
-Documentation](http://static.springsource.org/spring-security/site/reference.html).
+Suponemos que está familiarizado con Thymeleaf y Spring Security, y que cuenta 
+con una aplicación funcional que utiliza estas tecnologías. Si no conoce Spring 
+Security, le recomendamos consultar la [Documentación de Spring Security](http://static.springsource.org/spring-security/site/reference.html).
 
 
 Páginas de inicio de sesión
 -----------
 
-With Spring Security you could specify any URL to act as a login page,
-just like:
+Con Spring Security puedes especificar cualquier URL para que funcione como 
+página de inicio de sesión, por ejemplo:
 
 ```java
 @Override
@@ -43,7 +42,7 @@ protected void configure(final HttpSecurity http) throws Exception {
 }
 ```
 
-Now we have to match these pages inside a Spring Controller:
+Ahora tenemos que relacionar estas páginas dentro de un controlador Spring:
 
 ```java
 @Controller
@@ -51,13 +50,13 @@ public class MainController {
 
   ...
 
-  // Login form
+  // Formulario de inicio de sesión
   @RequestMapping("/login.html")
   public String login() {
     return "login.html";
   }
 
-  // Login form with error
+  // Formulario de inicio de sesión con error
   @RequestMapping("/login-error.html")
   public String loginError(Model model) {
     model.addAttribute("loginError", true);
@@ -67,26 +66,27 @@ public class MainController {
 }
 ```
 
-Note that we are using the same template **login.html** for both pages,
-but when there is an error, we set a boolean attribute into the model.
+Tenga en cuenta que estamos utilizando la misma plantilla **login.html** para 
+ambas páginas, pero cuando se produce un error, establecemos un atributo 
+booleano en el modelo.
 
-Our **login.html** template is as follows:
+Nuestra plantilla **login.html** es la siguiente:
 
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
-    <title>Login page</title>
+    <title>Página de inicio de sesión</title>
   </head>
   <body>
-    <h1>Login page</h1>
-    <p th:if="${loginError}" class="error">Wrong user or password</p>
+    <h1>Página de inicio de sesión</h1>
+    <p th:if="${loginError}" class="error">Usuario o contraseña incorrectos</p>
     <form th:action="@{/login.html}" method="post">
-      <label for="username">Username</label>:
+      <label for="username">Nombre de usuario</label>:
       <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
-      <label for="password">Password</label>:
+      <label for="password">Contraseña</label>:
       <input type="password" id="password" name="password" /> <br />
-      <input type="submit" value="Log in" />
+      <input type="submit" value="Acceder" />
     </form>
   </body>
 </html>
@@ -96,10 +96,9 @@ Our **login.html** template is as follows:
 Página de error
 ----------
 
-We can also configure an error page based on Thymeleaf. In this case Spring
-Security is not involved at all, we should simply add an
-[ExceptionHandler](https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc)
-to our Spring configuration like:
+También podemos configurar una página de error basada en Thymeleaf. En este caso, 
+Spring Security no interviene en absoluto; simplemente debemos añadir un [ExceptionHandler](https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc) 
+a nuestra configuración de Spring, como por ejemplo:
 
 
 ```java
@@ -111,8 +110,8 @@ public class ErrorController {
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public String exception(final Throwable throwable, final Model model) {
-        logger.error("Exception during execution of SpringSecurity application", throwable);
-        String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
+        logger.error("Excepción durante la ejecución de la aplicación SpringSecurity", throwable);
+        String errorMessage = (throwable != null ? throwable.getMessage() : "Error desconocido");
         model.addAttribute("errorMessage", errorMessage);
         return "error";
     }
@@ -120,59 +119,60 @@ public class ErrorController {
 }
 ```
 
-The **error.html** template could be like:
+La plantilla **error.html** podría ser similar a esta:
 
 ```html
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Error page</title>
+        <title>Página de error</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="css/main.css" th:href="@{/css/main.css}" />
     </head>
     <body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
         <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
         <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
-        <a href="index.html" th:href="@{/index.html}">Back to Home Page</a>
+        <a href="index.html" th:href="@{/index.html}">Volver a la página principal</a>
     </body>
 </html>
 ```
 
-Note how we are using Spring's `HttpStatus` enum in order to obtain detailed information about the
-response status that has been set (which in this case will always be `500`, but this allows us
-to use this `error.html` in other error reporting scenarios).
+Observe cómo utilizamos la enumeración `HttpStatus` de Spring para obtener 
+información detallada sobre el estado de la respuesta que se ha establecido (que 
+en este caso siempre será `500`, pero esto nos permite utilizar este `error.html` 
+en otros escenarios de informes de errores).
 
 
 Dialecto de Spring Security
 -----------------------
 
-In Spring MVC environments, the [Spring Security integration
-module](https://github.com/thymeleaf/thymeleaf-extras-springsecurity)
-works as a replacement of the [Spring security
-taglib](http://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html).
+En entornos Spring MVC, 
+el [módulo de integración de Spring Security](https://github.com/thymeleaf/thymeleaf-extras-springsecurity) funciona como 
+reemplazo de la 
+[biblioteca de etiquetas de Spring Security](http://docs.spring.io/spring-security/site/docs/4.2.x/reference/html/taglibs.html).
 
-We use this dialect in the example in order to print the logged user
-credentials and to show different content to different roles.
+En este ejemplo, utilizamos este dialecto para imprimir las credenciales del 
+usuario autenticado y mostrar contenido diferente a cada rol.
 
-The **sec:authorize** attribute renders its content when the attribute
-expression is evaluated to **true**:
+El atributo **sec:authorize** muestra su contenido cuando la expresión del 
+atributo se evalúa como **verdadera**.
 
 ```html
 <div sec:authorize="isAuthenticated()">
-  This content is only shown to authenticated users.
+    Este contenido solo se muestra a usuarios autenticados.
 </div>
 <div sec:authorize="hasRole('ROLE_ADMIN')">
-  This content is only shown to administrators.
+    Este contenido solo se muestra a los administradores.
 </div>
 <div sec:authorize="hasRole('ROLE_USER')">
-  This content is only shown to users.
+    Este contenido solo se muestra a los usuarios.
 </div>
 ```
 
-The **sec:authentication** attribute is used to print logged user name
-and roles:
+El atributo **sec:authentication** se utiliza para imprimir el nombre de usuario 
+y los roles del usuario que ha iniciado sesión.
 
 ```html
-Logged user: <span sec:authentication="name">Bob</span>
+Usuario conectado: <span sec:authentication="name">Bob</span>
 Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
 ```

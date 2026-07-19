@@ -2,18 +2,18 @@
 title: 'Spring MVC y Thymeleaf: cómo acceder a los datos desde las plantillas'
 author: 'Rafa&#322; Borowiec &mdash; <a href="http://blog.codeleak.pl">http://blog.codeleak.pl</a>'
 ---
-
-In a typical Spring MVC application, `@Controller` classes are responsible for preparing a model map with data and selecting a view to be rendered. This _model map_ allows for the complete abstraction of the view technology and, in the case of Thymeleaf, it is transformed into a Thymeleaf context object (part of the Thymeleaf _template execution context_) that makes all the defined variables available to expressions executed in templates.
+En una aplicación típica de Spring MVC, las clases `@Controller` se encargan de preparar un mapa de modelo con datos y seleccionar la vista que se va a renderizar. Este mapa de modelo permite la abstracción completa de la tecnología de vista y, en el caso de Thymeleaf, se transforma en un objeto de contexto de Thymeleaf (parte del _contexto de ejecución de plantillas de Thymeleaf_) que pone a disposición de las expresiones ejecutadas en las plantillas todas las variables definidas.
 
 
 Atributos del modelo Spring
 -----------------------
 
-Spring MVC calls the pieces of data that can be accessed during the execution of views _model attributes_. The equivalent term in Thymeleaf language is _context variables_.
+Spring MVC denomina atributos del modelo a los datos a los que se puede acceder durante la 
+ejecución de las vistas. En Thymeleaf, el término equivalente es _variables de contexto_.
 
-There are several ways of adding model attributes to a view in Spring MVC. Below you will find some common cases:
+Existen varias maneras de añadir atributos del modelo a una vista en Spring MVC. A continuación, se muestran algunos casos comunes:
 
-Add attribute to `Model` via its `addAttribute` method:
+Añadir un atributo al modelo mediante su método `addAttribute`:
 
 ```java
     @RequestMapping(value = "message", method = RequestMethod.GET)
@@ -23,7 +23,7 @@ Add attribute to `Model` via its `addAttribute` method:
     }
 ```
 
-Return `ModelAndView` with model attributes included:
+Devuelve `ModelAndView`con los atributos del modelo incluídos:
 
 ```java
     @RequestMapping(value = "message", method = RequestMethod.GET)
@@ -34,7 +34,7 @@ Return `ModelAndView` with model attributes included:
     }
 ```
 
-Expose common attributes via methods annotated with `@ModelAttribute`:
+Expone atributos comunes a través de métodos anotados con `@ModelAttribute`:
 
 ```java
     @ModelAttribute("messages")
@@ -43,11 +43,12 @@ Expose common attributes via methods annotated with `@ModelAttribute`:
     }
 ```
 
-As you may have noticed, in all the above cases the `messages` attribute is added to the model and it will be available in Thymeleaf views. 
+Como habrás notado, en todos los casos anteriores se agrega el atributo `messages` al modelo y estará disponible en las vistas de Thymeleaf.
 
-In Thymeleaf, these model attributes (or _context variables_ in Thymeleaf jargon) can be accessed with the following syntax: `${attributeName}`, where `attributeName` in our case is `messages`. This is a [Spring EL][1] expression. In short, Spring EL (Spring Expression Language) is a language that supports querying and manipulating an object graph at runtime.
+En Thymeleaf, se puede acceder a estos atributos del modelo (o _variables de contexto_, en la 
+jerga de Thymeleaf) con la siguiente sintaxis: `${nombreAtributo}`, donde `nombreAtributo` en nuestro caso es `messages`. Esta es una expresión de [Spring EL][1]. En resumen, Spring EL (Spring Expression Language) es un lenguaje que permite consultar y manipular un grafo de objetos en tiempo de ejecución.
 
-You can access model attributes in views with Thymeleaf as follows:
+Puedes acceder a los atributos del modelo en las vistas con Thymeleaf de la siguiente manera:
 
 ```html
     <tr th:each="message : ${messages}">
@@ -61,13 +62,14 @@ You can access model attributes in views with Thymeleaf as follows:
 Parámetros de solicitud
 ------------------
 
-Request parameters can be easily accessed in Thymeleaf views. Request parameters are passed from the client to server like:
+Los parámetros de la solicitud son accesibles fácilmente en las vistas de Thymeleaf. Los parámetros 
+de la solicitud se pasan del cliente al servidor de la siguiente manera:
 
 ```html
     https://example.com/query?q=Thymeleaf+Is+Great!
 ```
 
-Let's assume we have a `@Controller` that sends a redirect with a request parameter:
+Supongamos que tenemos un `@Controller` que envía una redirección con un parámetro de solicitud:
 
 ```java
     @Controller
@@ -79,24 +81,24 @@ Let's assume we have a `@Controller` that sends a redirect with a request parame
     }
 ```
 
-In order to access the `q` parameter you can use the `param.` prefix:
+Para acceder al parámetro `q` puede utilizar el prefijo `param.`:
 
 ```html
     <p th:text="${param.q}">Test</p>
 ```
 
-In the above example if parameter `q` is not present, empty string will be displayed in the above paragraph otherwise the value of `q` will be shown.
+En el ejemplo anterior, si el parámetro `q` no está presente, se mostrará una cadena vacía en el párrafo anterior; de lo contrario, se mostrará el valor de `q`.
 
-Since parameters can be multivalued (e.g. `https://example.com/query?q=Thymeleaf%20Is%20Great!&q=Really%3F) you may access them using brackets syntax:
+Dado que los parámetros pueden ser multivalorados (por ejemplo, `https://example.com/query?q=Thymeleaf%20Is%20Great!&q=Really%3F`), puede acceder a ellos utilizando la sintaxis de corchetes:
 
 
 ```html
     <p th:text="${param.q[0] + ' ' + param.q[1]}" th:unless="${param.q == null}">Test</p>
 ```
 
-Note: If you access multivalued parameter with `${param.q}` you will get a serialized array as a value.
+Nota: Si accede a un parámetro multivalor con `${param.q}`, obtendrá un array serializado como valor.
 
-Another way to access request parameters is by using the special `#request` object that gives you direct access to the `javax.servlet.http.HttpServletRequest` object:
+Otra forma de acceder a los parámetros de la solicitud es utilizando el objeto especial `#request` que le brinda acceso directo al objeto `javax.servlet.http.HttpServletRequest`:
 
 ```html
     <p th:text="${#request.getParameter('q')}" th:unless="${#request.getParameter('q') == null}">Test</p>
@@ -105,7 +107,7 @@ Another way to access request parameters is by using the special `#request` obje
 Atributos de sesión
 ------------------
 
-In the below example we add `mySessionAttribute` to session:
+En el siguiente ejemplo agregamos `mySessionAttribute` a la sesión:
 
 ```java
     @RequestMapping({"/"})
@@ -115,25 +117,25 @@ In the below example we add `mySessionAttribute` to session:
     }
 ```
 
-Similarly to the request parameters, session attributes can be accessed by using the `session.` prefix:
+De forma similar a los parámetros de la solicitud, se puede acceder a los atributos de la sesión utilizando el prefijo `session.`:
 
 ```html
     <p th:text="${session.mySessionAttribute}" th:unless="${session == null}">[...]</p>
 ```
 
-Or by using `#session`, that gives you direct access to the `javax.servlet.http.HttpSession` object: `${#session.getAttribute('mySessionAttribute')}`
+O bien, utilizando `#session`, obtendrá acceso directo al objeto `javax.servlet.http.HttpSession`: `${#session.getAttribute('mySessionAttribute')}`
 
 
 Atributos de ServletContext
 -------------------------
 
-The ServletContext attributes are shared between requests and sessions. In order to access ServletContext attributes in Thymeleaf you can use the `#servletContext.` prefix:
+Los atributos de ServletContext se comparten entre solicitudes y sesiones. Para acceder a los atributos de ServletContext en Thymeleaf, puede usar el prefijo `#servletContext.`:
 
 ```html
         <table>
             <tr>
                 <td>My context attribute</td>
-                <!-- Retrieves the ServletContext attribute 'myContextAttribute' -->
+                <!-- Recupera el atributo de ServletContext 'myContextAttribute' -->
                 <td th:text="${#servletContext.getAttribute('myContextAttribute')}">42</td>
             </tr>
             <tr th:each="attr : ${#servletContext.getAttributeNames()}">
@@ -147,13 +149,13 @@ The ServletContext attributes are shared between requests and sessions. In order
 Beans de Spring
 ------------
 
-Thymeleaf allows accessing beans registered at the Spring Application Context with the `@beanName` syntax, for example:
+Thymeleaf permite acceder a los beans registrados en el Spring Application Context con la sintaxis `@beanName`, por ejemplo:
 
 ```html
     <div th:text="${@urlService.getApplicationUrl()}">...</div> 
 ```
 
-In the above example, `@urlService` refers to a Spring Bean registered at your context, e.g.
+En el ejemplo anterior, `@urlService` se refiere a un Spring Bean registrado en su contexto, por ejemplo:
 
 ```java
     @Configuration
@@ -169,14 +171,14 @@ In the above example, `@urlService` refers to a Spring Bean registered at your c
     }
 ```
 
-This is fairly easy and useful in some scenarios.
+Esto es bastante fácil y útil en algunos casos.
 
 
 Referencias
 ----------
 
 - [Thymeleaf + Spring 3][2]
-- [Expression Basic Objects][3]
+- [Objetos básicos de expresión][3]
 
 
   [1]: http://docs.spring.io/spring-framework/docs/current/spring-framework-reference/html/expressions.html

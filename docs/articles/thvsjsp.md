@@ -3,56 +3,58 @@ title: 'Capa de vista de Spring MVC: Thymeleaf vs. JSP'
 ---
 
 
-In this article we will compare the same page (a subscription form)
-created twice for the same Spring MVC application: once using Thymeleaf
-and another time using JSP, JSTL and the Spring tag libraries.
+En este artículo compararemos la misma página (un formulario de suscripción) 
+creada dos veces para la misma aplicación Spring MVC: una vez con Thymeleaf y 
+otra con JSP, JSTL y las librerías de etiquetas de Spring.
 
-All the code seen here comes from a working application.  You can view or
-download the source code from [its GitHub repo](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-thvsjsp).
-
+Todo el código que se muestra aquí proviene de una aplicación en funcionamiento. 
+Puedes ver o descargar el código fuente desde 
+[su repositorio de GitHub](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-thvsjsp).
 
 Requisitos comunes
 -------------------
 
-Our customers need a form for subscribing new members to a message list,
-with two fields:
+Nuestros clientes necesitan un formulario para suscribir nuevos miembros a una 
+lista de mensajes, con dos campos:
 
--   Email address
--   Type of subscription (receive all emails, daily digest)
+- Correo electrónico
+- Tipo de suscripción (recibir todos los correos, resumen diario)
 
-We will also need this page to be HTML5 and completely
-internationalizable, extracting all texts and messages from resource
-files already configured in our `MessageSource` objects in our Spring
-infrastructure.
+Esta página también deberá ser HTML5 y completamente internacionalizable, 
+extrayendo todos los textos y mensajes de los archivos de recursos ya 
+configurados en nuestros objetos `MessageSource` en nuestra infraestructura 
+Spring.
 
-Our application will have two `@Controller`s, which will contain exactly
-the same code but will forward to different view names:
+Nuestra aplicación tendrá dos `@Controller`, que contendrán exactamente el mismo 
+código pero redirigirán a diferentes vistas:
 
--   `SubscribeJsp` for the JSP page (the `subscribejsp` view).
--   `SubscribeTh` for the Thymeleaf page (the `subscribeth` view).
+- `SubscribeJsp` para la página JSP (la vista `subscribejsp`).
 
-We will have the following classes in our model:
+- `SubscribeTh` para la página Thymeleaf (la vista `subscribeth`).
 
--   `Subscription` form-backing bean with two fields: `String email` and
-    `SubscriptionType subscriptionType`.
--   `SubscriptionType` an enum modeling the `subscriptionType` field of
-    the form, with values `ALL_EMAILS` and `DAILY_DIGEST`.
+Nuestro modelo incluirá las siguientes clases:
 
-*(In this article we will just focus on the JSP/Thymeleaf template code.
-If you want to know implementation details for the controller code or
-Spring configuration, check the source code in the downloadable
-package)*
+- `Subscription`, un bean de respaldo para el formulario con dos campos: 
+  `String email` y `SubscriptionType subscriptionType`.
+- `SubscriptionType` es una enumeración que modela el campo `subscriptionType` 
+   del formulario, con los valores `ALL_EMAILS` y `DAILY_DIGEST`.
+
+*(En este artículo nos centraremos únicamente en el código de la plantilla 
+JSP/Thymeleaf. Si desea conocer los detalles de implementación del código del 
+controlador o la configuración de Spring, consulte el código fuente en el 
+paquete descargable).*
 
 
 Hacerlo con JSP
 -----------------
 
-This is our page:
 
-![The JSP page](images/thvsjsp/jsp1.png)
+Esta es nuestra página:
 
-And this is our JSP code, making use of both JSTL (`core`) and Spring
-(`tags` and `form`) JSP tag libraries:
+![La página JSP](images/thvsjsp/jsp1.png)
+
+Y este es nuestro código JSP, usando las librerías de etiquetas de Spring JSP (`tags` and 
+`form`) y JSTL (`core`): 
 
 ```html
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
@@ -113,11 +115,12 @@ And this is our JSP code, making use of both JSTL (`core`) and Spring
 Haciéndolo con Thymeleaf
 -----------------------
 
-Now, let's do the same with Thymeleaf. This is our page:
+Ahora, vamos a hacer lo mismo con Thymeleaf. Esta es nuestra página:
 
-![The Thymeleaf page](images/thvsjsp/th1.png)
 
-And this is our Thymeleaf code:
+![La página Thymeleaf](images/thvsjsp/th1.png)
+
+Y este es nuestro código Thymeleaf:
 
 ```html
 <!DOCTYPE html>
@@ -168,171 +171,171 @@ And this is our Thymeleaf code:
 </html>
 ```
 
-Things to notice here:
+Aspectos a tener en cuenta  aquí:
 
--   This looks much more HTML-ish than the JSP version -- no strange
-    tags, just some meaningful attributes.
--   Variable expressions (`${...}`) are Spring EL and execute on model
-    attributes, asterisk expressions (`*{...}`) execute on the form
-    backing bean, hash expressions (`#{...}`) are for
-    internationalization and link expressions (`@{...}`) rewrite URLs.
-    (*If you want to know more about this, have a look at the ["Getting
-    started with the Standard Dialect in 5
-    minutes"](standarddialect5minutes.html) guide*).
--   We are allowed to have prototype code there: for example, we can set
-    an `Email:` text in the label for the first field, knowing that
-    Thymeleaf will substitute it with the internationalized text with
-    key `subscription.email` when it executes the page.
--   We have even been able to add an `<li>` for a second radiobutton
-    just for prototyping pleasure. It will be removed when Thymeleaf
-    executes our page.
+- Esto se parece mucho más a HTML que la versión JSP -- sin etiquetas extrañas, 
+  solo algunos atributos significativos.
+
+- Las expresiones variables (`${...}`) son de Spring EL y se ejecutan en los 
+  atributos del modelo; las expresiones con asterisco (`*{...}`) se ejecutan en 
+  el bean de respaldo del formulario; las expresiones con hash (`#{...}`) se usan 
+  para la internacionalización; y las expresiones de enlace (`@{...}`) reescriben 
+  las URL. (*Si quieres saber más, consulta la guía 
+  ["Introducción al dialecto estándar en 5 minutos"](standarddialect5minutes.html)*).
+
+- Se permite incluir código de prototipo: por ejemplo, podemos establecer el 
+  texto `Email:` en la etiqueta del primer campo, sabiendo que Thymeleaf lo 
+  sustituirá por el texto internacionalizado con la clave `subscription.email` 
+  al ejecutar la página.
+
+- Incluso hemos podido añadir un `<li>` para un segundo botón de opción, 
+  simplemente por placer de prototipar. Se eliminará cuando Thymeleaf ejecute 
+  nuestra página.
 
 
 ¡Cambiemos el estilo de la página!
 ----------------------------
+Imaginemos que, una vez escritas nuestras páginas, decidimos de repente que ya 
+no queremos verde para la zona alrededor del botón de envío, sino un azul 
+pálido. De todas formas, no estamos seguros del tono exacto de azul que mejor se 
+adapte, así que tendremos que probar varias combinaciones antes de decidirnos 
+por una en concreto.
 
-Imagine that now our pages are written we suddenly decide that we do not
-want green anymore for that region around the submit button, but rather
-a pale blue. Anyway we're not sure about the exact tone of blue that
-will fit better, so we will have to try some combinations before
-deciding on a specific one.
-
-Let's see the steps we would have to take with each technology:
+Veamos los pasos que tendríamos que seguir con cada tecnología:
 
 ### Cambiar el estilo de la página usando JSP
 
-**Step 1**: *Deploy the application into our development server and
-start it up*. Our JSP page will not render without starting the server,
-so this will be a requirement.
+**Paso 1**: *Desplegar la aplicación en nuestro servidor de desarrollo e 
+iniciarlo*. Nuestra página JSP no se renderizará sin iniciar el servidor,
+así que esto será un requisito.
 
-**Step 2**: *Navigate through the pages until we find the one to
-change*. Normally, the page to change will be one among several dozen
-pages in our application, and it is quite possible that in order to
-reach it we will need to click links, submit forms and/or query
-databases.
+**Paso 2**: *Navegar por las páginas hasta encontrar la que queremos modificar*. 
+Normalmente, la página que queremos modificar será una de las decenas de páginas 
+de nuestra aplicación, y es muy probable que para acceder a ella tengamos que 
+hacer clic en enlaces, enviar formularios o consultar bases de datos.
 
-**Step 3**: *Fire up firebug, dragonfly, or our favourite in-browser web
-development tool*. This will allow us to modify our styles acting
-directly on the browser's DOM, and thus see immediate results.
+**Paso 3**: *Abrir Firebug, Dragonfly o tu herramienta de desarrollo web favorita 
+en el navegador*. Esto nos permitirá modificar los estilos actuando directamente 
+sobre el DOM del navegador y, por lo tanto, ver los resultados de inmediato.
 
-**Step 4**: *Make the colour changes*. Probably trying a couple of
-different tones of blue before deciding on the one we like.
+**Paso 4**: *Realizar los cambios de color*. Probablemente probaremos un par de 
+tonos de azul diferentes antes de decidirnos por el que nos guste.
 
-![Fine-tuned JSP page](images/thvsjsp/jsp2.png)
 
-**Step 5**: *Copy-paste the changes into our CSS files*.
+![Página JSP optimizada](images/thvsjsp/jsp2.png)
 
-Done!
+**Paso 5**: *Copiar y pegar los cambios en nuestros archivos CSS*.
+
+¡Hecho!
 
 ### Cambiar el estilo de la página usando Thymeleaf
 
-**Step 1**: *Double-click on the `.html` template file itself and let
-our browser open it*. Being a Thymeleaf template, it will show just
-fine, only with template/prototype data (note the subscription type
-options):
+**Paso 1**: *Haz doble clic en el archivo de plantilla `.html` y deja que tu 
+navegador lo abra*. Al ser una plantilla de Thymeleaf, se mostrará correctamente, 
+solo con los datos de la plantilla/prototipo (observa las opciones del tipo de 
+suscripción):
 
-![Thymeleaf page - valid as a prototype](images/thvsjsp/th2.png)
+![Página Thymeleaf - válida como prototipo](images/thvsjsp/th2.png)
 
-**Step 2**: *Open the `.css` file with our favourite text editor*. The
-template file statically links to the CSS in its
-`<link rel="stylesheet" ...>` tag (with an `href` that Thymeleaf
-substitutes when executing the template by the one generated by
-`th:href`). So any changes we make to that CSS will be applied to the
-static page our browser is displaying.
+**Paso 2**: *Abre el archivo `.css` con tu editor de texto favorito*.
+El archivo de plantilla enlaza estáticamente con el CSS en su etiqueta 
+`<link rel="stylesheet" ...>` (con un `href` que Thymeleaf sustituye al ejecutar 
+la plantilla por el generado por `th:href`). Por lo tanto, cualquier cambio que 
+hagamos en ese CSS se aplicará a la página estática que muestra nuestro 
+navegador.
 
-**Step 3**: *Make the colour changes*. As was the case with JSP, we will
-probably have to try several colour combinations, which will be
-refreshed in our browser just by pressing F5.
+**Paso 3**: *Realiza los cambios de color*. Como sucedió con JSP, probablemente 
+tendremos que probar varias combinaciones de colores, que se actualizarán en 
+nuestro navegador simplemente pulsando F5.
 
-Done!
+¡Listo!
 
 ### ¡Esa fue una gran diferencia!
+La diferencia en el número de pasos no es realmente importante aquí (también 
+podríamos haber usado Firebug con la plantilla Thymeleaf). Lo que sí es 
+importante es la complejidad, el esfuerzo y el tiempo que requiere cada uno de 
+los pasos necesarios para JSP. Tener que desplegar e iniciar toda la aplicación 
+hizo que JSP perdiera terreno.
 
-The difference in the number of steps is not really important here (we
-could also have used firebug with the Thymeleaf template). What is
-really important is the complexity, the effort and the time required by
-each of the steps required for JSP. Having to deploy and start the whole
-application made JSP just lose.
+Además, piense en cómo evolucionaría esta diferencia si:
 
-What's more: think of how this difference would evolve if:
+- Nuestro servidor de desarrollo no fuera local, sino remoto.
+- Los cambios no solo implicaran CSS, sino también añadir o eliminar código HTML.
+- Aún no hubiéramos implementado la lógica necesaria en nuestra aplicación para 
+  *acceder a esa página* una vez desplegada.
 
--   Our development server was not local but remote.
--   Changes didn't involve only CSS but also adding/removing some HTML
-    code.
--   We still hadn't implemented the required logic in our application to
-    actually *reach that page* once deployed.
-
-This last point is an important one: what if our application was still
-being developed, the Java logic needed to show this or other previous
-pages wasn't still working alright, and we had to show the new colour to
-our customer? (or even let him/her choose on the fly!)...
+Este último punto es crucial: ¿qué pasaría si nuestra aplicación aún estuviera 
+en desarrollo, la lógica Java necesaria para mostrar esta u otras páginas 
+anteriores no funcionara correctamente y tuviéramos que mostrar el nuevo color a 
+nuestro cliente? (¡o incluso dejar que lo eligiera sobre la marcha!)...
 
 ### ¿Y qué hay de intentar usar JSP como prototipo estático?
 
-OK, you can say now, *but why did we start the application to modify the
-JSP instead of just opening it like you did with the Thymeleaf one?
-Can't we just do that?*.
+Vale, ahora podrías preguntar: *¿Pero por qué iniciamos la aplicación para 
+modificar el JSP en lugar de simplemente abrirlo como hiciste con Thymeleaf? ¿No 
+podemos hacer eso?*
 
-The short answer is NO.
+La respuesta corta es NO.
 
-But let's try anyway: of course, we will have to rename our file so that
-its name ends in `.html` instead of `.jsp`, but let's see what happens
-when we open our browser:
+Pero intentémoslo de todos modos: por supuesto, tendremos que renombrar nuestro 
+archivo para que termine en `.html` en lugar de `.jsp`, pero veamos qué sucede 
+cuando abrimos el navegador:
 
-![JSP page directly opened on a browser](images/thvsjsp/jsp3.png)
+![Página JSP abierta directamente en un navegador.](images/thvsjsp/jsp3.png)
 
-*WHAT? Where's our page gone?* Well, it's still there, but in order to
-make our page work as JSP we had to add lots of JSP tags and features
-that made it work wonderfully when executed by our web server... but at
-the same time made it be HTML no more. And therefore made it
-undisplayable for a browser.
+¿QUÉ? ¿Dónde está nuestra página? Bueno, sigue ahí, pero para que funcionara como 
+JSP tuvimos que añadir muchas etiquetas y funciones JSP que la hicieron funcionar 
+perfectamente al ser ejecutada por nuestro servidor web... pero al mismo tiempo, 
+dejaron de ser HTML. Y por lo tanto, dejaron de ser visibles en un navegador.
 
-Again, let's remind ourselves what the Thymeleaf template looked like
-when we double-clicked on it:
+Recordemos de nuevo cómo se veía la plantilla de Thymeleaf cuando hacíamos doble 
+clic en ella:
 
-![Thymeleaf page directly opened on a browser](images/thvsjsp/th2.png)
+![Página de Thymeleaf abierta directamente en un navegador.](images/thvsjsp/th2.png)
 
-Definitely not in the same league, right?
+Definitivamente no están en la misma liga, ¿verdad?
 
 
 ¿Tienes HTML5?
 ----------
 
-But hey -- we said at the beginning that our page was going to be HTML5,
-so... why don't we use some of the cool new HTML5 form-related features?
+Pero bueno -- dijimos al principio que nuestra página iba a ser HTML5, así 
+que... ¿por qué no aprovechamos algunas de las nuevas y geniales funciones de 
+formularios de HTML5?
 
-For example, there is now an `<input type="email" ...>`, which will make
-our browser check that the text input by users has the shape of an email
-address. And also, there is a new property for all inputs called
-`placeholder` which shows a text in the field that automatically
-disappears when the input gains focus (usually by the user clicking on
-it).
+Por ejemplo, ahora existe `<input type="email" ...>`, que hace que nuestro 
+navegador compruebe que el texto introducido por el usuario tenga el formato de 
+una dirección de correo electrónico. Además, hay una nueva propiedad para todos 
+los campos de entrada llamada `placeholder`, que muestra un texto en el campo 
+que desaparece automáticamente cuando el campo recibe el foco (normalmente 
+cuando el usuario hace clic en él).
 
-Sounds good, doesn't it? Unfortunately not all browsers support this yet
-(as of 2011, Opera 11 and Firefox 4 do), but we are safe using these
-features anyway because all browsers will treat an input of a type they
-do not understand (`email`) as a `text` input, and will silently ignore
-the `placeholder` attribute in the same way they ignore Thymeleaf's
-`th:*` ones.
+Suena bien, ¿verdad? Desafortunadamente, no todos los navegadores lo admiten 
+todavía (a fecha de 2011, Opera 11 y Firefox 4 sí), pero podemos usar estas 
+funciones sin problema porque todos los navegadores tratarán un campo de entrada 
+de un tipo que no reconocen (`email`) como un campo de texto, e ignorarán 
+silenciosamente el atributo `placeholder`, del mismo modo que ignoran los 
+atributos `th:*` de Thymeleaf.
 
 ### Cómo usar HTML5 con JSP
 
 #### Antes de Spring 3.1
 
-Spring MVC's JSP tag libraries didn't offer complete support for HTML5
-until Spring 3.1, so before this version there was no way to write an
-*email type* input tag other than do it in plain HTML, like:
+Las bibliotecas de etiquetas JSP de Spring MVC no ofrecían soporte completo para 
+HTML5 hasta Spring 3.1, por lo que antes de esta versión no había otra forma de 
+escribir una etiqueta de entrada de *tipo correo electrónico* que no fuera 
+hacerlo en HTML simple, como por ejemplo:
 
 ```html
 <input type="email" id="email" name="email" placeholder="your@email" value="" />
 ```
-
-But this was not correct! In Spring MVC we should never write a JSP
-input field like that, because we wouldn't be correctly *binding* our
-input to the `email` property of the form-backing bean. In order to do
-so, we would need to use an `<s:eval/>` tag, which will apply all the
-required transformations (like *property editors*) and make our
-plain-HTML tag work as if an `<sf:email/>` tag existed:
+¡Pero esto no era correcto! En Spring MVC, nunca deberíamos escribir un campo de 
+entrada JSP de esa manera, ya que no estaríamos *vinculando* correctamente nuestra 
+entrada a la propiedad `email` del bean que respalda el formulario. Para ello, 
+necesitaríamos usar la etiqueta `<s:eval/>`, que aplicará todas las 
+transformaciones necesarias (como los *editores de propiedades*) y hará que 
+nuestra etiqueta HTML simple funcione como si existiera la etiqueta 
+`<sf:email/>`:
 
 ```html
 <input type="email" id="email" name="email" placeholder="your@email"
@@ -341,29 +344,30 @@ plain-HTML tag work as if an `<sf:email/>` tag existed:
 
 #### Desde Spring 3.1
 
-In Spring 3.1 there still is no `<sf:email ...>` tag, but the existing
-`<sf:input ...>` allows us to specify a `type` attribute with value
-`email`, which will work just fine:
+En Spring 3.1 todavía no existe la etiqueta `<sf:email ...>`, pero la etiqueta 
+existente `<sf:input ...>` nos permite especificar un atributo `type` con el 
+valor `email`, lo cual funcionará perfectamente:
 
 ```html
 <sf:input path="email" type="email" />
 ```
 
-And this will correctly perform our *form bindings* :-).
+Y esto realizará correctamente nuestros *vinculaciones de formulario* :-).
 
 ### Usando HTML5 con Thymeleaf
 
-Thymeleaf has complete support for HTML5 (even with Spring 3.0), so we
-will only have to change the `type` of our input and add a
-`placeholder`, and it will work out of the box, correctly binding our
-property and integrating with Spring MVCs *property editors* and more
-importantly, being displayed as a usual `input` box when displayed as a
-prototype ---something the `sf:input` tag won't---:
+Thymeleaf ofrece compatibilidad total con HTML5 (incluso con Spring 3.0), por lo 
+que solo tendremos que cambiar el `type` de nuestro campo de entrada y añadir un 
+`placeholder`. Funcionará sin problemas, vinculando correctamente nuestra 
+propiedad e integrándose con los *editores de propiedades* de Spring MVC. Y, lo 
+que es más importante, se mostrará como un campo de entrada normal cuando se 
+muestre como prototipo ---algo que la etiqueta `sf:input` no permite---:
+
 
 ```html
 <input type="email" th:field="*{email}" placeholder="your@email" />
 ```
 
-Done!
+¡Hecho!
 
-![Final result with Thymeleaf](images/thvsjsp/th3.png)
+![Resultado final con Thymeleaf](images/thvsjsp/th3.png)

@@ -2,125 +2,116 @@
 title: "Thymeleaf 3.1: Novedades y cómo migrar"
 ---
 
-Latest version is Thymeleaf `3.1.4.RELEASE`.
+La última versión es Thymeleaf `3.1.4.RELEASE`.
 
 ## Qué hay de nuevo
 
 ### Compatibilidad con la API 5.0 de Servlet y el espacio de nombres de clases `jakarta.*`.
 
-Thymeleaf 3.1 adds support for the new `jakarta.*` class namespace in the Servlet API since version 5.0, without removing support for
-the `javax.*` classes in previous versions.
+Thymeleaf 3.1 añade compatibilidad con el nuevo espacio de nombres de clases `jakarta.*` en la API de Servlets desde la versión 5.0, sin eliminar la compatibilidad con las clases `javax.*` de versiones anteriores.
 
 ### Compatibilidad con Spring 6.0
 
-Thymeleaf 3.1 adds a new `thymeleaf-spring6` core library for integration with Spring Framework 6.0.
+Thymeleaf 3.1 incorpora una nueva biblioteca principal, `thymeleaf-spring6`, para la integración con Spring Framework 6.0.
 
-Support for versions of Spring older than Spring 5.0 has been removed.
+Se ha eliminado la compatibilidad con versiones de Spring anteriores a la 5.0.
 
 ### Compatibilidad con Spring Security 6.0
 
-Thymeleaf 3.1 adds a new `thymeleaf-extras-springsecurity6` core library for integration with Spring Security 6.0.
+Thymeleaf 3.1 incorpora una nueva biblioteca principal, `thymeleaf-extras-springsecurity6`, para la integración con Spring Security 6.0.
 
-Support for versions of Spring Security older than Spring Security 5.0 has been removed.
+Se ha eliminado la compatibilidad con versiones de Spring Security anteriores a la 5.0.
 
 ### Soporte principal para el paquete `java.time`
 
-The `thymeleaf-extras-java8time` extras module has been integrated into the Thymeleaf core: the `#temporals` expression utility object is now always available.
+El módulo de extras `thymeleaf-extras-java8time` se ha integrado en el núcleo de Thymeleaf: el objeto de utilidad de expresiones `#temporals` ahora está siempre disponible.
 
 ### Compatibilidad con Java
 
-JDK 8 is now the minimum generally required version.
+Actualmente, JDK 8 es la versión mínima generalmente requerida.
 
-JDK 17 is the minimum required version for the `thymeleaf-spring6` and `thymeleaf-extras-springsecurity6` core libraries.
+JDK 17 es la versión mínima requerida para las bibliotecas principales `thymeleaf-spring6` y `thymeleaf-extras-springsecurity6`.
 
 ### Eliminación de objetos de utilidad de expresión basados en la API web
 
-The `#request`, `#response`, `#session`, and `#servletContext` are no longer available to expressions in Thymeleaf 3.1.
+Las expresiones `#request`, `#response`, `#session` y `#servletContext` ya no están disponibles en Thymeleaf 3.1.
 
 ### Restricciones más estrictas sobre el uso de clases en expresiones
 
-Thymeleaf 3.1 establishes a general restriction on the use of classes from core packages: `java.*`, `javax.*`, `jakarta.*`, `jdk.*`, `org.ietf.jgss.*`, `org.omg.*`, `org.w3c.dom.*`, `org.xml.sax.*`, `com.sun.*` and `sun.*`.
+Thymeleaf 3.1 establece una restricción general en el uso de clases de paquetes principales: `java.*`, `javax.*`, `jakarta.*`, `jdk.*`, `org.ietf.jgss.*`, `org.omg.*`, `org.w3c.dom.*`, `org.xml.sax.*`, `com.sun.*` y `sun.*`.
 
-Method/constructor calling is now forbidden for classes in these packages, as well as static references.
+Ahora está prohibido llamar a métodos o constructores para las clases de estos paquetes, así como realizar referencias estáticas.
 
-As an exception to this restriction, some classes in these packages are always _allowed_:
+Como excepción a esta restricción, algunas clases de estos paquetes siempre están _permitidas_:
 
-* Basic `java.lang.*` and `java.math.*` classes: `java.lang.Boolean`, `java.lang.Byte`, `java.lang.Character`, `java.lang.Double`, `java.lang.Enum`, `java.lang.Float`, `java.lang.Integer`, `java.lang.Long`, `java.lang.Math`, `java.lang.Number`, `java.lang.Short`, `java.lang.String`, `java.math.BigDecimal`, `java.math.BigInteger`, `java.math.RoundingMode`.
-
-* Collection classes and interfaces: `java.util.Collection`, `java.util.Enumeration`, `java.util.Iterable`, `java.util.Iterator`, `java.util.List`, `java.util.ArrayList`, `java.util.LinkedList`, `java.util.Set`, `java.util.HashSet`, `java.util.LinkedHashSet`, `java.util.Map`, `java.util.Map.Entry`, `java.util.HashMap`, `java.util.LinkedHashMap`. Note: interface methods (e.g. `Map#get(key)`) are commonly allowed for any implementation, but the specific implementations listed here can additionally be constructed and statically referenced.
-
-* Other commonly used classes in `java.util.*`: `java.util.Properties`, `java.util.Optional`, `java.util.stream.Stream`, `java.util.Locale`, `java.util.Date`, `java.util.Calendar`.
+* Clases básicas de `java.lang.*` y `java.math.*`: `java.lang.Boolean`, `java.lang.Byte`, `java.lang.Character`, `java.lang.Double`, `java.lang.Enum`, `java.lang.Float`, `java.lang.Integer`, `java.lang.Long`, `java.lang.Math`, `java.lang.Number`, `java.lang.Short`, `java.lang.String`, `java.math.BigDecimal`, `java.math.BigInteger`, `java.math.RoundingMode`.
+* Clases e interfaces de colección: `java.util.Collection`, `java.util.Enumeration`, `java.util.Iterable`, `java.util.Iterator`, `java.util.List`, `java.util.ArrayList`, `java.util.LinkedList`, `java.util.Set`, `java.util.HashSet`, `java.util.LinkedHashSet`, `java.util.Map`, `java.util.Map.Entry`, `java.util.HashMap`, `java.util.LinkedHashMap`. Nota: Los métodos de interfaz (p. ej., `Map#get(key)`) suelen estar permitidos para cualquier implementación, pero las implementaciones específicas que se enumeran aquí también pueden construirse y referenciarse estáticamente.
+* Otras clases de uso común en `java.util.*`: `java.util.Properties`, `java.util.Optional`, `java.util.stream.Stream`, `java.util.Locale`, `java.util.Date`, `java.util.Calendar`.
 
 ### Desuso de algunos artefactos y eliminación de los que ya habían sido descontinuados
 
-Some artifacts have been deprecated in Thymeleaf 3.1.
+Algunas funcionalidades se han declarado obsoletas en Thymeleaf 3.1.
 
-* Deprecated `th:include` in favour of `th:insert`. Note that `th:insert` has slightly different semantics to `th:include`.
-* Deprecated unwrapped syntax for fragment insertion: now `~{template :: fragment}` should always be used instead of simply `template :: fragment`.
+* Se ha declarado obsoleto `th:include` en favor de `th:insert`. Tenga en cuenta que `th:insert` tiene una semántica ligeramente diferente a la de `th:include`.
+* Se ha declarado obsoleta la sintaxis sin envolver para la inserción de fragmentos: ahora siempre se debe usar `~{template :: fragment}` en lugar de simplemente `template :: fragment`.
 
-Also, artifacts previously deprecated in 3.0 have been removed:
+Además, se han eliminado las funcionalidades que se habían declarado obsoletas en la versión 3.0:
 
-* Removed `th:substituteby`, deprecated previously in favour of `th:replace`.
-* Removed deprecated use of `execInfo` as a context variable (`${execInfo}`), available since 3.0 as an expression utility object (`${#execInfo}`).
+* Se ha eliminado `th:substituteby`, que se había declarado obsoleta en favor de `th:replace`.
+* Se ha eliminado el uso obsoleto de `execInfo` como variable de contexto (`${execInfo}`), disponible desde la versión 3.0 como objeto de utilidad de expresión (`${#execInfo}`).
 
 ### Otras mejoras menores
 
-* General update of dependency versions.
-* Allow `#temporals` expression utility object to format temporals in non-default locales.
-* Support iterating (e.g. `th:each`) directly on java streams (`java.util.stream.Stream`).
-* Allow `SpringTemplateEngine` instances to be configured a custom (even non-Spring) message resolver.
+* Actualización general de las versiones de las dependencias.
+* Permite que el objeto de utilidad de expresiones `#temporals` formatee los mensajes temporales en configuraciones regionales distintas a la predeterminada.
+* Admite la iteración (por ejemplo, `th:each`) directamente en flujos de Java (`java.util.stream.Stream`).
+* Permite que las instancias de `SpringTemplateEngine` se configuren con un resolvedor de mensajes personalizado (incluso que no sea de Spring).
 
 ### (Para desarrolladores) Revisión completa de la estructura del repositorio de código fuente del proyecto.
 
-Thymeleaf 3.1 includes a total overhaul of the (previously multiple) source repositories and big improvements in how example applications are dealt with from
-a development perspective:
+Thymeleaf 3.1 incluye una revisión completa de los repositorios de código fuente (anteriormente múltiples) y mejoras significativas en la gestión de las aplicaciones de ejemplo desde la perspectiva del desarrollo:
 
-* Integration of most previous Thymeleaf code repositories into the [`thymeleaf` GitHub repository](https://github.com/thymeleaf/thymeleaf), which now contains:
-  * The new Thymeleaf BOM (`thymeleaf-parent`) integrating and unifying all thymeleaf dependencies and build configuration.
-  * All Thymeleaf core libraries, including Spring and Spring Security integrations.
-  * All Thymeleaf testing libraries and their integrations.
-  * All Thymeleaf test repositories.
-  * All Thymeleaf official example applications, including core, Spring, Spring Security and Spring Boot based example apps.
-* Creation of a large Maven multiproject configuration for building the complete tree of Thymeleaf modules.
-* Configuration of example applications in order to allow non-Spring Boot based web apps to be executed from the Maven command line.
-* Creation of more complete distribution packages in `.zip` form, now including not only libraries but also example applications both in binary and (buildable) source form.
-* Migration of all the testing infrastructure to JUnit 5.
-
+* Integración de la mayoría de los repositorios de código de Thymeleaf anteriores en el repositorio de GitHub `thymeleaf` (https://github.com/thymeleaf/thymeleaf), que ahora contiene:
+  * El nuevo BOM de Thymeleaf (`thymeleaf-parent`), que integra y unifica todas las dependencias y la configuración de compilación de Thymeleaf.
+  * Todas las bibliotecas principales de Thymeleaf, incluidas las integraciones con Spring y Spring Security.
+  * Todas las bibliotecas de prueba de Thymeleaf y sus integraciones.
+  * Todos los repositorios de prueba de Thymeleaf.
+  * Todas las aplicaciones de ejemplo oficiales de Thymeleaf, incluidas las aplicaciones de ejemplo basadas en el núcleo, Spring, Spring Security y Spring Boot.
+* Creación de una configuración Maven multiproyecto de gran tamaño para compilar el árbol completo de módulos de Thymeleaf.
+* Configuración de las aplicaciones de ejemplo para permitir la ejecución de aplicaciones web no basadas en Spring Boot desde la línea de comandos de Maven. 
+* Creación de paquetes de distribución más completos en formato `.zip`, que ahora incluyen no solo bibliotecas, sino también aplicaciones de ejemplo tanto en formato binario como en código fuente (compilable).
+* Migración de toda la infraestructura de pruebas a JUnit 5.
 
 ## Migrando a Thymeleaf 3.1
 
 ### Versión de JDK
 
-Thymeleaf 3.1 moves its minimum compatibility level to JDK 8, but the `thymeleaf-spring6` and `thymeleaf-extras-springsecurity6` require JDK 17 because this is the version of the JDK
-required by Spring 6.0.
+Thymeleaf 3.1 cambia su nivel mínimo de compatibilidad a JDK 8, pero `thymeleaf-spring6` y `thymeleaf-extras-springsecurity6` requieren JDK 17 porque esta es la versión de JDK que requiere Spring 6.0.
 
 
 ### Estructuras relacionadas con la web
 
-_(NOTE: In Spring-based web applications, what is explained here will be hidden from the developers and therefore will not affect their apps. Spring users can safely skip this section.)_
+_(NOTA: En las aplicaciones web basadas en Spring, lo que se explica aquí permanecerá oculto para los desarrolladores y, por lo tanto, no afectará a sus aplicaciones. Los usuarios de Spring pueden omitir esta sección sin problema.)_
 
-Thymeleaf 3.1 introduces three interfaces that abstract the specific details of the web API being used (e.g. `javax.*` or `jakarta.*`):
+Thymeleaf 3.1 introduce tres interfaces que abstraen los detalles específicos de la API web que se esté utilizando (por ejemplo, `javax.*` o `jakarta.*`):
 
-  * `org.thymeleaf.web.IWebApplication`: Represents the web application and the attributes associated to it.
-  * `org.thymeleaf.web.IWebExchange`: Represents the handling of a web request. Contains the request, the session (if any) and any attributes associated by the application to this specific exchange.
-  * `org.thymeleaf.web.IWebRequest`: Represents a web request: URL path, parameters, headers and cookies.
-  * `org.thymeleaf.web.IWebSession`: Represents a web session if it exists, containing any associated attributes.
+* `org.thymeleaf.web.IWebApplication`: Representa la aplicación web y los atributos asociados a ella.
+* `org.thymeleaf.web.IWebExchange`: Representa el manejo de una solicitud web. Contiene la solicitud, la sesión (si existe) y cualquier atributo asociado por la aplicación a este intercambio específico.
+* `org.thymeleaf.web.IWebRequest`: Representa una solicitud web: ruta URL, parámetros, encabezados y cookies.
+* `org.thymeleaf.web.IWebSession`: Representa una sesión web, si existe, y contiene cualquier atributo asociado.
 
-Even if `IWebApplication` would more or less correspond to the Servlet API's `ServletContext`, there would not be an exact correspondence between the above and other structures in 
-the Servlet API. For instance, part of the data offered by Servlet API's `HttpServletRequest` (like e.g. URL and parameters) would be the contained in an `IWebRequest` object, whereas
-other parts (like e.g. request attributes) would be contained in the `IWebExchange`.
+Aunque `IWebApplication` se correspondiera más o menos con el `ServletContext` de la API de Servlet, no existiría una correspondencia exacta entre esta y otras estructuras de la API de Servlet. Por ejemplo, parte de los datos que ofrece `HttpServletRequest` de la API de Servlet (como la URL y los parámetros) estarían contenidos en un objeto `IWebRequest`, mientras que otras partes (como los atributos de la solicitud) estarían contenidas en `IWebExchange`.
 
-Thymeleaf provides implementations for all these interfaces both for `javax.*` and for `jakarta.*` environments.
+Thymeleaf proporciona implementaciones para todas estas interfaces tanto para entornos `javax.*` como para entornos `jakarta.*`.
 
-Typically, a web application will instantiate a specific implementation of `IWebApplication` at initialization time, like:
+Normalmente, una aplicación web instanciará una implementación específica de `IWebApplication` al inicializarse, como por ejemplo:
 
 ```java
 final JakartaServletWebApplication application =
     JakartaServletWebApplication.buildApplication(servletContext);
 ```
 
-And then for each incoming request this specific application implementation will offer a way to create `IWebExchange` objects that model the handling of such request, typically some
-kind of `buildExchange(...)` method:
+Y luego, para cada solicitud entrante, esta implementación específica de la aplicación ofrecerá una forma de crear objetos `IWebExchange` que modelan el manejo de dicha solicitud, normalmente algún tipo de método `buildExchange(...)`:
 
 ```java
 final HttpServletRequest request = ...;
@@ -132,35 +123,28 @@ final IWebRequest webRequest = webExchange.getRequest();
 final String path = webRequest.getPathWithinApplication();
 ```
 
-These interfaces ofer methods for reading resources, storing and reading data, transforming URLs, etc. All the most typical pieces of information needed by web applications. Also,
-specific implementations of these interfaces will typically offer a way to obtain the native objects of the specific web API that they are using underneath (e.g. obtain 
-the underlying `HttpServletRequest` from the `IWebExchange` object)).
+Estas interfaces ofrecen métodos para leer recursos, almacenar y leer datos, transformar URL, etc. Toda la información más común que necesitan las aplicaciones web. Además, las implementaciones específicas de estas interfaces suelen ofrecer una forma de obtener los objetos nativos de la API web que utilizan (por ejemplo, obtener el objeto `HttpServletRequest` subyacente del objeto `IWebExchange`).
 
-Also, note that your application will be able to keep using the classes specific to your web API (e.g. `jakarta.*` classes). It's only when directly interacting with Thymeleaf's APIs
-that the use of these abstractions will be needed.
+Cabe destacar que su aplicación podrá seguir utilizando las clases específicas de su API web (por ejemplo, las clases `jakarta.*`). El uso de estas abstracciones solo será necesario al interactuar directamente con las API de Thymeleaf.
 
 
 ### Spring 6.0 y Spring Security 6.0 (y Spring Boot 3.0)
 
-Thymeleaf's new integrations with Spring 6.0 and Spring Security 6.0 are configured in an equivalent way as they were (and still are) for Spring 5.x.
+Las nuevas integraciones de Thymeleaf con Spring 6.0 y Spring Security 6.0 se configuran de forma equivalente a como se hacían (y se siguen haciendo) para Spring 5.x.
 
-No changes should be needed except for replacing the previous `thymeleaf-spring5` or `thymeleaf-extras-springsecurity5` dependencies with the 
-new `thymeleaf-spring6` or `thymeleaf-extras-springsecurity6` ones.
+No deberían ser necesarios cambios, salvo reemplazar las dependencias anteriores `thymeleaf-spring5` o `thymeleaf-extras-springsecurity5` por las nuevas `thymeleaf-spring6` o `thymeleaf-extras-springsecurity6`.
 
-In the case of Spring Boot bases applications, no changes are needed. The new Spring Boot 3.0 will already configure and use Thymeleaf 3.1 when adding
-the Thymeleaf Spring Boot starter.
+En el caso de las aplicaciones basadas en Spring Boot, no se requieren cambios. El nuevo Spring Boot 3.0 ya configurará y utilizará Thymeleaf 3.1 al añadir el iniciador Thymeleaf Spring Boot.
 
 
 ### Restricciones de expresión
 
-In order to improve the security of your templates, Thymeleaf 3.1 has adopted a series of restrictions on variable expressions (`${...}` and `*{...}`) that might affect 
-your existing code.
+Para mejorar la seguridad de tus plantillas, Thymeleaf 3.1 ha implementado una serie de restricciones en las expresiones de variables (`${...}` y `*{...}`) que podrían afectar tu código existente.
 
-As explained in the _"What's new"_ section, expression utility objects `#request`, `#response`, `#session` and `#servletContext` are no longer available from
-expressions in templates.
+Como se explica en la sección _Novedades_, los objetos de utilidad de expresiones `#request`, 
+`#response`, `#session` y `#servletContext` ya no están disponibles en las expresiones de las plantillas.
 
-The recommended alternative would be to add to your model, at the controller level, the specific pieces of information your templates need from these objects. This can
-be done via `model#addAttribute(...)` in the controller code, or via `@ModelAttribute` or even `@ControllerAdvice` annotations.
+La alternativa recomendada es agregar a tu modelo, a nivel del controlador, la información específica que tus plantillas necesitan de estos objetos. Esto se puede hacer mediante `model#addAttribute(...)` en el código del controlador, o mediante las anotaciones `@ModelAttribute` o incluso `@ControllerAdvice`.
 
 ```java
 @ModelAttribute("contextPath")
@@ -169,107 +153,104 @@ public String contextPath(final HttpServletRequest request) {
 }
 ```
 
-But besides this, as also detailed in the _"What's new"_ section, a hard usage restriction has been established on classes belonging to the JDK and Jakarta EE core
-classes, with some exceptions. Objects of the forbidden classes will not be usable in variable expressions since Thymeleaf 3.1.
+Además, como se detalla en la sección _Novedades_, se ha establecido una estricta restricción de 
+uso para las clases que pertenecen al núcleo de JDK y Jakarta EE, con algunas excepciones. Los objetos de las clases prohibidas no se podrán usar en expresiones de variables desde Thymeleaf 3.1.
 
-If some of your templates absolutely need to execute expressions on objects of the forbidden classes, you can create a wrapper class (in your own application's package)
-that delegates its methods to the original object, and that will be usable from variable expressions.
+Si alguna de tus plantillas necesita ejecutar expresiones en objetos de las clases prohibidas, puedes crear una clase contenedora (en el paquete de tu aplicación) que delegue sus métodos al objeto original, y que sí se podrá usar en expresiones de variables.
 
 
 ### Desuso de th:include
 
-If your templates make use of the `th:include` attribute, please note that this will still be allowed in Thymeleaf 3.1 but will be removed in a future version of the library. It
-is strongly recommended that you replace your uses of `th:include` with `th:insert`, but noting that they do not work in exactly the same way.
+Si tus plantillas utilizan el atributo `th:include`, ten en cuenta que esto seguirá estando permitido en Thymeleaf 3.1, pero se eliminará en una versión futura de la biblioteca. Se recomienda encarecidamente reemplazar el uso de `th:include` por `th:insert`, aunque cabe señalar que no funcionan exactamente igual.
 
-Whereas `th:include` only inserted _the contents_ of a fragment, making this:
+Mientras que `th:include` solo insertaba el contenido de un fragmento, esto resulta en:
 
 ```html
 <div id="main" th:include="~{::frag}">...</div>
 ...
 <p th:fragment="frag" class="content">
-    something
+    algo
 </p>
 ```
 
-...result in this:
+...resulta en esto:
 
 ```html
 <div id="main">
-      something
+  algo
 </div>
 ```
 
-Using `th:insert`, the whole fragment _including the tag it is defined on_ will be inserted, making this:
+Al usar `th:insert`, se insertará todo el fragmento, _incluida la etiqueta en la que está definido_, lo que da como resultado:
 
 ```html
 <div id="main" th:insert="~{::frag}">...</div>
 ...
 <p th:fragment="frag" class="content">
-    something
+  algo
 </p>
 ```
 
-...result in this:
+...resulta en esto:
 
 ```html
 <div id="main">
   <p class="content">
-      something
+    algo
   </p>
 </div>
 ```
 
-If you specifically needed to achieve the same result as with `th:include`, you will need to combine `th:insert` and `th:remove` in a way similar to:
+Si necesita específicamente lograr el mismo resultado que con `th:include`, deberá combinar `th:insert` y `th:remove` de una manera similar a:
 
 ```html
 <div id="main" th:insert="~{::frag}">...</div>
 ...
 <p th:fragment="frag" th:remove="tag" class="content">
-    something
+  algo
 </p>
 ```
 
-...which will result in:
+...lo que dará como resultado:
 
 ```html
 <div id="main">
-      something
+  algo
 </div>
 ```
 
-Remember also that fragments can also be defined using the `<th:block>` tag which will always disappear after evaluation, providing higher flexibility:
+Recuerda también que los fragmentos también se pueden definir utilizando la etiqueta `<th:block>`, que siempre desaparecerá después de la evaluación, lo que proporciona una mayor flexibilidad:
 
 ```html
 <div id="main" th:insert="~{::frag}">...</div>
 ...
 <th:block th:fragment="frag">
-    something
+    algo
 </th:block>
 ```
 
-The result would be:
+El resultado sería:
 
 ```html
 <div id="main">
-      something
+    algo
 </div>
 ```
 
 
 ### Desuso de expresiones de fragmentos sin envolver
 
-Fragment expressions in Thymeleaf are expressed like `~{...}`, and they can be used in many kinds of attributes and expressions, though they typically appear as
-the values for `th:insert` and `th:replace` attributes.
+En Thymeleaf, las expresiones de fragmento se expresan como `~{...}` y se pueden usar en muchos tipos de atributos y expresiones, aunque normalmente aparecen como valores para los atributos `th:insert` y `th:replace`.
 
-Before Thymeleaf 3.1, attributes such `th:insert` or `th:replace` (or the deprecated `th:include`) allowed the specification of fragment expressions without the
-`~{...}` _envelope_:
+Antes de Thymeleaf 3.1, atributos como `th:insert` o `th:replace` (o el obsoleto `th:include`) 
+permitían especificar expresiones de fragmento sin el _contenedor_ `~{...}`:
 
 ```html
 <div id="top" th:insert="common :: header">...</div>
 ```
 
-But since Thymeleaf 3.1 this syntax, though it will still work, will be considered _deprecated_ and scheduled to be removed in a future version. The above
-should now be expressed like:
+Pero desde Thymeleaf 3.1, esta sintaxis, aunque seguirá funcionando, se considerará _obsoleta_ y 
+se eliminará en una versión futura. Lo anterior ahora debe expresarse como:
 
 ```html
 <div id="top" th:insert="~{common :: header}">...</div>

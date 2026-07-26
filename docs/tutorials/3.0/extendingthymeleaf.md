@@ -8,90 +8,86 @@ thymeleafVersion: @projectVersion@
 
 
 
-1 Some Reasons to Extend Thymeleaf
+1 Algunas razones para extender Thymeleaf
 ==================================
 
-Thymeleaf is an extremely extensible library. The key to it is that most of its
-user-oriented features are not directly built into its core, but rather just
-packaged and componentized into feature sets called _dialects_.
+Thymeleaf es una biblioteca extremadamente extensible. Su clave reside en que la 
+mayoría de sus funcionalidades orientadas al usuario no están integradas 
+directamente en su núcleo, sino que se empaquetan y organizan en conjuntos de 
+funcionalidades llamados _dialectos_.
 
-The library offers you two dialects out-of-the-box: the _Standard_ and the _SpringStandard_
-dialects, but you can easily create your own. Let's explore some of the reasons
-for doing this:
+La biblioteca ofrece dos dialectos predefinidos: _Standard_ y _SpringStandard_, 
+pero puedes crear fácilmente los tuyos propios. Veamos algunas de las razones 
+para hacerlo:
 
 
 
-**Scenario 1: adding features to the Standard dialects**
+**Escenario 1: añadir características a los dialectos estándar**
 
-Say your application uses the _SpringStandard_ dialect and that it needs to show
-an alert text box in blue or red background depending on the user's role (admin
-or non-admin) from Monday to Saturday, but always in green on Sundays. You can
-compute this with conditional expressions on your template, but too many
-conditions could render your code a little bit hard to read...
+Supongamos que tu aplicación utiliza el dialecto _SpringStandard_ y que necesita 
+mostrar un cuadro de texto de alerta con fondo azul o rojo según el rol del 
+usuario (administrador o no administrador) de lunes a sábado, pero siempre en 
+verde los domingos. Puedes calcular esto con expresiones condicionales en tu 
+plantilla, pero demasiadas condiciones podrían dificultar la lectura del código...
 
-Solution: create a new attribute called `alertclass` and an attribute processor
-for it (Java code that will compute the right CSS class), and package it into
-your own `MyOwnDialect` dialect. Add this dialect to your template engine with
-the `th` prefix (same as the _SpringStandard_ one) and you'll now be able to use
+Solución: crea un nuevo atributo llamado `alertclass` y un procesador de atributos 
+para él (código Java que calculará la clase CSS correcta), e incorpóralo a tu 
+propio dialecto `MyOwnDialect`. ¡Agrega este dialecto a tu motor de plantillas 
+con el prefijo `th` (igual que el de _SpringStandard_) y ahora podrás usar 
 `th:alertclass="${user.role}"`!
 
 
+**Escenario 2: Componentes de la capa de vista**
 
-**Scenario 2: view-layer components**
+Supongamos que su empresa utiliza Thymeleaf de forma extensiva y desea crear un 
+repositorio de funcionalidades comunes (etiquetas y/o atributos) que pueda usar 
+en varias aplicaciones sin tener que copiarlas y pegarlas entre ellas. Es decir, 
+desea crear componentes de la capa de vista de forma similar a las bibliotecas 
+de etiquetas de JSP, _taglibs_.
 
-Let's say your company uses Thymeleaf extensively, and you want to create a
-repository of common functionalities (tags and/or attributes) that you can use
-in several applications without having to copy-paste them from one application
-to the next. This is, you want to create view-layer components in a similar way
-to JSPs _taglibs_.
+Solución: cree un dialecto de Thymeleaf para cada conjunto de funcionalidades 
+relacionadas y agréguelos a sus aplicaciones según sea necesario. Tenga en 
+cuenta que si las etiquetas o atributos de estos dialectos utilizan mensajes 
+externalizados (internacionalizados), podrá empaquetarlos junto con sus 
+dialectos (en forma de _mensajes de procesador_) en lugar de exigir que todas 
+sus aplicaciones los incluyan en sus archivos `.properties` de mensajes, como 
+se haría con JSP.
 
-Solution: create a Thymeleaf dialect for each set of related functionalities,
-and add these dialects to your applications as needed. Note that if the tags or
-attributes in these dialects make use of externalized (internationalized)
-messages, you will be able to package these messages along with your dialects
-(in the shape of _processor messages_) instead of requiring that all of your
-applications include them in their messages `.properties` files as you would
-with JSP.
+**Escenario 3: Creación de tu propio sistema de plantillas**
 
+Imagina que estás creando un sitio web público que permite a los usuarios crear 
+sus propias plantillas de diseño para mostrar su contenido. Por supuesto, no 
+quieres que tus usuarios puedan hacer absolutamente todo en sus plantillas, ni 
+siquiera todo lo que permite el Dialecto Estándar (por ejemplo, ejecutar 
+expresiones OGNL). Por lo tanto, necesitas ofrecer a tus usuarios la posibilidad 
+de añadir a sus plantillas solo un conjunto muy específico de funciones que estén 
+bajo tu control (como mostrar una foto de perfil, el texto de una entrada de 
+blog, etc.).
 
+Solución: crea un dialecto de Thymeleaf con las etiquetas o atributos que 
+quieres que tus usuarios puedan usar, como `<mysite:profilePhoto />` o 
+`<mysite:blogentries fromDate="23/4/2011" />`. Luego, permite que tus usuarios 
+creen sus propias plantillas usando estas funciones y deja que Thymeleaf las 
+ejecute, asegurándote de que nadie haga lo que no tiene permitido.
 
-**Scenario 3: creating your own template system**
-
-Now imagine your are creating a public website that allows users to create their
-own design templates for showing their content. Of course, you don't want your
-users to be able to do absolutely everything in their templates, not even all that
-the Standard Dialect allows (for example, execute OGNL expressions). So you need
-to offer your users the ability to add to their templates only a very specific
-set of features that are under your control (like showing a profile photo, a
-blog entry text, etc).
-
-Solution: create a Thymeleaf dialect with the tags or attributes you want your
-users to be able to use, like `<mysite:profilePhoto />` or `<mysite:blogentries fromDate="23/4/2011" />`.
-Then allow your users to create their own templates using these features and
-just let Thymeleaf execute them, being sure nobody will be doing what they're
-not allowed to.
-
-
-
-
-2 Dialects and Processors
+2 Dialectos y procesadores
 =========================
 
-2.1. Dialects
+2.1. Dialectos
 -------------
+Si has leído el tutorial _Uso de Thymeleaf_ antes de llegar aquí ---lo cual 
+deberías haber hecho---, sabrás que lo que has estado aprendiendo hasta ahora no 
+era exactamente _Thymeleaf_, sino su _dialecto estándar_ (o el dialecto _Spring 
+Standard_, si también has leído el tutorial _Thymeleaf + Spring_).
 
-If you've read the _Using Thymeleaf_ tutorial before getting here ---which you
-should have done--- you should know that what you've been learning all this time
-was not exactly _Thymeleaf_, but rather its _Standard Dialect_ (or the _SpringStandard Dialect_,
-if you've also read the _Thymeleaf + Spring_ tutorial).
+¿Qué significa esto? Significa que todos esos atributos `th:x` que aprendiste a 
+usar son solo un conjunto estándar de características predefinidas, pero puedes 
+definir tu propio conjunto de atributos (o etiquetas) con los nombres que desees 
+y usarlos en Thymeleaf para procesar tus plantillas. *Puedes definir tus propios 
+dialectos.*
 
-What does that mean? It means that all those `th:x` attributes you learned to
-use are only a standard, out-of-the-box set of features, but you can define your
-own set of attributes (or tags) with the names you wish and use them in
-Thymeleaf to process your templates. *You can define your own dialects.*
-
-Dialects are objects implementing the `org.thymeleaf.dialect.IDialect` interface,
-which cannot be any simpler:
+Los dialectos son objetos que implementan la interfaz 
+`org.thymeleaf.dialect.IDialect`, que no podría ser más sencilla:
 
 ```java
 public interface IDialect {
@@ -101,21 +97,21 @@ public interface IDialect {
 }
 ```
 
-The only core requirement of a dialect is to have a name that can be used for its
-identification. But this alone is of little use, so dialects will normally implement
-one or several subinterfaces of `IDialect`, depending
-on what they provide to the Thymeleaf engine:
+El único requisito fundamental de un dialecto es tener un nombre que pueda 
+utilizarse para su identificación. Pero esto por sí solo es de poca utilidad, por 
+lo que los dialectos normalmente implementarán una o varias subinterfaces de 
+`IDialect`, dependiendo de lo que proporcionen al motor Thymeleaf:
 
-  * `IProcessorDialect` for dialects that provide *processors*.
-  * `IPreProcessorDialect` for dialects that provide *pre-processors*.
-  * `IPostProcessorDialect` for dialects that provide *post-processors*.
-  * `IExpressionObjectDialect` for dialects that provide *expression objects*.
-  * `IExecutionAttributeDialect` for dialects that provide *execution attributes*.
+* `IProcessorDialect` para dialectos que proporcionan *procesadores*.
+* `IPreProcessorDialect` para dialectos que proporcionan *preprocesadores*.
+* `IPostProcessorDialect` para dialectos que proporcionan *postprocesadores*.
+* `IExpressionObjectDialect` para dialectos que proporcionan *objetos de expresión*.
+* `IExecutionAttributeDialect` para dialectos que proporcionan *atributos de ejecución*.
 
 
-### Processor dialects: `IProcessorDialect`
+### Dialectos de procesador: `IProcessorDialect`
 
-The `IProcessorDialect` interface looks like this:
+La interfaz `IProcessorDialect` tiene este aspecto:
 
 ```java
 public interface IProcessorDialect extends IDialect {
@@ -127,52 +123,52 @@ public interface IProcessorDialect extends IDialect {
 }
 ```
 
-**Processors** are the objects in charge of executing most of the logic
-in Thymeleaf templates, and possibly the most important Thymeleaf extension
-artifact. We will cover processors in more detail in next sections.
+Los **procesadores** son los objetos encargados de ejecutar la mayor parte de la 
+lógica en las plantillas de Thymeleaf, y posiblemente el artefacto de extensión 
+de Thymeleaf más importante. Hablaremos de los procesadores con más detalle en 
+las próximas secciones.
 
-This dialect only defines three items:
+Este dialecto solo define tres elementos:
 
-  * The *prefix*, which is the prefix or namespace that should be applied
-    *by default* to the elements and attributes matched by the dialect's
-    processors. So a dialect with prefix `th` like e.g. the *Standard
-    Dialect* will be able to define processors matching attributes like
-    `th:text`, `th:if` or `th:whatever` (or `data-th-text`, `data-th-if`
-    and `data-th-whatever` if we prefer *pure HTML5* syntax). Note however
-    that the prefix returned here by a dialect is **only the default one**
-    to be used for that dialect, but such prefix can be changed during
-    template engine configuration. Also note that prefix can be `null` if
-    we want our processors to execute on unprefixed tags/attributes.
+* El *prefijo*, que es el prefijo o espacio de nombres que se debe aplicar 
+*por defecto* a los elementos y atributos que coincidan con los procesadores del 
+dialecto. Así, un dialecto con el prefijo `th`, como por ejemplo el 
+*Dialecto Estándar*, podrá definir procesadores que coincidan con atributos 
+como `th:text`, `th:if` o `th:whatever` (o `data-th-text`, `data-th-if` y 
+`data-th-whatever` si preferimos la sintaxis *HTML5 pura*). Sin embargo, tenga 
+en cuenta que el prefijo que devuelve un dialecto es **solo el predeterminado** 
+que se utilizará para ese dialecto, pero dicho prefijo se puede cambiar durante 
+la configuración del motor de plantillas. Tenga en cuenta también que el prefijo 
+puede ser `null` si queremos que nuestros procesadores se ejecuten en 
+etiquetas/atributos sin prefijo.
+* La *precedencia de dialecto* permite ordenar los procesadores según los 
+dialectos. Los procesadores definen su propio valor de *precedencia*, pero estas 
+precedencias de procesador se consideran *relativas a la precedencia de dialecto*, 
+por lo que cada procesador de un dialecto específico puede configurarse para 
+ejecutarse antes que todos los procesadores de un dialecto diferente simplemente 
+estableciendo los valores correctos para esta *precedencia de dialecto*.
+* Los *procesadores* son, como su nombre indica, el conjunto de *procesadores* 
+proporcionados por el dialecto. Cabe destacar que al método `getProcessors(...)` 
+se le pasa el `dialectPrefix` como argumento en caso de que el dialecto se haya 
+configurado en el motor de plantillas con un prefijo diferente al predeterminado. 
+Lo más probable es que las instancias de `IProcessor` necesiten esta información 
+durante su inicialización.
 
-  * The *dialect precedence* allows the sorting of processors across 
-    dialects. Processors define their own *precedence* value, but these
-    processor precedences are considered *relative to 
-    dialect precedence*, so every processor in a specific dialect can be 
-    configured to be executed before all processors
-    from a different dialect just by setting the correct values for this
-    *dialect precedence*.
+### Dialectos de preprocesador: `IPreProcessorDialect`
 
-  * The *processors* are, as its name implies, the set of *processors* provided
-    by the dialect. Note the `getProcessors(...)` method is passed the
-    `dialectPrefix` as an argument in case the dialect has been configured
-    at the Template Engine with a prefix different to the default one. Most probably
-    the `IProcessor` instances will need this information during their
-    initialization.
+Los **preprocesadores** y **postprocesadores** se diferencian de los 
+*procesadores* en que, en lugar de ejecutarse sobre un único evento o sobre un 
+modelo de evento (un fragmento de una plantilla), se aplican a todo el proceso 
+de ejecución de la plantilla como un paso adicional en la cadena de 
+procesamiento del motor. Por lo tanto, siguen una API completamente diferente a 
+la de los procesadores, mucho más orientada a eventos, definida por la interfaz 
+de nivel inferior `ITemplateHandler`.
 
+En el caso específico de los preprocesadores, se aplican **antes** de que el 
+motor Thymeleaf comience a ejecutar los procesadores para una plantilla 
+específica.
 
-### Pre-processor dialects: `IPreProcessorDialect`
-
-**Pre-processors** and **post-processors** are different to *processors* in 
-that instead of executing on a single event or on an event model (a fragment of
-a template), they apply to the entire template execution process as an additional step in
-the engine's processing chain. Therefore they follow an API completely
-different to that of processors, much more event-oriented, defined by the 
-lower-level `ITemplateHandler` interface.
-
-In the specific case of the pre-processors, they apply **before** the Thymeleaf engine
-starts executing processors for a specific template.
-
-The `IPreProcessorDialect` interface looks like:
+La interfaz `IPreProcessorDialect` tiene el siguiente aspecto:
 
 ```java
 public interface IPreProcessorDialect extends IDialect {
@@ -183,20 +179,22 @@ public interface IPreProcessorDialect extends IDialect {
 }
 ```
 
-Which is very similar to the `IProcessorDialect` above –including its own 
-dialect-level precedence for pre-processors– but lacks a *prefix*, as 
-pre-processors don't need it at all (they don't *match* on specific 
-events – instead they handle all of them).
+Lo cual es muy similar al `IProcessorDialect` anterior, incluyendo su propia 
+precedencia a nivel de dialecto para los preprocesadores, pero carece de un 
+*prefijo*, ya que los preprocesadores no lo necesitan en absoluto (no 
+*coinciden* con eventos específicos, sino que los manejan todos).
 
 
-### Post-processor dialects: `IPostProcessorDialect`
+### Dialectos de postprocesador: `IPostProcessorDialect`
 
-As stated above, **post-processors** are an additional step in the template execution
-chain, but this time they execute **after** the Thymeleaf engine has applied
-all the needed processors. This means post-processors apply just before
-template output happens (and can therefore modify what is being output).
+Como se indicó anteriormente, los **postprocesadores** son un paso adicional en 
+la cadena de ejecución de la plantilla, pero en este caso se ejecutan 
+**después** de que el motor Thymeleaf haya aplicado todos los procesadores 
+necesarios. Esto significa que los postprocesadores se aplican justo antes de 
+que se genere la salida de la plantilla (y, por lo tanto, pueden modificar lo 
+que se genera).
 
-The `IPostProcessorDialect` interface looks like:
+La interfaz `IPostProcessorDialect` tiene el siguiente aspecto:
 
 ```java
 public interface IPostProcessorDialect extends IDialect {
@@ -207,17 +205,18 @@ public interface IPostProcessorDialect extends IDialect {
 }
 ```
 
-...which is completely analogous to the `IPreProcessorDialect` interface, but of 
-course for post-processors in this case.
+...lo cual es completamente análogo a la interfaz `IPreProcessorDialect`, pero 
+por supuesto para postprocesadores en este caso.
 
 
-### Expression Object dialects: `IExpressionObjectDialect`
+### Dialectos de objetos de expresión: `IExpressionObjectDialect`
 
-Dialects implementing this interface provide new *expression objects* or *expression 
-utility objects* that can be used in expressions anywhere in templates, such as 
-the `#strings`, `#numbers`, `#dates`, etc. provided by the Standard Dialect.
+Los dialectos que implementan esta interfaz proporcionan nuevos *objetos de 
+expresión* u *objetos de utilidad de expresión* que se pueden usar en expresiones 
+en cualquier parte de las plantillas, como `#strings`, `#numbers`, `#dates`, etc., 
+proporcionadas por el dialecto estándar.
 
-The `IExpressionObjectDialect` interface looks like this:
+La interfaz `IExpressionObjectDialect` tiene el siguiente aspecto:
 
 ```java
 public interface IExpressionObjectDialect extends IDialect {
@@ -227,15 +226,15 @@ public interface IExpressionObjectDialect extends IDialect {
 }
 ```
 
-Which, as we can see, does not return the expression objects themselves, 
-but only a *factory*. The reason for this is some *expression objects* might 
-require data from the processing context in order to being built, so it won't 
-be possible to build them until we really are processing the template... and 
-besides, most expressions don't need *expression objects* at all, so it's 
-just better to build them *on demand*, only when they are really needed 
-for specific expressions (and build only those that are needed).
+Como podemos ver, esto no devuelve los objetos de expresión en sí, sino solo una 
+*fábrica*. Esto se debe a que algunos *objetos de expresión* pueden requerir 
+datos del contexto de procesamiento para su construcción, por lo que no será 
+posible construirlos hasta que estemos procesando la plantilla. Además, la 
+mayoría de las expresiones no necesitan *objetos de expresión*, así que es mejor 
+construirlos *bajo demanda*, solo cuando sean realmente necesarios para 
+expresiones específicas (y construir únicamente los que se necesiten).
 
-This is the `IExpressionObjectFactory` interface:
+Esta es la interfaz `IExpressionObjectFactory`:
 
 ```java
 public interface IExpressionObjectFactory {
@@ -247,27 +246,30 @@ public interface IExpressionObjectFactory {
 }
 ```
 
-### Execution Attribute dialects: `IExecutionAttributeDialect`
+### Dialectos de atributos de ejecución: `IExecutionAttributeDialect`
 
-Dialects implementing this interface are allowed to provide *execution attributes*, 
-i.e. objects that are available to every processor being executed during template 
-processing.
+Los dialectos que implementan esta interfaz pueden proporcionar *atributos de 
+ejecución*, es decir, objetos disponibles para todos los procesadores que se 
+ejecutan durante el procesamiento de plantillas.
 
-For example, the Standard Dialect implements this interface in order to provide to 
-every processor:
+Por ejemplo, el dialecto estándar implementa esta interfaz para proporcionar a 
+todos los procesadores:
 
-   * The *Thymeleaf Standard Expression parser* so that Standard Expressions in 
-     any attribute can be parsed and executed.
-   * The *Variable Expression Evaluator* so that `${...}` expressions are executed 
-     either in OGNL or SpringEL (depending on whether we are using the Spring 
-     integration module or not).
-   * The *Conversion Service* that performs conversion operations in `${{...}}` expressions.
+* El *analizador de expresiones estándar Thymeleaf*, que permite analizar y 
+ejecutar expresiones estándar en cualquier atributo.
 
-Note that these objects are not available at the context, so
-they cannot be used from template expressions. Their availability is limited to
-implementations of extension points such as processors, pre-processors, etc.
+* El *evaluador de expresiones variables*, que permite ejecutar expresiones 
+`${...}` en OGNL o SpringEL (dependiendo de si se utiliza o no el módulo de 
+integración de Spring).
 
-The `IExecutionAttributeDialect` interface is very simple:
+* El *servicio de conversión*, que realiza operaciones de conversión en 
+expresiones `${{...}}`.
+
+Cabe destacar que estos objetos no están disponibles en el contexto, por lo que 
+no se pueden usar desde expresiones de plantilla. Su disponibilidad se limita a 
+implementaciones de puntos de extensión, como procesadores, preprocesadores, etc.
+
+La interfaz `IExecutionAttributeDialect` es muy sencilla:
 
 ```java
 public interface IExecutionAttributeDialect extends IDialect {
@@ -280,13 +282,14 @@ public interface IExecutionAttributeDialect extends IDialect {
 
 
 
-2.2. Processors
+2.2. Procesadores
 ---------------
 
-Processors are objects implementing the `org.thymeleaf.processor.IProcessor`
-interface, and they contain the real logic to be applied on the different parts
-of a template (which we will represent as **events**, given Thymeleaf is an
-event-based engine). This interface looks like this:
+Los procesadores son objetos que implementan la interfaz 
+`org.thymeleaf.processor.IProcessor` y contienen la lógica real que se aplicará 
+a las diferentes partes de una plantilla (que representaremos como **eventos**, 
+dado que Thymeleaf es un motor basado en eventos). Esta interfaz tiene el 
+siguiente aspecto:
 
 ```java
 public interface IProcessor {
@@ -297,41 +300,45 @@ public interface IProcessor {
 }
 ```
 
-As with dialects, this is a very simple interface that only specified the template
-mode in which the processor can be applied and its precedence.
+Al igual que con los dialectos, se trata de una interfaz muy sencilla que solo 
+especifica el modo de plantilla en el que se puede aplicar el procesador y su 
+precedencia.
 
-But there are several types of *processor*, one for each possible type of event:
+Sin embargo, existen varios tipos de *procesador*, uno para cada tipo de evento 
+posible:
 
-  * Template start/end
-  * Element Tags
-  * Texts
-  * Comments
-  * CDATA Sections
-  * DOCTYPE Clauses
-  * XML Declarations
-  * Processing Instructions
+* Inicio/fin de plantilla
+* Etiquetas de elementos
+* Textos
+* Comentarios
+* Secciones CDATA
+* Cláusulas DOCTYPE
+* Declaraciones XML
+* Instrucciones de procesamiento
 
-And also for **models**: sequences of events representing an *entire element*, i.e. 
-an element with its entire body, including any nested elements or any other 
-kind of artifacts that might appear inside. If the modelled element is a 
-*standalone element*, the model will only contain its corresponding event; 
-but if the modelled element has a body, the model will contain every event 
-from its *open tag* to its *close tag*, both included.
+Y también para **modelos**: secuencias de eventos que representan un *elemento 
+completo*, es decir, un elemento con todo su cuerpo, incluyendo cualquier 
+elemento anidado o cualquier otro tipo de artefacto que pueda aparecer en su 
+interior. Si el elemento modelado es un *elemento independiente*, el modelo solo 
+contendrá su evento correspondiente; pero si el elemento modelado tiene un 
+cuerpo, el modelo contendrá todos los eventos desde su *etiqueta de apertura* 
+hasta su *etiqueta de cierre*, ambas incluidas.
 
-All these types of processors are created by implementing a specific interface, or 
-by extending one of the available *abstract implementations*. All these artifacts 
-conforming the Thymeleaf 3.0 Processor API live at the `org.thymeleaf.processor` 
-package.
+Todos estos tipos de procesadores se crean implementando una interfaz específica 
+o extendiendo una de las *implementaciones abstractas* disponibles. Todos estos 
+artefactos que cumplen con la API del procesador Thymeleaf 3.0 se encuentran en 
+el paquete `org.thymeleaf.processor`.
 
 
 
 
-### Element Processors
+### Procesadores de elementos
 
-Element processors are those that are executed on the *open element* (`IOpenElementTag`) 
-or *standalone element* (`IStandaloneElementTag`) events, normally by means of matching 
-the name of the element (and/or one of its attributes) with a matching configuration 
-specified by the processor. This is what the `IElementProcessor` interface looks like:
+Los procesadores de elementos son aquellos que se ejecutan en los eventos de 
+*elemento abierto* (`IOpenElementTag`) o *elemento independiente* 
+(`IStandaloneElementTag`), normalmente mediante la comparación del nombre del 
+elemento (y/o uno de sus atributos) con una configuración coincidente 
+especificada por el procesador. Así es como se ve la interfaz `IElementProcessor`:
 
 ```java
 public interface IElementProcessor extends IProcessor {
@@ -341,26 +348,28 @@ public interface IElementProcessor extends IProcessor {
 
 }
 ```
+Cabe destacar que las implementaciones de procesadores de elementos no deben 
+implementar directamente esta interfaz. En cambio, los procesadores de elementos 
+deben pertenecer a una de estas dos categorías:
 
-Note however that element processor implementations are not meant to directly implement 
-this interface. Instead, element processors should fall into one of two categories:
+* **Procesadores de etiquetas de elementos**, que implementan la interfaz 
+`IElementTagProcessor`. Estos procesadores se ejecutan únicamente en eventos de 
+etiquetas de apertura/independientes (no se pueden aplicar procesadores a 
+etiquetas de cierre) y no tienen acceso directo al cuerpo del elemento.
 
-  * **Element Tag Processors**, implementing the `IElementTagProcessor` interface. 
-    These processors execute on *open/standalone tag events only* (no processors 
-    can be applied to *close tags*), and have no direct access to the element body.
-  * **Element Model Processors**, implementing the `IElementModelProcessor` interface. 
-    These processors execute on *complete elements*, including their bodies, in the 
-    form of `IModel` objects.
+* **Procesadores de modelos de elementos**, que implementan la interfaz 
+`IElementModelProcessor`. Estos procesadores se ejecutan en elementos completos, 
+incluyendo sus cuerpos, en forma de objetos `IModel`.
 
-We should have a look at each of these interfaces separately:
+Analizaremos cada una de estas interfaces por separado:
 
 
-### Element Tag Processors: `IElementTagProcessor`
+### Procesadores de elementos etiqueta: `IElementTagProcessor`
 
-Element Tag Processors, as explained, execute on the single *open element* or 
-*standalone element* tag that matches its matching configuration (seen in 
-`IElementProcessor`). The interface to be implemented is `IElementTagProcessor`, 
-which looks like this:
+Los procesadores de etiquetas de elementos, como se explicó, se ejecutan en la 
+única etiqueta de *elemento abierto* o *elemento independiente* que coincide con 
+su configuración correspondiente (que se ve en `IElementProcessor`). La interfaz 
+que se debe implementar es `IElementTagProcessor`, que tiene este aspecto:
 
 ```java
 public interface IElementTagProcessor extends IElementProcessor {
@@ -372,55 +381,57 @@ public interface IElementTagProcessor extends IElementProcessor {
 
 }
 ```
+Como podemos ver, además de extender `IElementProcessor`, solo especifica un 
+método `process(...)` que se ejecutará cuando la *configuración coincidente* 
+coincida (y en el orden establecido por su *precedencia*, establecida en la 
+superinterfaz `IProcessor`). La firma `process(...)` es bastante compacta y sigue 
+un patrón que se encuentra en todas las interfaces de procesadores de Thymeleaf:
 
-As we can see, besides extending `IElementProcessor` it only specifies a 
-`process(...)` method that will be executed when the *matching configuration* 
-matches (and in the order established by its *precedence*, established at the 
-`IProcessor` superinterface). The `process(...)` signature is quite compact, 
-and follows a pattern found in every Thymeleaf processor interface:
+* El método `process(...)` devuelve `void`. Cualquier acción se realizará a 
+través del `structureHandler`.
+* El argumento `context` contiene el contexto con el que se ejecuta la 
+plantilla: variables, datos de la plantilla, etc.
+* El argumento `tag` es el evento que activa el procesador. Contiene tanto el 
+nombre del elemento como sus atributos.
+* El `structureHandler` es un objeto especial que permite al procesador dar 
+instrucciones al motor sobre las acciones que debe realizar como consecuencia de 
+su ejecución.
 
-   * The `process(...)` method returns `void`. Any actions will be performed 
-     via the `structureHandler`.
-   * The `context` argument contains the context with which the template is 
-     being executed: variables, template data, etc.
-   * The `tag` argument is the event on which the processor is being fired. 
-     It contains both the name of the element and its attributes.
-   * The `structureHandler` is a special object that allows the processor to 
-     give instructions to the engine about actions that it should perform as 
-     a consequence of the execution of the processor.
+**Uso del `structureHandler`**
 
-**Using the `structureHandler`**
+El argumento `tag` que se pasa a `process(...)` es un objeto **inmutable**. Por 
+lo tanto, no hay forma de, por ejemplo, modificar directamente los atributos de 
+una etiqueta en el propio objeto `tag`. En su lugar, se debe usar el 
+`structureHandler`.
 
-The `tag` argument passed to `process(...)` is an **immutable** object. So there is 
-no way to, for example, directly modify the attributes of a tag on the `tag` object 
-itself. Instead, the `structureHandler` should be used.
-
-For example, let's see how we would read the value of a specific `tag` attribute, 
-unescape it and keep it in a variable, and then remove the attribute from the tag:
+Por ejemplo, veamos cómo leeríamos el valor de un atributo específico de `tag`, 
+lo decodificaríamos y lo guardaríamos en una variable, y luego eliminaríamos el 
+atributo de la etiqueta:
 
 ```java
-// Obtain the attribute value
+// Obtiene el valor del atributo
 String attributeValue = tag.getAttributeValue(attributeName);
 
-// Unescape the attribute value
+// Desescapa el valor del atributo
 attributeValue = 
     EscapedAttributeUtils.unescapeAttribute(context.getTemplateMode(), attributeValue);
 
-// Instruct the structureHandler to remove the attribute from the tag
+// Indique al structureHandler que elimine el atributo de la etiqueta.
 structureHandler.removeAttribute(attributeName);
 
-... // do something with that attributeValue
+... // hacer algo con ese attributeValue
 ```
-
-*Note that the code above is only meant to showcase some attribute management 
-concepts -- in most processors we won't need to do this "get value + unescape + remove" 
-operation manually as it will all be handled by an extended superclass such as 
+*Tenga en cuenta que el código anterior solo pretende mostrar algunos conceptos 
+de gestión de atributos; en la mayoría de los procesadores no será necesario 
+realizar manualmente esta operación de "obtener valor + descodificar + eliminar", 
+ya que todo será gestionado por una superclase extendida como 
 `AbstractAttributeTagProcessor`*.
 
-Above we've seen only one of the *operations* offered by the `structureHandler`. There is 
-a *structure handler* for each type of processor in Thymeleaf, and the one 
-for *element tag* processors implements the `IElementTagStructureHandler` interface, which 
-looks like this:
+Arriba hemos visto solo una de las *operaciones* que ofrece el 
+`structureHandler`. Existe un *controlador de estructura* (structureHandler en 
+inglés) para cada tipo de procesador en Thymeleaf, y el de los procesadores de 
+*etiquetas de elementos* implementa la interfaz `IElementTagStructureHandler`, 
+que tiene este aspecto:
 
 ```java
 public interface IElementTagStructureHandler {
@@ -472,76 +483,89 @@ public interface IElementTagStructureHandler {
 }
 ```
 
-There we can see all the actions that a processor can ask the template engine to do as 
-a result of its execution. The method names are quite self-explanatory (and there is 
-javadoc for them), but very briefly:
+Ahí podemos ver todas las acciones que un procesador puede solicitar al motor de 
+plantillas que realice como resultado de su ejecución. Los nombres de los 
+métodos son bastante autoexplicativos (y cuentan con documentación Javadoc), 
+pero en resumen:
 
-  * `setLocalVariable(...)`/`removeLocalVariable(...)` will add a local variable to the 
-    template execution. This *local variable* will be accessible during the rest of the 
-    execution of the current event, and also during all its *body* (i.e. until its 
-    corresponding *close tag*)
-  * `setAttribute(...)` adds a new attribute to the tag with a specified value (and 
-    maybe also type of surrounding quotes). If the attribute already exists, its value 
-    will be replaced.
-  * `replaceAttribute(...)` replaces an existing attribute with a new one, taking its 
-    place in the attribute (including its surrounding white space, for example).
-  * `removeAttribute(...)` removes an attribute from the tag.
-  * `setSelectionTarget(...)` modifies the object that is to be considered the 
-    *selection target*, i.e. the object on which *selection expressions* (`*{...}`) will 
-    be executed. In the Standard Dialect, this *selection target* is usually modified by 
-    means of the `th:object` attribute, but custom processors can do it too. Note the 
-    *selection target* has the same scope as a local variable, and will therefore be 
-    accessible only inside the body of the element being processed.
-  * `setInliner(...)` modifies the *inliner* to be used for processing all text nodes 
-    (`IText` events) appearing in the body of the element being processed. This is the 
-    mechanism used by the `th:inline` attribute to enable *inlining* in any of the 
-    specified modes (`text`, `javascript`, etc).
-  * `setTemplateData(...)` modifies the metadata about the template that is actually 
-    being processed. When inserting fragments, this allows the engine to know data about 
-    the specific fragment being processed, and also the complete stack of fragments being 
-    nested.
-  * `setBody(...)` replaces all the body of the element being processed with the passed 
-    text or model (sequence of events = fragment of markup). This is the way e.g. that 
-    `th:text`/`th:utext` work. Note that the specified replacement text or model can be 
-    set as *processable* or not, depending on whether we want to execute any processors 
-    that might be associated with them. In the case of `th:utext="${var}"`, for example, 
-    the replacement is set as *non-processable* in order to avoid executing any markup 
-    that might be returned by `${var}` as a part of the template.
-  * `insertBefore(...)`/`insertImmediatelyAfter(...)` allow the specification of a model 
-    (fragment of markup) that should appear before or *immediately* after the tag being 
-    processed. Note that `insertImmediatelyAfter` means *after the tag being processed* 
-    (and therefore as the first part of the element's body) and not *after the entire 
-    element that opens here, and closes in a close tag somewhere*.
-  * `replaceWith(...)` allows the current *element* (entire element) to be replaced with 
-    the text or model specified as argument.
-  * `removeElement()`/`removeTags()`/`removeBody()`/`removeAllButFirstChild()` allow the 
-    processor to remove, respectively, the entire element including its body, only the 
-    executed tags (open + close) but not the body, only the body but not the wrapping tags, 
-    and lastly all the tag's children except the first child element. Note all these options 
-    basically mirror the different values that can be used at the `th:remove` attribute.
-  * `iterateElement(...)` allows the current element (body included) to be iterated as many 
-    times as elements exist in the `iteratedObject` (which will usually be a `Collection`, 
-    `Map`, `Iterator` or an array). The other two arguments will be used for specifying the 
-    names of the variables used for the iterated elements and the status variable.
+  * `setLocalVariable(...)`/`removeLocalVariable(...)` añade una variable local a 
+la ejecución de la plantilla. Esta variable local será accesible durante el 
+resto de la ejecución del evento actual, así como durante todo su cuerpo (es 
+decir, hasta su etiqueta de cierre correspondiente).
+  * `setAttribute(...)` añade un nuevo atributo a la etiqueta con un valor 
+específico (y posiblemente también el tipo de comillas que lo rodean). Si el 
+atributo ya existe, su valor se reemplazará.
+  * `replaceAttribute(...)` reemplaza un atributo existente por uno nuevo, 
+ocupando su lugar en el atributo (incluyendo, por ejemplo, los espacios en 
+blanco que lo rodean).
+* `removeAttribute(...)` elimina un atributo de la etiqueta.
+* `setSelectionTarget(...)` modifica el objeto que se considerará el objetivo de 
+la selección, es decir, el objeto sobre el que se ejecutarán las expresiones de 
+selección (`*{...}`). En el dialecto estándar, este *objetivo de selección* se 
+suele modificar mediante el atributo `th:object`, pero los procesadores 
+personalizados también pueden hacerlo. Tenga en cuenta que el *objetivo de 
+selección* tiene el mismo ámbito que una variable local y, por lo tanto, solo 
+será accesible dentro del cuerpo del elemento que se está procesando.
+* `setInliner(...)` modifica el *inliner* que se utilizará para procesar todos 
+los nodos de texto (eventos `IText`) que aparecen en el cuerpo del elemento que 
+se está procesando. Este es el mecanismo que utiliza el atributo `th:inline` para 
+habilitar la *inlining* en cualquiera de los modos especificados (`text`, 
+`javascript`, etc.).
+* `setTemplateData(...)` modifica los metadatos de la plantilla que se está 
+procesando. Al insertar fragmentos, esto permite que el motor conozca los datos 
+del fragmento específico que se está procesando, así como la pila completa de 
+fragmentos anidados.
+* `setBody(...)` reemplaza todo el cuerpo del elemento que se está procesando 
+con el texto o modelo pasado (secuencia de eventos = fragmento de marcado). Así 
+es como funcionan, por ejemplo, `th:text`/`th:utext`. Tenga en cuenta que el 
+texto o modelo de reemplazo especificado puede configurarse como *procesable* o 
+no, dependiendo de si queremos ejecutar algún procesador que pueda estar 
+asociado a él. En el caso de `th:utext="${var}"`, por ejemplo, el reemplazo se 
+configura como *no procesable* para evitar ejecutar cualquier marcado que pueda 
+devolver `${var}` como parte de la plantilla.
+* `insertBefore(...)`/`insertImmediatelyAfter(...)` permiten especificar un 
+modelo (fragmento de marcado) que debe aparecer antes o *inmediatamente* después 
+de la etiqueta que se está procesando. Tenga en cuenta que 
+`insertImmediatelyAfter` significa *después de la etiqueta que se está 
+procesando* (y, por lo tanto, como la primera parte del cuerpo del elemento) y 
+no *después de todo el elemento que se abre aquí y se cierra en una etiqueta de 
+cierre en algún lugar*.
+* `replaceWith(...)` permite reemplazar el *elemento* actual (elemento completo) 
+con el texto o modelo especificado como argumento.
+* `removeElement()`/`removeTags()`/`removeBody()`/`removeAllButFirstChild()` 
+permiten al procesador eliminar, respectivamente, todo el elemento incluyendo su 
+cuerpo; solo las etiquetas ejecutadas (apertura + cierre) pero no el cuerpo; 
+solo el cuerpo pero no las etiquetas contenedoras; y, por último, todos los 
+elementos hijos de la etiqueta excepto el primer elemento hijo. Tenga en cuenta 
+que todas estas opciones reflejan básicamente los diferentes valores que se 
+pueden usar en el atributo `th:remove`.
+* `iterateElement(...)` permite iterar sobre el elemento actual (incluido el 
+cuerpo) tantas veces como elementos existan en el `iteratedObject` (que 
+normalmente será una `Collection`, un `Map`, un `Iterator` o un array). Los otros 
+dos argumentos se utilizarán para especificar los nombres de las variables que 
+se usarán para los elementos iterados y la variable de estado.
+
+**Implementaciones abstractas para `IElementTagProcessor`**
+
+Thymeleaf ofrece dos implementaciones básicas de `IElementTagProcessor` que los 
+procesadores pueden implementar para mayor comodidad:
+
+* `org.thymeleaf.processor.element.AbstractElementTagProcessor`, diseñada para 
+procesadores que comparan eventos de elementos por su nombre (es decir, sin 
+tener en cuenta los atributos).
+
+* `org.thymeleaf.processor.element.AbstractAttributeTagProcessor`, diseñada para 
+procesadores que comparan eventos de elementos por uno de sus atributos (y 
+opcionalmente también por el nombre del elemento).
 
 
-**Abstract implementations for `IElementTagProcessor`**
+### Procesadores de elementos de Modelo: `IElementModelProcessor`
 
-Thymeleaf offers two basic implementations of `IElementTagProcessor` that processors might 
-implement for convenience:
-
-  * `org.thymeleaf.processor.element.AbstractElementTagProcessor`, meant for processors that 
-    match element events by their element name (i.e. without looking at attributes).
-  * `org.thymeleaf.processor.element.AbstractAttributeTagProcessor`, meant for processors that 
-    match element events by one of their attributes (and optionally also the element name).
-
-
-### Element Model Processors: `IElementModelProcessor`
-
-Element Model Processors execute on the entire elements they match –including their bodies–
-in the form of an `IModel` object that contains the complete sequence of events that models 
-such element and its contents. The `IElementModelProcessor` is very similar to the one seen 
-above for *tag processors*:
+Los procesadores de modelos de elementos se ejecutan sobre los elementos 
+completos con los que coinciden —incluidos sus cuerpos— en forma de un objeto 
+`IModel` que contiene la secuencia completa de eventos que modela dicho elemento 
+y su contenido. El `IElementModelProcessor` es muy similar al que se vio 
+anteriormente para los *procesadores de etiquetas*:
 
 ```java
 public interface IElementModelProcessor extends IElementProcessor {
@@ -554,25 +578,26 @@ public interface IElementModelProcessor extends IElementProcessor {
 }
 ```
 
-Note how this interface also extends `IElementProcessor`, and how the `process(...)` method 
-it contains follows the same structure as the one in tag processors, replacing `tag` with 
-`model` of course:
+Nótese cómo esta interfaz también extiende `IElementProcessor`, y cómo el 
+método `process(...)` que contiene sigue la misma estructura que la de los 
+procesadores de etiquetas, reemplazando `tag` por `model`, por supuesto:
 
-   * `process(...)` returns `void`. Actions will be performed on `model` or `structureHandler`, 
-     not by returning anything.
-   * `context` contains the execution context: variables, etc.
-   * `model` is the sequence of events modelling the entire element on which the processor is 
-     being executed. This model can be directly modified from the processor.
-   * `structureHandler` allows instructing the engine to perform actions beyond model 
-     modification (e.g. setting local variables).
+* `process(...)` devuelve `void`. Las acciones se realizarán sobre `model` o 
+`structureHandler`, no devolviendo ningún valor.
+* `context` contiene el contexto de ejecución: variables, etc.
+* `model` es la secuencia de eventos que modela el elemento completo sobre el 
+que se ejecuta el procesador. Este modelo se puede modificar directamente desde 
+el procesador.
+* `structureHandler` permite indicar al motor que realice acciones más allá de 
+la modificación del modelo (por ejemplo, establecer variables locales). 
 
+**Lectura y modificación del modelo**
 
-**Reading and modifying the model**
-
-The `IModel` object passed as a parameter to the `process()` method is a **mutable** model, so 
-it allows any modifications to be done on it (*models* are mutable, *events* such as *tags* are 
-immutable). For example, we might want to modify it so that we replace every text node from its 
-body with a comment with the same contents:
+El objeto `IModel` que se pasa como parámetro al método `process()` es un modelo 
+**mutable**, por lo que permite cualquier modificación (los *modelos* son mutables, 
+los *eventos* como las *etiquetas* son inmutables). Por ejemplo, podríamos 
+modificarlo para reemplazar cada nodo de texto de su cuerpo con un comentario 
+del mismo contenido:
 
 ```java
 final IModelFactory modelFactory =  context.getModelFactory();
@@ -589,17 +614,17 @@ while (n-- != 0) {
 }
 ```
 
-Note also that the `IModel` interface includes an `accept(IModelVisitor visitor)` method, useful 
-for traversing an entire model looking for specific nodes or relevant data using the *Visitor*
-pattern.
+Cabe destacar también que la interfaz `IModel` incluye un método 
+`accept(IModelVisitor visitor)`, útil para recorrer un modelo completo en busca 
+de nodos específicos o datos relevantes utilizando el patrón *Visitor*.
 
+**Uso del `structureHandler`**
 
-**Using the `structureHandler`**
-
-Similarly to *tag processors*, model processors are passed a *structure handler* object that allows 
-them to instruct the engine to take any actions that cannot be done by directly acting on the 
-`IModel model` object itself. The interface these structure handlers implement, much smaller than 
-the one for tag processors, is `IElementModelStructureHandler`:
+De forma similar a los *procesadores de etiquetas*, a los procesadores de 
+modelos se les pasa un objeto *structureHandler* que les permite indicar al 
+motor qué acciones no se pueden realizar actuando directamente sobre el objeto 
+`IModel model`. La interfaz que implementan estos StructureHandlers, mucho más 
+pequeña que la de los procesadores de etiquetas, es `IElementModelStructureHandler`:
 
 ```java
 public interface IElementModelStructureHandler {
@@ -618,36 +643,43 @@ public interface IElementModelStructureHandler {
 }
 ```
 
-It's easy to see this is a subset of the one for tag processors. The few methods there work the 
-same way:
+Es fácil ver que este es un subconjunto del de los procesadores de etiquetas. Los 
+pocos métodos que contiene funcionan de la misma manera:
 
-  * `setLocalVariable(...)`/`removeLocalVariable(...)` for adding/removing local variables that will 
-    be available during the model's execution (after the current processor's execution).
-  * `setSelectionTarget(...)` for modifying the *selection target* applied during the model's execution.
-  * `setInliner(...)` for setting an inliner.
-  * `setTemplateData(...)` for setting metadata about the template being processed.
+* `setLocalVariable(...)`/`removeLocalVariable(...)` para agregar/eliminar 
+variables locales que estarán disponibles durante la ejecución del modelo 
+(después de la ejecución del procesador actual).
+* `setSelectionTarget(...)` para modificar el *objetivo de selección* aplicado 
+durante la ejecución del modelo.
+* `setInliner(...)` para establecer un inliner.
+* `setTemplateData(...)` para establecer metadatos sobre la plantilla que se 
+está procesando.
+
+**Implementaciones abstractas para `IElementModelProcessor`**
+
+Thymeleaf ofrece dos implementaciones básicas de `IElementModelProcessor` que 
+los procesadores pueden implementar para mayor comodidad:
+
+* `org.thymeleaf.processor.element.AbstractElementModelProcessor`, diseñada para 
+procesadores que comparan eventos de elementos por su nombre (es decir, sin 
+tener en cuenta los atributos).
+
+* `org.thymeleaf.processor.element.AbstractAttributeModelProcessor`, diseñada 
+para procesadores que comparan eventos de elementos por uno de sus atributos (y 
+opcionalmente también por el nombre del elemento).
 
 
-**Abstract implementations for `IElementModelProcessor`**
+### Procesadores de inicio y final de plantillas: `ITemplateBoundariesProcessor`
 
-Thymeleaf offers two basic implementations of `IElementModelProcessor` that processors might implement 
-for convenience:
+Los procesadores de límites de plantilla son un tipo de procesador que se 
+ejecuta con los eventos *template start* y *template end* que se activan durante 
+el procesamiento de la plantilla. Permiten realizar cualquier tipo de 
+inicialización o liberación de recursos al inicio o al final de la operación de 
+procesamiento de la plantilla. Cabe destacar que estos eventos **solo se activan 
+para la plantilla de primer nivel**, y no para cada uno de los fragmentos que 
+puedan analizarse o incluirse en la plantilla que se está procesando.
 
-  * `org.thymeleaf.processor.element.AbstractElementModelProcessor`, meant for processors that match 
-    element events by their element name (i.e. without looking at attributes).
-  * `org.thymeleaf.processor.element.AbstractAttributeModelProcessor`, meant for processors that match 
-    element events by one of their attributes (and optionally also the element name).
-
-
-### Template start/end Processors: `ITemplateBoundariesProcessor`
-
-Template Boundaries Processors are a kind of processor that executes on the *template start* and 
-*template end* events fired during template processing. They allow to perform any kind of initialization 
-or disposal of resources at beginning or end of the template processing operation. Note that these events 
-are **only fired for the first-level template**, and not for each of the fragments that might be parsed 
-and/or included into the template being processed.
-
-The `ITemplateBoundariesProcessor` interface looks like this:
+La interfaz `ITemplateBoundariesProcessor` tiene el siguiente aspecto:
 
 ```java
 public interface ITemplateBoundariesProcessor extends IProcessor {
@@ -664,13 +696,12 @@ public interface ITemplateBoundariesProcessor extends IProcessor {
 
 }
 ```
-
-This time the interface offers two `process*(...)` methods, one for the
-*template start* and another one for the *template end* events. Their signature
-follows the same pattern as the other `process(...)` methods we saw before,
-receiving the context, the event object, and the structure handler. Structure
-handler that, in this case, implements a quite simple `ITemplateBoundariesStructureHandler`
-interface:
+En esta ocasión, la interfaz ofrece dos métodos `process*(...)`, uno para los 
+eventos de *inicio de plantilla* y otro para los de *fin de plantilla*. Su firma 
+sigue el mismo patrón que los demás métodos `process(...)` que vimos 
+anteriormente, recibiendo el contexto, el objeto de evento y el manejador de 
+estructura. Este manejador de estructura, en este caso, implementa una 
+interfaz `ITemplateBoundariesStructureHandler` bastante sencilla:
 
 ```java
 public interface ITemplateBoundariesStructureHandler {
@@ -690,24 +721,26 @@ public interface ITemplateBoundariesStructureHandler {
 }
 ```
 
-We can see how, besides the usual methods for managing local variables, selection target and inliner, we can also 
-use the structure handler for inserting text or a model, which in this case will appear at the very beginning or 
-the very end of the result (depending on the event being processed).
+Podemos ver cómo, además de los métodos habituales para gestionar variables 
+locales, selección de destino e inliner, también podemos utilizar el manejador 
+de estructura para insertar texto o un modelo, que en este caso aparecerá al 
+principio o al final del resultado (dependiendo del evento que se esté 
+procesando).
 
 
-### Other processors
+### Otros procesadores
 
-There are other events for which Thymeleaf 3.0 allows processors to be declared, each of them implementing 
-their corresponding interface:
+Thymeleaf 3.0 permite declarar procesadores para otros eventos, cada uno de los 
+cuales implementa su interfaz correspondiente:
 
-   * **Text** events: interface `ITextProcessor`
-   * **Comment** events: interface `ICommentProcessor`
-   * **CDATA Section** events: interface `ICDATASectionProcessor`
-   * **DOCTYPE Clause** events: interface `IDocTypeProcessor`
-   * **XML Declaration** events: interface `IXMLDeclarationProcessor`
-   * **Processing Instruction** events: interface `IProcessingInstructionProcessor`
+* Eventos de **Texto**: interfaz `ITextProcessor`
+* Eventos de **Comentario**: interfaz `ICommentProcessor`
+* Eventos de **Sección CDATA**: interfaz `ICDATASectionProcessor`
+* Eventos de **Cláusula DOCTYPE**: interfaz `IDocTypeProcessor`
+* Eventos de **Declaración XML**: interfaz `IXMLDeclarationProcessor`
+* Eventos de **Procesamiento de Instrucciones**: interfaz `IProcessingInstructionProcessor`
 
-All of them look pretty much like this (which is the one for text events):
+Todas tienen una apariencia similar a esta (que corresponde a los eventos de texto):
 
 ```java
 public interface ITextProcessor extends IProcessor {
@@ -720,8 +753,9 @@ public interface ITextProcessor extends IProcessor {
 }
 ```
 
-Same pattern as all other `process(...)` methods: context, event, structure handler. And these structure 
-handlers are very simple, just like this (again, the one for text events):
+El mismo patrón que todos los demás métodos `process(...)`: contexto, evento, 
+manejador de estructura. Y estos manejadores de estructura son muy simples, como 
+este (de nuevo, el de los eventos de texto):
 
 ```java
 public interface ITextStructureHandler {
@@ -740,63 +774,65 @@ public interface ITextStructureHandler {
 
 
 
-3 Creating our own Dialect
+3 Crear nuestro propio dialecto
 ==========================
 
-The source code for the examples shown in this and future chapters of this guide
-can be found in the [extraThyme GitHub repository](https://github.com/thymeleaf/thymeleafexamples-extrathyme).
+El código fuente de los ejemplos que se muestran en este y en futuros capítulos 
+de esta guía se puede encontrar en el [repositorio de GitHub de extraThyme](https://github.com/thymeleaf/thymeleafexamples-extrathyme).
 
 
-3.1. extraThyme: a website for Thymeland's football league
+3.1. extraThyme: un sitio web para la liga de fútbol de Thymeland
 ----------------------------------------------------------
 
-Football is a popular sport in Thymeland^[European football, of course ;-)].
-There is a 10-team league going on
-there each season, and its organizers have just asked us to create a website for
-it called "extraThyme".
+El fútbol es un deporte popular en Thymeland^[fútbol europeo, por supuesto ;-)].
+Allí se disputa una liga de 10 equipos cada temporada, y sus organizadores nos 
+han pedido que creemos una página web llamada "extraThyme".
 
-This website will be very simple: just a table with:
+Esta página web será muy sencilla: solo una tabla con:
 
- * The team names.
- * How many matches they won, drew or lost, as well as the total points earned.
- * A remark explaining whether their position in the table qualifies them for
-   higher-level competitions next year or else mean their relegation to regional
-   leagues.
+* Los nombres de los equipos.
+* El número de partidos ganados, empatados o perdidos, así como el total de 
+puntos obtenidos.
+* Una nota que explique si su posición en la tabla les permite clasificarse para 
+competiciones de mayor nivel el año que viene o si, por el contrario, suponen su 
+descenso a ligas regionales.
 
-Above the league table, a banner will be displaying headlines with the
-results of recent matches, and also there will be a clearly visible banner 
-that warns users every Sunday that Sundays are match days, and therefore 
-they should be going to the stadium instead of browsing the internet.
+Sobre la tabla de clasificación, un banner mostrará titulares con los resultados 
+de los últimos partidos. Además, habrá un banner bien visible que advertirá a 
+los usuarios todos los domingos que son días de partido y, por lo tanto, 
+deberían ir al estadio en lugar de navegar por internet.
 
 
-![extraThyme league table](images/extendingthymeleaf/extrathyme-league-table.png)
+![tabla de la liga extraThyme](images/extendingthymeleaf/extrathyme-league-table.png)
 
-We will use HTML5, Spring MVC and the SpringStandard dialect for our application,
-and we will be extending Thymeleaf by creating a `score` dialect that includes:
+Para nuestra aplicación, utilizaremos HTML5, Spring MVC y el dialecto 
+SpringStandard. Ampliaremos Thymeleaf creando un dialecto `score` que incluye:
 
- * A `score:remarkforposition` attribute that outputs internationalized text
-   for the Remarks column in the table. This text should explain whether the
-   team's position in the table qualifies it for the World Champions League, the
-   Continental Play-Offs, or relegates it to the Regional League.
- * A `score:classforposition` attribute that establishes a CSS class for the
-   table rows depending on the team's remarks: blue background for the World
-   Champions League, green for the Continental Play-Offs, and red for relegation.
- * A `score:headlines` tag for drawing the yellow box at the top with the
-   results of recent matches. This tag should support an order attribute with
-   values random (for showing a randomly selected match) and `latest` (default,
-   for showing only the last match).
- * A `score:match-day-today` attribute that can be added to the league table
-   header in order to (conditionally, if it is Sunday) add a banner warning the
-   user that today is a match day.
+* Un atributo `score:remarkforposition` que muestra texto internacionalizado en 
+la columna Remarks de la tabla. Este texto debe explicar si la posición del 
+equipo en la tabla le permite clasificarse para la Liga de Campeones Mundiales, 
+los Play-Offs Continentales o si desciende a la Liga Regional.
 
-Our markup will therefore look like this, making use of both `th` and `score`
-attributes:
+* Un atributo `score:classforposition` que establece una clase CSS para las 
+filas de la tabla según los comentarios del equipo: fondo azul para la Liga de 
+Campeones Mundiales, verde para los Play-Offs Continentales y rojo para el 
+descenso.
+* Una etiqueta `score:headlines` para mostrar el recuadro amarillo en la parte 
+superior con los resultados de los partidos recientes. Esta etiqueta debe admitir 
+un atributo order con los valores `random` (para mostrar un partido seleccionado 
+al azar) y `latest` (por defecto, para mostrar solo el último partido). 
+* Un atributo `score:match-day-today` que se puede añadir al encabezado de la 
+tabla de clasificación para (condicionalmente, si es domingo) mostrar un banner 
+que advierta al usuario que hoy hay partido.
+
+Nuestro código HTML se verá así, utilizando los atributos `th` y `score`:
+
 
 ```html
 <!DOCTYPE html>
 
-<!--/* Note the xmlns:* here are completely optional and only meant to     */-->
-<!--/* avoid IDEs from complaining about tags/attributes they may not know */-->
+<!--/* Tenga en cuenta que los xmlns:* aquí son completamente opcionales y solo sirven para */-->
+<!--/* evitar que los IDE muestren errores sobre etiquetas/atributos que quizás desconozcan */-->
 <html xmlns:th="http://www.thymeleaf.org" xmlns:score="http://thymeleafexamples">
 
   <head>
@@ -870,26 +906,31 @@ attributes:
 </html>
 ```      
 
-_(Note that we've added a second and third rows to our table, surrounded by parser-level comments `<!--/* ... */-->` so 
-that our template shows nicely as a prototype when directly opened in a browser.)_
+_(Tenga en cuenta que hemos añadido una segunda y una tercera fila a nuestra 
+tabla, rodeadas de comentarios a nivel de analizador sintáctico `<!--/* ... */-->` 
+para que nuestra plantilla se muestre correctamente como prototipo al abrirla 
+directamente en un navegador.)_
 
 
 
-3.2. Changing the CSS class by team position
+3.2. Cambiar la clase CSS según la posición del equipo.
 --------------------------------------------
 
-The first attribute processor we will develop will be `ClassForPositionAttributeTagProcessor`,
-which we will implement as a subclass of a convenience abstract class provided
-by Thymeleaf called `AbstractAttributeTagProcessor`.
+El primer procesador de atributos que desarrollaremos será 
+`ClassForPositionAttributeTagProcessor`, que implementaremos como una subclase 
+de una clase abstracta de conveniencia proporcionada por Thymeleaf llamada 
+`AbstractAttributeTagProcessor`.
 
-This abstract class is the base for all tag processors (i.e. processors that act on *tag* events and not *models*) 
-which match (i.e. are selected for execution) based on the existence of a specific attribute
-in such tag. In this case, `score:classforposition`.
+Esta clase abstracta es la base para todos los procesadores de etiquetas (es 
+decir, los procesadores que actúan sobre eventos de *etiquetas* y no sobre 
+*modelos*) que coinciden (es decir, se seleccionan para su ejecución) en función 
+de la existencia de un atributo específico en dicha etiqueta. En este caso, 
+`score:classforposition`.
 
-The idea is that we will use this processor for setting a new value to the `class` attribute of the tag
-`score:classforposition` is living in.
+La idea es que utilizaremos este procesador para establecer un nuevo valor para 
+el atributo `class` de la etiqueta a la que pertenece `score:classforposition`.
 
-Let's have a look at our code:
+Veamos nuestro código:
 
 ```java
 public class ClassForPositionAttributeTagProcessor extends AbstractAttributeTagProcessor {
@@ -900,14 +941,14 @@ public class ClassForPositionAttributeTagProcessor extends AbstractAttributeTagP
 
     public ClassForPositionAttributeTagProcessor(final String dialectPrefix) {
         super(
-            TemplateMode.HTML, // This processor will apply only to HTML mode
-            dialectPrefix,     // Prefix to be applied to name for matching
-            null,              // No tag name: match any tag name
-            false,             // No prefix to be applied to tag name
-            ATTR_NAME,         // Name of the attribute that will be matched
-            true,              // Apply dialect prefix to attribute name
-            PRECEDENCE,        // Precedence (inside dialect's own precedence)
-            true);             // Remove the matched attribute afterwards
+            TemplateMode.HTML, // Este procesador se aplicará únicamente al modo HTML.
+            dialectPrefix,     // Prefijo que se aplicará al nombre para que coincida
+            null,              // Sin nombre de etiqueta: coincide con cualquier nombre de etiqueta
+            false,             // No se aplicará ningún prefijo al nombre de la etiqueta.
+            ATTR_NAME,         // Nombre del atributo que se comparará
+            true,              // Aplicar prefijo de dialecto al nombre del atributo
+            PRECEDENCE,        // Precedencia (dentro de la propia precedencia del dialecto)
+            true);             // Elimine el atributo coincidente posteriormente
     }
 
 
@@ -920,28 +961,28 @@ public class ClassForPositionAttributeTagProcessor extends AbstractAttributeTagP
         final IEngineConfiguration configuration = context.getConfiguration();
 
         /*
-         * Obtain the Thymeleaf Standard Expression parser
+         * Obtiene el analizador de expresiones estándar de Thymeleaf.
          */
         final IStandardExpressionParser parser =
                 StandardExpressions.getExpressionParser(configuration);
 
         /*
-         * Parse the attribute value as a Thymeleaf Standard Expression
+         * Analiza el valor del atributo como una expresión estándar de Thymeleaf.
          */
         final IStandardExpression expression = parser.parseExpression(context, attributeValue);
 
         /*
-         * Execute the expression just parsed
+         * Ejecuta la expresión que se acaba de analizar.
          */
         final Integer position = (Integer) expression.execute(context);
 
         /*
-         * Obtain the remark corresponding to this position in the league table.
+         * Obtiene la observación correspondiente a esta posición en la tabla de clasificación.
          */
         final Remark remark = RemarkUtil.getRemarkForPosition(position);
 
         /*
-         * Select the adequate CSS class for the element.
+         * Selecciona la clase CSS adecuada para el elemento.
          */
         final String newValue;
         if (remark == Remark.WORLD_CHAMPIONS_LEAGUE) {
@@ -955,7 +996,7 @@ public class ClassForPositionAttributeTagProcessor extends AbstractAttributeTagP
         }
 
         /*
-         * Set the new value into the 'class' attribute (maybe appending to an existing value)
+         * Establece el nuevo valor en el atributo 'class' (posiblemente agregándolo a un valor existente).
          */
         if (newValue != null) {
             String currentClass = tag.getAttribute("class").getValue();
@@ -971,20 +1012,25 @@ public class ClassForPositionAttributeTagProcessor extends AbstractAttributeTagP
 }
 ```
 
-The basic logic flow is easy to see and understand: get the value of the attribute, use it
-for computing what we need, and finally use the `structureHandler` to instruct the engine
-about the modifications needed as a result.
+El flujo lógico básico es fácil de ver y comprender: se obtiene el valor del 
+atributo, se utiliza para calcular lo necesario y, finalmente, se usa el 
+`structureHandler` para indicar al motor las modificaciones necesarias como 
+resultado.
 
-It is important to note that we are creating this attribute with the ability of
-executing expressions written in the Standard Syntax (used by both the _Standard_
-and the _SpringStandard_ dialects). This is, the ability to be set values like `${var}`,
-`#{messageKey}`, conditionals, etc. See how we use this in our template:
+Es importante destacar que creamos este atributo con la capacidad de ejecutar 
+expresiones escritas en la sintaxis estándar (utilizada tanto por el dialecto 
+_Standard_ como por el de _SpringStandard_). Esto significa que se pueden 
+establecer valores como `${var}`, `#{messageKey}`, condicionales, etc. Vea cómo 
+lo usamos en nuestra plantilla:
 
 ```html
 <tr th:each="t : ${teams}" score:classforposition="${tStat.count}">
 ```
 
-In order to evaluate these expressions (also called _Thymeleaf Standard Expressions_) we need to first obtain the Standard Expression Parser, then parse the attribute value, and finally execute the parsed expresion:
+Para evaluar estas expresiones (también llamadas _Expresiones estándar de 
+Thymeleaf_) primero necesitamos obtener el analizador de expresiones estándar, 
+luego analizar el valor del atributo y, finalmente, ejecutar la expresión 
+analizada:
 
 ```java
 final IStandardExpressionParser parser =
@@ -995,8 +1041,9 @@ final IStandardExpression expression = parser.parseExpression(context, attribute
 final Integer position = (Integer) expression.execute(context);
 ```
 
-It's also interesting the way we use the `structureHandler` to add a new attribute to the
-host tag (remember the `tag` object is immutable):
+También es interesante la forma en que usamos el `structureHandler` para 
+agregar un nuevo atributo a la etiqueta principal (recuerde que el objeto `tag` 
+es inmutable):
 
 ```java
 if (newValue != null) {
@@ -1009,12 +1056,13 @@ if (newValue != null) {
 }
 ```
 
-Last, note that **HTML-escaping texts and attribute is our responsibility**, but in this case
-we know all the possible values of the `newValue` variable and they require no escaping, so
-for the sake of simplicity we are skipping that operation.
+Por último, tenga en cuenta que **el escape de textos y atributos HTML es 
+nuestra responsabilidad**, pero en este caso conocemos todos los valores 
+posibles de la variable `newValue` y no requieren escape, por lo que, en aras 
+de la simplicidad, omitimos esa operación.
 
 
-3.3. Displaying an internationalized remark
+3.3. Mostrar un comentario internacionalizado
 -------------------------------------------
 
 The next thing to do is creating an attribute processor able to display the remark text. This 
@@ -1112,7 +1160,7 @@ public class RemarkForPositionAttributeTagProcessor extends AbstractAttributeTag
 }
 ```
 
-### Accessing i18n messages
+### Acceso a los mensajes i18n
 
 Note that we are accessing the message externalization system with:
 
@@ -1154,7 +1202,7 @@ _(Note that, in Spring-enabled applications, this message resolution mechanism w
 with Spring's own, based on the `MessageSource` beans declared at the Spring Application Context.)_
 
 
-### HTML-escaping content
+### Escapar contenido HTML
 
 Also, in this processor we are performing the required HTML-escaping of the content we are setting
 by using the `HtmlEscape` class from the [Unbescape](http://unbescape.org) library, used for this
@@ -1165,7 +1213,7 @@ structureHandler.setBody(HtmlEscape.escapeHtml5(i18nMessage), false);
 ```
 
 
-3.4. An element processor for our headlines
+3.4. Un procesador de elementos para nuestros titulares
 -------------------------------------------
 
 The third processor we will write is an element (tag) processor. Note we call this an *element tag processor*
@@ -1281,7 +1329,7 @@ a result of its execution: we are going to replace the original `<score:headline
 a `<div>...</div>` fragment, so we will need to make use of the **model factory**.
 
 
-### The Model Factory
+### El objeto Factoría de Modelos
 
 The model factory is a special object available to processors (and other
 structures such as pre-processors, post-processors, etc.) that can create new
@@ -1327,7 +1375,7 @@ final IModel model =
 
 
 
-3.5. A model processor for our "Match Day Today" banner
+3.5. Un modelo de procesador para nuestro banner "Día de partido hoy".
 -------------------------------------------------------
 
 The last processor we will include in our dialect is of a different nature than the ones we've seen so
@@ -1467,7 +1515,7 @@ model.add(modelFactory.createCloseElementTag("h4"));
 
 
 
-3.6. Declaring it all: the Dialect
+3.6. Declarándolo todo: el dialecto
 ----------------------------------
 
 The last step we need to take in order to complete our dialect is, of course,

@@ -1522,90 +1522,94 @@ punto de vista de diseño:
 4.14 Conversión y Formato de datos
 ----------------------------------
 
-Thymeleaf defines a *double-brace* syntax for variable (`${...}`) and selection
-(`*{...}`) expressions that allows us to apply *data conversion* by means of a
-configured *conversion service*.
+Thymeleaf define una sintaxis de *dobles llaves* para las expresiones de
+variables (`${...}`) y selección (`*{...}`) que nos permite aplicar
+*conversiones de datos* mediante un *servicio de conversión* configurado.
 
-It basically goes like this:
+Básicamente funciona así:
 
 ```html
 <td th:text="${{user.lastAccessDate}}">...</td>
 ```
 
-Noticed the double brace there?: `${{...}}`. That instructs Thymeleaf to pass
-the result of the `user.lastAccessDate` expression to the *conversion service*
-and asks it to perform a **formatting operation** (a conversion to `String`)
-before writing the result.
+¿Ha notado la doble llave?: `${{...}}`. Esto indica a Thymeleaf que pase el
+resultado de la expresión `user.lastAccessDate` al *servicio de conversión* y le
+solicita que realice una **operación de formato** (una conversión a `String`)
+antes de escribir el resultado.
 
-Assuming that `user.lastAccessDate` is of type `java.util.Calendar`, if a *conversion service* 
-(implementation of `IStandardConversionService`) has been registered and contains a valid 
-conversion for `Calendar -> String`, it will be applied.
+Suponiendo que `user.lastAccessDate` es del tipo `java.util.Calendar`, si se ha
+registrado un *servicio de conversión* (implementación de
+`IStandardConversionService`) y contiene una conversión válida para
+`Calendar -> String`, se aplicará.
 
-The default implementation of `IStandardConversionService` (the `StandardConversionService`
-class) simply executes `.toString()` on any object converted to `String`. For more information on
-how to register a custom *conversion service* implementation, have a look at the
-[More on Configuration](#15-more-on-configuration) section.
+La implementación predeterminada de `IStandardConversionService` (la clase
+`StandardConversionService`) simplemente ejecuta `.toString()` en cualquier
+objeto convertido a `String`. Para obtener más información sobre cómo registrar
+una implementación personalizada de *servicio de conversión*, consulte la
+sección [Más sobre la configuración](#15-más-sobre-la-configuración).
 
-> The official thymeleaf-spring3 and thymeleaf-spring4 integration packages 
-> transparently integrate Thymeleaf's conversion service mechanism with Spring's
-> own *Conversion Service* infrastructure, so that conversion services and
-> formatters declared in the Spring configuration will be made automatically
-> available to `${{...}}` and `*{{...}}` expressions.
+> Los paquetes de integración oficiales thymeleaf-spring3 y thymeleaf-spring4
+> integran de forma transparente el mecanismo del servicio de conversión de
+> Thymeleaf con la infraestructura propia del *Servicio de Conversión* de
+> Spring, de modo que los servicios de conversión y los formateadores declarados
+> en la configuración de Spring estarán disponibles automáticamente para las
+> expresiones `${{...}}` y `*{{...}}`.
 
 4.15 Preprocesamiento
 ---------------------
 
-In addition to all these features for expression processing, Thymeleaf has the
-feature of _preprocessing_ expressions.
+Además de todas estas funciones para el procesamiento de expresiones, Thymeleaf
+cuenta con la función de _preprocesar_ expresiones.
 
-Preprocessing is an execution of the expressions done before the normal one that
-allows for modification of the expression that will eventually be executed.
+El preprocesamiento consiste en ejecutar las expresiones antes de la normal, lo
+que permite modificar la expresión que finalmente se ejecutará.
 
-Preprocessed expressions are exactly like normal ones, but appear surrounded by
-a double underscore symbol (like `__${expression}__`).
+Las expresiones preprocesadas son exactamente iguales a las normales, pero
+aparecen rodeadas por un doble guion bajo (como `__${expression}__`).
 
-Let's imagine we have an i18n `Messages_fr.properties` entry containing an OGNL
-expression calling a language-specific static method, like:
+Imaginemos que tenemos una entrada `Messages_fr.properties` de i18n que contiene
+una expresión OGNL que llama a un método estático específico del lenguaje, como:
 
 ```java
 article.text=@myapp.translator.Translator@translateToFrench({0})
 ```
 
-...and a `Messages_es.properties equivalent`:
+...y un  `equivalente a Messages_es.properties`:
 
 ```java
 article.text=@myapp.translator.Translator@translateToSpanish({0})
 ```
 
-We can create a fragment of markup that evaluates one expression or the other
-depending on the locale. For this, we will first select the expression (by
-preprocessing) and then let Thymeleaf execute it:
+Podemos crear un fragmento de marcado que evalúe una u otra expresión según la
+configuración regional. Para ello, primero seleccionaremos la expresión
+(mediante preprocesamiento) y luego dejaremos que Thymeleaf la ejecute:
 
 ```html
 <p th:text="${__#{article.text('textVar')}__}">Some text here...</p>
 ```
 
-Note that the preprocessing step for a French locale will be creating the
-following equivalent:
+Tenga en cuenta que el paso de preprocesamiento para una configuración regional 
+francesa creará el siguiente equivalente:
 
 ```html
 <p th:text="${@myapp.translator.Translator@translateToFrench(textVar)}">Some text here...</p>
 ```
 
-The preprocessing String `__` can be escaped in attributes using `\_\_`.
+La cadena de preprocesamiento `__` se puede escapar en los atributos
+usando `\_\_`.
 
 5 Establecer valores de atributos
 =================================
 
-This chapter will explain the way in which we can set (or modify) values of
-attributes in our markup.
+Este capítulo explicará la forma en que podemos establecer (o modificar) valores
+de atributos en nuestro marcado.
 
 5.1 Establecer el valor de cualquier atributo
 ---------------------------------------------
 
-Say our website publishes a newsletter, and we want our users to be able to
-subscribe to it, so we create a `/WEB-INF/templates/subscribe.html` template
-with a form:
+Digamos que nuestro sitio web publica un boletín informativo y queremos que
+nuestros usuarios puedan suscribirse a él, por lo que creamos una plantilla
+`/WEB-INF/templates/subscribe.html` con un formulario:
 
 ```html
 <form action="subscribe.html">
@@ -1616,14 +1620,15 @@ with a form:
 </form>
 ```
 
-As with Thymeleaf, this template starts off more like a static prototype than it
-does a template for a web application.  First, the `action` attribute in our
-form statically links to the template file itself, so that there is no place
-for useful URL rewriting. Second, the `value` attribute in the submit button makes
-it display a text in English, but we'd like it to be internationalized.
+Al igual que con Thymeleaf, esta plantilla se parece más a un prototipo estático
+que a una plantilla para una aplicación web. En primer lugar, el atributo
+`action` de nuestro formulario enlaza estáticamente al archivo de plantilla, lo
+que evita la reescritura de URL. En segundo lugar, el atributo `value` del
+botón de envío muestra un texto en inglés, pero nos gustaría que estuviera
+internacionalizado.
 
-Enter then the `th:attr` attribute, and its ability to change the value of
-attributes of the tags it is set in:
+Ingrese entonces el atributo `th:attr` y su capacidad para cambiar el valor de
+los atributos de las etiquetas en las que está configurado:
 
 ```html
 <form action="subscribe.html" th:attr="action=@{/subscribe}">
@@ -1634,32 +1639,32 @@ attributes of the tags it is set in:
 </form>
 ```
 
-The concept is quite straightforward: `th:attr` simply takes an expression that
-assigns a value to an attribute. Having created the corresponding controller and
-messages files, the result of processing this file will be:
+El concepto es bastante sencillo: `th:attr` simplemente toma una expresión que
+asigna un valor a un atributo. Tras crear los archivos de controlador y mensajes
+correspondientes, el resultado del procesamiento de este archivo será:
 
 ```html
 <form action="/gtvg/subscribe">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="¡Suscríbe!"/>
+    <input type="submit" value="Suscribe!"/>
   </fieldset>
 </form>
 ```
 
-Besides the new attribute values, you can also see that the application context
-name has been automatically prefixed to the URL base in `/gtvg/subscribe`, as
-explained in the previous chapter.
+Además de los nuevos valores de atributos, también puedes ver que el nombre del
+contexto de la aplicación se ha prefijado automáticamente a la base de URL en
+`/gtvg/subscribe`, como se explicó en el capítulo anterior.
 
-But what if we wanted to set more than one attribute at a time? XML rules do not
-allow you to set an attribute twice in a tag, so `th:attr` will take a
-comma-separated list of assignments, like:
+¿Y si quisiéramos configurar más de un atributo a la vez? Las reglas XML no
+permiten configurar un atributo dos veces en una etiqueta, por lo que `th:attr`
+tomará una lista de asignaciones separadas por comas, como:
 
 ```html
 <img src="../../images/gtvglogo.png" th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
 ```
 
-Given the required messages files, this will output:
+Dados los archivos de mensajes necesarios, esto generará:
 
 ```html
 <img src="/gtgv/images/gtvglogo.png" title="Logo de Good Thymes" alt="Logo de Good Thymes" />
@@ -1668,42 +1673,43 @@ Given the required messages files, this will output:
 5.2 Establecer valores para atributos específicos
 -------------------------------------------------
 
-By now, you might be thinking that something like:
+A estas alturas, es posible que esté pensando en algo como esto:
 
 ```html
 <input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
 ```
 
-...is quite an ugly piece of markup. Specifying an assignment inside an
-attribute's value can be very practical, but it is not the most elegant way of
-creating templates if you have to do it all the time.
+...es una pieza de marcado bastante fea. Especificar una asignación dentro del
+valor de un atributo puede ser muy práctico, pero no es la forma más elegante de
+crear plantillas si tienes que hacerlo constantemente.
 
-Thymeleaf agrees with you, and that's why `th:attr` is scarcely used in
-templates. Normally, you will be using other `th:*` attributes whose task is
-setting specific tag attributes (and not just any attribute like `th:attr`).
+Thymeleaf está de acuerdo con usted, y por eso `th:attr` apenas se usa en las
+plantillas. Normalmente, usará otros atributos `th:*` cuya función es
+establecer atributos de etiqueta específicos (y no cualquier atributo como
+`th:attr`).
 
-For example, to set the `value` attribute, use `th:value`:
+Por ejemplo, para establecer el atributo `value`, use `th:value`:
 
 ```html
 <input type="submit" value="Subscribe!" th:value="#{subscribe.submit}"/>
 ```
 
-This looks much better! Let's try and do the same to the `action` attribute in
-the `form` tag:
+¡Esto se ve mucho mejor! Intentemos hacer lo mismo con el atributo `action` en
+la etiqueta `form`:
 
 ```html
-<form action="subscribe.html" th:action="@{/subscribe}">...</form>
+<form action="subscribe.html" th:action="@{/subscribe}">
 ```
 
-And do you remember those `th:href` we put in our `home.html` before? They are
-exactly this same kind of attributes:
+¿Y recuerda esos `th:href` que incluimos en nuestro `home.html`? Son
+exactamente el mismo tipo de atributos:
 
 ```html
 <li><a href="product/list.html" th:href="@{/product/list}">Product List</a></li>
 ```
 
-There are quite a lot of attributes like these, each of them targeting a
-specific HTML5 attribute:
+Hay muchos atributos como estos, cada uno de ellos dirigido a un atributo HTML5
+específico:
 
 <div class="table-scroller">
 
@@ -1768,33 +1774,34 @@ specific HTML5 attribute:
 | `th:usemap`              | `th:value`             | `th:valuetype`             |
 | `th:vspace`              | `th:width`             | `th:wrap`                  |
 | `th:xmlbase`             | `th:xmllang`           | `th:xmlspace`              |
+
 </div>
 
 5.3 Establecer más de un valor a la vez
 ---------------------------------------
 
-There are two rather special attributes called `th:alt-title` and `th:lang-xmllang`
-which can be used for setting two attributes to the same value at the same time.
-Specifically:
+Existen dos atributos bastante especiales, llamados `th:alt-title` y
+`th:lang-xmllang`, que permiten asignar el mismo valor a dos atributos
+simultáneamente. En concreto:
 
- * `th:alt-title` will set `alt` and `title`. 
- * `th:lang-xmllang` will set `lang` and `xml:lang`.
+ * `th:alt-title` establecerá `alt` y `title`.
+ * `th:lang-xmllang` establecerá `lang` y `xml:lang`.
 
-For our GTVG home page, this will allow us to substitute this:
+Para nuestra pagína de inicio GTVG, esto nos permitirá substituir esto:
 
 ```html
 <img src="../../images/gtvglogo.png" 
      th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
 ```
 
-...or this, which is equivalent:
+... A esto, lo que es equivalente:
 
 ```html
 <img src="../../images/gtvglogo.png" 
      th:src="@{/images/gtvglogo.png}" th:title="#{logo}" th:alt="#{logo}" />
 ```
 
-...with this:
+... Con esto:
 
 ```html
 <img src="../../images/gtvglogo.png" 
@@ -1804,60 +1811,63 @@ For our GTVG home page, this will allow us to substitute this:
 5.4 Anexar y anteponer
 ----------------------
 
-Thymeleaf also offers the `th:attrappend` and `th:attrprepend` attributes, which
-append (suffix) or prepend (prefix) the result of their evaluation to the
-existing attribute values.
+Thymeleaf también ofrece los atributos `th:attrappend` y `th:attrprepend`, que
+añaden (sufijo) o anteponen (prefijo) el resultado de su evaluación a los
+valores de los atributos existentes.
 
-For example, you might want to store the name of a CSS class to be added (not
-set, just added) to one of your buttons in a context variable, because the
-specific CSS class to be used would depend on something that the user did before:
+Por ejemplo, es posible que desee almacenar el nombre de una clase CSS que se
+aplique y agregará (no se configurará, solo se agregará) a uno de sus botones en
+una variable de contexto, porque la clase CSS específica que se usará dependerá
+de algo que el usuario hizo antes:
 
 ```html
 <input type="button" value="Do it!" class="btn" th:attrappend="class=${' ' + cssStyle}" />
 ```
 
-If you process this template with the `cssStyle` variable set to `"warning"`,
-you will get:
+Si procesa esta plantilla con la variable `cssStyle` establecida en `"warning"`,
+obtendrá:
 
 ```html
 <input type="button" value="Do it!" class="btn warning" />
 ```
 
-There are also two specific _appending attributes_ in the Standard Dialect: the
-`th:classappend` and `th:styleappend` attributes, which are used for adding a
-CSS class or a fragment of _style_ to an element without overwriting the
-existing ones:
+También hay dos _atributos de agregación_ específicos en el dialecto estándar:
+los atributos `th:classappend` y `th:styleappend`, que se utilizan para agregar
+una clase CSS o un fragmento de _style_ a un elemento sin sobrescribir los
+existentes:
 
 ```html
 <tr th:each="prod : ${prods}" class="row" th:classappend="${prodStat.odd}? 'odd'">
 ```
 
-(Don't worry about that `th:each` attribute. It is an _iterating attribute_ and
-we will talk about it later.)
+(No se preocupe por el atributo `th:each`. Es un _atributo iterativo_ y
+hablaremos de él más adelante).
 
 5.5 Atributos booleanos de valor fijo
 -------------------------------------
 
-HTML has the concept of _boolean attributes_, attributes that have no value and
-the presence of one means that value is "true".  In XHTML, these attributes
-take just 1 value, which is itself.
+HTML utiliza el concepto de _atributos booleanos_, atributos que no tienen valor
+y la presencia de uno significa que el valor es "verdadero". En XHTML, estos
+atributos solo aceptan un valor: él mismo.
 
-For example, `checked`:
+Por ejemplo, `checked`:
 
 ```html
 <input type="checkbox" name="option2" checked /> <!-- HTML -->
 <input type="checkbox" name="option1" checked="checked" /> <!-- XHTML -->
 ```
 
-The Standard Dialect includes attributes that allow you to set these attributes
-by evaluating a condition, so that if evaluated to true, the attribute will be
-set to its fixed value, and if evaluated to false, the attribute will not be set:
+El Dialecto Estándar incluye atributos que le permiten configurar estos
+atributos evaluando una condición, de modo que si se evalúa como verdadero, el
+atributo se configurará en su valor fijo, y si se evalúa como falso, el atributo
+no se configurará:
 
 ```html
 <input type="checkbox" name="active" th:checked="${user.active}" />
 ```
 
-The following fixed-value boolean attributes exist in the Standard Dialect:
+Los siguientes atributos booleanos de valor fijo existen en el Dialecto
+Estándar:
 
 <div class="table-scroller">
 
@@ -1877,17 +1887,17 @@ The following fixed-value boolean attributes exist in the Standard Dialect:
 5.6 Establecer el valor de cualquier atributo (procesador de atributos predeterminado)
 --------------------------------------------------------------------------------------
 
-Thymeleaf offers a *default attribute processor* that allows us to set the value
-of *any* attribute, even if no specific `th:*` processor has been defined for it
-at the Standard Dialect.
+Thymeleaf ofrece un *procesador de atributos predeterminado* que nos permite
+establecer el valor de *cualquier* atributo, incluso si no se ha definido un
+procesador `th:*` específico para él en el Dialecto Estándar.
 
-So something like:
+Entonces algo como:
 
 ```html
 <span th:whatever="${user.name}">...</span>
 ```
 
-Will result in:
+Dará como resultado
 
 ```html
 <span whatever="John Apricot">...</span>
@@ -1896,8 +1906,8 @@ Will result in:
 5.7 Compatibilidad con nombres de elementos y atributos compatibles con HTML5
 -----------------------------------------------------------------------------
 
-It is also possible to use a completely different syntax to apply processors to
-your templates in a more HTML5-friendly manner.
+También es posible utilizar una sintaxis completamente diferente para aplicar
+procesadores a sus plantillas de una manera más compatible con HTML5.
 
 ```html	
 <table>
@@ -1908,43 +1918,47 @@ your templates in a more HTML5-friendly manner.
 </table>
 ```
 
-The `data-{prefix}-{name}` syntax is the standard way to write custom attributes
-in HTML5, without requiring developers to use any namespaced names like `th:*`.
-Thymeleaf makes this syntax automatically available to all your dialects (not
-only the Standard ones).
+La sintaxis `data-{prefix}-{name}` es la forma estándar de escribir atributos
+personalizados en HTML5, sin necesidad de que los desarrolladores usen nombres
+con espacios de nombres como `th:*`. Thymeleaf hace que esta sintaxis esté
+disponible automáticamente para todos sus dialectos (no solo para los Estándares).
 
-There is also a syntax to specify custom tags: `{prefix}-{name}`, which follows
-the _W3C Custom Elements specification_ (a part of the larger _W3C Web
-Components spec_). This can be used, for example, for the `th:block` element (or
-also `th-block`), which will be explained in a later section. 
+También existe una sintaxis para especificar etiquetas personalizadas:
+`{prefijo}-{nombre}`, que sigue la _especificación de Elementos Personalizados
+del W3C_ (parte de la _especificación más amplia de Componentes Web del W3C_).
+Esto se puede usar, por ejemplo, para el elemento `th:block` (o también
+`th-block`), que se explicará en una sección posterior.
 
-**Important:** this syntax is an addition to the namespaced `th:*` one, it does
-not replace it. There is no intention at all to deprecate the namespaced syntax
-in the future. 
+**Importante:** Esta sintaxis se añade a la sintaxis con espacio de nombres
+`th:*`, no la reemplaza. No se pretende discontinuar la sintaxis con espacio de
+nombres en el futuro.
 
 6 Iteración
 ===========
 
-So far we have created a home page, a user profile page and also a page for
-letting users subscribe to our newsletter... but what about our products?  For
-that, we will need a way to iterate over items in a collection to build out our
-product page.
+Hasta ahora hemos creado una página de inicio, una página de perfil de usuario y
+una página para que los usuarios se suscriban a nuestro boletín informativo...
+pero ¿qué pasa con nuestros productos? Para ello, necesitaremos una forma de
+iterar sobre los artículos de una colección para crear nuestra página de
+producto.
 
 6.1 Conceptos básicos de iteración
 ----------------------------------
 
-To display products in our `/WEB-INF/templates/product/list.html` page we will
-use a table. Each of our products will be displayed in a row (a `<tr>` element),
-and so for our template we will need to create a _template row_ -- one
-that will exemplify how we want each product to be displayed -- and then instruct
-Thymeleaf to repeat it, once for each product.
+Para mostrar los productos en nuestra página
+`/WEB-INF/templates/product/list.html`, usaremos una tabla. Cada producto se
+mostrará en una fila (un elemento `<tr>`), por lo que para nuestra plantilla
+necesitaremos crear una _fila de plantilla_ (que ejemplifique cómo queremos que
+se muestre cada producto) y luego indicarle a Thymeleaf que la repita una vez
+para cada producto.
 
-The Standard Dialect offers us an attribute for exactly that: `th:each`.
+El Dialecto Estándar nos ofrece un atributo exactamente para eso: `th:each`.
 
 ### Usando th:each
 
-For our product list page, we will need a controller method that retrieves the
-list of products from the service layer and adds it to the template context:
+Para nuestra página de lista de productos, necesitaremos un método controlador
+que recupere la lista de productos de la capa de servicio y la agregue al
+contexto de la plantilla:
 
 ```java
 public void process(
@@ -1963,8 +1977,8 @@ public void process(
 }
 ```
 
-And then we will use `th:each` in our template to iterate over the list of
-products:
+Y luego usaremos `th:each` en nuestra plantilla para iterar sobre la lista de
+productos:
 
 ```html
 <!DOCTYPE html>
@@ -2004,55 +2018,58 @@ products:
 </html>
 ```
 
-That `prod : ${prods}` attribute value you see above means "for each element in
-the result of evaluating `${prods}`, repeat this fragment of template, using the
-current element in a variable called prod". Let's give a name each of the things
-we see:
+El valor del atributo `prod : ${prods}` que se ve arriba significa que, "para
+cada elemento del resultado de la evaluación de `${prods}`, se repite este
+fragmento de plantilla, utilizando el elemento actual en una variable llamada
+prod". Asignemos un nombre a cada elemento que vemos:
 
- * We will call `${prods}` the _iterated expression_ or _iterated variable_.
- * We will call `prod` the _iteration variable_ or simply _iter variable_.
+ * Llamaremos `${prods}` a la _expresión iterada_ o _variable iterada_.
+ * Llamaremos `prod` a la _variable de iteración_ o simplemente _variable iteradora_.
 
-Note that the `prod` iter variable is scoped to the `<tr>` element, which means
-it is available to inner tags like `<td>`.
+Tenga en cuenta que la variable iteradora `prod` tiene como ámbito el elemento
+`<tr>`, lo que significa que está disponible para etiquetas internas como `<td>`.
 
 ### Valores iterables
 
-The `java.util.List` class isn't the only value that can be used for iteration in
-Thymeleaf. There is a quite complete set of objects that are considered _iterable_
-by a `th:each` attribute:
+La clase `java.util.List` no es el único valor que se puede usar para la
+iteración en Thymeleaf. Existe un conjunto bastante completo de objetos que se
+consideran _iterables_ mediante un atributo `th:each`:
 
- * Any object implementing `java.util.Iterable`
- * Any object implementing `java.util.Enumeration`.
- * Any object implementing `java.util.Iterator`, whose values will be used as
-   they are returned by the iterator, without the need to cache all values in memory.
- * Any object implementing `java.util.Map`. When iterating maps, iter variables
-   will be of class `java.util.Map.Entry`.
- * Any array.
- * Any other object will be treated as if it were a single-valued list
-   containing the object itself.
+ * Cualquier objeto que implemente `java.util.Iterable`
+ * Cualquier objeto que implemente `java.util.Enumeration`.
+ * Cualquier objeto que implemente `java.util.Iterator`, cuyos valores se
+   utilizarán tal como son devueltos por el iterador, sin la necesidad de
+   almacenar en caché todos los valores en la memoria.
+ * Cualquier objeto que implemente `java.util.Map`. Al iterar mapas, las
+   variables iteradoras serán de la clase `java.util.Map.Entry`.
+ * Cualquier matriz.
+ * Cualquier otro objeto se tratará como si fuera una lista de un solo valor que
+   contiene el objeto mismo.
 
 6.2 Mantener el estado de la iteración
 --------------------------------------
 
-When using `th:each`, Thymeleaf offers a mechanism useful for keeping track of
-the status of your iteration: the _status variable_.
+Cuando usa `th:each`, Thymeleaf ofrece un mecanismo útil para seguir la pista del
+estado de tu iteración: _la variable status_.
 
-Status variables are defined within a `th:each` attribute and contain the
-following data:
+Las variables de estado se definen dentro de un atributo `th:each` y contiene los
+siguientes datos:
 
- * The current _iteration index_, starting with 0. This is the `index` property.
- * The current _iteration index_, starting with 1. This is the `count` property.
- * The total amount of elements in the iterated variable. This is the `size`
-   property.
- * The _iter variable_ for each iteration. This is the `current` property.
- * Whether the current iteration is even or odd. These are the `even/odd` boolean
-   properties.
- * Whether the current iteration is the first one. This is the `first` boolean
-   property.
- * Whether the current iteration is the last one. This is the `last` boolean
-   property.
+ * El _índice de iteración_ actual, que empieza en 0. Esta es la propiedad 
+   `index`.
+ * El _índice de iteración_ actual, que empieza en 1. Esta es la propiedad 
+   `count`.
+ * La cantidad total de elementos en la variable iterada. Esta es la propiedad 
+   `size`.
+ * La _variable iter_ para cada iteración. Esta es la propiedad `current`.
+ * Si la iteración actual es par o impar. Estas son las propiedades booleanas 
+   `even/odd`.
+ * Si la iteración actual es la primera de todas. Esta es la propiedad booleana 
+   `first`.
+ * Si la iteración actual es la última de todas. Esta es la propiedad booleana 
+   `last`.
 
-Let's see how we could use it with the previous example:
+Vea como podríamos usarlo con el ejemplo previo:
 
 ```html
 <table>
@@ -2069,12 +2086,13 @@ Let's see how we could use it with the previous example:
 </table>
 ```
 
-The status variable (`iterStat` in this example) is defined in the `th:each`
-attribute by writing its name after the iter variable itself, separated by a
-comma. Just like the iter variable, the status variable is also scoped to the
-fragment of code defined by the tag holding the `th:each` attribute.
+La variable status (`iterStat` en este ejemplo) se define en el atributo
+`th:each` escribiendo su nombre después la propia variable iter, separada por una
+coma. Al igual que la variable iter, la variable de estado también tiene como
+alcance el fragmento de código definido por la etiqueta que contiene el atributo
+`th:each`.
 
-Let's have a look at the result of processing our template:
+Echemos un vistazo al resultado de procesar nuestra plantilla:
 
 ```html
 <!DOCTYPE html>
@@ -2128,11 +2146,12 @@ Let's have a look at the result of processing our template:
 </html>
 ```
 
-Note that our iteration status variable has worked perfectly, establishing the
-`odd` CSS class only to odd rows.
+Tenga en cuenta que nuestra variable de estado de iteración ha funcionado
+perfectamente, estableciendo la clase CSS `odd` solo para las filas impares.
 
-If you don't explicitly set a status variable, Thymeleaf will always create one
-for you by suffixing `Stat` to the name of the iteration variable:
+Si no establece explícitamente una variable de estado, Thymeleaf siempre
+creará una para usted agregando el sufijo `Stat` al nombre de la variable de
+iteración:
 
 ```html
 <table>
@@ -2152,18 +2171,20 @@ for you by suffixing `Stat` to the name of the iteration variable:
 6.3 Optimización mediante recuperación diferida de datos
 --------------------------------------------------------
 
-Sometimes we might want to optimize the retrieval of collections of data (e.g.
-from a database) so that these collections are only retrieved if they are really
-going to be used. 
+Algunas veces podríamos querer optimizar la adquisición de colecciones de datos
+(p. ej. desde una base de datos) así que estas colecciones se recuperan 
+únicamente si realmente se van a utilizar. 
 
-> Actually, this is something that can be applied to *any* piece of data, but given the size
-> that in-memory collections might have, retrieving collections that are meant to be iterated
-> is the most common case for this scenario.
+> De hecho, esto es algo que puede ser aplicado a *cualquier* pieza de datos,
+> pero dado el tamaño que las colecciones en memoria podrían tener, la
+> recuperación de colecciones que deben iterarse es el caso más común para este
+> escenario.
 
-In order to support this, Thymeleaf offers a mechanism to *lazily load context
-variables*. Context variables that implement the `ILazyContextVariable`
-interface -- most probably by extending its `LazyContextVariable` default
-implementation -- will be resolved in the moment of being executed. For example:
+Para facilitar esto, Thymeleaf ofrece un mecanismo para *cargar variables de
+contexto de forma diferida*. Las variables de contexto que implementan la
+interfaz `ILazyContextVariable` -- probablemente extendiendo su implementación
+predeterminada `LazyContextVariable` -- se resolverán al momento de su ejecución.
+Por ejemplo:
 
 ```java
 context.setVariable(
@@ -2176,7 +2197,8 @@ context.setVariable(
      });
 ```
 
-This variable can be used without knowledge of its *lazyness*, in code such as:
+Esta variable puede utilizarse sin conocimiento de su *carga perezosa*, en código
+como:
 
 ```html
 <ul>
@@ -2184,8 +2206,8 @@ This variable can be used without knowledge of its *lazyness*, in code such as:
 </ul>
 ```
 
-But at the same time, will never be initialized (its `loadValue()` method will
-never be called) if `condition` evaluates to `false` in code such as:
+Pero al mismo tiempo, nunca será inicializada (su método `loadValue()` nunca se
+llamará) si la `condition` evalúa a `false` en un código como:
 
 ```html
 <ul th:if="${condition}">
@@ -2199,14 +2221,15 @@ never be called) if `condition` evaluates to `false` in code such as:
 7.1 Condicionales simples: "if" y "unless"
 ------------------------------------------
 
-Sometimes you will need a fragment of your template to only appear in the result
-if a certain condition is met. 
+Algunas veces necesitará que un fragmento de su plantilla solo aparezca en el
+resultado si se cumple una cierta condición.
 
-For example, imagine we want to show in our product table a column with the
-number of comments that exist for each product and, if there are any comments, a
-link to the comment detail page for that product.
+Por ejemplo, imagine que queremos mostrar en nuestra tabla de productos una
+columna con el número de comentarios que exista para cada producto y, si hay
+algunos comentarios, un enlace a la página de detalle del comentario para ese
+producto.
 
-In order to do this, we would use the `th:if` attribute:
+Para hacer esto, usaríamos el atributo `th:if`:
 
 ```html
 <table>
@@ -2230,7 +2253,7 @@ In order to do this, we would use the `th:if` attribute:
 </table>
 ```
 
-Quite a lot of things to see here, so let's focus on the important line:
+Hay muchas cosas que ver aquí, así que centrémonos en la línea importante:
 
 ```html
 <a href="comments.html"
@@ -2238,11 +2261,11 @@ Quite a lot of things to see here, so let's focus on the important line:
    th:if="${not #lists.isEmpty(prod.comments)}">view</a>
 ```
 
-This will create a link to the comments page (with URL `/product/comments`) with
-a `prodId` parameter set to the `id` of the product, but only if the product has
-any comments.
+Esto creará un enlace a la página de comentarios (con URL `/product/comments`)
+con un parámetro `prodId` establecido en el `id` del producto, pero solo si el
+producto tiene algún comentario.
 
-Let's have a look at the resulting markup:
+Echemos un vistazo al marcado resultante:
 
 ```html
 <table>
@@ -2289,22 +2312,22 @@ Let's have a look at the resulting markup:
 </table>
 ```
 
-Perfect! That's exactly what we wanted.
+¡Perfecto! Eso es exactamente lo que queríamos.
 
-Note that the `th:if` attribute will not only evaluate _boolean_ conditions.
-Its capabilities go a little beyond that, and it will evaluate the specified
-expression as `true` following these rules:
+Tenga en cuenta que el atributo `th:if` no solo evalúa condiciones _booleanas_.
+Sus capacidades van un poco más allá y evaluará la expresión especificada como
+`true` siguiendo estas reglas:
 
- * If value is not null:
-    * If value is a boolean and is `true`.
-    * If value is a number and is non-zero
-    * If value is a character and is non-zero
-    * If value is a String and is not "false", "off" or "no"
-    * If value is not a boolean, a number, a character or a String.
- * (If value is null, th:if will evaluate to false).
+ * El valor de if no es nulo:
+    * Si el valor es un valor booleano y es `true`.
+    * Si el valor es un número y no es cero.
+    * Si el valor es un carácter y no es cero
+    * Si el valor es una String y esta no es "false", "off"" o "no"
+    * Si el valor no es un booleano, un número, un carácter o una String.
+ * (Si el valor de if es null, th:if evaluará a falso).
 
-Also, `th:if` has an inverse attribute, `th:unless`, which we could have used in
-the previous example instead of using a `not` inside the OGNL expression:
+Además, `th:if` tiene un atributo inverso, `th:unless`, el cual podríamos haber usado en
+el ejemplo previo en vez de usar un `not` dentro de la expresión OGNL:
 
 ```html
 <a href="comments.html"
@@ -2315,8 +2338,9 @@ the previous example instead of using a `not` inside the OGNL expression:
 7.2 Sentencias Switch
 ---------------------
 
-There is also a way to display content conditionally using the equivalent of a
-_switch_ structure in Java: the `th:switch` / `th:case` attribute set.
+También hay una forma de mostrar contenido condicionalmente usando el
+equivalente de una estructura _switch_ en Java: el conjunto de atributos
+`th:switch` / `th:case`.
 
 ```html
 <div th:switch="${user.role}">
@@ -2325,10 +2349,11 @@ _switch_ structure in Java: the `th:switch` / `th:case` attribute set.
 </div>
 ```
 
-Note that as soon as one `th:case` attribute is evaluated as `true`, every other
-`th:case` attribute in the same switch context is evaluated as `false`.
+Tenga en cuenta que tan pronto como un atributo `th:case` se evalúa como `true`,
+todos los demás atributos `th:case` en el mismo contexto de switch se evalúan
+como `false`.
 
-The default option is specified as `th:case="*"`:
+La opción predeterminada se especifica como `th:case="*"`:
 
 ```html
 <div th:switch="${user.role}">

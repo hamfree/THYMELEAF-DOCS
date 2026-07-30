@@ -1565,7 +1565,7 @@ sección [Más sobre la configuración](#15-más-sobre-la-configuración).
 ---------------------
 
 Además de todas estas funciones para el procesamiento de expresiones, Thymeleaf 
-cuenta con la función de preprocesar expresiones.
+cuenta con la función de _preprocesar_ expresiones.
 
 El preprocesamiento consiste en ejecutar las expresiones antes de la normal, lo 
 que permite modificar la expresión que finalmente se ejecutará.
@@ -1580,7 +1580,7 @@ una expresión OGNL que llama a un método estático específico del lenguaje, c
 article.text=@myapp.translator.Translator@translateToFrench({0})
 ```
 
-...y un equivalente de `Messages_es.properties`:
+...y un  `equivalente a Messages_es.properties`:
 
 ```java
 article.text=@myapp.translator.Translator@translateToSpanish({0})
@@ -1588,26 +1588,24 @@ article.text=@myapp.translator.Translator@translateToSpanish({0})
 
 Podemos crear un fragmento de marcado que evalúe una u otra expresión según la 
 configuración regional. Para ello, primero seleccionaremos la expresión 
-(mediante preprocesamiento) y luego dejaremos que Thymeleaf la ejecute:...
+(mediante preprocesamiento) y luego dejaremos que Thymeleaf la ejecute:
 
 ```html
-<p th:text="${__#{article.text('textVar')}__}">Algún texto aquí...</p>
-```
-
-y un equivalente de `Messages_es.properties`:
-
-```java
-article.text=@myapp.translator.Translator@translateToSpanish({0})
+<p th:text="${__#{article.text('textVar')}__}">Some text here...</p>
 ```
 Tenga en cuenta que el paso de preprocesamiento para una configuración regional 
 en francés creará el siguiente equivalente:
 
 ```html
-<p th:text="${@myapp.translator.Translator@translateToFrench(textVar)}">Algo de texto aquí...</p>
+<p th:text="${@myapp.translator.Translator@translateToFrench(textVar)}">Some text here......</p>
 ```
 
 La cadena de preprocesamiento `__` se puede escapar en los atributos 
 usando `\_\_`.
+
+> Tenga en cuenta que el preprocesamiento está sujeto a restricciones más 
+> estrictas en la evaluación de expresiones por motivos de seguridad. Consulte 
+> el [Apéndice D: Restricciones de expresiones](#21-apéndice-d-restricciones-en-expresiones).
 
 5 Establecer valores de atributos
 =================================
@@ -1626,7 +1624,7 @@ nuestros usuarios puedan suscribirse a él, por lo que creamos una plantilla
 <form action="subscribe.html">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="¡Subscribase!" />
+    <input type="submit" value="Subscribe!" />
   </fieldset>
 </form>
 ```
@@ -1644,7 +1642,7 @@ los atributos de las etiquetas en las que está configurado:
 <form action="subscribe.html" th:attr="action=@{/subscribe}">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="¡Subscribase!" th:attr="value=#{subscribe.submit}"/>
+    <input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
   </fieldset>
 </form>
 ```
@@ -1656,7 +1654,7 @@ correspondientes, el resultado del procesamiento de este archivo será:
 <form action="/gtvg/subscribe">
   <fieldset>
     <input type="text" name="email" />
-    <input type="submit" value="¡Suscríbase!"/>
+    <input type="submit" value="Suscribe!"/>
   </fieldset>
 </form>
 ```
@@ -1669,8 +1667,7 @@ permiten configurar un atributo dos veces en una etiqueta, por lo que `th:attr`
 tomará una lista de asignaciones separadas por comas, como:
 
 ```html
-<img src="../../images/gtvglogo.png" 
-     th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
+<img src="../../images/gtvglogo.png" th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}" />
 ```
 
 Dados los archivos de mensajes necesarios, esto generará:
@@ -1682,7 +1679,7 @@ Dados los archivos de mensajes necesarios, esto generará:
 5.2 Establecer valores para atributos específicos
 -------------------------------------------------
 
-A estas alturas, es posible que estés pensando en algo como esto:
+A estas alturas, es posible que esté pensando en algo como esto:
 
 ```html
 <input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
@@ -1692,8 +1689,8 @@ A estas alturas, es posible que estés pensando en algo como esto:
 valor de un atributo puede ser muy práctico, pero no es la forma más elegante de 
 crear plantillas si tienes que hacerlo constantemente.
 
-Thymeleaf está de acuerdo contigo, y por eso «th:attr» apenas se usa en las 
-plantillas. Normalmente, usarás otros atributos «th:*» cuya función es 
+Thymeleaf está de acuerdo con usted, y por eso `th:attr` apenas se usa en las 
+plantillas. Normalmente, usará otros atributos `th:*` cuya función es 
 establecer atributos de etiqueta específicos (y no cualquier atributo como 
 `th:attr`).
 
@@ -1708,11 +1705,11 @@ la etiqueta `form`:
 ```html
 <form action="subscribe.html" th:action="@{/subscribe}">
 ```
-¿Y recuerdas esos `th:href` que incluimos en nuestro `home.html`? Son 
+¿Y recuerda esos `th:href` que incluimos en nuestro `home.html`? Son 
 exactamente el mismo tipo de atributos:
 
 ```html
-<li><a href="product/list.html" th:href="@{/product/list}">Lista de Productos</a></li>
+<li><a href="product/list.html" th:href="@{/product/list}">Product List</a></li>
 ```
 Hay muchos atributos como estos, cada uno de ellos dirigido a un atributo HTML5 
 específico:
@@ -1821,20 +1818,20 @@ Thymeleaf también ofrece los atributos `th:attrappend` y `th:attrprepend`, que
 añaden (sufijo) o anteponen (prefijo) el resultado de su evaluación a los 
 valores de los atributos existentes.
 
-Por ejemplo, es posible que desees almacenar el nombre de una clase CSS que se 
-aplique y agregará (no se configurará, solo se agregará) a uno de tus botones en 
+Por ejemplo, es posible que desee almacenar el nombre de una clase CSS que se 
+aplique y agregará (no se configurará, solo se agregará) a uno de sus botones en 
 una variable de contexto, porque la clase CSS específica que se usará dependerá 
 de algo que el usuario hizo antes:
 
 ```html
-<input type="button" value="¡Hazlo!" class="btn" th:attrappend="class=${' ' + cssStyle}" />
+<input type="button" value="Do it!" class="btn" th:attrappend="class=${' ' + cssStyle}" />
 ```
 
 Si procesa esta plantilla con la variable `cssStyle` establecida en `"warning"`, 
 obtendrá:
 
 ```html
-<input type="button" value="¡Hazlo!" class="btn warning" />
+<input type="button" value="Do it!" class="btn warning" />
 ```
 
 También hay dos _atributos de agregación_ específicos en el dialecto estándar: 
@@ -1845,7 +1842,7 @@ existentes:
 ```html
 <tr th:each="prod : ${prods}" class="row" th:classappend="${prodStat.odd}? 'odd'">
 ```
-(No te preocupes por el atributo `th:each`. Es un _atributo iterativo_ y 
+(No se preocupe por el atributo `th:each`. Es un _atributo iterativo_ y 
 hablaremos de él más adelante).
 
 5.5 Atributos booleanos de valor fijo
@@ -1861,7 +1858,7 @@ Por ejemplo, `checked`:
 <input type="checkbox" name="option2" checked /> <!-- HTML -->
 <input type="checkbox" name="option1" checked="checked" /> <!-- XHTML -->
 ```
-El dialecto estándar incluye atributos que le permiten configurar estos 
+El Dialecto Estándar incluye atributos que le permiten configurar estos 
 atributos evaluando una condición, de modo que si se evalúa como verdadero, el 
 atributo se configurará en su valor fijo, y si se evalúa como falso, el atributo 
 no se configurará:
@@ -1870,8 +1867,8 @@ no se configurará:
 <input type="checkbox" name="active" th:checked="${user.active}" />
 ```
 
-Los siguientes atributos booleanos de valor fijo existen en el dialecto 
-estándar:
+Los siguientes atributos booleanos de valor fijo existen en el Dialecto 
+Estándar:
 
 <div class="table-scroller">
 
@@ -1893,7 +1890,7 @@ estándar:
 
 Thymeleaf ofrece un *procesador de atributos predeterminado* que nos permite 
 establecer el valor de *cualquier* atributo, incluso si no se ha definido un 
-procesador `th:*` específico para él en el dialecto estándar.
+procesador `th:*` específico para él en el Dialecto Estándar.
 
 Entonces algo como:
 
@@ -1924,7 +1921,7 @@ procesadores a sus plantillas de una manera más compatible con HTML5.
 La sintaxis `data-{prefix}-{name}` es la forma estándar de escribir atributos 
 personalizados en HTML5, sin necesidad de que los desarrolladores usen nombres 
 con espacios de nombres como `th:*`. Thymeleaf hace que esta sintaxis esté 
-disponible automáticamente para todos sus dialectos (no solo para los estándares).
+disponible automáticamente para todos sus dialectos (no solo para los Estándares).
 
 También existe una sintaxis para especificar etiquetas personalizadas: 
 `{prefijo}-{nombre}`, que sigue la _especificación de Elementos Personalizados 
@@ -1955,7 +1952,7 @@ necesitaremos crear una _fila de plantilla_ (que ejemplifique cómo queremos que
 se muestre cada producto) y luego indicarle a Thymeleaf que la repita una vez 
 para cada producto.
 
-El dialecto estándar nos ofrece un atributo exactamente para eso: `th:each`.
+El Dialecto Estándar nos ofrece un atributo exactamente para eso: `th:each`.
 
 ### Usando th:each
 
@@ -1990,7 +1987,7 @@ productos:
 <html xmlns:th="http://www.thymeleaf.org">
 
   <head>
-    <title>Tienda de comestibles virtual Good Thymes</title>
+    <title>>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
@@ -1998,36 +1995,37 @@ productos:
 
   <body>
 
-    <h1>Lista de productos</h1>
+    <h1>Product list</h1>
   
-    <table>
+        <table>
       <tr>
-        <th>NOMBRE</th>
-        <th>PRECIO</th>
-        <th>EN STOCK</th>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IN STOCK</th>
       </tr>
       <tr th:each="prod : ${prods}">
-        <td th:text="${prod.name}">Cebollas</td>
+        <td th:text="${prod.name}">Onions</td>
         <td th:text="${prod.price}">2.41</td>
-        <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+        <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
       </tr>
     </table>
   
     <p>
-      <a href="../home.html" th:href="@{/}">Regresar al Inicio</a>
+      <a href="../home.html" th:href="@{/}">Return to home</a>
     </p>
 
   </body>
 
 </html>
 ```
-El valor del atributo `prod : ${prods}` que se ve arriba significa que, para 
+
+El valor del atributo `prod : ${prods}` que se ve arriba significa que, "para 
 cada elemento del resultado de la evaluación de `${prods}`, se repite este 
 fragmento de plantilla, utilizando el elemento actual en una variable llamada 
-prod. Asignemos un nombre a cada elemento que vemos:
+prod". Asignemos un nombre a cada elemento que vemos:
 
-* Llamaremos `${prods}` a la _expresión iterada_ o _variable iterada_.
-* Llamaremos `prod` a la _variable de iteración_ o simplemente _variable iteradora_.
+ * Llamaremos `${prods}` a la _expresión iterada_ o _variable iterada_.
+ * Llamaremos `prod` a la _variable de iteración_ o simplemente _variable iteradora_.
 
 Tenga en cuenta que la variable iteradora `prod` tiene como ámbito el elemento 
 `<tr>`, lo que significa que está disponible para etiquetas internas como `<td>`.
@@ -2072,14 +2070,14 @@ Vea como podríamos usarlo con el ejemplo previo:
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
   </tr>
   <tr th:each="prod,iterStat : ${prods}" th:class="${iterStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Cebollas</td>
+    <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
   </tr>
 </table>
 ```
@@ -2098,45 +2096,45 @@ Echemos un vistazo al resultado de procesar nuestra plantilla:
 <html>
 
   <head>
-    <title>Tienda de comestibles virtual Good Thymes</title>
+    <title>Good Thymes Virtual Grocery</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" type="text/css" media="all" href="/gtvg/css/gtvg.css" />
   </head>
 
   <body>
 
-    <h1>Lista de productos</h1>
+    <h1>Product list</h1>
   
     <table>
       <tr>
-        <th>NOMBRE</th>
-        <th>PRECIO</th>
-        <th>EN STOCK</th>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IN STOCK</th>
       </tr>
       <tr class="odd">
-        <td>Albahaca dulce fresca</td>
+        <td>Fresh Sweet Basil</td>
         <td>4.99</td>
-        <td>sí</td>
+        <td>yes</td>
       </tr>
       <tr>
-        <td>Tomate italiano</td>
+        <td>Italian Tomato</td>
         <td>1.25</td>
         <td>no</td>
       </tr>
       <tr class="odd">
-        <td>Pimiento amarillo</td>
+        <td>Yellow Bell Pepper</td>
         <td>2.50</td>
-        <td>sí</td>
+        <td>yes</td>
       </tr>
       <tr>
-        <td>Cheddar viejo</td>
+        <td>Old Cheddar</td>
         <td>18.75</td>
-        <td>sí</td>
+        <td>yes</td>
       </tr>
     </table>
   
     <p>
-      <a href="/gtvg/" shape="rect">Regresar al inicio</a>
+      <a href="/gtvg/" shape="rect">Return to home</a>
     </p>
 
   </body>
@@ -2154,14 +2152,14 @@ iteración:
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Cebollas</td>
+    <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
   </tr>
 </table>
 ```
@@ -2170,17 +2168,19 @@ iteración:
 --------------------------------------------------------
 
 Algunas veces podríamos querer optimizar la adquisición de colecciones de datos 
-(p. ej. desde una base de datos) así que estas colecciones se recuperan únicamente si 
-realmente se van a utilizar.
+(p. ej. desde una base de datos) así que estas colecciones se recuperan 
+únicamente si realmente se van a utilizar.
  
-> De hecho, esto es algo que puede ser aplicado a *cualquier* pieza de datos, pero dado el tamaño
-> que las colecciones en memoria podrían tener, la recuperación de colecciones que deben iterarse 
-> es el caso más común para este escenario.
+> De hecho, esto es algo que puede ser aplicado a *cualquier* pieza de datos, 
+> pero dado el tamaño que las colecciones en memoria podrían tener, la 
+> recuperación de colecciones que deben iterarse es el caso más común para este 
+> escenario.
 
-Para facilitar esto, Thymeleaf ofrece un mecanismo para cargar variables de contexto de forma 
-diferida. Las variables de contexto que implementan la interfaz `ILazyContextVariable` (probablemente 
-extendiendo su implementación predeterminada `LazyContextVariable`) se resolverán al 
-momento de su ejecución. Por ejemplo:
+Para facilitar esto, Thymeleaf ofrece un mecanismo para *cargar variables de 
+contexto de forma diferida*. Las variables de contexto que implementan la 
+interfaz `ILazyContextVariable` -- probablemente extendiendo su implementación 
+predeterminada `LazyContextVariable` -- se resolverán al momento de su ejecución. 
+Por ejemplo:
 
 ```java
 context.setVariable(
@@ -2193,11 +2193,12 @@ context.setVariable(
      });
 ```
 
-Esta variable puede utilizarse sin conocimiento de su *carga perezosa*, en código como:
+Esta variable puede utilizarse sin conocimiento de su *carga perezosa*, en código 
+como:
 
 ```html
 <ul>
-  <li th:each="u : ${users}" th:text="${u.name}">nombre de usuario</li>
+  <li th:each="u : ${users}" th:text="${u.name}">user name</li>
 </ul>
 ```
 
@@ -2206,7 +2207,7 @@ llamará) si la `condition` evalúa a `false` en un código como:
 
 ```html
 <ul th:if="${condition}">
-  <li th:each="u : ${users}" th:text="${u.name}">nombre de usuario</li>
+  <li th:each="u : ${users}" th:text="${u.name}">user name</li>
 </ul>
 ```
 
@@ -2216,32 +2217,33 @@ llamará) si la `condition` evalúa a `false` en un código como:
 7.1 Condicionales simples: "if" y "unless"
 ------------------------------------------
 
-Algunas veces necesitarás que un fragmento de su plantilla solo aparezca en el resultado
-si se cumple una cierta condición.
+Algunas veces necesitará que un fragmento de su plantilla solo aparezca en el 
+resultado si se cumple una cierta condición.
 
-Por ejemplo, imagine que queremos mostrar en nuestra tabla de productos una columna con el 
-número de comentarios que exista para cada producto y, si hay algunos comentarios, un 
-enlace a la página de detalle del comentario para ese producto.
+Por ejemplo, imagine que queremos mostrar en nuestra tabla de productos una 
+columna con el número de comentarios que exista para cada producto y, si hay 
+algunos comentarios, un enlace a la página de detalle del comentario para ese 
+producto.
 
 Para hacer esto, usaríamos el atributo `th:if`:
 
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
-    <th>COMENTARIOS</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
+    <th>COMMENTS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Cebollas</td>
+    <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:if="${not #lists.isEmpty(prod.comments)}">ver</a>
+         th:if="${not #lists.isEmpty(prod.comments)}">view</a>
     </td>
   </tr>
 </table>
@@ -2252,7 +2254,7 @@ Hay muchas cosas que ver aquí, así que centrémonos en la línea importante:
 ```html
 <a href="comments.html"
    th:href="@{/product/comments(prodId=${prod.id})}" 
-   th:if="${not #lists.isEmpty(prod.comments)}">ver</a>
+   th:if="${not #lists.isEmpty(prod.comments)}">view</a>
 ```
 
 Esto creará un enlace a la página de comentarios (con URL `/product/comments`) 
@@ -2264,43 +2266,43 @@ Echemos un vistazo al marcado resultante:
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
-    <th>COMENTARIOS</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
+    <th>COMMENTS</th>
   </tr>
   <tr>
-    <td>Albahaca dulce fresca</td>
+    <td>Fresh Sweet Basil</td>
     <td>4.99</td>
-    <td>si</td>
+    <td>yes</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Tomate italiano</td>
+    <td>Italian Tomato</td>
     <td>1.25</td>
     <td>no</td>
     <td>
-      <span>2</span> comentario/s
-      <a href="/gtvg/product/comments?prodId=2">ver</a>
+      <span>2</span> comment/s
+      <a href="/gtvg/product/comments?prodId=2">view</a>
     </td>
   </tr>
   <tr>
-    <td>Pimiento amarillo</td>
+    <td>Yellow Bell Pepper</td>
     <td>2.50</td>
-    <td>si</td>
+    <td>yes</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Cheddar viejo</td>
+    <td>Old Cheddar</td>
     <td>18.75</td>
-    <td>si</td>
+    <td>yes</td>
     <td>
-      <span>1</span> comentario/s
-      <a href="/gtvg/product/comments?prodId=4">ver</a>
+      <span>1</span> comment/s
+      <a href="/gtvg/product/comments?prodId=4">view</a>
     </td>
   </tr>
 </table>
@@ -2309,15 +2311,16 @@ Echemos un vistazo al marcado resultante:
 ¡Perfecto! Eso es exactamente lo que queríamos.
 
 Tenga en cuenta que el atributo `th:if` no solo evalúa condiciones _booleanas_.
-Sus capacidades van un poco más allá y evaluará la expresión especificada como `true` siguiendo estas reglas:
+Sus capacidades van un poco más allá y evaluará la expresión especificada como 
+`true` siguiendo estas reglas:
 
- * El valor no es nulo:
+ * El valor de if no es nulo:
     * Si el valor es un valor booleano y es `true`.
     * Si el valor es un número y no es cero.
     * Si el valor es un carácter y no es cero
     * Si el valor es una String y esta no es "false", "off"" o "no"
     * Si el valor no es un booleano, un número, un carácter o una String.
- * (Si el valor es null, th:if evaluará a falso).
+ * (Si el valor de if es null, th:if evaluará a falso).
 
 Además, `th:if` tiene un atributo inverso, `th:unless`, el cual podríamos haber usado en 
 el ejemplo previo en vez de usar un `not` dentro de la expresión OGNL:
@@ -2325,32 +2328,34 @@ el ejemplo previo en vez de usar un `not` dentro de la expresión OGNL:
 ```html
 <a href="comments.html"
    th:href="@{/comments(prodId=${prod.id})}" 
-   th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
+   th:unless="${#lists.isEmpty(prod.comments)}">view</a>
 ```
 
 7.2 Sentencias Switch
 ---------------------
 
-También hay una forma de mostrar contenido condicionalmente usando el equivalente de una 
-estructura _switch_ en Java: el conjunto de atributos `th:switch` / `th:case`.
+También hay una forma de mostrar contenido condicionalmente usando el 
+equivalente de una estructura _switch_ en Java: el conjunto de atributos 
+`th:switch` / `th:case`.
 
 ```html
 <div th:switch="${user.role}">
-  <p th:case="'admin'">El usuario es administrador</p>
-  <p th:case="#{roles.manager}">El usuario es un gerente</p>
+  <p th:case="'admin'">User is an administrator</p>
+  <p th:case="#{roles.manager}">User is a manager</p>
 </div>
 ```
 
-Tenga en cuenta que tan pronto como un atributo `th:case` se evalúa como `true`, todos los 
-demás atributos `th:case` en el mismo contexto de conmutación se evalúan como `false`.
+Tenga en cuenta que tan pronto como un atributo `th:case` se evalúa como `true`, 
+todos los demás atributos `th:case` en el mismo contexto de switch se evalúan 
+como `false`.
 
 La opción predeterminada se especifica como `th:case="*"`:
 
 ```html
 <div th:switch="${user.role}">
-  <p th:case="'admin'">El usuario es administrador</p>
-  <p th:case="#{roles.manager}">El usuario es un gerente</p>
-  <p th:case="*">El usuario es alguna otra cosa</p>
+  <p th:case="'admin'">User is an administrator</p>
+  <p th:case="#{roles.manager}">User is a manager</p>
+  <p th:case="*">User is some other thing</p>
 </div>
 ```
 

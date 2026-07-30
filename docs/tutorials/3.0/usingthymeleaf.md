@@ -717,31 +717,32 @@ Veamos los resultados de esto usando la configuración regional española:
 
 ### Texto no escapado
 
-The simplest version of our Home page seems to be ready now, but there is
-something we have not thought about... what if we had a message like this?
+La versión más simple de nuestra página de Inicio parece estar lista ahora, pero
+hay algo en el código que lo que no hemos pensado... ¿Qué pasaría si tenemos un
+mensaje como este?
 
 ```java
 home.welcome=Welcome to our <b>fantastic</b> grocery store!
 ```
 
-If we execute this template like before, we will obtain:
+Si ejecutamos esta plantilla como antes, obtendremos:
 
 ```html
 <p>Welcome to our &lt;b&gt;fantastic&lt;/b&gt; grocery store!</p>
 ```
 
-Which is not exactly what we expected, because our `<b>` tag has been escaped
-and therefore it will be displayed in the browser.
+Lo que no es exactamente lo que esperábamos, porque nuestra etiqueta `<b>` ha
+sido escapada y, por lo tanto, será visualizada en el navegador.
 
-This is the default behaviour of the `th:text` attribute. If we want Thymeleaf
-to respect our HTML tags and not escape them, we will have to use a different
-attribute: `th:utext` (for "unescaped text"):
+Este es el comportamiento por defecto del atributo `th:text`. Si queremos que
+Thymeleaf respete nuestras etiquetas HTML y no las escape, tendremos que usar un
+atributo diferente: `th:utext` (para "texto sin escapar"):
 
 ```html
 <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
 ```
 
-This will output our message just like we wanted it:
+Esto mostrará nuestro mensaje tal como lo queríamos:
 
 ```html
 <p>Welcome to our <b>fantastic</b> grocery store!</p>
@@ -749,8 +750,8 @@ This will output our message just like we wanted it:
 
 ### Uso y visualización de variables
 
-Now let's add some more content to our home page. For example, we may want to
-display the date below our welcome message, like this:
+Ahora agreguemos algo de más contenido a nuestra página de inicio. Por ejemplo,
+podremos querer visualizar la fecha debajo de nuestro mensaje de bienvenida, así:
 
 ```
 Welcome to our fantastic grocery store!
@@ -758,8 +759,8 @@ Welcome to our fantastic grocery store!
 Today is: 12 july 2010
 ```
 
-First of all, we will have to modify our controller so that we add that date as
-a context variable:
+En primer lugar, tendremos que modificar nuestro controlador para que agreguemos
+esa fecha como variable de contexto:
 
 ```java
 public void process(
@@ -779,8 +780,8 @@ public void process(
 }
 ```
 
-We have added a `String` variable called `today` to our context, and now we can display
-it in our template:
+Hemos agregado una variable `String` llamada `today` a nuestro contexto, y ahora
+podemos visualizarla en nuestra plantilla:
 
 ```html
 <body>
@@ -789,30 +790,31 @@ it in our template:
 </body>
 ```
 
-As you can see, we are still using the `th:text` attribute for the job (and
-that's correct, because we want to replace the tag's body), but the syntax is
-a little bit different this time and instead of a `#{...}` expression value, we
-are using a `${...}` one. This is a **variable expression**, and it contains
-an expression in a language called _OGNL (Object-Graph Navigation Language)_
-that will be executed on the context variables map we talked about before.
+Como puede ver, estamos aún usando el atributo `th:text` para el trabajo (y eso
+es correcto, porque queremos reemplazar el cuerpo de la etiqueta), pero la
+sintaxis es un poquito diferente esta vez y en vez de una expresión de valor
+`#{...}`, estamos usando una `${...}`. Esta es una **expresión de variable**,
+y contiene una expresión en un lenguaje llamado _OGNL (Object-Graph Navigation
+Language)_ (Lenguaje de Navegación de Objetos-Gráficos) que será ejecutado en el
+mapa de variables del contexto del que hablamos antes.
 
-The `${today}` expression simply means "get the variable called today", but
-these expressions could be more complex (like `${user.name}` for "get the
-variable called user, and call its `getName()` method").
+La expresión `${today}` simplemente significa "obtén la variable llamada today",
+pero estas expresiones podrían ser más complejas (como `${user.name}`) para
+"obtener la variable llamada usuario, y llamar su método "getName()".
 
-There are quite a lot of possibilities in attribute values: messages, variable
-expressions... and quite a lot more. The next chapter will show us what all
-these possibilities are.
+Existen muchas posibilidades en los valores de los atributos: mensajes,
+expresiones de variables... y mucho más. El siguiente capítulo nos mostrará
+cuáles son todas estas posibilidades.
 
 4 Sintaxis de expresiones estándar
 ==================================
 
-We will take a small break in the development of our grocery virtual store to
-learn about one of the most important parts of the Thymeleaf Standard Dialect:
-the Thymeleaf Standard Expression syntax.
+Nos tomaremos un pequeño descanso en el desarrollo de nuestra tienda virtual de
+comestibles para aprender sobre una de las partes más importantes del Dialecto
+Estándar de Thymeleaf: La sintaxis de las Expresiones Estándar de Thymeleaf:
 
-We have already seen two types of valid attribute values expressed in this
-syntax: message and variable expressions:
+Ya hemos visto dos tipos de valores de atributos válidos expresados en esta
+sintaxis: expresiones de mensajes y variables:
 
 ```html
 <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
@@ -820,42 +822,42 @@ syntax: message and variable expressions:
 <p>Today is: <span th:text="${today}">13 february 2011</span></p>
 ```
 
-But there are more types of expressions, and more interesting details to learn
-about the ones we already know. First, let's see a quick summary of the
-Standard Expression features:
+Pero existen más tipos de expresiones, y más detalles interesantes que aprender
+sobre las que ya conocemos. Primero, veamos un breve resumen de las
+características de las expresiones estándar:
 
- * Simple expressions:
-    * Variable Expressions: `${...}`
-    * Selection Variable Expressions: `*{...}`
-    * Message Expressions: `#{...}`
-    * Link URL Expressions: `@{...}`
-    * Fragment Expressions: `~{...}`
- * Literals
-    * Text literals: `'one text'`, `'Another one!'`,...
-    * Number literals: `0`, `34`, `3.0`, `12.3`,...
-    * Boolean literals: `true`, `false`
-    * Null literal: `null`
-    * Literal tokens: `one`, `sometext`, `main`,...
- * Text operations: 
-    * String concatenation: `+`
-    * Literal substitutions: `|The name is ${name}|`
- * Arithmetic operations:
-    * Binary operators: `+`, `-`, `*`, `/`, `%`
-    * Minus sign (unary operator): `-`
- * Boolean operations:
-    * Binary operators: `and`, `or`
-    * Boolean negation (unary operator): `!`, `not`
- * Comparisons and equality:
-    * Comparators: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
-    * Equality operators: `==`, `!=` (`eq`, `ne`)
- * Conditional operators:
+* Expresiones simples:
+    * Expresiones de Variable: `${...}`
+    * Expresiones de Variable de Selección: `*{...}`
+    * Expresiones de Mensaje: `#{...}`
+    * Expresiones de Enlace URL: `@{...}`
+    * Expresiones de Fragmento: `~{...}`
+* Literales
+    * Literales de texto: `'un texto'`, `'¡Otro texto!'`,...
+    * Literales de número: `0`, `34`, `3.0`, `12.3`,...
+    * Literales booleanos: `true`, `false`
+    * Literal nulo (null): `null`
+    * Literales de identificadores (tokens): `uno`, `alguntexto`, `principal`,...
+* Operaciones de texto:
+    * Concatenación de cadenas: `+`
+    * Substituciones en literales: `|El nombre es  ${nombre}|`
+* Operaciones aritméticas:
+    * Operadores binarios: `+`, `-`, `*`, `/`, `%`
+    * Signo menos (operador unario): `-`
+* Operadores lógicos:
+    * Operadores binarios: `and`, `or`
+    * Negación lógica (operador unario): `!`, `not`
+* Comparaciones e igualdad:
+    * Comparadores: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
+    * Operadores de igualdad: `==`, `!=` (`eq`, `ne`)
+* Operadores condicionales:
     * If-then: `(if) ? (then)`
     * If-then-else: `(if) ? (then) : (else)`
-    * Default: `(value) ?: (defaultvalue)`
- * Special tokens:
-    * No-Operation: `_`
+    * Valor por defecto: `(valor) ?: (valor_por_defecto)`
+* Identificadores (Tokens) especiales :
+    * Operación nula: `_`
 
-All these features can be combined and nested:
+Todas estas características pueden combinarse y anidarse:
 
 ```text
 'User is of type ' + (${user.isAdmin()} ? 'Administrator' : (${user.type} ?: 'Unknown'))
@@ -864,39 +866,40 @@ All these features can be combined and nested:
 4.1 Mensajes
 ------------
 
-As we already know, `#{...}` message expressions allow us to link this:
+Como ya sabemos, las expresiones de mensaje `#{...}` nos permiten vincular esto:
 
 ```html
 <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
 ```
 
-...to this:
+...a esto:
 
 ```text
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
 ```
 
-But there's one aspect we still haven't thought of: what happens if the message
-text is not completely static? What if, for example, our application knew who is
-the user visiting the site at any moment and we wanted to greet them by name?
+Pero hay un aspecto que aún no hemos considerado: ¿qué ocurre si el texto del
+mensaje no es completamente estático? ¿Qué ocurriría, por ejemplo, si nuestra
+aplicación sabía quién es el usuario que visita el sitio en cualquier momento y
+queremos saludarle por su nombre?
 
 ```html
 <p>¡Bienvenido a nuestra tienda de comestibles, John Apricot!</p>
 ```
 
-This means we would need to add a parameter to our message. Just like this:
+Esto significa que necesitaríamos agregar un parámetro a nuestro mensaje. Así:
 
 ```text
 home.welcome=¡Bienvenido a nuestra tienda de comestibles, {0}!
 ```
 
-Parameters are specified according to the
+Los parámetros se especifican de acuerdo a la sintaxis estándar de
 [`java.text.MessageFormat`](https://docs.oracle.com/javase/10/docs/api/java/text/MessageFormat.html)
-standard syntax, which means you can format to numbers and dates as specified
-in the API docs for classes in the `java.text.*` package.
+, lo cual significa que puede dar formato a números y fechas como se especifica
+en los documentos de las IPA para las clases en el paquete `java.text.*`.
 
-In order to specify a value for our parameter, and given an HTTP session
-attribute called `user`, we could have:
+Para especificar un valor para nuestro parámetro, y dado un atributo de sesión
+llamado `user`, podríamos tener:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
@@ -904,12 +907,12 @@ attribute called `user`, we could have:
 </p>
 ```
 
-> Note that the use of `th:utext` here means that the formatted message will
-> not be escaped. This example assumes that `user.name` is already escaped.
+> Dese cuenta de que el uso de `th:utext` aquí significa que el mensaje con formato
+> no será escapado. Este ejemplo asume que `user.name` ya está escapado.
 
-Several parameters can be specified, separated by commas.
+Se pueden especificar varios parámetros, separados por comas.
 
-The message key itself can come from a variable:
+La misma clave del mensaje puede provenir de una variable:
 
 ```html
 <p th:utext="#{${welcomeMsgKey}(${session.user.name})}">
@@ -920,31 +923,31 @@ The message key itself can come from a variable:
 4.2 Variables
 -------------
 
-We already mentioned that `${...}` expressions are in fact OGNL (Object-Graph
-Navigation Language) expressions executed on the map of variables contained in
-the context.
+Ya mencionamos que las expresiones `${...}` son en realidad expresiones OGNL
+(Lenguaje de Navegación de Grafos de Objetos) ejecutadas sobre el mapa de variables
+contenidas en el contexto.
 
-> For detailed info about OGNL syntax and features, you should read the 
-> [OGNL Language Guide](http://commons.apache.org/ognl/)
-> 
-> In Spring MVC-enabled applications OGNL will be replaced with **SpringEL**,
-> but its syntax is very similar to that of OGNL (actually, exactly the same for
-> most common cases).
+> Para información detallada sobre la sintaxis OGNL y sus características, 
+> consulte la guía [Guía del Lenguaje OGNL](http://commons.apache.org/ognl/)
+>
+> En aplicaciones que habilitan Spring MVC OGNL será reemplazado con
+> **SpringEL**, pero su sintaxis es muy similar a la de OGNL (En realidad,
+> exactamente la misma para la mayoría de los casos comunes).
 
-From OGNL's syntax, we know that the expression in:
+De la sintaxis de OGNL, sabemos que la expresión en:
 
 ```html
 <p>Today is: <span th:text="${today}">13 february 2011</span>.</p>
 ```
 
-...is in fact equivalent to this:
+...es en realidad equivalente a esto:
 
 ```java
 ctx.getVariable("today");
 ```
 
-But OGNL allows us to create quite more powerful expressions, and that's how
-this:
+Pero OGNL nos permite crear expresiones mucho más potentes, y así es como
+funciona esto:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
@@ -952,41 +955,43 @@ this:
 </p>
 ```
 
-...obtains the user name by executing:
+... obtiene el nombre de usuario ejecutando:
 
 ```java
 ((User) ctx.getVariable("session").get("user")).getName();
 ```
 
-But getter method navigation is just one of OGNL's features. Let's see some more:
+Pero la navegación por métodos getter es solo una de las características de
+OGNL. Veamos más:
 
 ```java
 /*
- * Access to properties using the point (.). Equivalent to calling property getters.
+ * Acceso a propiedades usando el punto  (.). Es equivalente a llamar a los getters de la propiedad.
  */
 ${person.father.name}
 
 /*
- * Access to properties can also be made by using brackets ([]) and writing 
- * the name of the property as a variable or between single quotes.
+ * El acceso a propiedades puede también realizarse usando corchetes ([]) y 
+ * escribiendo el nombre de la propiedad como una variable o entre comillas 
+ * simples.
  */
 ${person['father']['name']}
 
 /*
- * If the object is a map, both dot and bracket syntax will be equivalent to 
- * executing a call on its get(...) method.
+ * Si el objeto es un mapa, tanto el punto como la sintaxis de corchete serán 
+ * equivalentes a ejecutar una llamada a su método get(...).
  */
 ${countriesByCode.ES}
 ${personsByName['Stephen Zucchini'].age}
 
 /*
- * Indexed access to arrays or collections is also performed with brackets, 
- * writing the index without quotes.
+ * El acceso indexado a matrices o colecciones se realizar también con corchetes, 
+ * escribiendo el índice sin comillas.
  */
 ${personsArray[0].name}
 
 /*
- * Methods can be called, even with arguments.
+ * Se puede llamar a los métodos, incluso con argumentos.
  */
 ${person.createCompleteName()}
 ${person.createCompleteNameWithSeparator('-')}
@@ -994,59 +999,62 @@ ${person.createCompleteNameWithSeparator('-')}
 
 ### Objetos básicos de Expresiones
 
-When evaluating OGNL expressions on the context variables, some objects are made
-available to expressions for higher flexibility. These objects will be
-referenced (per OGNL standard) starting with the `#` symbol:
+Cuando se evalúan las expresiones OGNL en las variables del contexto, algunos
+objetos se ponen a disposición de las expresiones para mayor flexibilidad. Estos
+objetos se referenciarán (según el estándar OGNL) comenzando con el símbolo `#`:
 
- * `#ctx`: the context object.
- * `#vars:` the context variables.
- * `#locale`: the context locale.
- * `#request`: (only in Web Contexts) the `HttpServletRequest` object.
- * `#response`: (only in Web Contexts) the `HttpServletResponse` object.
- * `#session`: (only in Web Contexts) the `HttpSession` object.
- * `#servletContext`: (only in Web Contexts) the `ServletContext` object.
+ * `#ctx`: el objeto de contexto.
+ * `#vars:` las variables del contexto..
+ * `#locale`: la configuración regional del contexto.
+ * `#request`: (solo en Contextos Web) el objeto `HttpServletRequest`.
+ * `#response`: (solo en Contextos Web) el objeto `HttpServletResponse`.
+ * `#session`: (solo en Contextos Web) el objeto `HttpSession`.
+ * `#servletContext`: (solo en Contextos Web) el objeto `ServletContext`.
 
-So we can do this:
+Así que podemos hacer esto:
 
 ```html
 Established locale country: <span th:text="${#locale.country}">US</span>.
 ```
 
-You can read the full reference of these objects in [Appendix A](#18-appendix-a-expression-basic-objects).
+Puede leer la referencia completa de estos objetos en el [Apéndice A](#18-apéndice-a-objetos-básicos-de-expresión).
 
-### Objetos de utilidad de expresión
+### Objetos de utilidad para expresiones
 
-Besides these basic objects, Thymeleaf will offer us a set of utility objects
-that will help us perform common tasks in our expressions.
+Además de estos objetos básicos, Thymeleaf nos ofrecerá un conjunto de objetos de
+utilidad que nos ayudarán a realizar tareas comunes en nuestras expresiones.
 
- * `#execInfo`: information about the template being processed.
- * `#messages`: methods for obtaining externalized messages inside variables
-   expressions, in the same way as they would be obtained using #{...} syntax.
- * `#uris`: methods for escaping parts of URLs/URIs
- * `#conversions`: methods for executing the configured *conversion service* (if any).
- * `#dates`: methods for `java.util.Date` objects: formatting, component
-   extraction, etc.
- * `#calendars`: analogous to `#dates`, but for `java.util.Calendar` objects.
- * `#numbers`: methods for formatting numeric objects.
- * `#strings`: methods for `String` objects: contains, startsWith, prepending/appending,
-   etc.
- * `#objects`: methods for objects in general.
- * `#bools`: methods for boolean evaluation.
- * `#arrays`: methods for arrays.
- * `#lists`: methods for lists.
- * `#sets`: methods for sets.
- * `#maps`: methods for maps.
- * `#aggregates`: methods for creating aggregates on arrays or collections.
- * `#ids`: methods for dealing with id attributes that might be repeated (for
-   example, as a result of an iteration).
+ * `#execInfo`: información sobre la plantilla que está siendo procesada.
+ * `#messages`: métodos para obtener mensajes externalizados dentro de expresiones
+   de variables, en la misma forma que serían obtenidas usando la sintaxis
+   #{...}.
+ * `#uris`: métodos para escapar partes de las URL/URI
+ * `#conversions`: métodos para la ejecución del *servicio de conversión*
+   configurado (si lo hay).
+ * `#dates`: métodos para objetos `java.util.Date`: formateado, extracción de
+   componentes, etc.
+ * `#calendars`: análogo a `#dates`, pero para objetos `java.util.Calendar`.
+ * `#numbers`: métodos para formatear objetos numéricos.
+ * `#strings`: métodos para objetos `String`: contiene, comienza con,
+   anteponer/agregar, etc.
+ * `#objects`: métodos para objetos en general.
+ * `#bools`: métodos para la evaluación booleana.
+ * `#arrays`: métodos para matrices.
+ * `#lists`: métodos para listas.
+ * `#sets`: métodos para conjuntos.
+ * `#maps`: métodos para mapas.
+ * `#aggregates`: métodos para crear agregados en matrices o colecciones.
+ * `#ids`: métodos para tratar con atributos de identificación que podrían
+   repetirse (por ejemplo, como resultado de una iteración).
 
-You can check what functions are offered by each of these utility objects in the
-[Appendix B](#19-appendix-b-expression-utility-objects).
+Puede comprobar qué funciones se ofrecen para cada uno de estos objetos de
+utilidad en el [Apéndice B](#19-apéndice-b-objetos-de-utilidad-de-expresión).
 
 ### Reformateando las fechas en nuestra página de inicio
 
-Now we know about these utility objects, we could use them to change the way in
-which we show the date in our home page. Instead of doing this in our `HomeController`:
+Ahora que sabemos de estos objetos de utilidad, podríamos usarlos para cambiar
+la forma en que mostramos la fecha en nuestra página de inicio. En vez de hacer
+esto en nuestro `HomeController`:
 
 ```java
 SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy");
@@ -1058,7 +1066,7 @@ ctx.setVariable("today", dateFormat.format(cal.getTime()));
 templateEngine.process("home", ctx, response.getWriter());
 ```
 
-...we can do just this:
+... podemos hacer precisamente esto:
 
 ```java
 WebContext ctx = 
@@ -1068,7 +1076,7 @@ ctx.setVariable("today", Calendar.getInstance());
 templateEngine.process("home", ctx, response.getWriter());
 ```
 
-...and then perform date formatting in the view layer itself:
+...y luego realizar el formato de fecha en la propia capa de vista:
 
 ```html
 <p>
@@ -1079,15 +1087,17 @@ templateEngine.process("home", ctx, response.getWriter());
 4.3 Expresiones en selecciones (sintaxis de asterisco)
 ------------------------------------------------------
 
-Not only can variable expressions be written as `${...}`, but also as `*{...}`.
+No solo las expresiones de variables pueden ser escritas como `${...}`, si no
+también como `*{...}`.
 
-There is an important difference though: the asterisk syntax evaluates
-expressions on _selected objects_ rather than on the whole context.  That is, as
-long as there is no selected object, the dollar and the asterisk syntaxes do
-exactly the same.
+Sin embargo, existe una diferencia importante: la sintaxis del asterisco evalúa
+las expresiones en _objetos seleccionados_ en lugar de en todo el contexto.
+Es decir, mientras no haya ningún objeto seleccionado, las sintaxis del dólar y
+del asterisco hacen exactamente lo mismo.
 
-And what is a selected object? The result of an expression using the `th:object`
-attribute. Let's use one in our user profile (`userprofile.html`) page:
+¿Y qué es un objeto seleccionado? El resultado de una expresión que usa el
+atributo `th:object`. Usemos uno en nuestra página de perfil de usuario
+(`userprofile.html`):
 
 ```html
   <div th:object="${session.user}">
@@ -1097,7 +1107,7 @@ attribute. Let's use one in our user profile (`userprofile.html`) page:
   </div>
 ```
 
-Which is exactly equivalent to:
+Lo cual es exactamente equivalente a:
 
 ```html
 <div>
@@ -1107,7 +1117,7 @@ Which is exactly equivalent to:
 </div>
 ```
 
-Of course, dollar and asterisk syntax can be mixed:
+Por supuesto, la sintaxis del dólar y del asterisco se puede mezclar:
 
 ```html
 <div th:object="${session.user}">
@@ -1117,8 +1127,9 @@ Of course, dollar and asterisk syntax can be mixed:
 </div>
 ```
 
-When an object selection is in place, the selected object will also be available
-to dollar expressions as the `#object` expression variable:
+Cuando hay una selección de objetos en su lugar, el objeto seleccionado también
+estará disponible para las expresiones en dólares como la variable de expresión
+`#object`:
 
 ```html
 <div th:object="${session.user}">
@@ -1128,8 +1139,8 @@ to dollar expressions as the `#object` expression variable:
 </div>
 ```
 
-As said, if no object selection has been performed, dollar and asterisk syntaxes
-are equivalent.
+Como se dijo, si no se ha realizado ninguna selección de objetos, las sintaxis
+de dólar y asterisco son equivalentes.
 
 ```html
 <div>
@@ -1142,66 +1153,71 @@ are equivalent.
 4.4 Enlaces a URL
 -----------------
 
-Because of their importance, URLs are first-class citizens in web application
-templates, and the _Thymeleaf Standard Dialect_ has a special syntax for them,
-the `@` syntax: `@{...}`
+Debido a su importancia, las URL son ciudadanas de primera clase en las
+plantillas de aplicaciones web, y el _Dialecto Estándar de Thymeleaf_ tiene una
+sintaxis especial para ellas, la sintaxis `@`: `@{...}`
 
-There are different types of URLs:
+Hay diferentes tipos de URLs:
 
- * Absolute URLs: `http://www.thymeleaf.org`
- * Relative URLs, which can be:
-    * Page-relative: `user/login.html`
-    * Context-relative: `/itemdetails?id=3` (context name in server will be
-      added automatically)
-    * Server-relative: `~/billing/processInvoice` (allows calling URLs in
-      another context (= application) in the same server.
-    * Protocol-relative URLs: `//code.jquery.com/jquery-2.0.3.min.js`
+* URLs absolutas: `http://www.thymeleaf.org`
+*  URL relativas, las cuales pueden ser:
+    * relativas a la página: `user/login.html`
+    * relativas al contexto: `/itemdetails?id=3` (el nombre del contexto en el
+      servidor será agregado automáticamente)
+    * relativas al servidor: `~/billing/processInvoice` (permite llamar URLS en
+      otros contextos (= aplicación) en el mismo servidor).
+    * URLs relativas al protocolo: `//code.jquery.com/jquery-2.0.3.min.js`
 
-The real processing of these expressions and their conversion to the URLs that
-will be output is done by implementations of the `org.thymeleaf.linkbuilder.ILinkBuilder`
-interface that are registered into the `ITemplateEngine` object being used.
+El procesado real de estas expresiones y sus conversiones a las URL que serán
+mostradas se hace por implementaciones de la interfaz `org.thymeleaf.linkbuilder.ILinkBuilder`
+que está registrada dentro del objeto `ITemplateEngine` que está siendo usado.
 
-By default, a single implementation of this interface is registered of the class
-`org.thymeleaf.linkbuilder.StandardLinkBuilder`, which is enough for both offline
-(non-web) and also web scenarios based on the Servlet API. Other scenarios (like
-integration with non-ServletAPI web frameworks) might need specific
-implementations of the link builder interface.
+De forma predeterminada, se registra una única implementación de esta interfaz
+de la clase `org.thymeleaf.linkbuilder.StandardLinkBuilder`, lo cual es
+suficiente tanto offline (no web) como para entornos web basados en la IPA de 
+Servlet. Otros escenarios (como la integración con frameworks web que no 
+utilizan la IPA de Servlet) podrían requerir implementaciones específicas de la 
+interfaz del constructor de enlaces.
 
-Let's use this new syntax. Meet the `th:href` attribute:
+Usemos esta nueva sintaxis. Conozca el atributo `th:href`:
 
 ```html
-<!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) -->
+<!-- Producirá 'http://localhost:8080/gtvg/order/details?orderId=3' (mas reescritura) -->
 <a href="details.html" th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>
 
-<!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) -->
+<!-- Producirá '/gtvg/order/details?orderId=3' (mas reescritura) -->
 <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
 
-<!-- Will produce '/gtvg/order/3/details' (plus rewriting) -->
+<!-- Producirá '/gtvg/order/3/details' (mas reescritura) -->
 <a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">view</a>
 ```
 
-Some things to note here:
+Algunas cosas a tener en cuenta aquí:
 
- * `th:href` is a modifier attribute: once processed, it will compute the link
-   URL to be used and set that value to the `href` attribute of the `<a>` tag.
- * We are allowed to use expressions for URL parameters (as you can see in `orderId=${o.id}`).
-   The required URL-parameter-encoding operations will also be automatically
-   performed.
- * If several parameters are needed, these will be separated by commas: `@{/order/process(execId=${execId},execType='FAST')}`
- * Variable templates are also allowed in URL paths: `@{/order/{orderId}/details(orderId=${orderId})}`
- * Relative URLs starting with `/` (eg: `/order/details`) will be automatically
-   prefixed by the application context name.
- * If cookies are not enabled or this is not yet known, a `";jsessionid=..."`
-   suffix might be added to relative URLs so that the session is preserved. This
-   is called _URL Rewriting_ and Thymeleaf allows you to plug in your own
-   rewriting filters by using the `response.encodeURL(...)` mechanism from the
-   Servlet API for every URL.
- * The `th:href` attribute allows us to (optionally) have a working static `href`
-   attribute in our template, so that our template links remained navigable by a
-   browser when opened directly for prototyping purposes.
+* `th:href` es un atributo modificador: una vez procesado, calculará la URL del
+  enlace que se utilizará y establecerá ese valor en el atributo `href` de la
+  etiqueta `<a>`.
+* Se permite usar expresiones para los parámetros de URL (como se puede ver en
+  `orderId=${o.id}`). Las operaciones de codificación de parámetros de URL
+  requeridas también se realizarán automáticamente.
+* Si se necesitan varios parámetros, se separarán con comas:
+  `@{/order/process(execId=${execId},execType='FAST')}`
+* También se permiten plantillas de variables en las rutas de URL:
+  `@{/order/{orderId}/details(orderId=${orderId})}`
+* Las URL relativas que empiezan por `/` (p. ej., `/order/details`) tendrán
+  automáticamente como prefijo el nombre del contexto de la aplicación.
+* Si las cookies no están habilitadas o aún no se conocen, se podría añadir el
+  sufijo `";jsessionid=..."` a las URL relativas para preservar la sesión. Esto
+  se llama _Reescritura de URL_ y Thymeleaf le permite conectar sus propios
+  filtros de reescritura mediante el mecanismo `response.encodeURL(...)` de la
+  API de Servlet para cada URL.
+* El atributo `th:href` nos permite (opcionalmente) tener un atributo `href`
+  estático funcional en nuestra plantilla, de modo que los enlaces de nuestra
+  plantilla sigan siendo navegables por un navegador al abrirlos directamente
+  para fines de creación de prototipos.
 
-As was the case with the message syntax (`#{...}`), URL bases can also be the
-result of evaluating another expression:
+Como fue el caso con la sintaxis de mensajes (`#{...}`) las bases de las URL
+pueden ser el resultado de evaluar otra expresión:
 
 ```html
 <a th:href="@{${url}(orderId=${o.id})}">view</a>
@@ -1210,8 +1226,8 @@ result of evaluating another expression:
 
 ### Un menú para nuestra página de inicio
 
-Now that we know how to create link URLs, what about adding a small menu in our
-home page for some of the other pages in the site?
+Ahora que sabemos como crear URL de enlace, ¿Qué tal si añadimos un pequeño
+menú en nuestra página de inicio para algunas de las otras páginas del sitio?
 
 ```html
 <p>Please select an option</p>
@@ -1225,25 +1241,27 @@ home page for some of the other pages in the site?
 
 ### URL relativas a la raíz del servidor
 
-An additional syntax can be used to create server-root-relative (instead of
-context-root-relative) URLs in order to link to different contexts in the same
-server. These URLs will be specified like `@{~/path/to/something}`
+Se puede usar una sintaxis adicional para crear URL relativas a la raíz del
+servidor (en vez de relativas a la raíz del contexto) para enlazar a diferentes
+contextos en el mismo servidor. Estas URL se especificarán como
+`@{~/path/to/something}`.
 
 4.5 Fragmentos
 --------------
 
-Fragment expressions are an easy way to represent fragments of markup and move
-them around templates. This allows us to replicate them, pass them to other
-templates as arguments, and so on.
+Las expresiones de fragmento son una forma fácil de representar fragmentos de
+marco y moverlos entre las plantillas. Esto nos permite replicarlas, pasarlas
+a otras plantillas como argumentos, etc.
 
-The most common use is for fragment insertion using `th:insert` or `th:replace`
-(more on these in a later section):
+El uso más común es para la inserción de fragmentos usando `th:insert` o
+`th:replace` (más sobre esto en una sección posterior):
 
 ```html
 <div th:insert="~{commons :: main}">...</div>
 ```
 
-But they can be used anywhere, just as any other variable:
+Pero pueden ser utilizadas en cualquier parte, al igual que cualquier otra
+variable:
 
 ```html
 <div th:with="frag=~{footer :: #main/text()}">
@@ -1251,17 +1269,18 @@ But they can be used anywhere, just as any other variable:
 </div>
 ```
 
-Later in this tutorial there is an entire section devoted to Template Layout,
-including deeper explanation of fragment expressions.
+Más tarde en este tutorial hay una sección entera dedicada al Diseño de
+Plantillas, incluyendo una explicación más profunda de las expresiones de
+fragmento.
 
 4.6 Literales
 -------------
 
 ### Literales de texto
 
-Text literals are just character strings specified between single quotes. They
-can include any character, but you should escape any single quotes inside them
-using `\'`.
+Los literales de texto son simplemente cadenas de caracteres delimitados entre
+comillas simples. Pueden incluir cualquier carácter, pero deberá escapar
+cualquier comilla simple dentro de ellas usando `\'`.
 
 ```html
 <p>
@@ -1271,7 +1290,7 @@ using `\'`.
 
 ### Literales numéricos
 
-Numeric literals are just that: numbers.
+Los literales numéricos son simplemente eso: números.
 
 ```html
 <p>The year is <span th:text="2013">1492</span>.</p>
@@ -1280,44 +1299,46 @@ Numeric literals are just that: numbers.
 
 ### Literales booleanos
 
-The boolean literals are `true` and `false`. For example:
+Los literales booleanos son `true` y `false`. Por ejemplo:
 
 ```html
-<div th:if="${user.isAdmin()} == false"> ...</div>
+<div th:if="${user.isAdmin()} == false"> ...
 ```
 
-In this example, the `== false` is written outside the braces, and so it is
-Thymeleaf that takes care of it. If it were written inside the braces, it would
-be the responsibility of the OGNL/SpringEL engines:
+En este ejemplo, el `== false` está escrito fuera de las llaves, y así es
+Thymeleaf quien se cuida de ello. Si estuviera escrito dentro de las llaves,
+sería responsabilidad de los motores OGNL/SpringEL:
 
 ```html
-<div th:if="${user.isAdmin() == false}"> ...</div>
+<div th:if="${user.isAdmin() == false}"> ...
 ```
 
 ### El literal null (nulo)
 
-The `null` literal can be also used:
+El literal `null` puede ser también usado:
 
 ```html
-<div th:if="${variable.something} == null"> ...</div>
+<div th:if="${variable.something} == null"> ...
 ```
 
 ### Literales de identificadores (tokens)
 
-Numeric, boolean and null literals are in fact a particular case of _literal tokens_.
+Los literales numéricos, booleanos y nulo son en realidad un caso particular de
+los _literales de identificadores_.
 
-These tokens allow a little bit of simplification in Standard Expressions. They
-work exactly the same as text literals (`'...'`), but they only allow letters (`A-Z`
-and `a-z`), numbers (`0-9`), brackets (`[` and `]`), dots (`.`), hyphens (`-`)
-and underscores (`_`). So no whitespaces, no commas, etc.
+Estos identificadores (tokens) permiten un poco de simplificación en las
+Expresiones Estándar. Trabajan exactamente de la misma forma que los literales
+de texto (`'...'`), pero éstos solo permiten letras (`A-Z` y `a-z`), números
+(`0-9`), corchetes (`[` y `]`), puntos (`.`), guiones (`-`) y subrayados (`_`).
+Así que nada de espacios en blanco, ni comas, etc.
 
-The nice part? Tokens don't need any quotes surrounding them. So we can do this:
+¿Lo bueno? Los identificadores no necesitan comillas. Así que podemos hacer esto:
 
 ```html
 <div th:class="content">...</div>
 ```
 
-instead of:
+en lugar de:
 
 ```html
 <div th:class="'content'">...</div>
@@ -1326,8 +1347,8 @@ instead of:
 4.7 Agregar textos
 ------------------
 
-Texts, no matter whether they are literals or the result of evaluating variable
-or message expressions, can be easily appended using the `+` operator:
+Los textos, sin importar si son literales o el resultado de evaluar expresiones
+variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
 
 ```html
 <span th:text="'The name of the user is ' + ${user.name}">...</span>
@@ -1336,58 +1357,61 @@ or message expressions, can be easily appended using the `+` operator:
 4.8 Sustituciones de literales
 ------------------------------
 
-Literal substitutions allow for an easy formatting of strings containing values
-from variables without the need to append literals with `'...' + '...'`.
+Las sustituciones literales permiten formatear fácilmente cadenas que contienen
+valores de variables sin la necesidad de agregar literales con `'...' + '...'`.
 
-These substitutions must be surrounded by vertical bars (`|`), like:
-
-```html
-<span th:text="|Welcome to our application, ${user.name}!|">...</span>
-```
-
-Which is equivalent to:
+Estas sustituciones deben estar rodeadas de barras verticales (`|`), como:
 
 ```html
-<span th:text="'Welcome to our application, ' + ${user.name} + '!'">...</span>
+<span th:text="|Welcome to our application, ${user.name}!|">
 ```
 
-Literal substitutions can be combined with other types of expressions:
+Lo cual es equivalente a:
+
+```html
+<span th:text="'Welcome to our application, ' + ${user.name} + '!'">
+```
+
+Las sustituciones literales se pueden combinar con otros tipos de expresiones:
 
 ```html
 <span th:text="${onevar} + ' ' + |${twovar}, ${threevar}|">...</span>
 ```
 
-> Only variable/message expressions (`${...}`, `*{...}`, `#{...}`) are allowed 
-> inside `|...|` literal substitutions. No other literals (`'...'`), 
-> boolean/numeric tokens, conditional expressions etc. are. 
+> Solo las expresiones de mensaje/variables (`${...}`, `*{...}`, `#{...}`) se
+> permiten dentro de las substituciones de literales `|...|`. No se permiten
+> otros literales (`'...'`), identificadores booleanos/numéricos, expresiones
+> condicionales, etc.
 
 4.9  Operaciones aritméticas
 ----------------------------
 
-Some arithmetic operations are also available: `+`, `-`, `*`, `/` and `%`.
+También se encuentran disponibles algunas operaciones aritméticas:
+`+`, `-`, `*`, `/` y `%`.
 
 ```html
-<div th:with="isEven=(${prodStat.count} % 2 == 0)">...</div>
+<div th:with="isEven=(${prodStat.count} % 2 == 0)">
 ```
 
-Note that these operators can also be applied inside OGNL variable expressions
-themselves (and in that case will be executed by OGNL instead of the Thymeleaf
-Standard Expression engine):
+Tenga en cuenta de que estos operadores pueden también ser utilizados dentro de
+expresiones OGNL por sí mismos (y en ese caso serán ejecutados por OGNL en vez
+del motor de Expresiones Estándar de Thymeleaf):
 
 ```html
-<div th:with="isEven=${prodStat.count % 2 == 0}">...</div>
+<div th:with="isEven=${prodStat.count % 2 == 0}">
 ```
 
-Note that textual aliases exist for some of these operators: `div` (`/`), `mod` (`%`).
+Tenga en cuenta de que existen alias textuales para algunos de estos operadores:
+`div` (`/`), `mod` (`%`).
 
 4.10 Comparadores e igualdad
 ----------------------------
 
-Values in expressions can be compared with the `>`, `<`, `>=` and `<=` symbols,
-and the `==` and `!=` operators can be used to check for equality (or the lack
-of it). Note that XML establishes that the `<` and `>` symbols should not be
-used in attribute values, and so they should be substituted by `&lt;` and
-`&gt;`.
+Los valores en las expresiones pueden compararse con los símbolos
+`>`, `<`, `>=` y `<=`, y los operadores `==` y `!=` se pueden utilizar para
+comprobar la igualdad (o la ausencia de ella). Dese cuenta de que XML establece
+que los símbolos `<` y `>` no deberían utilizarse como valores de atributos, y
+por ello deben sustituirse por `&lt;` y `&gt;`.
 
 ```html
 <div th:if="${prodStat.count} &gt; 1">
@@ -1395,19 +1419,19 @@ used in attribute values, and so they should be substituted by `&lt;` and
 </div>
 ```
 
-A simpler alternative may be using textual aliases that exist for some of these
-operators: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`), `not` (`!`). Also
-`eq` (`==`), `neq`/`ne` (`!=`).
+Una alternativa más simple podría ser usar los alias textuales que existen para
+algunos de estos operandos: `gt` (`>`), `lt` (`<`), `ge` (`>=`), `le` (`<=`),
+`not` (`!`). También `eq` (`==`), `neq`/`ne` (`!=`).
 
 4.11 Expresiones condicionales
 ------------------------------
 
-_Conditional expressions_ are meant to evaluate only one of two expressions
-depending on the result of evaluating a condition (which is itself another
-expression).
+Las _expresiones condicionales_ están destinadas a evaluar solo una de dos
+expresiones dependiendo del resultado de evaluar una condición (que es en sí
+otra expresión).
 
-Let's have a look at an example fragment (introducing another _attribute modifier_,
-`th:class`):
+Echemos una mirada a un fragmento de ejemplo (introduciendo otro _modificador de
+atributos_, `th:class`):
 
 ```html
 <tr th:class="${row.even}? 'even' : 'odd'">
@@ -1415,11 +1439,11 @@ Let's have a look at an example fragment (introducing another _attribute modifie
 </tr>
 ```
 
-All three parts of a conditional expression (`condition`, `then` and `else`) are
-themselves  expressions, which means that they can be variables (`${...}`, `*{...}`),
-messages (`#{...}`), URLs (`@{...}`) or literals (`'...'`).
+Todas las partes de una expresión condicional (`condition`, `then` y `else`) son
+por sí mismas expresiones, lo que significa que pueden ser variables (`${...}`,
+`*{...}`), mensajes (`#{...}`), URL (`@{...}`) o literales (`'...'`).
 
-Conditional expressions can also be nested using parentheses:
+Las expresiones condicionales pueden también anidarse usando paréntesis:
 
 ```html
 <tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">
@@ -1427,8 +1451,8 @@ Conditional expressions can also be nested using parentheses:
 </tr>
 ```
 
-Else expressions can also be omitted, in which case a null value is returned if
-the condition is false:
+Las expresiones Else pueden omitirse, en cuyo caso se devuelve un valor nulo si 
+la condición es falsa:
 
 ```html
 <tr th:class="${row.even}? 'alt'">
@@ -1439,12 +1463,12 @@ the condition is false:
 4.12 Expresiones predeterminadas (operador Elvis)
 -------------------------------------------------
 
-A _default expression_ is a special kind of conditional value without a _then_
-part. It is equivalent to the _Elvis operator_ present in some languages like
-Groovy, lets you specify two expressions: the first one is used if it doesn't
-evaluate to null, but if it does then the second one is used.
+Una _expresión por defecto_ es una clase especial de valor condicional sin una
+parte _then_. Es el equivalente al _Operador elvis_ presente en algunos lenguajes
+como Groovy, permitiéndole especificar dos expresiones: la primera se usa si no
+evalúa a nulo, pero si lo hace entonces se usa la segunda.
 
-Let's see it in action in our user profile page:
+Veamos esto en acción en nuestra página de perfil de usuario:
 
 ```html
 <div th:object="${session.user}">
@@ -1453,16 +1477,16 @@ Let's see it in action in our user profile page:
 </div>
 ```
 
-As you can see, the operator is `?:`, and we use it here to specify a default
-value for a name (a literal value, in this case) only if the result of
-evaluating `*{age}` is null. This is therefore equivalent to:
+Como puede ver, el operador es `?:`, y lo usamos aquí para especificar un valor
+por defecto para un nombre (un valor literal, en este caso) solo si el resultado
+de evaluar `*{age}` es nulo. Esto es, por lo tanto, equivalente a:
 
 ```html
 <p>Age: <span th:text="*{age != null}? *{age} : '(no age specified)'">27</span>.</p>
 ```
 
-As with conditional values, they can contain nested expressions between
-parentheses:
+Como con los valores condicionales, pueden contener expresiones anidadas entre
+paréntesis:
 
 ```html
 <p>
@@ -1474,21 +1498,22 @@ parentheses:
 4.13 El identificador (token) de no operación
 ---------------------------------------------
 
-The No-Operation token is represented by an underscore symbol (`_`).
+El identificador No-Operación se representa por un símbolo de subrayado (`_`).
 
-The idea behind this token is to specify that the desired result for an
-expression is to *do nothing*, i.e. do exactly as if the processable attribute
-(e.g. `th:text`) was not there at all.
+La idea detrás de este identificador es especificar que el resultado deseado
+para una expresión es *no hacer nada*, por ejemplo, haga exactamente como si el
+atributo procesable (por ejemplo, `th:text`) no existiera en absoluto.
 
-Among other possibilities, this allows developers to use prototyping text as
-default values. For example, instead of:
+Entre otras posibilidades, esto permite a los desarrolladores a usar texto
+prototipado como valores por defecto. Por ejemplo, en vez de:
 
 ```html
 <span th:text="${user.name} ?: 'no user authenticated'">...</span>
 ```
 
-...we can directly use *'no user authenticated'* as a prototyping text, which results in code that 
-is both more concise and versatile from a design standpoint:
+... Podemos usar directamente *'no user authenticated'* como un texto
+prototipado, lo que resulta en un código que es más conciso y versátil desde un
+punto de vista de diseño:
 
 ```html
 <span th:text="${user.name} ?: _">no user authenticated</span>

@@ -732,13 +732,13 @@ hay algo en el código que lo que no hemos pensado... ¿Qué pasaría si tenemos
 mensaje como este?
 
 ```java
-home.welcome=¡Bienvenido a nuestra <b>fantástica</b> tienda de comestibles!
+home.welcome=Welcome to our <b>fantastic</b> grocery store!
 ```
 
 Si ejecutamos esta plantilla como antes, obtendremos:
 
 ```html
-<p>¡Bienvenido a nuestra  &lt;b&gt;fantástica&lt;/b&gt; tienda de comestibles!</p>
+<p>Welcome to our &lt;b&gt;fantastic&lt;/b&gt; grocery store!</p>
 ```
 
 Lo que no es exactamente lo que esperábamos, porque nuestra etiqueta `<b>` ha 
@@ -749,10 +749,10 @@ Thymeleaf respete nuestras etiquetas HTML y no las escape, tendremos que usar un
 atributo diferente: `th:utext` (para "texto sin escapar"):
 
 ```html
-<p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
+<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
 ```
 
-Esto sacará nuestro mensaje tal como lo queríamos:
+Esto mostrará nuestro mensaje tal como lo queríamos:
 
 
 ```html
@@ -765,9 +765,9 @@ Ahora agreguemos algo de más contenido a nuestra página de inicio. Por ejemplo
 podremos querer visualizar la fecha debajo de nuestro mensaje de bienvenida, así:
 
 ```
-¡Bienvenido a nuestra fantástica tienda de comestibles!
+Welcome to our fantastic grocery store!
 
-Hoy es: 12 julio 2010
+Today is: 12 july 2010
 ```
 
 En primer lugar, tendremos que modificar nuestro controlador para que agreguemos 
@@ -793,13 +793,11 @@ public void process(
 
 Hemos agregado una variable `String` llamada `today` a nuestro contexto, y ahora 
 podemos visualizarla en nuestra plantilla:
+
 ```html
 <body>
-
-  <p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
-
-  <p>Hoy es: <span th:text="${today}">13 febrero 2011</span></p>
-  
+  <p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
+  <p>Today is: <span th:text="${today}">13 February 2011</span></p>
 </body>
 ```
 
@@ -813,7 +811,7 @@ mapa de variables del contexto del que hablamos antes.
 
 La expresión `${today}` simplemente significa "obtén la variable llamada today", 
 pero estas expresiones podrían ser más complejas (como `${user.name}`) para 
-"obtener la variable llamada usuario, y llamar su método "getName()"
+"obtener la variable llamada usuario, y llamar su método "getName()".
 
 Existen muchas posibilidades en los valores de los atributos: mensajes, 
 expresiones de variables... y mucho más. El siguiente capítulo nos mostrará 
@@ -830,9 +828,9 @@ Ya hemos visto dos tipos de valores de atributos válidos expresados en esta
 sintaxis: expresiones de mensajes y variables:
 
 ```html
-<p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
+<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
 
-<p>Hoy es: <span th:text="${today}">13 febrero 2011</span></p>
+<p>Today is: <span th:text="${today}">13 february 2011</span></p>
 ```
 
 Pero existen más tipos de expresiones, y más detalles interesantes que aprender 
@@ -846,14 +844,14 @@ características de las expresiones estándar:
     * Expresiones de Enlace URL: `@{...}`
     * Expresiones de Fragmento: `~{...}`
  * Literales
-    * Literales de texto: `'one text'`, `'Another one!'`,...
+    * Literales de texto: `'un texto'`, `'¡Otro texto!'`,...
     * Literales de número: `0`, `34`, `3.0`, `12.3`,...
     * Literales booleanos: `true`, `false`
     * Literal nulo (null): `null`
-    * Literal de ficha (token): `one`, `sometext`, `main`,...
+    * Literales de identificadores (tokens): `uno`, `alguntexto`, `principal`,...
  * Operaciones de texto: 
     * Concatenación de cadenas: `+`
-    * Substituciones en literales: `|The name is ${name}|`
+    * Substituciones en literales: `|El nombre es  ${nombre}|`
  * Operaciones aritméticas:
     * Operadores binarios: `+`, `-`, `*`, `/`, `%`
     * Signo menos (operador unario): `-`
@@ -866,14 +864,14 @@ características de las expresiones estándar:
  * Operadores condicionales:
     * If-then: `(if) ? (then)`
     * If-then-else: `(if) ? (then) : (else)`
-    * Valor por defecto: `(value) ?: (defaultvalue)`
- * Fichas (Tokens) especiales :
+    * Valor por defecto: `(valor) ?: (valor_por_defecto)`
+ * Identificadores (Tokens) especiales :
     * Operación nula: `_`
 
 Todas estas características pueden combinarse y anidarse:
 
 ```html
-'Usuario es del tipo: ' + ( ' + (${user.isAdmin()} ? 'Administrador' : (${user.type} ?: 'Desconocido'))
+'User is of type ' + (${user.isAdmin()} ? 'Administrator' : (${user.type} ?: 'Unknown'))
 ```
 
 4.1 Mensajes
@@ -882,10 +880,10 @@ Todas estas características pueden combinarse y anidarse:
 Como ya sabemos, las expresiones de mensaje `#{...}` nos permiten vincular esto:
 
 ```html
-<p th:utext="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
+<p th:utext="#{home.welcome}">Welcome to our grocery store!</p>
 ```
 
-... A esto:
+...a esto:
 
 ```
 home.welcome=¡Bienvenido a nuestra tienda de comestibles!
@@ -917,7 +915,7 @@ llamado `user`, podríamos tener:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
-  ¡Bienvenido a nuestra tienda de comestibles, Sebastian Pepper!
+  Welcome to our grocery store, Sebastian Pepper!
 </p>
 ```
 
@@ -931,7 +929,7 @@ La misma clave del mensaje puede provenir de una variable:
 
 ```html
 <p th:utext="#{${welcomeMsgKey}(${session.user.name})}">
-    ¡Bienvenido a nuestra tienda de comestibles, Sebastian Pepper!
+  Welcome to our grocery store, Sebastian Pepper!
 </p>
 ```
 
@@ -939,20 +937,20 @@ La misma clave del mensaje puede provenir de una variable:
 -------------
 
 Ya mencionamos que las expresiones `${...}` son en realidad expresiones OGNL
-(Lenguaje de Navegación Objeto-Gráfico) ejecutadas sobre el mapa de variables 
+(Lenguaje de Navegación de Grafos de Objetos) ejecutadas sobre el mapa de variables 
 contenidas en el contexto.
 
-> Para información detallada sobre la sintaxis OGNL y sus características, consulte 
-> la guía [Guía del Lenguaje OGNL](http://commons.apache.org/ognl/)
+> Para información detallada sobre la sintaxis OGNL y sus características,
+> consulte la guía [Guía del Lenguaje OGNL](http://commons.apache.org/ognl/)
 > 
-> En aplicaciones que habilitan Spring MVC OGNL será reemplazado con **SpringEL**, pero 
-> su sintaxis es muy similar a la de OGNL (En realidad, exactamente lo mismo 
-> para la mayoría de los casos comunes).
+> En aplicaciones que habilitan Spring MVC OGNL será reemplazado con 
+> **SpringEL**, pero su sintaxis es muy similar a la de OGNL (En realidad, 
+> exactamente la misma para la mayoría de los casos comunes).
 
 De la sintaxis de OGNL, sabemos que la expresión en:
 
 ```html
-<p>Hoy es: <span th:text="${today}">13 febrero 2011</span>.</p>
+<p>Today is: <span th:text="${today}">13 february 2011</span>.</p>
 ```
 
 ...es en realidad equivalente a esto:
@@ -966,11 +964,11 @@ funciona esto:
 
 ```html
 <p th:utext="#{home.welcome(${session.user.name})}">
-    ¡Bienvenido a nuestra tienda de comestibles, Sebastian Pepper!
+  Welcome to our grocery store, Sebastian Pepper!
 </p>
 ```
 
-... Obtiene el nombre de usuario ejecutando:
+... obtiene el nombre de usuario ejecutando:
 
 ```java
 ((User) ctx.getVariable("session").get("user")).getName();
@@ -987,12 +985,13 @@ ${person.father.name}
 
 /*
  * El acceso a propiedades puede también realizarse usando corchetes ([]) y 
- * escribir el nombre de la propiedad como una variable o entre comillas simples.
+ * escribiendo el nombre de la propiedad como una variable o entre comillas 
+ * simples.
  */
 ${person['father']['name']}
 
 /*
- * Si el objeto es un map, tanto el punto como la sintaxis de corchete serán 
+ * Si el objeto es un mapa, tanto el punto como la sintaxis de corchete serán 
  * equivalentes a ejecutar una llamada a su método get(...).
  */
 ${countriesByCode.ES}
@@ -1013,7 +1012,7 @@ ${person.createCompleteNameWithSeparator('-')}
 
 ### Objetos básicos de Expresiones
 
-Cuando se evaluan las expresiones OGNL en las variables del contexto, algunos 
+Cuando se evalúan las expresiones OGNL en las variables del contexto, algunos 
 objetos se ponen a disposición de las expresiones para mayor flexibilidad. Estos 
  objetos se referenciarán (según el estándar OGNL) comenzando con el símbolo `#`:
 
@@ -1024,12 +1023,12 @@ objetos se ponen a disposición de las expresiones para mayor flexibilidad. Esto
 Así que podemos hacer esto:
 
 ```html
-País de configuración regional establecido: <span th:text="${#locale.country}">ES</span>.
+Established locale country: <span th:text="${#locale.country}">US</span>.
 ```
 
 Puede leer la referencia completa de estos objetos en el [Apéndice A](#18-apéndice-a-objetos-básicos-de-expresión). 
 
-### Objetos de utilidad de expresión
+### Objetos de utilidad para expresiones
 
 Además de estos objetos básicos, Thymeleaf nos ofrecerá un conjunto de objetos de 
 utilidad que nos ayudarán a realizar tareas comunes en nuestras expresiones.
@@ -1091,7 +1090,7 @@ templateEngine.process("home", ctx, writer);
 
 ```html
 <p>
-  Hoy es: <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 Mayo 2011</span>
+  Today is: <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 May 2011</span>
 </p>
 ```
 
@@ -1112,9 +1111,9 @@ atributo `th:object`. Usemos uno en nuestra página de perfil de usuario
 
 ```html
   <div th:object="${session.user}">
-    <p>Nombre: <span th:text="*{firstName}">Sebastian</span>.</p>
-    <p>Apellidos: <span th:text="*{lastName}">Pepper</span>.</p>
-    <p>Nacionalidad: <span th:text="*{nationality}">Saturno</span>.</p>
+    <p>Name: <span th:text="*{firstName}">Sebastian</span>.</p>
+    <p>Surname: <span th:text="*{lastName}">Pepper</span>.</p>
+    <p>Nationality: <span th:text="*{nationality}">Saturn</span>.</p>
   </div>
 ```
 
@@ -1122,9 +1121,9 @@ Lo cual es exactamente equivalente a:
 
 ```html
 <div>
-  <p>Nombre: <span th:text="${session.user.firstName}">Sebastian</span>.</p>
-  <p>Apellidos: <span th:text="${session.user.lastName}">Pepper</span>.</p>
-  <p>Nacionalidad: <span th:text="${session.user.nationality}">Saturno</span>.</p>
+  <p>Name: <span th:text="${session.user.firstName}">Sebastian</span>.</p>
+  <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>
+  <p>Nationality: <span th:text="${session.user.nationality}">Saturn</span>.</p>
 </div>
 ```
 
@@ -1132,9 +1131,9 @@ Por supuesto, la sintaxis del dólar y del asterisco se puede mezclar:
 
 ```html
 <div th:object="${session.user}">
-  <p>Nombre: <span th:text="*{firstName}">Sebastian</span>.</p>
-  <p>Apellidos: <span th:text="${session.user.lastName}">Pepper</span>.</p>
-  <p>Nacionalidad: <span th:text="*{nationality}">Saturno</span>.</p>
+  <p>Name: <span th:text="*{firstName}">Sebastian</span>.</p>
+  <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>
+  <p>Nationality: <span th:text="*{nationality}">Saturn</span>.</p>
 </div>
 ```
 
@@ -1144,9 +1143,9 @@ estará disponible para las expresiones en dólares como la variable de expresi�
 
 ```html
 <div th:object="${session.user}">
-  <p>Nombre: <span th:text="${#object.firstName}">Sebastian</span>.</p>
-  <p>Apellidos: <span th:text="${session.user.lastName}">Pepper</span>.</p>
-  <p>Nacionalidad: <span th:text="*{nationality}">Saturno</span>.</p>
+  <p>Name: <span th:text="${#object.firstName}">Sebastian</span>.</p>
+  <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>
+  <p>Nationality: <span th:text="*{nationality}">Saturn</span>.</p>
 </div>
 ```
 
@@ -1155,9 +1154,9 @@ de dólar y asterisco son equivalentes.
 
 ```html
 <div>
-  <p>Nombre: <span th:text="*{session.user.name}">Sebastian</span>.</p>
-  <p>Apellidos: <span th:text="*{session.user.surname}">Pepper</span>.</p>
-  <p>Nacionalidad: <span th:text="*{session.user.nationality}">Saturno</span>.</p>
+  <p>Name: <span th:text="*{session.user.name}">Sebastian</span>.</p>
+  <p>Surname: <span th:text="*{session.user.surname}">Pepper</span>.</p>
+  <p>Nationality: <span th:text="*{session.user.nationality}">Saturn</span>.</p>
 </div>
 ```
 4.4 Enlaces a URL
@@ -1184,8 +1183,8 @@ que está registrada dentro del objeto `ITemplateEngine` que está siendo usado.
 
 De forma predeterminada, se registra una única implementación de esta interfaz 
 de la clase `org.thymeleaf.linkbuilder.StandardLinkBuilder`, lo cual es 
-suficiente tanto para entornos web como offline basados en la API de Servlet. 
-Otros escenarios (como la integración con frameworks web que no utilizan la API 
+suficiente tanto para entornos web como offline basados en la IPA de Servlet. 
+Otros escenarios (como la integración con frameworks web que no utilizan la IPA 
 de Servlet) podrían requerir implementaciones específicas de la interfaz del 
 constructor de enlaces.
 
@@ -1194,13 +1193,13 @@ Usemos esta nueva sintaxis. Conozca el atributo `th:href`:
 ```html
 <!-- Producirá 'http://localhost:8080/gtvg/order/details?orderId=3' (mas reescritura) -->
 <a href="details.html" 
-   th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">ver</a>
+   th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>
 
 <!-- Producirá '/gtvg/order/details?orderId=3' (mas reescritura) -->
-<a href="details.html" th:href="@{/order/details(orderId=${o.id})}">ver</a>
+<a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
 
 <!-- Producirá '/gtvg/order/3/details' (mas reescritura) -->
-<a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">ver</a>
+<a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">view</a>
 ```
 
 Algunas cosas a tener en cuenta aquí:
@@ -1217,9 +1216,9 @@ Algunas cosas a tener en cuenta aquí:
    `@{/order/{orderId}/details(orderId=${orderId})}`
  * Las URL relativas que empiezan por `/` (p. ej., `/order/details`) tendrán 
    automáticamente como prefijo el nombre del contexto de la aplicación.
- * Si las cookies no están habilitadas o aún no se conoce, se podría añadir el 
+ * Si las cookies no están habilitadas o aún no se conocen, se podría añadir el 
    sufijo `";jsessionid=..."` a las URL relativas para preservar la sesión. Esto 
-   se llama _Reescritura de URL_ y Thymeleaf te permite conectar tus propios 
+   se llama _Reescritura de URL_ y Thymeleaf le permite conectar sus propios 
    filtros de reescritura mediante el mecanismo `response.encodeURL(...)` de la 
    API de Servlet para cada URL.
  * El atributo `th:href` nos permite (opcionalmente) tener un atributo `href` 
@@ -1231,8 +1230,8 @@ Como fue el caso con la sintaxis de mensajes (`#{...}`) las bases de las URL
 pueden ser el resultado de evaluar otra expresión:
 
 ```html
-<a th:href="@{${url}(orderId=${o.id})}">vista</a>
-<a th:href="@{'/details/'+${user.login}(orderId=${o.id})}">vista</a>
+<a th:href="@{${url}(orderId=${o.id})}">view</a>
+<a th:href="@{'/details/'+${user.login}(orderId=${o.id})}">view</a>
 ```
 
 ### Un menú para nuestra página de inicio
@@ -1241,12 +1240,12 @@ Ahora que sabemos como crear URL de enlace, ¿Qué tal si añadimos un pequeño
 menú en nuestra página de inicio para algunas de las otras páginas del sitio?
 
 ```html
-<p>Por favor, seleccione una opción</p>
+<p>Please select an option</p>
 <ol>
-  <li><a href="product/list.html" th:href="@{/product/list}">Lista de Productos</a></li>
-  <li><a href="order/list.html" th:href="@{/order/list}">Lista de Pedidos</a></li>
-  <li><a href="subscribe.html" th:href="@{/subscribe}">Suscríbete a nuestro boletín informativo</a></li>
-  <li><a href="userprofile.html" th:href="@{/userprofile}">Ver perfil de usuario</a></li>
+  <li><a href="product/list.html" th:href="@{/product/list}">Product List</a></li>
+  <li><a href="order/list.html" th:href="@{/order/list}">Order List</a></li>
+  <li><a href="subscribe.html" th:href="@{/subscribe}">Subscribe to our Newsletter</a></li>
+  <li><a href="userprofile.html" th:href="@{/userprofile}">See User Profile</a></li>
 </ol>
 ```
 
@@ -1255,7 +1254,7 @@ menú en nuestra página de inicio para algunas de las otras páginas del sitio?
 Se puede usar una sintaxis adicional para crear URL relativas a la raíz del 
 servidor (en vez de relativas a la raíz del contexto) para enlazar a diferentes 
 contextos en el mismo servidor. Estas URL se especificarán como 
-`@{~/path/to/something}`
+`@{~/path/to/something}`.
 
 4.5 Fragmentos
 --------------
@@ -1266,11 +1265,11 @@ a otras plantillas como argumentos, etc.
 
 El uso más común es para la inserción de fragmentos usando `th:insert` o 
 `th:replace` (más sobre esto en una sección posterior):
-(more on these in a later section):
 
 ```html
 <div th:insert="~{commons :: main}">...</div>
 ```
+
 Pero pueden ser utilizadas en cualquier parte, al igual que cualquier otra 
 variable:
 
@@ -1295,7 +1294,7 @@ cualquier comilla simple dentro de ellas usando `\'`.
 
 ```html
 <p>
-  Ahora está mirando un  <span th:text="'aplicación web funcional'">fichero de plantilla</span>.
+  Now you are looking at a <span th:text="'working web application'">template file</span>.
 </p>
 ```
 
@@ -1304,8 +1303,8 @@ cualquier comilla simple dentro de ellas usando `\'`.
 Los literales numéricos son simplemente eso: números.
 
 ```html
-<p>El año es  <span th:text="2013">1492</span>.</p>
-<p>En dos años, será <span th:text="2013 + 2">1494</span>.</p>
+<p>The year is <span th:text="2013">1492</span>.</p>
+<p>In two years, it will be <span th:text="2013 + 2">1494</span>.</p>
 ```
 
 ### Literales booleanos
@@ -1334,16 +1333,16 @@ El literal `null` puede ser también usado:
 
 ### Literales de identificadores (tokens)
 
-Los literales numéricos, booleanos y nulo son en realidad un caso particular de 
-_fichas literales_.
+Los literales numéricos, booleanos y nulo son en realidad un caso particular de
+los _literales de identificadores_.
 
-Estas fichas (tokens) permiten un poco de simplificación en las Expresiones 
-Estándar. Trabajan exactamente de la misma forma que los literales de texto 
-(`'...'`), pero estos solo permiten letras (`A-Z` y `a-z`), números (`0-9`), 
-corchetes (`[` y `]`), puntos (`.`), guiones (`-`) y subrayados (`_`). Así que 
-nada de espacios en blanco, ni comas, etc.
+Estos identificadores (tokens) permiten un poco de simplificación en las 
+Expresiones Estándar. Trabajan exactamente de la misma forma que los literales 
+de texto (`'...'`), pero éstos solo permiten letras (`A-Z` y `a-z`), números 
+(`0-9`), corchetes (`[` y `]`), puntos (`.`), guiones (`-`) y subrayados (`_`). 
+Así que nada de espacios en blanco, ni comas, etc.
 
-¿Lo bueno? Los tokens no necesitan comillas. Así que podemos hacer esto:
+¿Lo bueno? Los identificadores no necesitan comillas. Así que podemos hacer esto:
 
 ```html
 <div th:class="content">...</div>
@@ -1362,25 +1361,25 @@ Los textos, sin importar si son literales o el resultado de evaluar expresiones
 variables o de mensajes, se pueden agregar fácilmente usando el operador `+`:
 
 ```html
-<span th:text="'El nombre del usuario es ' + ${user.name}">
+<span th:text="'The name of the user is ' + ${user.name}">
 ```
 
 4.8 Sustituciones de literales
 ------------------------------
 
 Las sustituciones literales permiten formatear fácilmente cadenas que contienen 
-valores de variables sin la necesidad de agregar literales con '...' + '...'`.
+valores de variables sin la necesidad de agregar literales con `'...' + '...'`.
 
 Estas sustituciones deben estar rodeadas de barras verticales (`|`), como:
 
 ```html
-<span th:text="|¡Bienvenido a nuestra aplicación, ${user.name}!|">
+<span th:text="|Welcome to our application, ${user.name}!|">
 ```
 
 Lo cual es equivalente a:
 
 ```html
-<span th:text="'¡Bienvenido a nuestra aplicación, ' + ${user.name} + '!'">
+<span th:text="'Welcome to our application, ' + ${user.name} + '!'">
 ```
 
 Las sustituciones literales se pueden combinar con otros tipos de expresiones:
@@ -1390,7 +1389,7 @@ Las sustituciones literales se pueden combinar con otros tipos de expresiones:
 ```
 > Solo las expresiones de mensaje/variables (`${...}`, `*{...}`, `#{...}`) se 
 > permiten dentro de las substituciones de literales `|...|`. No se permiten 
-> otros literales (`'...'`), tokens booleanos/numéricos, expresiones 
+> otros literales (`'...'`), identificadores booleanos/numéricos, expresiones 
 > condicionales, etc. 
 
 4.9 Operaciones aritméticas
@@ -1402,7 +1401,7 @@ También se encuentran disponibles algunas operaciones aritméticas:
 ```html
 <div th:with="isEven=(${prodStat.count} % 2 == 0)">
 ```
-Dese cuenta de que estos operadores pueden también ser utilizados dentro de 
+Tenga en cuenta de que estos operadores pueden también ser utilizados dentro de 
 expresiones OGNL por sí mismos (y en ese caso serán ejecutados por OGNL en vez 
 del motor de Expresiones Estándar de Thymeleaf):
 
@@ -1410,7 +1409,7 @@ del motor de Expresiones Estándar de Thymeleaf):
 <div th:with="isEven=${prodStat.count % 2 == 0}">
 ```
 
-Dese cuenta de que existen aliases textuales para algunos de estos operadores: 
+Tenga en cuenta de que existen alias textuales para algunos de estos operadores: 
 `div` (`/`), `mod` (`%`).
 
 4.10 Comparadores e igualdad
@@ -1424,7 +1423,8 @@ por ello deben sustituirse por `&lt;` y `&gt;`.
 
 ```html
 <div th:if="${prodStat.count} &gt; 1">
-<span th:text="'El modo de ejecución es ' + ( (${execMode} == 'dev')? 'Desarrollo' : 'Producción')">
+<span th:text="'Execution mode is ' + ( (${execMode} == 'dev')? 'Development' : 'Production')">...</span>
+</div>
 ```
 
 Una alternativa más simple podría ser usar los alias textuales que existen para 
@@ -1459,8 +1459,8 @@ Las expresiones condicionales pueden también anidarse usando paréntesis:
 </tr>
 ```
 
-Las expresiones Else (si no, N. del T.) pueden omitirse, en cuyo caso se devuelve 
-un valor nulo si la condición es falsa:
+Las expresiones Else pueden omitirse, en cuyo caso se devuelve un valor nulo si 
+la condición es falsa:
 
 ```html
 <tr th:class="${row.even}? 'alt'">
@@ -1481,15 +1481,16 @@ Veamos esto en acción en nuestra página de perfil de usuario:
 ```html
 <div th:object="${session.user}">
   ...
-  <p>Edad: <span th:text="*{age}?: '(sin edad especificada)'">27</span>.</p>
+  <p>Age: <span th:text="*{age}?: '(no age specified)'">27</span>.</p>
 </div>
 ```
+
 Como puede ver, el operador es `?:`, y lo usamos aquí para especificar un valor 
 por defecto para un nombre (un valor literal, en este caso) solo si el resultado 
 de evaluar `*{age}` es nulo. Esto es, por lo tanto, equivalente a:
 
 ```html
-<p>Edad: <span th:text="*{age != null}? *{age} : '(sin edad especificada)'">27</span>.</p>
+<p>Age: <span th:text="*{age != null}? *{age} : '(no age specified)'">27</span>.</p>
 ```
 
 Como con los valores condicionales, pueden contener expresiones anidadas entre 
@@ -1497,8 +1498,8 @@ paréntesis:
 
 ```html
 <p>
-  Nombre: 
-  <span th:text="*{firstName}?: (*{admin}? 'Administrador' : #{default.username})">Sebastian</span>
+  Name: 
+  <span th:text="*{firstName}?: (*{admin}? 'Admin' : #{default.username})">Sebastian</span>
 </p>
 ```
 
@@ -1507,22 +1508,22 @@ paréntesis:
 
 El identificador No-Operación se representa por un símbolo de subrayado (`_`).
 
-La idea detrás de este identificador es especificar que el resultado deseado para una 
-expresión es *no hacer nada*, por ejemplo, haga exactamente como si el atributo 
-procesable (por ejemplo, `th:text`) no existiera en absoluto.
+La idea detrás de este identificador es especificar que el resultado deseado 
+para una expresión es *no hacer nada*, por ejemplo, haga exactamente como si el 
+atributo procesable (por ejemplo, `th:text`) no existiera en absoluto.
 
 Entre otras posibilidades, esto permite a los desarrolladores a usar texto 
 prototipado como valores por defecto. Por ejemplo, en vez de:
 
 ```html
-<span th:text="${user.name} ?: 'usuario no autenticado'">...</span>
+<span th:text="${user.name} ?: 'no user authenticated'">...</span>
 ```
-... Podemos usar directamente *'usuario no autenticado'* como un texto 
+... Podemos usar directamente *'no user authenticated'* como un texto 
 prototipado, lo que resulta en un código que es más conciso y versátil desde un 
 punto de vista de diseño:
 
 ```html
-<span th:text="${user.name} ?: _">usuario no autenticado</span>
+<span th:text="${user.name} ?: _">no user authenticated</span>
 ```
 
 4.14 Conversión y Formato de datos

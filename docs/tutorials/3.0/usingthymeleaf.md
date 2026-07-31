@@ -2371,14 +2371,16 @@ La opción predeterminada se especifica como `th:case="*"`:
 
 ### Definición y referencia de fragmentos
 
-In our templates, we will often want to include parts from other templates,
-parts like footers, headers, menus...
+En nuestras plantillas, a menudo querremos incluir partes de otras plantillas,
+partes como pies de página, cabeceras, menús...
 
-In order to do this, Thymeleaf needs us to define these parts, "fragments", for
-inclusion, which can be done using the `th:fragment` attribute. 
+Para poder hacer esto, Thymeleaf necesita que definamos estas partes,
+los "fragmentos", para su inclusión, que se realiza usando el atributo
+`th:fragment`.
 
-Say we want to add a standard copyright footer to all our grocery pages, so we
-create a `/WEB-INF/templates/footer.html` file containing this code:
+Digamos que queremos agregar un pie de página estándar de derechos de autor a
+todas nuestras páginas de comestibles, por lo que creamos un archivo
+`/WEB-INF/templates/footer.html` que contiene este código:
 
 ```html
 <!DOCTYPE html>
@@ -2396,9 +2398,10 @@ create a `/WEB-INF/templates/footer.html` file containing this code:
 </html>
 ```
 
-The code above defines a fragment called `copy` that we can easily include in
-our home page using one of the `th:insert` or `th:replace` attributes (and also
-`th:include`, though its use is no longer recommended since Thymeleaf 3.0):
+El código de arriba define un fragmento llamado `copy` que podemos incluir
+facilmente en nuestra página de inicio usando uno de los atributos  `th:insert`
+o `th:replace` (y también `th:include`, aunque su uso ya no se recomienda desde 
+Thymeleaf 3.0):
 
 ```html
 <body>
@@ -2410,10 +2413,10 @@ our home page using one of the `th:insert` or `th:replace` attributes (and also
 </body>
 ```
 
-Note that `th:insert` expects a *fragment expression* (`~{...}`), which is *an
-expression that results in a fragment*. In the above example though, which is a
-non-complex *fragment expression*, the (`~{`,`}`) enclosing is completely
-optional, so the code above would be equivalent to:
+Fíjese que `th:insert` espera una *expresión de fragmento* (`~{...}`), que es
+una *expresión que da como resultado un fragmento*. En el ejemplo anterior, que 
+es una *expresión de fragmento* no compleja, el delimitador (`~{`,`}`) es 
+completamente opcional, por lo que el código anterior sería equivalente a:
 
 ```html
 <body>
@@ -2427,55 +2430,59 @@ optional, so the code above would be equivalent to:
 
 ### Sintaxis de especificación de fragmentos
 
-The syntax of *fragment expressions* is quite straightforward. There are three
-different formats:
+La sintaxis de las *expresiones de fragmento* es bastante sencilla. Hay tres
+formatos diferentes:
 
- * `"~{templatename::selector}"` Includes the fragment resulting from applying
-   the specified Markup Selector on the template named `templatename`.  Note
-   that `selector` can be a mere fragment name, so you could specify something
-   as simple as `~{templatename::fragmentname}` like in the `~{footer :: copy}`
-   above.
+ * `"~{templatename::selector}"` Incluye el fragmento resultante de aplicar el
+   marcador Selector especificado en la plantilla llamada `templatename`. Fíjese
+   que `selector` puede ser un mero nombre de fragmento, por lo que podría
+   especificar algo tan simple como `~{templatename::fragmentname}` como en el
+   `~{footer :: copy}` anterior.
 
-   > Markup Selector syntax is defined by the underlying AttoParser parsing
-   > library, and is similar to XPath expressions or CSS selectors. See
-   > [Appendix C](#20-appendix-c-markup-selector-syntax) for more info.
+   > La sintaxis del Selector de Marcado se define mediante la biblioteca de
+   > análisis AttoParser y es similar a las de las expresiones XPath o los
+   > selectores CSS. Consulte el
+   > [Apéndice C](#20-apéndice-c-sintaxis-del-selector-de-marcado) para más
+   > información.
 
- * `"~{templatename}"` Includes the complete template named `templatename`.
+ * `"~{templatename}"` Incluye la plantilla completa de nombre  `templatename`.
 
-   > Note that the template name you use in `th:insert`/`th:replace` tags
-   > will have to be resolvable by the Template Resolver currently being used by
-   > the Template Engine.
+   > Fíjese que el nombre de la plantilla que utiliza en las etiquetas
+   > `th:insert`/`th:replace` tendrán que ser resueltas por el
+   > solucionador de Plantillas que actualmente esté usando el Motor de
+   > Plantillas.
 
- * `~{::selector}"` or `"~{this::selector}"` Inserts a fragment from the same
-   template, matching `selector`. If not found on the template where the expression
-   appears, the stack of template calls (insertions) is traversed towards the
-   originally processed template (the *root*), until `selector` matches at 
-   some level.
+ * `~{::selector}"` o `"~{this::selector}"` Insertan un fragmento desde la misma
+   plantilla, que coincida con `selector`.  Si no se encuentra en la plantilla
+   donde aparece la expresión, se recorre la pila de llamadas de plantilla
+   (inserciones) hacia la plantilla procesada originalmente (la *raíz*), hasta
+   que `selector` coincide en algún nivel.
 
-Both `templatename` and `selector` in the above examples can be fully-featured
-expressions (even conditionals!) like:
+Tanto `templatename` como `selector` en los ejemplos de arriba pueden ser
+expresiones con todas las funcionalidades (¡incluso condicionales!) como:
 
 ```html
 <div th:insert="footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser})"></div>
 ```
 
-Note again how the surrounding `~{...}` envelope is optional in `th:insert`/`th:replace`.
+Nótese de nuevo que el contenedor `~{...}` que lo rodea es opcional en 
+`th:insert`/`th:replace`.
 
-Fragments can include any `th:*` attributes. These attributes will be evaluated
-once the fragment is included into the target template (the one with the `th:insert`/`th:replace`
-attribute), and they will be able to reference any context variables defined in
-this target template.
+Los fragmentos pueden incluir cualquier atributo `th:*`. Estos atributos serán
+evaluados una vez el fragmento se incluye dentro de la plantilla objetivo (la
+que contiene el atributo `th:insert`/`th:replace`), y será capaz de referenciar
+cualesquiera variables de contexto definidas en la plantilla objetivo.
 
-> A big advantage of this approach to fragments is that you can write your
-> fragments in pages that are perfectly displayable by a browser, with a
-> complete and even *valid* markup structure, while still retaining the ability
-> to make Thymeleaf include them into other templates.
+> Una gran ventaja de este enfoque para los fragmentos es que puedes escribirlos
+> en páginas que son perfectamente visualizables por un navegador, con una  
+> estructura de marcado completa e incluso *válida*, al tiempo que conservas la
+> capacidad de hacer que Thymeleaf los incluya en otras plantillas.
 
 ### Referenciar fragmentos sin `th:fragment`
 
-Thanks to the power of Markup Selectors, we can include fragments that do not use any 
-`th:fragment` attributes. It can even be markup code coming from a different application 
-with no knowledge of Thymeleaf at all:
+Gracias al poder de los Selectores de Marcado, podemos incluir fragmentos que
+no usen ningún atributo `th:fragment`. Puede incluso ser código fuente que
+proviene de una aplicación diferente sin ningún conocimiento de Thymeleaf:
 
 ```html
 ...
@@ -2485,7 +2492,8 @@ with no knowledge of Thymeleaf at all:
 ...
 ```
 
-We can use the fragment above simply referencing it by its `id` attribute, in a similar way to a CSS selector:
+Podemos usar el fragmento de arriba simplemente referenciándolo por su atributo
+`id`, de forma similar a un selector CSS:
 
 ```html
 <body>
@@ -2499,18 +2507,19 @@ We can use the fragment above simply referencing it by its `id` attribute, in a 
 
 ### Diferencia entre `th:insert` y `th:replace` (y `th:include`)
 
-And what is the difference between `th:insert` and `th:replace` (and `th:include`,
-not recommended since 3.0)?
+¿Y cuál es la diferencia entre `th:insert` y `th:replace` (y `th:include`, que 
+no se recomienda desde la versión 3.0)?
 
- * `th:insert` is the simplest: it will simply insert the specified fragment as the body
-   of its host tag.
+ * `th:insert` simplemente insertará el fragmento especificado como el cuerpo de
+   su etiqueta anfitriona.
 
- * `th:replace` actually *replaces* its host tag with the specified fragment.
+ * `th:replace` en realidad *reemplaza* su etiqueta anfitriona con el fragmento
+   especificado.
 
- * `th:include` is similar to `th:insert`, but instead of inserting the fragment
-   it only inserts the *contents* of this fragment.
+ * `th:include` es similar a `th:insert`, pero en lugar de insertar el 
+   fragmento, solo inserta el *contenido* de este fragmento.
 
-So an HTML fragment like this:
+Así, un fragmento HTML como este:
 
 ```html
 <footer th:fragment="copy">
@@ -2518,7 +2527,7 @@ So an HTML fragment like this:
 </footer>
 ```
 
-...included three times in host `<div>` tags, like this:
+...incluído tres veces en las etiquetas DIV, de esta manera:
 
 ```html
 <body>
@@ -2534,7 +2543,7 @@ So an HTML fragment like this:
 </body>
 ```
 
-...will result in:
+...dará como resultado:
 
 ```html
 <body>
@@ -2561,8 +2570,9 @@ So an HTML fragment like this:
 8.2 Firmas de fragmentos parametrizables
 ----------------------------------------
 
-In order to create a more _function-like_ mechanism for template fragments,
-fragments defined with `th:fragment` can specify a set of parameters:
+Para crear un mecanismo _más funcional_ para los fragmentos de plantilla, los
+fragmentos definidos con `th:fragment` pueden especificar un conjunto de
+parámetros:
 	
 ```html
 <div th:fragment="frag (onevar,twovar)">
@@ -2570,15 +2580,15 @@ fragments defined with `th:fragment` can specify a set of parameters:
 </div>
 ```
 
-This requires the use of one of these two syntaxes to call the fragment from
-`th:insert` or `th:replace`:
+Esto requiere el uso de una de estas dos sintaxis para llamar al fragmento desde
+`th:insert` o `th:replace`:
 
 ```html
 <div th:replace="::frag (${value1},${value2})">...</div>
 <div th:replace="::frag (onevar=${value1},twovar=${value2})">...</div>
 ```
 
-Note that order is not important in the last option:
+Tenga en cuenta que el orden no es importante en la última opción:
 
 ```html
 <div th:replace="::frag (twovar=${value2},onevar=${value1})">...</div>
@@ -2586,7 +2596,7 @@ Note that order is not important in the last option:
 
 ### Variables locales de fragmentos sin firma de fragmento
 
-Even if fragments are defined without arguments like this:
+Incluso si los fragmentos se definen sin argumentos como este:
 
 ```html	
 <div th:fragment="frag">
@@ -2594,34 +2604,36 @@ Even if fragments are defined without arguments like this:
 </div>
 ```
 
-We could use the second syntax specified above to call them (and only the second one):
+Podríamos usar la segunda sintaxis especificada anteriormente para llamarlos (y 
+solo la segunda):
 
 ```html	
 <div th:replace="::frag (onevar=${value1},twovar=${value2})">
 ```
 
-This would be equivalent to a combination of `th:replace` and `th:with`:
+Esto sería equivalente a una combinación de `th:replace` y `th:with`:
 
 ```html	
 <div th:replace="::frag" th:with="onevar=${value1},twovar=${value2}">
 ```
 
-**Note** that this specification of local variables for a fragment -- no matter
-whether it has an argument signature or not -- does not cause the context to be
-emptied prior to its execution. Fragments will still be able to access every
-context variable being used at the calling template like they currently are. 
+**Nota**: Esta especificación de variables locales para un fragmento --
+independientemente de si tiene una firma de argumento o no -- no provoca que el
+contexto se vacíe antes de su ejecución. Los fragmentos podrán acceder a todas
+las variables de contexto utilizadas en la plantilla de llamada, como lo hacen
+actualmente. 
 
 ### th:assert para afirmaciones dentro de la plantilla
 
-The `th:assert` attribute can specify a comma-separated list of expressions
-which should be evaluated and produce true for every evaluation, raising an
-exception if not.
+El atributo `th:assert` puede especificar una lista de expresiones separadas por
+comas que deben evaluarse y producir verdadero para cada evaluación, generando
+una excepción en caso contrario.
 
 ```html
 <div th:assert="${onevar},(${twovar} != 43)">...</div>
 ```
 
-This comes in handy for validating parameters at a fragment signature:
+Esto resulta útil para validar parámetros en una firma de fragmento:
 
 ```html
 <header th:fragment="contentheader(title)" th:assert="${!#strings.isEmpty(title)}">...</header>
@@ -2630,32 +2642,33 @@ This comes in handy for validating parameters at a fragment signature:
 8.3 Diseños flexibles: más allá de la mera inserción de fragmentos
 ------------------------------------------------------------------
 
-Thanks to *fragment expressions*, we can specify parameters for fragments that
-are not texts, numbers, bean objects... but instead fragments of markup.
+Gracias a las *expresiones de fragmento*, podemos especificar parámetros para
+fragmentos que no son textos, números ni objetos bean, sino fragmentos de
+marcado.
 
-This allows us to create our fragments in a way such that they can be *enriched*
-with markup coming from the calling templates, resulting in a very flexible
-**template layout mechanism**.
+Esto nos permite crear nuestros fragmentos de forma que se puedan *enriquecer*
+con el marcado procedente de las plantillas que los llaman, lo que resulta en un
+*mecanismo de diseño de plantillas* muy flexible.
 
-Note the use of the `title` and `links` variables in the fragment below:
+Observe el uso de las variables `title` y `links` en el fragmento a continuación:
 
 ```html
 <head th:fragment="common_header(title,links)">
 
-  <title th:replace="${title}">The awesome application</title>
+  <title th:replace="${title}">Awesome - Main</title>
 
-  <!-- Common styles and scripts -->
+  <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}">
   <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
   <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
 
-  <!--/* Per-page placeholder for additional links */-->
+  <!--/* Marcador de posición por página para enlaces adicionales */-->
   <th:block th:replace="${links}" />
 
 </head>
 ```
 
-We can now call this fragment like:
+Ahora podemos llamar a este fragmento así:
 
 ```html
 ...
@@ -2670,9 +2683,9 @@ We can now call this fragment like:
 ...
 ```
 
-...and the result will use the actual `<title>` and `<link>` tags from our
-calling template as the values of the `title` and `links` variables, resulting
-in our fragment being customized during insertion:
+...y el resultado usará las etiquetas `<title>` y `<link>` de nuestra plantilla
+llamada, de llamada como valores de las variables `title` y `links`, lo que hará
+que nuestro fragmento se personalice durante la inserción:
 
 ```html
 ...
@@ -2680,7 +2693,7 @@ in our fragment being customized during insertion:
 
   <title>Awesome - Main</title>
 
-  <!-- Common styles and scripts -->
+  <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
   <link rel="shortcut icon" href="/awe/images/favicon.ico">
   <script type="text/javascript" src="/awe/sh/scripts/codebase.js"></script>
@@ -2694,8 +2707,8 @@ in our fragment being customized during insertion:
 
 ### Usando el fragmento vacío 
 
-A special fragment expression, the *empty fragment* (`~{}`), can be used for
-specifying *no markup*. Using the previous example:
+Se puede usar una expresión de fragmento especial, el *fragmento vacío* (`~{}`),
+para especificar *sin marcado*. Siguiendo el ejemplo anterior:
 
 ```html
 <head th:replace="base :: common_header(~{::title},~{})">
@@ -2706,9 +2719,9 @@ specifying *no markup*. Using the previous example:
 ...
 ```
 
-Note how the second parameter of the fragment (`links`) is set to the *empty
-fragment* and therefore nothing is written for the `<th:block th:replace="${links}" />`
-block:
+Observe cómo el segundo parámetro del fragmento (`links`) se establece en el
+*fragmento vacío* y, por lo tanto, no se escribe nada para el bloque
+`<th:block th:replace="${links}" />`:
 
 ```html
 ...
@@ -2716,7 +2729,7 @@ block:
 
   <title>Awesome - Main</title>
 
-  <!-- Common styles and scripts -->
+  <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
   <link rel="shortcut icon" href="/awe/images/favicon.ico">
   <script type="text/javascript" src="/awe/sh/scripts/codebase.js"></script>
@@ -2727,9 +2740,9 @@ block:
 
 ### Uso del identificador de no operación
 
-The no-op can be also used as a parameter to a fragment if we just want to let
-our fragment use  its current markup as a default value. Again, using the
-`common_header` example:
+La operación no-operación también se puede usar como parámetro de
+un fragmento si simplemente queremos que nuestro fragmento use su marcado actual
+como valor predeterminado. De nuevo, usando el ejemplo `common_header`:
 
 ```html
 ...
@@ -2744,15 +2757,15 @@ our fragment use  its current markup as a default value. Again, using the
 ...
 ```
 
-See how the `title` argument (first argument of the `common_header` fragment) is
-set to *no-op* (`_`), which results in this part of the fragment not being
-executed at all (`title` = *no-operation*):
+Observe cómo el argumento `title` (primer argumento del fragmento
+`common_header`) se establece en *no-op* (`_`), lo que hace que esta parte del
+fragmento no se ejecute en absoluto (`title` = *no-operation*):
 
 ```html
   <title th:replace="${title}">The awesome application</title>
 ```
 
-So the result is:
+Entonces el resultado es:
 
 ```html
 ...
@@ -2774,12 +2787,13 @@ So the result is:
 
 ### Inserción condicional avanzada de fragmentos
 
-The availability of both the *empty fragment* and *no-operation token* allows us
-to perform conditional insertion of fragments in a very easy and elegant way.
+La disponibilidad tanto del *fragmento vacío* como del *token de no operación*
+nos permite realizar la inserción condicional de fragmentos de forma sencilla y
+elegante.
 
-For example, we could do this in order to insert our `common :: adminhead`
-fragment *only* if the user is an administrator, and insert nothing (empty
-fragment) if not:
+Por ejemplo, podríamos hacer esto para insertar nuestro fragmento
+`common::adminhead` *solo* si el usuario es administrador y no insertar nada
+(fragmento vacío) si no lo es:
 
 ```html
 ...
@@ -2787,9 +2801,9 @@ fragment) if not:
 ...
 ```
 
-Also, we can use the *no-operation token* in order to insert a fragment only if
-the specified condition is met, but leave the markup without modifications if
-the condition is not met:
+También podemos usar el token *no-operation* para insertar un fragmento solo si
+se cumple la condición especificada, pero dejar el marcado sin modificaciones si
+no se cumple la condición:
 
 ```html
 ...
@@ -2799,15 +2813,15 @@ the condition is not met:
 ...
 ```
 
-Additionally, if we have configured our template resolvers to *check for
-existence* of the template resources –- by means of their `checkExistence` flag
--– we can use the existence of the fragment itself as the condition in a *default*
-operation:
+Además, si hemos configurado nuestros solucionadores de plantillas para
+*verificar la existencia* de los recursos de plantilla -- mediante su indicador
+`checkExistence`) --, podemos usar la existencia del propio fragmento como
+condición en una operación *predeterminada*:
 
 ```html
 ...
-<!-- The body of the <div> will be used if the "common :: salutation" fragment  -->
-<!-- does not exist (or is empty).                                              -->
+<!-- El cuerpo de la <div> se usará si el fragmento "common :: salutation"   -->
+<!-- no existe  (o está vacío).                                              -->
 <div th:insert="~{common :: salutation} ?: _">
     Welcome [[${user.name}]], click <a th:href="@{/support}">here</a> for help-desk support.
 </div>
@@ -2817,7 +2831,8 @@ operation:
 8.4 Eliminación de fragmentos de plantilla
 ------------------------------------------
 
-Back to the example application, let's revisit the last version of our product list template:
+Volviendo a la aplicación de ejemplo, revisemos la última versión de nuestra
+plantilla de lista de productos:
 
 ```html
 <table>
@@ -2841,14 +2856,16 @@ Back to the example application, let's revisit the last version of our product l
 </table>
 ```
 
-This code is just fine as a template, but as a static page (when directly open
-by a browser without Thymeleaf processing it) it would not make a nice prototype. 
+Este código funciona bien como plantilla, pero como página estática (al abrirse
+directamente en un navegador sin que Thymeleaf lo procese) no sería un buen
+prototipo.
 
-Why? Because, although perfectly displayable by browsers, that table only has a
-row, and this row has mock data. As a prototype, it simply wouldn't look
-realistic enough... we should have more than one product, _we need more rows_.
+¿Por qué? Porque, aunque se puede visualizar perfectamente en los navegadores,
+esa tabla solo tiene una fila, y esta fila contiene datos ficticios. Como
+prototipo, simplemente no se vería lo suficientemente realista... Deberíamos
+tener más de un producto; _necesitamos más filas_.
 
-So let's add some:
+Agreguemos algunas:
 
 ```html
 <table>
@@ -2889,8 +2906,8 @@ So let's add some:
 </table>
 ```
 
-Ok, now we have three, definitely better for a prototype. But... what will
-happen when we process it with Thymeleaf?:
+Bien, ahora tenemos tres, definitivamente mejor para un prototipo. Pero... ¿Qué
+pasará cuando lo procesemos con Thymeleaf?
 
 ```html
 <table>
@@ -2954,12 +2971,13 @@ happen when we process it with Thymeleaf?:
 </table>
 ```
 
-The last two rows are mock rows! Well, of course they are: iteration was only
-applied to the first row, so there is no reason why Thymeleaf should have
-removed the other two.
+¡Las dos últimas filas son filas simuladas! Claro que sí: la iteración solo se
+aplicó a la primera, así que no hay razón para que Thymeleaf eliminara las otras
+dos.
 
-We need a way to remove those two rows during template processing. Let's use the
-`th:remove` attribute on the second and third `<tr>` tags:
+Necesitamos una forma de eliminar esas dos filas durante el procesamiento de la
+plantilla. Usemos el atributo `th:remove` en la segunda y tercera etiqueta
+`<tr>`:
 
 ```html
 <table>
@@ -3000,7 +3018,7 @@ We need a way to remove those two rows during template processing. Let's use the
 </table>
 ```
 
-Once processed, everything will look again as it should:
+Una vez procesado, todo volverá a verse como debería:
 
 ```html
 <table>
@@ -3047,17 +3065,18 @@ Once processed, everything will look again as it should:
 </table>
 ```
 
-And what does that `all` value in the attribute, mean? `th:remove` can behave in
-five different ways, depending on its value:
+¿Y qué significa el valor `all` en el atributo? `th:remove` puede comportarse de
+cinco maneras diferentes, según su valor:
 
- * `all`: Remove both the containing tag and all its children.
- * `body`: Do not remove the containing tag, but remove all its children.
- * `tag`: Remove the containing tag, but do not remove its children.
- * `all-but-first`: Remove all children of the containing tag except the first one.
- * `none` : Do nothing. This value is useful for dynamic evaluation.
+* `all`: Elimina la etiqueta contenedora y todos sus hijos.
+* `body`: No elimina la etiqueta contenedora, pero sí todos sus hijos.
+* `tag`: Elimina la etiqueta contenedora, pero no sus hijos.
+* `all-but-first`: Elimina todos los hijos de la etiqueta contenedora excepto el
+  primero.
+* `none`: No hace nada. Este valor es útil para la evaluación dinámica.
 
-What can that `all-but-first` value be useful for? It will let us save some `th:remove="all"`
-when prototyping:
+¿Para qué puede ser útil el valor `all-but-first`? Nos permitirá ahorrar
+`th:remove="all"` al crear prototipos.
 
 ```html
 <table>
@@ -3102,32 +3121,31 @@ when prototyping:
 </table>
 ```
 
-The `th:remove` attribute can take any _Thymeleaf Standard Expression_, as long
-as it returns one of the allowed String values (`all`, `tag`, `body`, `all-but-first`
-or `none`).
+El atributo `th:remove` puede aceptar cualquier _Expresión Estándar de
+Thymeleaf_, siempre que devuelva uno de los valores de cadena permitidos
+(`all`, `tag`, `body`, `all-but-first` o `none`).
 
-This means removals could be conditional, like:
+Esto significa que las eliminaciones pueden ser condicionales, como:
 
 ```html
 <a href="/something" th:remove="${condition}? tag : none">Link text not to be removed</a>
 ```
 
-Also note that `th:remove` considers `null` a synonym to `none`, so the
-following works the same as the example above:
+Tenga en cuenta también que `th:remove` considera que `null` es un sinónimo de
+`none`, por lo que lo siguiente funciona igual que el ejemplo anterior:
 
 ```html
 <a href="/something" th:remove="${condition}? tag">Link text not to be removed</a>
 ```
 
-In this case, if `${condition}` is false, `null` will be returned, and thus no
-removal will be performed. 
+En este caso, si `${condition}` es falso, se devolverá `null` y, por lo tanto,
+no se realizará ninguna eliminación.
 
 8.5 Herencia de diseño
 ----------------------
 
-To be able to have a single file as layout, fragments can be used. An example 
-of a simple layout having `title` and `content` using `th:fragment` and 
-`th:replace`:
+Para tener un solo archivo como diseño, se pueden usar fragmentos. Un ejemplo de
+un diseño simple con `title` y `content` usa `th:fragment` y `th:replace`:
 
 ```html
 <!DOCTYPE html>
@@ -3147,9 +3165,9 @@ of a simple layout having `title` and `content` using `th:fragment` and
 </html>
 ```
 
-This example declares a fragment called **layout** having _title_ and _content_ as
-parameters. Both will be replaced on page inheriting it by provided fragment 
-expressions in the example below.
+Este ejemplo declara un fragmento llamado **layout** con _title_ y _content_
+como parámetros. Ambos se reemplazarán en la página que lo herede por las
+expresiones de fragmento proporcionadas en el ejemplo siguiente.
 
 ```html
 <!DOCTYPE html>
@@ -3166,22 +3184,22 @@ expressions in the example below.
 </html>
 ```
 
-In this file, the `html` tag will be replaced by _layout_, but in the layout 
-`title` and `content` will have been replaced by `title` and `section` blocks
-respectively.
+En este archivo, la etiqueta `html` se reemplazará por _layout_, pero en el
+diseño, `title` y `content` se reemplazarán por los bloques `title` y `section`,
+respectivamente.
 
-If desired, the layout can be composed by several fragments as _header_ 
-and _footer_.
+Si se desea, el diseño puede estar compuesto por varios fragmentos como _header_
+y _footer_.
 
 9 Variables locales
 ===================
 
-Thymeleaf calls _local variables_ the variables that are defined for a specific
-fragment of a template, and are only available for evaluation inside that
-fragment.
+Thymeleaf llama _variables locales_ a las variables que se definen para un
+fragmento específico de una plantilla, y que solo están disponibles para la
+evaluación dentro de ese fragmento.
 
-An example we have already seen is the `prod` iter variable in our product list
-page:
+Un ejemplo que ya hemos visto es la variable de iteración `prod` en nuestra
+página de lista de productos:
 
 ```html
 <tr th:each="prod : ${prods}">
@@ -3189,17 +3207,18 @@ page:
 </tr>
 ```
 
-That `prod` variable will be available only within the bounds of the `<tr>` tag.
-Specifically:
+Esa variable `prod` estará disponible solo dentro de los límites de la etiqueta
+`<tr>`. Específicamente:
 
- * It will be available for any other `th:*` attributes executing in that tag
-   with less _precedence_ than `th:each` (which means they will execute after `th:each`).
- * It will be available for any child element of the `<tr>` tag, such as any `<td>`
-   elements.
+* Estará disponible para cualquier otro atributo `th:*` que se ejecute en esa
+  etiqueta con menor _precedencia_ que `th:each` (lo que significa que se
+  ejecutará después de `th:each`).
+* Estará disponible para cualquier elemento hijo de la etiqueta `<tr>`, tales
+  como cualquier elemento `<td>`.
 
-Thymeleaf offers you a way to declare local variables without iteration, using
-the `th:with` attribute, and its syntax is like that of attribute value
-assignments:
+Thymeleaf le ofrece una forma de declarar variables locales sin iteración,
+usando el atributo `th:with`, y su sintaxis es similar a la de las asignaciones
+de valores de atributos:
 
 ```html
 <div th:with="firstPer=${persons[0]}">
@@ -3209,13 +3228,14 @@ assignments:
 </div>
 ```
 
-When `th:with` is processed, that `firstPer` variable is created as a local
-variable and added to the variables map coming from the context, so that it is
-available for evaluation along with any other variables declared in the context,
-but only within the bounds of the containing `<div>` tag.
+Cuando se procesa `th:with`, se crea esa variable `firstPer` como una variable
+local y se agrega al mapa de variables proveniente del contexto, de forma que
+esté disponible para evaluación junto con cualquier otra variable declarada
+en el contexto, pero solo dentro de los límites de la etiqueta `<div>` que la
+contiene.
 
-You can define several variables at the same time using the usual multiple
-assignment syntax:
+Puede definir varias variables al mismo tiempo usando la sintaxis habitual de
+asignación múltiple:
 
 ```html
 <div th:with="firstPer=${persons[0]},secondPer=${persons[1]}">
@@ -3229,14 +3249,15 @@ assignment syntax:
 </div>
 ```
 
-The `th:with` attribute allows reusing variables defined in the same attribute:
+El atributo `th:with` permite reutilizar las variables definidas en el mismo
+atributo:
 
 ```html
 <div th:with="company=${user.company + ' Co.'},account=${accounts[company]}">...</div>
 ```
 
-Let's use this in our Grocery's home page! Remember the code we wrote for
-outputting a formatted date?
+¡Usemos esto en la página principal de nuestra tienda de comestibles! ¿Recuerdas
+el código que escribimos para mostrar una fecha con formato?
 
 ```html
 <p>
@@ -3245,21 +3266,21 @@ outputting a formatted date?
 </p>
 ```
 
-Well, what if we wanted that `"dd MMMM yyyy"` to actually depend on the locale?
-For example, we might want to add the following message to our `home_en.properties`:
+¿Y si quisiéramos que `"dd MMMM yyyy"` dependiera de la configuración regional?
+Por ejemplo, podríamos añadir el siguiente mensaje a `home_en.properties`:
 
 ```
 date.format=MMMM dd'','' yyyy
 ```
 
-...and an equivalent one to our `home_es.properties`:
+...y uno equivalente a nuestro `home_es.properties`:
 
 ```
 date.format=dd ''de'' MMMM'','' yyyy
 ```
 
-Now, let's use `th:with` to get the localized date format into a variable, and
-then use it in our `th:text` expression:
+Ahora, usemos `th:with` para obtener el formato de dato regionalizado en una
+variable, y después usémoslo en nuestra expresión `th:text`:
 
 ```html
 <p th:with="df=#{date.format}">
@@ -3267,8 +3288,8 @@ then use it in our `th:text` expression:
 </p>
 ```
 
-That was clean and easy. In fact, given the fact that `th:with` has a higher
-`precedence` than `th:text`, we could have solved this all in the `span` tag:
+Eso fue limpio y sencillo. De hecho, dado que `th:with` tiene una `precedencia`
+mayor que `th:text`, podríamos haber resuelto todo esto en la etiqueta `span`:
 
 ```html
 <p>
@@ -3278,14 +3299,14 @@ That was clean and easy. In fact, given the fact that `th:with` has a higher
 </p>
 ```
 
-You might be thinking: Precedence? We haven't talked about that yet! Well, don't
-worry because that is exactly what the next chapter is about.
+Quizás esté pensando: ¿Precedencia? ¡Aún no hemos hablado de eso! Bueno, no se
+preocupe, porque de eso trata precisamente el siguiente capítulo.
 
 10 Precedencia de atributos
 ===========================
 
-What happens when you write more than one `th:*` attribute in the same tag? For
-example:
+¿Qué ocurre al escribir más de un atributo `th:*` en la misma etiqueta? Por
+ejemplo:
 
 ```html
 <ul>
@@ -3293,14 +3314,14 @@ example:
 </ul>
 ```
 
-We would expect that `th:each` attribute to execute before the `th:text` so that
-we get the results we want, but given the fact that the HTML/XML standards do
-not give any kind of meaning to the order in which the attributes in a tag are 
-written, a _precedence_ mechanism had to be established in the attributes
-themselves in order to be sure that this will work as expected.
+Esperaríamos que el atributo `th:each` se ejecutara antes que `th:text` para
+obtener los resultados deseados, pero dado que los estándares HTML/XML no
+definen el orden en que se escriben los atributos en una etiqueta, fue necesario
+establecer un mecanismo de _precedencia_ en los propios atributos para garantizar
+su correcto funcionamiento.
 
-So, all Thymeleaf attributes define a numeric precedence, which establishes the
-order in which they are executed in the tag. This order is:
+Por lo tanto, todos los atributos de Thymeleaf definen una precedencia numérica
+que establece el orden en que se ejecutan en la etiqueta. Este orden es:
 
 <div class="table-scroller">
 
@@ -3318,9 +3339,9 @@ order in which they are executed in the tag. This order is:
 
 </div>
 
-This precedence mechanism means that the above iteration fragment will give
-exactly the same results if the attribute position is inverted (although it
-would be slightly less readable):
+Este mecanismo de precedencia significa que el fragmento de iteración anterior
+dará exactamente los mismos resultados si se invierte la posición del atributo
+(aunque sería un poco menos legible).
 
 ```html
 <ul>

@@ -2386,7 +2386,7 @@ todas nuestras páginas de comestibles, por lo que creamos un archivo
   <body>
   
     <div th:fragment="copy">
-      &copy; 2011 La tienda de comestibles virtual Good Thymes
+      &copy; 2011 The Good Thymes Virtual Grocery
     </div>
   
   </body>
@@ -2433,8 +2433,8 @@ formatos diferentes:
 
    > Fíjese que el nombre de la plantilla que utiliza en las etiquetas
    > `th:insert`/`th:replace` tendrán que ser resueltas por el 
-   > solucionador de Plantillas (Template Resolver) que actualmente esté usando el 
-   > Motor de Plantillas (Template Engine).
+   > solucionador de Plantillas que actualmente esté usando el Motor de 
+   > Plantillas.
 
  * `~{::selector}"` o `"~{this::selector}"` Insertan un fragmento desde la misma
    plantilla, que coincida con `selector`.  Si no se encuentra en la plantilla 
@@ -2468,7 +2468,7 @@ proviene de una aplicación diferente sin ningún conocimiento de Thymeleaf:
 ```html
 ...
 <div id="copy-section">
-  &copy; 2011 La tienda de comestibles virtual Good Thymes
+  &copy; 2011 The Good Thymes Virtual Grocery
 </div>
 ...
 ```
@@ -2494,13 +2494,13 @@ Podemos usar el fragmento de arriba simplemente referenciándolo por su atributo
    su etiqueta anfitriona.
 
  * `th:replace` en realidad *reemplaza* su etiqueta anfitriona con el fragmento 
- * especificado.
+   especificado.
 
 Así, un fragmento HTML como este:
 
 ```html
 <footer th:fragment="copy">
-  &copy; 2011 La tienda de comestibles virtual Good Thymes
+  &copy; 2011 The Good Thymes Virtual Grocery
 </footer>
 ```
 
@@ -2518,7 +2518,7 @@ Así, un fragmento HTML como este:
 </body>
 ```
 
-... Dará como resultado:
+...dará como resultado:
 
 ```html
 <body>
@@ -2527,12 +2527,12 @@ Así, un fragmento HTML como este:
 
   <div>
     <footer>
-      &copy; 2011 La tienda de comestibles virtual Good Thymes
+      &copy; 2011 The Good Thymes Virtual Grocery
     </footer>
   </div>
 
   <footer>
-    &copy; 2011 La tienda de comestibles virtual Good Thymes
+    &copy; 2011 The Good Thymes Virtual Grocery
   </footer>
   
 </body>
@@ -2541,7 +2541,7 @@ Así, un fragmento HTML como este:
 8.2 Firmas de fragmentos parametrizables
 ----------------------------------------
 
-Para crear un mecanismo más funcional para los fragmentos de plantilla, los 
+Para crear un mecanismo _más funcional_ para los fragmentos de plantilla, los 
 fragmentos definidos con `th:fragment` pueden especificar un conjunto de 
 parámetros:
 	
@@ -2587,8 +2587,8 @@ Esto sería equivalente a una combinación de `th:replace` y `th:with`:
 <div th:replace="~{::frag}" th:with="onevar=${value1},twovar=${value2}">
 ```
 
-**Nota**: Esta especificación de variables locales para un fragmento, 
-independientemente de si tiene una firma de argumento o no, no provoca que el 
+**Nota**: Esta especificación de variables locales para un fragmento -- 
+independientemente de si tiene una firma de argumento o no -- no provoca que el 
 contexto se vacíe antes de su ejecución. Los fragmentos podrán acceder a todas 
 las variables de contexto utilizadas en la plantilla de llamada, como lo hacen 
 actualmente.
@@ -2609,8 +2609,8 @@ Esto resulta útil para validar parámetros en una firma de fragmento:
 <header th:fragment="contentheader(title)" th:assert="${!#strings.isEmpty(title)}">...</header>
 ```
 
-8.3 Eliminación de fragmentos de plantilla
-------------------------------------------
+8.3 Diseños flexibles: más allá de la mera inserción de fragmentos
+------------------------------------------------------------------
 
 Gracias a las *expresiones de fragmento*, podemos especificar parámetros para 
 fragmentos que no son textos, números ni objetos bean, sino fragmentos de 
@@ -2644,7 +2644,7 @@ Ahora podemos llamar a este fragmento así:
 ...
 <head th:replace="~{ base :: common_header(~{::title},~{::link}) }">
 
-  <title>Impresionante - Principal</title>
+  <title>Awesome - Main</title>
 
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}">
@@ -2652,7 +2652,8 @@ Ahora podemos llamar a este fragmento así:
 </head>
 ...
 ```
-... Y el resultado usará las etiquetas `<title>` y `<link>` de nuestra plantilla 
+
+...y el resultado usará las etiquetas `<title>` y `<link>` de nuestra plantilla 
 llamada, de llamada como valores de las variables `title` y `links`, lo que hará 
 que nuestro fragmento se personalice durante la inserción:
 
@@ -2661,7 +2662,7 @@ que nuestro fragmento se personalice durante la inserción:
 ...
 <head>
 
-  <title>Impresionante - Principal</title>
+  <title>Awesome - Main</title>
 
     <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
@@ -2683,7 +2684,7 @@ para especificar *sin marcado*. Siguiendo el ejemplo anterior:
 ```html
 <head th:replace="~{ base :: common_header(~{::title},~{}) }">
 
-  <title>Impresionante - Principal</title>
+  <title>Awesome - Main</title>
 
 </head>
 ...
@@ -2696,7 +2697,7 @@ Observe cómo el segundo parámetro del fragmento (`links`) se establece en el
 ...
 <head>
 
-  <title>Impresionante - Principal</title>
+  <title>Awesome - Main</title>
 
   <!-- Estilos comunes y scripts  -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
@@ -2709,7 +2710,7 @@ Observe cómo el segundo parámetro del fragmento (`links`) se establece en el
 
 ### Uso del identificador de no operación
 
-La operación no-operación (`_`) también se puede usar como parámetro de 
+La operación no-operación también se puede usar como parámetro de 
 un fragmento si simplemente queremos que nuestro fragmento use su marcado actual 
 como valor predeterminado. De nuevo, usando el ejemplo `common_header`:
 
@@ -2717,7 +2718,7 @@ como valor predeterminado. De nuevo, usando el ejemplo `common_header`:
 ...
 <head th:replace="~{base :: common_header(_,~{::link})}">
 
-  <title>Impresionante - Principal</title>
+  <title>Awesome - Main</title>
 
   <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}">
@@ -2731,7 +2732,7 @@ Observe cómo el argumento `title` (primer argumento del fragmento
 fragmento no se ejecute en absoluto (`title` = *no-operation*):
 
 ```html
-  <title th:replace="${title}">La increíble aplicación</title>
+  <title th:replace="${title}">The awesome application</title>
 ```
 
 Entonces el resultado es:
@@ -2740,9 +2741,9 @@ Entonces el resultado es:
 ...
 <head>
 
-  <title>Impresionante - Principal</title>
+  <title>The awesome application</title>
 
-  <!-- Estilos comunes y scripts -->
+  <!-- Common styles and scripts -->
   <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
   <link rel="shortcut icon" href="/awe/images/favicon.ico">
   <script type="text/javascript" src="/awe/sh/scripts/codebase.js"></script>
@@ -2777,7 +2778,7 @@ no se cumple la condición:
 ```html
 ...
 <div th:insert="${user.isAdmin()} ? ~{common :: adminhead} : _">
-    Bienvenido [[${user.name}]], pulse <a th:href="@{/support}">aquí</a> para soporte técnico.
+    Welcome [[${user.name}]], click <a th:href="@{/support}">here</a> for help-desk support.
 </div>
 ...
 ```
@@ -2792,7 +2793,7 @@ condición en una operación *predeterminada*:
 <!-- El cuerpo de la <div> se usará si el fragmento "common :: salutation"   -->
 <!-- no existe  (o está vacío).                                              -->
 <div th:insert="~{common :: salutation} ?: _">
-    Bienvenido [[${user.name}]], pulse <a th:href="@{/support}">aquí</a> para soporte técnico.
+    Welcome [[${user.name}]], click <a th:href="@{/support}">here</a> for help-desk support.
 </div>
 ...
 ```
@@ -2806,20 +2807,20 @@ plantilla de lista de productos:
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
-    <th>COMENTARIOS</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
+    <th>COMMENTS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Cebollas</td>
+    <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
+         th:unless="${#lists.isEmpty(prod.comments)}">view</a>
     </td>
   </tr>
 </table>
@@ -2832,44 +2833,44 @@ prototipo.
 ¿Por qué? Porque, aunque se puede visualizar perfectamente en los navegadores, 
 esa tabla solo tiene una fila, y esta fila contiene datos ficticios. Como 
 prototipo, simplemente no se vería lo suficientemente realista... Deberíamos 
-tener más de un producto; necesitamos más filas.
+tener más de un producto; _necesitamos más filas_.
 
-Agreguemos algunos:
+Agreguemos algunas:
 
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
-    <th>COMENTARIOS</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
+    <th>COMMENTS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Cebollas</td>
+    <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
+         th:unless="${#lists.isEmpty(prod.comments)}">view</a>
     </td>
   </tr>
   <tr class="odd">
-    <td>Lechuga azul</td>
+    <td>Blue Lettuce</td>
     <td>9.55</td>
     <td>no</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr>
-    <td>Canela suave</td>
+    <td>Mild Cinnamon</td>
     <td>1.99</td>
-    <td>si</td>
+    <td>yes</td>
     <td>
-      <span>3</span> comentario/s
-      <a href="comments.html">ver</a>
+      <span>3</span> comment/s
+      <a href="comments.html">view</a>
     </td>
   </tr>
 </table>
@@ -2881,60 +2882,60 @@ pasará cuando lo procesemos con Thymeleaf?
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
-    <th>COMENTARIOS</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
+    <th>COMMENTS</th>
   </tr>
   <tr>
-    <td>Albahaca dulce fresca</td>
+    <td>Fresh Sweet Basil</td>
     <td>4.99</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Tomate italiano</td>
+    <td>Italian Tomato</td>
     <td>1.25</td>
     <td>no</td>
     <td>
-      <span>2</span> comentario/s
-      <a href="/gtvg/product/comments?prodId=2">ver</a>
+      <span>2</span> comment/s
+      <a href="/gtvg/product/comments?prodId=2">view</a>
     </td>
   </tr>
   <tr>
-    <td>Pimiento amarillo</td>
+    <td>Yellow Bell Pepper</td>
     <td>2.50</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Cheddar viejo</td>
+    <td>Old Cheddar</td>
     <td>18.75</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>1</span> comentario/s
-      <a href="/gtvg/product/comments?prodId=4">ver</a>
+      <span>1</span> comment/s
+      <a href="/gtvg/product/comments?prodId=4">view</a>
     </td>
   </tr>
   <tr class="odd">
-    <td>Lechuga azul</td>
+    <td>Blue Lettuce</td>
     <td>9.55</td>
     <td>no</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr>
-    <td>Canela suave</td>
+    <td>Mild Cinnamon</td>
     <td>1.99</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>3</span> comentario/s
-      <a href="comments.html">ver</a>
+      <span>3</span> comment/s
+      <a href="comments.html">view</a>
     </td>
   </tr>
 </table>
@@ -2951,37 +2952,37 @@ plantilla. Usemos el atributo `th:remove` en la segunda y tercera etiqueta
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
-    <th>COMENTARIOS</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
+    <th>COMMENTS</th>
   </tr>
   <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-    <td th:text="${prod.name}">Cebollas</td>
+    <td th:text="${prod.name}">Onions</td>
     <td th:text="${prod.price}">2.41</td>
-    <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+    <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
     <td>
-      <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
+      <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
       <a href="comments.html" 
          th:href="@{/product/comments(prodId=${prod.id})}" 
-         th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
+         th:unless="${#lists.isEmpty(prod.comments)}">view</a>
     </td>
   </tr>
   <tr class="odd" th:remove="all">
-    <td>Lechuga azul</td>
+    <td>Blue Lettuce</td>
     <td>9.55</td>
     <td>no</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr th:remove="all">
-    <td>Canela suave</td>
+    <td>Mild Cinnamon</td>
     <td>1.99</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>3</span> comentario/s
-      <a href="comments.html">ver</a>
+      <span>3</span> comment/s
+      <a href="comments.html">view</a>
     </td>
   </tr>
 </table>
@@ -2992,43 +2993,43 @@ Una vez procesado, todo volverá a verse como debería:
 ```html
 <table>
   <tr>
-    <th>NOMBRE</th>
-    <th>PRECIO</th>
-    <th>EN STOCK</th>
-    <th>COMENTARIOS</th>
+    <th>NAME</th>
+    <th>PRICE</th>
+    <th>IN STOCK</th>
+    <th>COMMENTS</th>
   </tr>
   <tr>
-    <td>Albahaca dulce fresca</td>
+    <td>Fresh Sweet Basil</td>
     <td>4.99</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Tomate italiano</td>
+    <td>Italian Tomato</td>
     <td>1.25</td>
     <td>no</td>
     <td>
-      <span>2</span> comentario/s
-      <a href="/gtvg/product/comments?prodId=2">ver</a>
+      <span>2</span> comment/s
+      <a href="/gtvg/product/comments?prodId=2">view</a>
     </td>
   </tr>
   <tr>
-    <td>Pimiento amarillo</td>
+    <td>Yellow Bell Pepper</td>
     <td>2.50</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>0</span> comentario/s
+      <span>0</span> comment/s
     </td>
   </tr>
   <tr class="odd">
-    <td>Cheddar viejo</td>
+    <td>Old Cheddar</td>
     <td>18.75</td>
-    <td>sí</td>
+    <td>yes</td>
     <td>
-      <span>1</span> comentario/s
-      <a href="/gtvg/product/comments?prodId=4">ver</a>
+      <span>1</span> comment/s
+      <a href="/gtvg/product/comments?prodId=4">view</a>
     </td>
   </tr>
 </table>
@@ -3050,60 +3051,60 @@ cinco maneras diferentes, según su valor:
 <table>
   <thead>
     <tr>
-      <th>NOMBRE</th>
-      <th>PRECIO</th>
-      <th>EN STOCK</th>
-      <th>COMENTARIOS</th>
+      <th>NAME</th>
+      <th>PRICE</th>
+      <th>IN STOCK</th>
+      <th>COMMENTS</th>
     </tr>
   </thead>
   <tbody th:remove="all-but-first">
     <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
-      <td th:text="${prod.name}">Cebollas</td>
+      <td th:text="${prod.name}">Onions</td>
       <td th:text="${prod.price}">2.41</td>
-      <td th:text="${prod.inStock}? #{true} : #{false}">sí</td>
+      <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
       <td>
-        <span th:text="${#lists.size(prod.comments)}">2</span> comentario/s
+        <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
         <a href="comments.html" 
            th:href="@{/product/comments(prodId=${prod.id})}" 
-           th:unless="${#lists.isEmpty(prod.comments)}">ver</a>
+           th:unless="${#lists.isEmpty(prod.comments)}">view</a>
       </td>
     </tr>
     <tr class="odd">
-      <td>Lechuga azul</td>
+      <td>Blue Lettuce</td>
       <td>9.55</td>
       <td>no</td>
       <td>
-        <span>0</span> comentario/s
+        <span>0</span> comment/s
       </td>
     </tr>
     <tr>
-      <td>Canela suave</td>
+      <td>Mild Cinnamon</td>
       <td>1.99</td>
-      <td>sí</td>
+      <td>yes</td>
       <td>
-        <span>3</span> comentario/s
-        <a href="comments.html">ver</a>
+        <span>3</span> comment/s
+        <a href="comments.html">view</a>
       </td>
     </tr>
   </tbody>
 </table>
 ```
 
-El atributo `th:remove` puede aceptar cualquier expresión estándar de Thymeleaf, 
-siempre que devuelva uno de los valores de cadena permitidos 
+El atributo `th:remove` puede aceptar cualquier _Expresión Estándar de 
+Thymeleaf_, siempre que devuelva uno de los valores de cadena permitidos 
 (`all`, `tag`, `body`, `all-but-first` o `none`).
 
 Esto significa que las eliminaciones pueden ser condicionales, como:
 
 ```html
-<a href="/something" th:remove="${condition}? tag : none">El texto del enlace no debe eliminarse</a>
+<a href="/something" th:remove="${condition}? tag : none">Link text not to be removed</a>
 ```
 
 Tenga en cuenta también que `th:remove` considera que `null` es un sinónimo de 
 `none`, por lo que lo siguiente funciona igual que el ejemplo anterior:
 
 ```html
-<a href="/something" th:remove="${condition}? tag">El texto del enlace no debe eliminarse</a>
+<a href="/something" th:remove="${condition}? tag">Link text not to be removed</a>
 ```
 
 En este caso, si `${condition}` es falso, se devolverá `null` y, por lo tanto, 
@@ -3119,15 +3120,15 @@ un diseño simple con `title` y `content` usa `th:fragment` y `th:replace`:
 <!DOCTYPE html>
 <html th:fragment="layout (title, content)" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:replace="${title}">Título del diseño</title>
+    <title th:replace="${title}">Layout Title</title>
 </head>
 <body>
-    <h1>Diseño H1</h1>
+    <h1>Layout H1</h1>
     <div th:replace="${content}">
-        <p>Contenido del diseño</p>
+        <p>Layout content</p>
     </div>
     <footer>
-        Pie de página de diseño
+        Layout footer
     </footer>
 </body>
 </html>
@@ -3141,12 +3142,12 @@ expresiones de fragmento proporcionadas en el ejemplo siguiente.
 <!DOCTYPE html>
 <html th:replace="~{layoutFile :: layout(~{::title}, ~{::section})}">
 <head>
-    <title>Título de la página</title>
+    <title>Page Title</title>
 </head>
 <body>
 <section>
-    <p>Contenido de la página</p>
-    <div>Incluido en la página</div>
+    <p>Page content</p>
+    <div>Included on page</div>
 </section>
 </body>
 </html>
@@ -3183,14 +3184,14 @@ Esa variable `prod` estará disponible solo dentro de los límites de la etiquet
  * Estará disponible para cualquier elemento hijo de la etiqueta `<tr>`, tales 
    como cualquier elemento `<td>`.
 
-Thymeleaf te ofrece una forma de declarar variables locales sin iteración, 
+Thymeleaf le ofrece una forma de declarar variables locales sin iteración, 
 usando el atributo `th:with`, y su sintaxis es similar a la de las asignaciones 
 de valores de atributos:
 
 ```html
 <div th:with="firstPer=${persons[0]}">
   <p>
-    El nombre de la primera persona es <span th:text="${firstPer.name}">Julius Caesar</span>.
+    The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
   </p>
 </div>
 ```
@@ -3206,14 +3207,15 @@ asignación múltiple:
 ```html
 <div th:with="firstPer=${persons[0]},secondPer=${persons[1]}">
   <p>
-      El nombre de la primera persona es <span th:text="${firstPer.name}">Julius Caesar</span>.
+    The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
   </p>
   <p>
-    Pero el nombre de la segunda persona es  
+    But the name of the second person is 
     <span th:text="${secondPer.name}">Marcus Antonius</span>.
   </p>
 </div>
 ```
+
 El atributo `th:with` permite reutilizar las variables definidas en el mismo 
 atributo:
 
@@ -3227,7 +3229,7 @@ el código que escribimos para mostrar una fecha con formato?
 ```html
 <p>
   Today is: 
-  <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 febrero 2011</span>
+  <span th:text="${#calendars.format(today,'dd MMMM yyyy')}">13 february 2011</span>
 </p>
 ```
 ¿Y si quisiéramos que `"dd MMMM yyyy"` dependiera de la configuración regional?
@@ -3247,24 +3249,24 @@ variable, y después usémoslo en nuestra expresión `th:text`:
 
 ```html
 <p th:with="df=#{date.format}">
-  Hoy es: <span th:text="${#calendars.format(today,df)}">13 febrero 2011</span>
+  Today is: <span th:text="${#calendars.format(today,df)}">13 February 2011</span>
 </p>
 ```
 
-Fue fácil y sencillo. De hecho, dado que `th:with` tiene mayor `precedencia` 
-que `th:text`, podríamos haber solucionado todo en la etiqueta `span`:
+Eso fue limpio y sencillo. De hecho, dado que `th:with` tiene una `precedencia` 
+mayor que `th:text`, podríamos haber resuelto todo esto en la etiqueta `span`:
 
 
 ```html
 <p>
-  Hoy es: 
+  Today is: 
   <span th:with="df=#{date.format}" 
-        th:text="${#calendars.format(today,df)}">13 Febrero 2011</span>
+        th:text="${#calendars.format(today,df)}">13 February 2011</span>
 </p>
 ```
 
-Quizás estés pensando: ¿Precedencia? ¡Aún no hemos hablado de eso! Bueno, no te 
-preocupes, porque de eso trata precisamente el siguiente capítulo.
+Quizás esté pensando: ¿Precedencia? ¡Aún no hemos hablado de eso! Bueno, no se 
+preocupe, porque de eso trata precisamente el siguiente capítulo.
 
 10 Precedencia de atributos
 ===========================
@@ -3274,13 +3276,13 @@ ejemplo:
 
 ```html
 <ul>
-  <li th:each="item : ${items}" th:text="${item.description}">Descripción del elemento aquí...</li>
+  <li th:each="item : ${items}" th:text="${item.description}">Item description here...</li>
 </ul>
 ```
 Esperaríamos que el atributo `th:each` se ejecutara antes que `th:text` para 
 obtener los resultados deseados, pero dado que los estándares HTML/XML no 
 definen el orden en que se escriben los atributos en una etiqueta, fue necesario 
-establecer un mecanismo de precedencia en los propios atributos para garantizar 
+establecer un mecanismo de _precedencia_ en los propios atributos para garantizar 
 su correcto funcionamiento.
 
 Por lo tanto, todos los atributos de Thymeleaf definen una precedencia numérica 
@@ -3308,7 +3310,7 @@ dará exactamente los mismos resultados si se invierte la posición del atributo
 
 ```html
 <ul>
-  <li th:text="${item.description}" th:each="item : ${items}">Descripción del elemento aquí...</li>
+  <li th:text="${item.description}" th:each="item : ${items}">Item description here...</li>
 </ul>
 ```
 

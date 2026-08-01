@@ -3325,7 +3325,7 @@ parte de las plantillas de Thymeleaf. El contenido de estos comentarios no será
 procesado por Thymeleaf y se copiará textualmente en el resultado:
 
 ```html
-<!-- A continuación se muestra la información del usuario -->
+<!-- User info follows -->
 <div th:text="${...}">
   ...
 </div>
@@ -3338,18 +3338,18 @@ Los bloques de comentarios a nivel de analizador son código que simplemente se
 eliminará de la plantilla cuando Thymeleaf la analice. Tienen este aspecto:
 
 ```html
-<!--/* ¡Este código se eliminará en el momento del análisis de Thymeleaf! */-->
+<!--/* This code will be removed at Thymeleaf parsing time! */-->
 ``` 
 
 Thymeleaf eliminará todo lo que esté entre `<!--/*` y `*/-->`, por lo que estos 
 bloques de comentarios también se pueden usar para mostrar código cuando una 
-plantilla está abierta estáticamente, sabiendo que se eliminará cuando Thymeleaf 
-lo procese:
+plantilla se abra estáticamente, sabiendo que se eliminará cuando Thymeleaf 
+la procese:
 
 ```html
 <!--/*--> 
   <div>
-      ¡Sólo puedes verme antes de que Thymeleaf me procese!
+     you can see me only before Thymeleaf processes me!
   </div>
 <!--*/-->
 ```
@@ -3382,13 +3382,13 @@ prototipo), pero que Thymeleaf considera como marcado normal al ejecutar la
 plantilla.
 
 ```html
-<span>¡hola!</span>
+<span>hello!</span>
 <!--/*/
   <div th:text="${...}">
     ...
   </div>
 /*/-->
-<span>¡adios!</span>
+<span>goodbye!</span>
 ```
 
 El sistema de análisis de Thymeleaf simplemente eliminará los marcadores 
@@ -3396,13 +3396,13 @@ El sistema de análisis de Thymeleaf simplemente eliminará los marcadores
 tanto, al ejecutar la plantilla, Thymeleaf verá esto:
 
 ```html
-<span>¡hola!</span>
+<span>hello!</span>
  
   <div th:text="${...}">
     ...
   </div>
  
-<span>¡adios!</span>
+<span>goodbye!</span>
 ```
 
 Al igual que con los bloques de comentarios a nivel de analizador, esta 
@@ -3453,8 +3453,8 @@ exclusivos de prototipos:
 </table>
 ```
 Tenga en cuenta como esta solución permite que las plantillas sean HTML válido 
-(sin necesidad de agregar bloques prohibidos `<div>` dentro de `<table>`) y aún 
-funciona correctamente cuando se abren estáticamente en navegadores como 
+(sin necesidad de agregar bloques prohibidos `<div>` dentro de `<table>`) y que 
+aún funcionen correctamente cuando se abren estáticamente en navegadores como 
 prototipos. 
 
 12 Inserción en línea
@@ -3468,13 +3468,13 @@ etiqueta, hay situaciones en las que preferiríamos escribir expresiones
 directamente en nuestros textos HTML. Por ejemplo, podríamos escribir esto:
 
 ```html
-<p>¡Hola, [[${session.user.name}]]!</p>
+<p>Hello, [[${session.user.name}]]!</p>
 ```
 
-...en vez de esto:
+...en lugar de esto:
 
 ```html
-<p>¡Hola, <span th:text="${session.user.name}">Sebastian</span>!</p>
+<p>Hello, <span th:text="${session.user.name}">Sebastian</span>!</p
 ```
 
 Las expresiones entre `[[...]]` o `[(...)]` se consideran 
@@ -3485,30 +3485,30 @@ tipo de expresión que también sería válida en un atributo `th:text` o
 Tenga en cuenta que, mientras que `[[...]]` corresponde a `th:text` (es decir, 
 el resultado se escapará en HTML), `[(...)]` corresponde a `th:utext` y no se 
 escapará en HTML. Por lo tanto, con una variable como 
-`msg = '¡Esto es <b>genial!</b>'`, dado este fragmento:
+`msg = 'This is <b>great!</b>'`, dado este fragmento:
 
 ```html
-<p>El mensaje es "[(${msg})]"</p>
+<p>The message is "[(${msg})]"</p>
 ```
 
 El resultado tendrá esas etiquetas `<b>` sin escapar, así que:
 
 ```html
-<p>El mensaje es "¡Esto es <b>genial!</b>"</p>
+<p>The message is "This is <b>great!</b>"</p>
 ```
 
 Mientras que si se escapa así:
 
 ```html
-<p>El mensaje es "[[${msg}]]"</p>
+<p>The message is "[[${msg}]]"</p>
 ```
 
 El resultado se escapará en HTML:
 
 ```html
-<p>El mensaje es "¡Esto es &lt;b&gt;genial!&lt;/b&gt;"</p>
+<p>The message is "This is &lt;b&gt;great!&lt;/b&gt;"</p>
 ```
-Tenga en cuenta que la **inserción de texto en línea está activa de forma 
+Tenga en cuenta que la **inserción de texto en línea está activada de forma 
 predeterminada** en el cuerpo de cada etiqueta de nuestro marcado, no en las 
 etiquetas en sí, por lo que no es necesario hacer nada para habilitarla.
 
@@ -3518,25 +3518,25 @@ Si vienes de otros motores de plantillas donde esta forma de generar texto es la
 norma, te preguntarás: ¿Por qué no lo hacemos desde el principio?
 ¡Es menos código que todos esos atributos `th:text`!
 
-Bueno, ten cuidado, porque aunque la inlineación te parezca bastante 
-interesante, recuerda siempre que las expresiones inlineadas se mostrarán 
-textualmente en tus archivos HTML al abrirlos estáticamente, por lo que 
-probablemente ya no podrás usarlas como prototipos de diseño.
+Bueno, ten cuidado, porque aunque la inserción de código en línea te parezca 
+bastante interesante, recuerda siempre que las expresiones de inserción en línea
+se mostrarán textualmente en tus archivos HTML al abrirlos estáticamente, por lo 
+que probablemente ya no podrás usarlas como prototipos de diseño.
 
 La diferencia entre cómo un navegador mostraría estáticamente nuestro fragmento 
-de código sin usar la inlineación...
+de código sin usar la inserción en línea...
 
 ```
-¡Hola, Sebastian!
+Hello, Sebastian!
 ```
 
-... Y usarla...
+... Y usándola...
 
 ```
-Hola, [[${session.user.name}]]!
+Hello, [[${session.user.name}]]!
 ```
 
-...es bastante claro en términos de utilidad del diseño.
+...es bastante clara en términos de utilidad del diseño.
 
 ### Deshabilitar la inserción en línea
 
@@ -3545,13 +3545,13 @@ en las que queramos generar las secuencias `[[...]]` o `[(...)]` sin que su
 contenido se procese como una expresión. Para ello, usaremos `th:inline="none"`:
 
 ```html
-<p th:inline="none">¡Una matriz doble se ve así: [[1, 2, 3], [4, 5]]!</p>
+<p th:inline="none">A double array looks like this: [[1, 2, 3], [4, 5]]!</p>
 ```
 
 Esto dará como resultado:
 
 ```html
-<p>¡Una matriz doble se ve así: [[1, 2, 3], [4, 5]]!</p>
+<p>A double array looks like this: [[1, 2, 3], [4, 5]]!</p>
 ```
 
 12.2 Inserción de texto en línea
@@ -3580,9 +3580,9 @@ de plantilla `HTML`.
 Al igual que con la *inserción en línea de texto*, esto equivale a procesar el 
 contenido de los scripts como si fueran plantillas en el modo de plantilla 
 `JAVASCRIPT` y, por lo tanto, se aprovechará toda la potencia de los *modos de 
-plantilla textuales* (véase el siguiente capítulo). Sin embargo, en esta sección 
-nos centraremos en cómo podemos usarlo para añadir la salida de nuestras 
-expresiones de Thymeleaf a nuestros bloques de JavaScript.
+plantilla textuales* (véase el siguiente capítulo). Sin embargo, en esta 
+sección, nos centraremos en cómo podemos usarlo para añadir la salida de 
+nuestras expresiones de Thymeleaf a nuestros bloques de JavaScript.
 
 Este modo debe habilitarse explícitamente mediante `th:inline="javascript"`:
 
@@ -3599,7 +3599,7 @@ Esto dará como resultado:
 ```html
 <script th:inline="javascript">
     ...
-    var username = "Sebastian \"Sabroso\" Jugo de manzana";
+    var username = "Sebastian \"Fruity\" Applejuice";
     ...
 </script>
 ```
@@ -3612,8 +3612,7 @@ con JavaScript, de modo que los resultados de la expresión se muestren como un
 
 *Segundo*, esto ocurre porque mostramos la expresión `${session.user.name}` 
 como **escapada**, es decir, usando una expresión entre corchetes: 
-`[[${session.user.name}]]`.
-Si, en cambio, usáramos *sin escape*, como:
+`[[${session.user.name}]]`. Si, en cambio, la usáramos *sin escape*, como:
 
 ```html
 <script th:inline="javascript">
@@ -3639,12 +3638,12 @@ en línea, así que es bueno tener esta herramienta a mano.
 
 ### Plantillas naturales de JavaScript
 
-La mencionada *inteligencia* del mecanismo de inline de JavaScript va mucho más 
-allá de simplemente aplicar escapes específicos de JavaScript y mostrar los 
-resultados de las expresiones como literales válidos.
+La mencionada *inteligencia* del mecanismo de inserción en línea de JavaScript 
+va mucho más allá de simplemente aplicar escapes específicos de JavaScript y 
+mostrar los resultados de las expresiones como literales válidos.
 
-Por ejemplo, podemos encapsular nuestras expresiones inline (escapadas) en 
-JavaScript comentarios de JavaScript como:
+Por ejemplo, podemos encapsular nuestras expresiones de inserción en línea 
+(escapadas) en JavaScript en comentarios de JavaScript como:
 
 ```html
 <script th:inline="javascript">
@@ -3683,10 +3682,10 @@ en un servidor).
 
 ### Evaluación en línea avanzada y serialización de JavaScript
 
-Un aspecto importante a tener en cuenta con respecto a la inlineación de 
-JavaScript es que esta evaluación de expresiones es inteligente y no se limita a 
-Strings. Thymeleaf escribirá correctamente en sintaxis JavaScript los siguientes 
-tipos de objetos:
+Un aspecto importante a tener en cuenta con respecto a la inserción de código 
+en línea de JavaScript es que esta evaluación de expresiones es inteligente y 
+no se limita a Strings. Thymeleaf escribirá correctamente en sintaxis JavaScript 
+los siguientes tipos de objetos:
 
 * Strings
 * Numbers
@@ -3722,10 +3721,10 @@ se puede configurar en la instancia de `StandardDialect` que se utiliza en el
 motor de plantillas.
 
 La implementación predeterminada de este mecanismo de serialización de JS 
-buscará la [biblioteca Jackson](https://github.com/FasterXML/jackson) en la ruta 
-de clases y, si está presente, la usará. De lo contrario, aplicará un mecanismo 
-de serialización integrado que cubre las necesidades de la mayoría de los 
-escenarios y produce resultados similares (pero es menos flexible).
+buscará la [biblioteca Jackson](https://github.com/FasterXML/jackson) en la ruta de clases y, si está presente, 
+la usará. De lo contrario, aplicará un mecanismo de serialización integrado que 
+cubre las necesidades de la mayoría de los escenarios y produce resultados 
+similares (pero es menos flexible).
 
 12.4 CSS incrustado
 -------------------
@@ -3808,13 +3807,13 @@ plantilla textual, así que esto es una plantilla perfectamente válida para un
 correo de texto.
 
 ```
-  Estimado [(${name})],
+  Dear [(${name})],
 
-  Por favor, encontrará adjuntados los resultados del informe que solicitó 
-  con nombre "[(${report.name})]".
+  Please find attached the results of the report you requested
+  with name "[(${report.name})]".
 
-  Atentatemente,
-    El Reportero.
+  Sincerely,
+    The Reporter.
 ```
 
 Incluso sin etiquetas, el ejemplo de arriba es una plantilla de Thymeleaf 
@@ -3876,32 +3875,32 @@ Veamos un ejemplo más completo de una plantilla `TEXT`, una plantilla de correo
 electrónico de *texto sin formato*:
 
 ```
-Estimado [(${customer.name})],
+Dear [(${customer.name})],
 
-Esta es la lista de nuestros productos:
+This is the list of our products:
 
 [# th:each="prod : ${products}"]
-   - [(${prod.name})]. Precio: [(${prod.price})] EUR/kg
+   - [(${prod.name})]. Price: [(${prod.price})] EUR/kg
 [/]
 
-Gracias,
-  La Tienda de Thymeleaf
+Thanks,
+  The Thymeleaf Shop
 ```
 
 Después de la ejecución, el resultado de esto podría ser algo como:
 
 ```
-Estimada  Mary Ann Blueberry,
+Dear Mary Ann Blueberry,
 
-Esta es la lista de nuestros productos:
+This is the list of our products:
 
-   - Apricots. Precio: 1.12 EUR/kg
-   - Bananas. Precio: 1.78 EUR/kg
-   - Apples. Precio: 0.85 EUR/kg
-   - Watermelon. Precio: 1.91 EUR/kg
+   - Apricots. Price: 1.12 EUR/kg
+   - Bananas. Price: 1.78 EUR/kg
+   - Apples. Price: 0.85 EUR/kg
+   - Watermelon. Price: 1.91 EUR/kg
 
-Gracias,
-  La Tienda de Thymeleaf
+Thanks,
+  The Thymeleaf Shop
 ```
 
 Tenga en cuenta que `[# th:each="..."]` y `[/]` ocupan cada una su propia línea 
@@ -3985,7 +3984,7 @@ usarlos en modos de plantilla textual:
 
 
 ```
-  [#miorg:hazalgo miorg:attrimportante="211"]algun texto[/miorg:hazalgo]
+  [#myorg:dosomething myorg:importantattr="211"]some text[/myorg:dosomething]
 ```
 
 13.3 Bloques de comentarios de solo prototipos textuales: agregar código
@@ -4001,7 +4000,7 @@ var x = 23;
 
 /*[+
 
-var msg  = "Esta es una aplicación funcional";
+var msg  = "This is a working application";
 
 +]*/
 
@@ -4014,7 +4013,7 @@ Se ejecutará como:
 ```javascript
 var x = 23;
 
-var msg  = "Esta es una aplicación funcional";
+var msg  = "This is a working application";
 
 var f = function() {
 ...
@@ -4027,7 +4026,7 @@ var x = 23;
 
 /*[+
 
-var msg  = "Hola, " + [[${session.user.name}]];
+var msg  = "Hello, " + [[${session.user.name}]];
 
 +]*/
 
@@ -4048,7 +4047,7 @@ var x = 23;
 
 /*[- */
 
-var msg  = "¡Esto se muestra sólo cuando se ejecuta estáticamente!";
+var msg  = "This is shown only when executed statically!";
 
 /* -]*/
 
@@ -4060,8 +4059,8 @@ O esto, en modo `TEXT`:
 
 ```
 ...
-/*[- Tenga en cuenta que el usuario se obtiene de la sesión, que debe existir. -]*/
-Bienvenido [(${session.user.name})]!
+/*[- Note the user is obtained from the session, which must exist -]*/
+Welcome [(${session.user.name})]!
 ...
 ```
 
@@ -4091,7 +4090,7 @@ puede utilizar para toda la sintaxis del modo textual:
 
 ```
   /*[# th:if="${user.admin}"]*/
-     alert('Bienvenido administrador');
+     alert('Welcome admin');
   /*[/]*/
 ```
 
@@ -4101,7 +4100,7 @@ el usuario es administrador. Equivale a:
 
 ```
   [# th:if="${user.admin}"]
-     alert('Bienvenido administrador');
+     alert('Welcome admin');
   [/]
 ```
 
@@ -4141,7 +4140,7 @@ Comencemos creando una página de lista de pedidos,
 
   <head>
 
-    <title>Tienda de comestibles virtual Good Thymes</title>
+    <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
@@ -4149,27 +4148,27 @@ Comencemos creando una página de lista de pedidos,
 
   <body>
 
-    <h1>Lista de pedidos</h1>
+    <h1>Order list</h1>
   
     <table>
       <tr>
-        <th>FECHA</th>
-        <th>CLIENTE</th>
+        <th>DATE</th>
+        <th>CUSTOMER</th>
         <th>TOTAL</th>
         <th></th>
       </tr>
       <tr th:each="o : ${orders}" th:class="${oStat.odd}? 'odd'">
-        <td th:text="${#calendars.format(o.date,'dd/MMM/yyyy')}">13 ene 2011</td>
-        <td th:text="${o.customer.name}">Federico Tomate</td>
+        <td th:text="${#calendars.format(o.date,'dd/MMM/yyyy')}">13 jan 2011</td>
+        <td th:text="${o.customer.name}">Frederic Tomato</td>
         <td th:text="${#aggregates.sum(o.orderLines.{purchasePrice * amount})}">23.32</td>
         <td>
-          <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">ver</a>
+          <a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
         </td>
       </tr>
     </table>
   
     <p>
-      <a href="../home.html" th:href="@{/}">Volver al inicio</a>
+      <a href="../home.html" th:href="@{/}">Return to home</a>
     </p>
     
   </body>
@@ -4204,7 +4203,7 @@ de la sintaxis de asterisco:
 <html xmlns:th="http://www.thymeleaf.org">
 
   <head>
-    <title>Tienda de comestibles virtual Good Thymes</title>
+    <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../../css/gtvg.css" th:href="@{/css/gtvg.css}" />
@@ -4212,36 +4211,36 @@ de la sintaxis de asterisco:
 
   <body th:object="${order}">
 
-    <h1>Detalles del pedido</h1>
+    <h1>Order details</h1>
 
     <div>
-      <p><b>Código:</b> <span th:text="*{id}">99</span></p>
+      <p><b>Code:</b> <span th:text="*{id}">99</span></p>
       <p>
-        <b>Fecha:</b>
-        <span th:text="*{#calendars.format(date,'dd MMM yyyy')}">13 ene 2011</span>
+        <b>Date:</b>
+        <span th:text="*{#calendars.format(date,'dd MMM yyyy')}">13 jan 2011</span>
       </p>
     </div>
 
-    <h2>Cliente</h2>
+    <h2>Customer</h2>
 
     <div th:object="*{customer}">
-      <p><b>Nombre:</b> <span th:text="*{name}">Federico Tomate</span></p>
+      <p><b>Name:</b> <span th:text="*{name}">Frederic Tomato</span></p>
       <p>
-        <b>Desde:</b>
-        <span th:text="*{#calendars.format(customerSince,'dd MMM yyyy')}">1 ene 2011</span>
+        <b>Since:</b>
+        <span th:text="*{#calendars.format(customerSince,'dd MMM yyyy')}">1 jan 2011</span>
       </p>
     </div>
   
-    <h2>Productos</h2>
+    <h2>Products</h2>
   
     <table>
       <tr>
-        <th>PRODUCTO</th>
-        <th>CANTIDAD</th>
-        <th>PRECIO COMPRA</th>
+        <th>PRODUCT</th>
+        <th>AMOUNT</th>
+        <th>PURCHASE PRICE</th>
       </tr>
       <tr th:each="ol,row : *{orderLines}" th:class="${row.odd}? 'odd'">
-        <td th:text="${ol.product.name}">Fresas</td>
+        <td th:text="${ol.product.name}">Strawberries</td>
         <td th:text="${ol.amount}" class="number">3</td>
         <td th:text="${ol.purchasePrice}" class="number">23.32</td>
       </tr>
@@ -4253,7 +4252,7 @@ de la sintaxis de asterisco:
     </div>
   
     <p>
-      <a href="list.html" th:href="@{/order/list}">Volver a la lista de pedidos</a>
+      <a href="list.html" th:href="@{/order/list}">Return to order list</a>
     </p>
 
   </body>
@@ -4269,7 +4268,7 @@ En realidad no hay muchas novedades aquí, excepto esta selección de objetos an
   ...
 
   <div th:object="*{customer}">
-    <p><b>Nombre:</b> <span th:text="*{name}">Federico Tomate</span></p>
+    <p><b>Name:</b> <span th:text="*{name}">Frederic Tomato</span></p>
     ...
   </div>
 
@@ -4281,7 +4280,7 @@ En realidad no hay muchas novedades aquí, excepto esta selección de objetos an
 
 
 ```html
-<p><b>Nombre:</b> <span th:text="${order.customer.name}">Federico Tomate</span></p>
+<p><b>Name:</b> <span th:text="${order.customer.name}">Frederic Tomato</span></p>
 ```
 
  15 Más sobre la configuración
@@ -4602,7 +4601,7 @@ habilitarla o deshabilitarla en el solucionador de plantillas, incluso actuando
 solo en plantillas específicas: 
 
 ```java
-// Default is true
+// Por defecto es verdadero
 templateResolver.setCacheable(false);
 templateResolver.getCacheablePatternSpec().addPattern("/users/*");
 ```
@@ -4665,12 +4664,12 @@ Podría verse así:
   <body>
     <table id="usersTable">
       <tr>
-        <td class="username">Jeremías Pomelo</td>
-        <td class="usertype">Usuario normal</td>
+        <td class="username">Jeremy Grapefruit</td>
+        <td class="usertype">Normal User</td>
       </tr>
       <tr>
-        <td class="username">Alicia Sandía</td>
-        <td class="usertype">Administrador</td>
+        <td class="username">Alice Watermelon</td>
+        <td class="usertype">Administrator</td>
       </tr>
     </table>
   </body>
@@ -4716,12 +4715,12 @@ Entonces, una vez fusionados, ambos archivos vistos arriba serán los mismos que
   <body>
     <table id="usersTable" th:remove="all-but-first">
       <tr th:each="user : ${users}">
-        <td class="username" th:text="${user.name}">Jeremías Pomelo</td>
-        <td class="usertype" th:text="#{|user.type.${user.type}|}">Usuario normal</td>
+        <td class="username" th:text="${user.name}">Jeremy Grapefruit</td>
+        <td class="usertype" th:text="#{|user.type.${user.type}|}">Normal User</td>
       </tr>
       <tr>
-        <td class="username">Alicia Sandía</td>
-        <td class="usertype">Administrador</td>
+        <td class="username">Alice Watermelon</td>
+        <td class="usertype">Administrator</td>
       </tr>
     </table>
   </body>
@@ -4925,7 +4924,7 @@ de aplicación:
  * ============================================================================
  */
 
-${param.foo}              // Recuperara una String[] con los valores de la petición 
+${param.foo}              // Recupera una String[] con los valores de la petición 
 parameter 'foo'
 ${param.size()}
 ${param.isEmpty()}
@@ -4942,7 +4941,7 @@ ${param.containsKey('foo')}
  * ======================================================================
  */
 
-${session.foo}                 // Recuperar el atributo de sesión 'foo'
+${session.foo}                 // Recupera el atributo de sesión 'foo'
 ${session.size()}
 ${session.isEmpty()}
 ${session.containsKey('foo')}
@@ -4958,7 +4957,7 @@ ${session.containsKey('foo')}
  * =============================================================================
  */
 
-${application.foo}              // Recuperar el atributo del ServletContext 'foo'
+${application.foo}              // Recupera el atributo del ServletContext 'foo'
 ${application.size()}
 ${application.isEmpty()}
 ${application.containsKey('foo')}
@@ -5041,7 +5040,7 @@ ${#execInfo.templateStack}
  */
 
 /*
- * Obtener mensajes externalizados. Puede recibir una sola clave, una clave más argumentos,
+ * Obtiene mensajes externalizados. Puede recibir una sola clave, una clave más argumentos,
  * o una matriz/lista/conjunto de claves (en cuyo caso devolverá una matriz/lista/conjunto 
  * de mensajes externalizados).
  * Si no se encuentra un mensaje, se devuelve un mensaje predeterminado (como '??msgKey??').
@@ -5056,7 +5055,7 @@ ${#messages.listMsg(messageKeyList)}
 ${#messages.setMsg(messageKeySet)}
 
 /*
- * Obtener mensajes externalizados o nulos. Se devuelve nulo en lugar de un valor 
+ * Obtiene mensajes externalizados o nulos. Se devuelve nulo en lugar de un valor 
  * predeterminado mensaje si no se encuentra un mensaje para la clave especificada.
  */
 ${#messages.msgOrNull('msgKey')}
@@ -5083,7 +5082,7 @@ ${#messages.setMsgOrNull(messageKeySet)}
  */
 
 /*
- * Escape/Unescape como ruta URI/URL
+ * Realiza operaciones de escape/descodificación devolviendo rutas URI/URL o cadenas
  */
 ${#uris.escapePath(uri)}
 ${#uris.escapePath(uri, encoding)}
@@ -5091,7 +5090,8 @@ ${#uris.unescapePath(uri)}
 ${#uris.unescapePath(uri, encoding)}
 
 /*
- * Escape/Unescape como segmento de ruta URI/URL (entre símbolos '/')
+ * Realiza operaciones de escape/descodificación con segmentos de rutas URI/URL 
+ * (entre símbolos '/')
  */
 ${#uris.escapePathSegment(uri)}
 ${#uris.escapePathSegment(uri, encoding)}
@@ -5099,7 +5099,8 @@ ${#uris.unescapePathSegment(uri)}
 ${#uris.unescapePathSegment(uri, encoding)}
 
 /*
- * Escape/Unescape como identificador de fragmento (#frag)
+ * Realiza operaciones de escape/descodificación con identificadores de 
+ * fragmento (#frag)
  */
 ${#uris.escapeFragmentId(uri)}
 ${#uris.escapeFragmentId(uri, encoding)}
@@ -5107,7 +5108,8 @@ ${#uris.unescapeFragmentId(uri)}
 ${#uris.unescapeFragmentId(uri, encoding)}
 
 /*
- * Escape/Unescape como parámetro de consulta (?var=valor)
+ * Realiza operaciones de escape/descodificación con parámetros de consulta 
+ * (?var=valor)
  */
 ${#uris.escapeQueryParam(uri)}
 ${#uris.escapeQueryParam(uri, encoding)}
@@ -5128,8 +5130,7 @@ ${#uris.unescapeQueryParam(uri, encoding)}
  */
 
 /*
- * Ejecute la conversión deseada del valor del 'objeto' al
- * clase especificada.
+ * Ejecuta la conversión deseada del valor del 'objeto' a la clase especificada.
  */
 ${#conversions.convert(object, 'java.util.TimeZone')}
 ${#conversions.convert(object, targetClass)}
@@ -5147,7 +5148,7 @@ ${#conversions.convert(object, targetClass)}
  */
 
 /*
- * Formatea la fecha con el formato local estándar
+ * Formatea la fecha con el formato local estándar.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#dates.format(date)}
@@ -5156,7 +5157,7 @@ ${#dates.listFormat(datesList)}
 ${#dates.setFormat(datesSet)}
 
 /*
- * Formatea fecha con el formato ISO8601
+ * Formatea fecha con el formato ISO8601.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#dates.formatISO(date)}
@@ -5165,7 +5166,7 @@ ${#dates.listFormatISO(datesList)}
 ${#dates.setFormatISO(datesSet)}
 
 /*
- * Da formato a la fecha con el patrón especificado
+ * Da formato a la fecha con el patrón especificado.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#dates.format(date, 'dd/MMM/yyyy HH:mm')}
@@ -5206,7 +5207,8 @@ ${#dates.createNow()}
 ${#dates.createNowForTimeZone()}
 
 /*
- * Crea un objeto de fecha (java.util.Date) para la fecha actual (hora establecida en 00:00)
+ * Crea un objeto de fecha (java.util.Date) para la fecha actual (hora 
+ * establecida en 00:00)
  */
 ${#dates.createToday()}
 
@@ -5225,8 +5227,8 @@ ${#dates.createTodayForTimeZone()}
  */
 
 /*
- * Formatea el calendario con el formato local estándar
- * También funciona con matrices, listas o conjuntos.
+ * Formatea el calendario con el formato local estándar. También funciona con 
+ * matrices, listas o conjuntos.
  */
 ${#calendars.format(cal)}
 ${#calendars.arrayFormat(calArray)}
@@ -5234,8 +5236,8 @@ ${#calendars.listFormat(calList)}
 ${#calendars.setFormat(calSet)}
 
 /*
- * Formatea calendario con el formato ISO8601
- * También funciona con matrices, listas o conjuntos.
+ * Formatea calendario con el formato ISO8601. También funciona con matrices, 
+ * listas o conjuntos.
  */
 ${#calendars.formatISO(cal)}
 ${#calendars.arrayFormatISO(calArray)}
@@ -5243,8 +5245,8 @@ ${#calendars.listFormatISO(calList)}
 ${#calendars.setFormatISO(calSet)}
 
 /*
- * Da formato al calendario con el patrón especificado
- * También funciona con matrices, listas o conjuntos.
+ * Da formato al calendario con el patrón especificado. También funciona con 
+ * matrices, listas o conjuntos.
  */
 ${#calendars.format(cal, 'dd/MMM/yyyy HH:mm')}
 ${#calendars.arrayFormat(calArray, 'dd/MMM/yyyy HH:mm')}
@@ -5252,8 +5254,8 @@ ${#calendars.listFormat(calList, 'dd/MMM/yyyy HH:mm')}
 ${#calendars.setFormat(calSet, 'dd/MMM/yyyy HH:mm')}
 
 /*
- * Obtiene propiedades de calendario
- * También funciona con matrices, listas o conjuntos.
+ * Obtiene propiedades de calendario. También funciona con matrices, listas o 
+ * conjuntos.
  */
 ${#calendars.day(date)}                // también arrayDay(...), listDay(...), etc.
 ${#calendars.month(date)}              // también arrayMonth(...), listMonth(...), etc.
@@ -5289,8 +5291,8 @@ ${#calendars.createNow()}
 ${#calendars.createNowForTimeZone()}
 
 /*
- * Crea un objeto de calendario (java.util.Calendar) para la fecha actual (hora establecida en 
- 00:00)
+ * Crea un objeto de calendario (java.util.Calendar) para la fecha actual 
+ * (hora establecida en 00:00)
  */
 ${#calendars.createToday()}
 
@@ -5319,8 +5321,8 @@ ${#temporals.listFormat(temporalsList)}
 ${#temporals.setFormat(temporalsSet)}
 
 /*
- * Formatea la fecha con el formato estándar para la configuración regional proporcionada
- * También funciona con matrices, listas o conjuntos.
+ * Formatea la fecha con el formato estándar para la configuración regional 
+ * proporcionada. También funciona con matrices, listas o conjuntos.
  */
 ${#temporals.format(temporal, locale)}
 ${#temporals.arrayFormat(temporalsArray, locale)}
@@ -5329,8 +5331,8 @@ ${#temporals.setFormat(temporalsSet, locale)}
 
 /*
  * Formatea la fecha con el patrón especificado.
- * También se pueden especificar SHORT, MEDIUM, LARGE y COMPLETE para utilizar los 
- * patrones java time.format.FormatStyle predeterminados.
+ * También se pueden especificar SHORT, MEDIUM, LARGE y COMPLETE para utilizar 
+ * los patrones java time.format.FormatStyle predeterminados.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#temporals.format(temporal, 'dd/MMM/yyyy HH:mm')}
@@ -5454,8 +5456,7 @@ ${#numbers.setFormatDecimal(numSet,3,2)}
 
 /*
  * Establece dígitos enteros mínimos y dígitos decimales (exactos), y también el 
- * separador decimal.
- * También funciona con matrices, listas o conjuntos.
+ * separador decimal. También funciona con matrices, listas o conjuntos.
  */
 ${#numbers.formatDecimal(num,3,2,'COMMA')}
 ${#numbers.arrayFormatDecimal(numArray,3,2,'COMMA')}
@@ -5463,9 +5464,9 @@ ${#numbers.listFormatDecimal(numList,3,2,'COMMA')}
 ${#numbers.setFormatDecimal(numSet,3,2,'COMMA')}
 
 /*
- * Establece los  mínimos dígitos enteros y dígitos decimales (exactos), y también 
- * miles y el separador decimal.
- * También funciona con matrices, listas o conjuntos.
+ * Establece los  mínimos dígitos enteros y dígitos decimales (exactos), y 
+ * también miles y el separador decimal. También funciona con matrices, listas 
+ * o conjuntos.
  */
 ${#numbers.formatDecimal(num,3,'POINT',2,'COMMA')}
 ${#numbers.arrayFormatDecimal(numArray,3,'POINT',2,'COMMA')}
@@ -5487,7 +5488,7 @@ ${#numbers.setFormatCurrency(numSet)}
 
 /* 
  * ======================
- * Porcentajes de formato
+ * Formateo de porcentajes
  * ======================
  */
 
@@ -5512,14 +5513,13 @@ ${#numbers.setFormatPercent(numSet, 3, 2)}
  */
 
 /*
- * Crea una secuencia (matriz) de números enteros yendo
- * de x a y
+ * Crea una secuencia (matriz) de números enteros yendo  de x a y
  */
 ${#numbers.sequence(from,to)}
 ${#numbers.sequence(from,to,step)}
 ```
 
-### Cadenas (String, en inglés)
+### Cadenas
 
  * **\#strings** : métodos de utilidad para objetos `String`:
 
@@ -5537,8 +5537,7 @@ ${#strings.toString(obj)}                      // también array*, list* y  set*
 
 /*
  * Comprueba si una cadena está vacía (o nula). Realiza una operación trim() 
- * antes de verificar
- * También funciona con matrices, listas o conjuntos.
+ * antes de verificar. También funciona con matrices, listas o conjuntos.
  */
 ${#strings.isEmpty(name)}
 ${#strings.arrayIsEmpty(nameArr)}
@@ -5546,7 +5545,7 @@ ${#strings.listIsEmpty(nameList)}
 ${#strings.setIsEmpty(nameSet)}
 
 /*
- * Realiza una verificación 'isEmpty()' en una cadena y devuélvala si es falsa, 
+ * Realiza una verificación 'isEmpty()' en una cadena y la devuelve si es falsa, 
  * de forma predeterminada otra cadena especificada si es verdadera.
  * También funciona con matrices, listas o conjuntos.
  */
@@ -5556,92 +5555,91 @@ ${#strings.listDefaultString(textList,default)}
 ${#strings.setDefaultString(textSet,default)}
 
 /*
- * Comprueba si un fragmento está contenido en una cadena
+ * Comprueba si un fragmento está contenido en una cadena.
  * También funciona con matrices, listas o conjuntos.
  */
-${#strings.contains(name,'ez')}                   // también array*, list* y set*
-${#strings.containsIgnoreCase(name,'ez')}         // también array*, list* y set*
+${#strings.contains(name,'ez')}                  // también array*, list* y set*
+${#strings.containsIgnoreCase(name,'ez')}        // también array*, list* y set*
 
 /*
- * Comprueba si una cadena comienza o termina con un fragmento
+ * Comprueba si una cadena comienza o termina con un fragmento.
  * También funciona con matrices, listas o conjuntos.
  */
-${#strings.startsWith(name,'Don')}                  // también array*, list* y set*
-${#strings.endsWith(name,endingFragment)}           // también array*, list* y set*
+${#strings.startsWith(name,'Don')}               // también array*, list* y set*
+${#strings.endsWith(name,endingFragment)}        // también array*, list* y set*
 
 /*
- * Operaciones relacionadas con subcadenas
+ * Realiza operaciones relacionadas con subcadenas.
  * También funciona con matrices, listas o conjuntos.
  */
-${#strings.indexOf(name,frag)}                      // también array*, list* y set*
-${#strings.substring(name,3,5)}                     // también array*, list* y set*
-${#strings.substringAfter(name,prefix)}             // también array*, list* y set*
-${#strings.substringBefore(name,suffix)}            // también array*, list* y set*
-${#strings.replace(name,'las','ler')}               // también array*, list* y set*
+${#strings.indexOf(name,frag)}                   // también array*, list* y set*
+${#strings.substring(name,3,5)}                  // también array*, list* y set*
+${#strings.substringAfter(name,prefix)}          // también array*, list* y set*
+${#strings.substringBefore(name,suffix)}         // también array*, list* y set*
+${#strings.replace(name,'las','ler')}            // también array*, list* y set*
 
 /*
- * Agregar y anteponer
+ * Agrega y antepone. También funciona con matrices, listas o conjuntos.
+ */
+${#strings.prepend(str,prefix)}                  // también array*, list* y set*
+${#strings.append(str,suffix)}                   // también array*, list* y set*
+
+/*
+ * Cambia el caso (mayúsculas y minúsculas).
  * También funciona con matrices, listas o conjuntos.
  */
-${#strings.prepend(str,prefix)}                     // también array*, list* y set*
-${#strings.append(str,suffix)}                      // también array*, list* y set*
+${#strings.toUpperCase(name)}                    // también array*, list* y set*
+${#strings.toLowerCase(name)}                    // también array*, list* y set*
 
 /*
- * Cambia el caso (mayúsculas y minúsculas)
- * También funciona con matrices, listas o conjuntos.
- */
-${#strings.toUpperCase(name)}                       // también array*, list* y set*
-${#strings.toLowerCase(name)}                       // también array*, list* y set*
-
-/*
- * Split y  join
+ * Divide y une
  */
 ${#strings.arrayJoin(namesArray,',')}
 ${#strings.listJoin(namesList,',')}
 ${#strings.setJoin(namesSet,',')}
-${#strings.arraySplit(namesStr,',')}                // devuelve String[]
-${#strings.listSplit(namesStr,',')}                 // devuelve List<String>
-${#strings.setSplit(namesStr,',')}                  // devuelve Set<String>
+${#strings.arraySplit(namesStr,',')}             // devuelve String[]
+${#strings.listSplit(namesStr,',')}              // devuelve List<String>
+${#strings.setSplit(namesStr,',')}               // devuelve Set<String>
 
 /*
- * Trim
- * También funciona con matrices, listas o conjuntos.
+ * Recorta (elimina los caracteres en blanco al principio y al final de la 
+ * cadena). También funciona con matrices, listas o conjuntos.
  */
-${#strings.trim(str)}                               // también array*, list* y set*
+${#strings.trim(str)}                            // también array*, list* y set*
 
 /*
- * Calcular longitud
+ * Calcula la longitud
  * También funciona con matrices, listas o conjuntos.
  */
-${#strings.length(str)}                             // también array*, list* y set*
+${#strings.length(str)}                          // también array*, list* y set*
 
 /*
  * Abrevia el texto haciendo que tenga un tamaño máximo de n. Si el texto es más 
- * grande, será recortado y terminado en "..."
+ * grande, será recortado y terminado en "...".
  * También funciona con matrices, listas o conjuntos.
  */
-${#strings.abbreviate(str,10)}                      // también array*, list* y set*
+${#strings.abbreviate(str,10)}                   // también array*, list* y set*
 
 /*
- * Convertir el primer carácter a mayúsculas (y viceversa)
+ * Convierte el primer carácter a mayúsculas (y viceversa)
  */
-${#strings.capitalize(str)}                         // también array*, list* y set*
-${#strings.unCapitalize(str)}                       // también array*, list* y set*
+${#strings.capitalize(str)}                      // también array*, list* y set*
+${#strings.unCapitalize(str)}                    // también array*, list* y set*
 
 /*
  * Convierte el primer carácter de cada palabra a mayúsculas
  */
-${#strings.capitalizeWords(str)}                    // también array*, list* y set*
-${#strings.capitalizeWords(str,delimiters)}         // también array*, list* y set*
+${#strings.capitalizeWords(str)}                 // también array*, list* y set*
+${#strings.capitalizeWords(str,delimiters)}      // también array*, list* y set*
 
 /*
  * Realiza el escapado de cadenas
  */
-${#strings.escapeXml(str)}                          // también array*, list* y set*
-${#strings.escapeJava(str)}                         // también array*, list* y set*
-${#strings.escapeJavaScript(str)}                   // también array*, list* y set*
-${#strings.unescapeJava(str)}                       // también array*, list* y set*
-${#strings.unescapeJavaScript(str)}                 // también array*, list* y set*
+${#strings.escapeXml(str)}                       // también array*, list* y set*
+${#strings.escapeJava(str)}                      // también array*, list* y set*
+${#strings.escapeJavaScript(str)}                // también array*, list* y set*
+${#strings.unescapeJava(str)}                    // también array*, list* y set*
+${#strings.unescapeJavaScript(str)}              // también array*, list* y set*
 
 /*
  * Comparación y concatenación segura contra nulos
@@ -5659,7 +5657,7 @@ ${#strings.randomAlphanumeric(count)}
 
 ### Objetos
 
- * **\#objects**: métodos de utilidad para objetos en general
+ * **\#objects**: métodos de utilidad para objetos en general.
 
 ```java
 /*
@@ -5669,8 +5667,8 @@ ${#strings.randomAlphanumeric(count)}
  */
 
 /*
- * Devuelve el objeto si no es nulo, de forma predeterminada en caso contrario
- * También funciona con matrices, listas o conjuntos.
+ * Devuelve el objeto si no es nulo, o el valor predeterminado, en caso 
+ * contrario. También funciona con matrices, listas o conjuntos.
  */
 ${#objects.nullSafe(obj,default)}
 ${#objects.arrayNullSafe(objArray,default)}
@@ -5680,7 +5678,7 @@ ${#objects.setNullSafe(objSet,default)}
 
 ### Booleanos
 
-* **\#bools**: métodos de utilidad para evaluación booleana
+* **\#bools**: métodos de utilidad para evaluación booleana.
 
 ```java
 /*
@@ -5690,8 +5688,8 @@ ${#objects.setNullSafe(objSet,default)}
  */
 
 /*
- * Evalua una condición de la misma manera que se evaluaría en una etiqueta th:if
- * (ver capítulo de evaluación condicional más adelante).
+ * Evalúa una condición de la misma manera que se evaluaría en una 
+ * etiqueta th:if (ver capítulo de evaluación condicional más adelante).
  * También funciona con matrices, listas o conjuntos.
  */
 ${#bools.isTrue(obj)}
@@ -5700,7 +5698,7 @@ ${#bools.listIsTrue(objList)}
 ${#bools.setIsTrue(objSet)}
 
 /*
- * Evalua con negación
+ * Evalúa con negación.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#bools.isFalse(cond)}
@@ -5709,16 +5707,16 @@ ${#bools.listIsFalse(condList)}
 ${#bools.setIsFalse(condSet)}
 
 /*
- * Evalua y aplica el operador AND
- * Recibe una matriz, una lista o un conjunto como parámetro
+ * Evalúa y aplica el operador AND.
+ * Recibe una matriz, una lista o un conjunto como parámetro.
  */
 ${#bools.arrayAnd(condArray)}
 ${#bools.listAnd(condList)}
 ${#bools.setAnd(condSet)}
 
 /*
- * Evalua y aplica el operador OR
- * Recibe una matriz, una lista o un conjunto como parámetro
+ * Evalúa y aplica el operador OR.
+ * Recibe una matriz, una lista o un conjunto como parámetro.
  */
 ${#bools.arrayOr(condArray)}
 ${#bools.listOr(condList)}
@@ -5727,7 +5725,7 @@ ${#bools.setOr(condSet)}
 
 ### Matrices
 
- * **\#arrays** : métodos de utilidad para matrices
+ * **\#arrays** : métodos de utilidad para matrices.
 
 ```java
 /*
@@ -5737,10 +5735,10 @@ ${#bools.setOr(condSet)}
  */
 
 /*
- * Se convierte en una matriz, intentando inferir la clase del componente de la matriz.
- * Tenga en cuenta que si la matriz resultante está vacía o si los elementos
- * del objeto de destino no son todos de la misma clase,
- * este método devolverá Objeto[].
+ * Se convierte en una matriz, intentando inferir la clase del componente de 
+ * la matriz. Tenga en cuenta que si la matriz resultante está vacía o si 
+ * los elementos del objeto de destino no son todos de la misma clase,
+ * este método devolverá Object[].
  */
 ${#arrays.toArray(object)}
 
@@ -5773,7 +5771,7 @@ ${#arrays.containsAll(array, elements)}
 
 ### Listas
 
- * **\#lists** : métodos de utilidad para listas
+ * **\#lists** : métodos de utilidad para listas.
 
 ```java
 /*
@@ -5783,7 +5781,7 @@ ${#arrays.containsAll(array, elements)}
  */
 
 /*
- * Se convierte en lista
+ * Convierte un objeto en lista
  */
 ${#lists.toList(object)}
 
@@ -5805,7 +5803,7 @@ ${#lists.containsAll(list, elements)}
 
 /*
  * Ordena una copia de la lista dada. Los miembros de la lista deben implementar
- * comparable o debes definir un comparador.
+ * Comparable o debe definir un comparador.
  */
 ${#lists.sort(list)}
 ${#lists.sort(list, comparator)}
@@ -5813,7 +5811,7 @@ ${#lists.sort(list, comparator)}
 
 ### Conjuntos (Sets)
 
- * **\#sets** : métodos de utilidad para conjuntos (sets)
+ * **\#sets** : métodos de utilidad para conjuntos (sets).
 
 ```java
 /*
@@ -5823,7 +5821,7 @@ ${#lists.sort(list, comparator)}
  */
 
 /*
- * Se convierte en conjunto
+ * Convierte un objeto en conjunto
  */
 ${#sets.toSet(object)}
 
@@ -5846,7 +5844,7 @@ ${#sets.containsAll(set, elements)}
 
 ### Mapas
 
- * **\#maps** : métodos de utilidad para mapas
+ * **\#maps** : métodos de utilidad para mapas.
 
 ```java
 /*
@@ -5877,7 +5875,7 @@ ${#maps.containsAllValues(map, value)}
 ### Agregados
 
  * **\#aggregates**: métodos de utilidad para crear agregados de matrices o 
-   colecciones
+   colecciones.
 
 ```java
 /*
@@ -5912,9 +5910,9 @@ ${#aggregates.avg(collection)}
  */
 
 /*
- * Normalmente se usa en los atributos th:id, para agregar un contador al valor del 
- * atributo id  para que siga siendo único incluso cuando esté involucrado en un 
- * proceso de iteración.
+ * Normalmente se usa en los atributos th:id, para agregar un contador al 
+ * valor del atributo id  para que siga siendo único incluso cuando esté 
+ * involucrado en un proceso de iteración.
  */
 ${#ids.seq('someId')}
 
@@ -5923,9 +5921,9 @@ ${#ids.seq('someId')}
  * etiquetas puedan hacer referencia a Ids.
  * Generado mediante la función #ids.seq(...).
  *
- * Dependiendo de si la <label> va antes o después del elemento con el #ids.seq(...)
- * función, la función "siguiente" (la etiqueta va antes de "seq") o la función "anterior" 
- * (la etiqueta va después. Se debe llamar a la función "seq").
+ * Dependiendo de si la <label> va antes o después del elemento con la función 
+ * #ids.seq(...), la función "next" (la etiqueta va antes de "seq") o la 
+ * función "prev" (la etiqueta va después. Se debe llamar a la función "seq").
  */
 ${#ids.next('someId')}
 ${#ids.prev('someId')}

@@ -3355,9 +3355,9 @@ dará exactamente los mismos resultados si se invierte la posición del atributo
 11.1. Comentarios HTML/XML estándar
 -----------------------------------
 
-Standard HTML/XML comments `<!-- ... -->` can be used anywhere in Thymeleaf
-templates. Anything inside these comments won't be processed by Thymeleaf, and
-will be copied verbatim to the result:
+Los comentarios HTML/XML estándar `<!-- ... -->` se pueden usar en cualquier
+parte de las plantillas de Thymeleaf. El contenido de estos comentarios no será
+procesado por Thymeleaf y se copiará textualmente en el resultado:
 
 ```html
 <!-- User info follows -->
@@ -3369,16 +3369,17 @@ will be copied verbatim to the result:
 11.2. Bloques de comentarios a nivel de analizador de Thymeleaf
 ---------------------------------------------------------------
 
-Parser-level comment blocks are code that will be simply removed from the
-template when Thymeleaf parses it. They look like this:
+Los bloques de comentarios a nivel de analizador son código que simplemente se
+eliminará de la plantilla cuando Thymeleaf la analice. Tienen este aspecto:
 
 ```html
 <!--/* This code will be removed at Thymeleaf parsing time! */-->
 ``` 
 
-Thymeleaf will remove everything between `<!--/*` and `*/-->`, so these comment
-blocks can also be used for displaying code when a template is statically open,
-knowing that it will be removed when Thymeleaf processes it:
+Thymeleaf eliminará todo lo que esté entre `<!--/*` y `*/-->`, por lo que estos
+bloques de comentarios también se pueden usar para mostrar código cuando una
+plantilla se abra estáticamente, sabiendo que se eliminará cuando Thymeleaf
+la procese:
 
 ```html
 <!--/*--> 
@@ -3388,8 +3389,8 @@ knowing that it will be removed when Thymeleaf processes it:
 <!--*/-->
 ```
 
-This might come very handy for prototyping tables with a lot of `<tr>`'s, for
-example:
+Esto podría resultar muy útil para crear prototipos de tablas con muchos `<tr>`,
+por ejemplo:
 
 ```html
 <table>
@@ -3410,9 +3411,10 @@ example:
 11.3. Bloques de comentarios exclusivos del prototipo de Thymeleaf
 ------------------------------------------------------------------
 
-Thymeleaf allows the definition of special comment blocks marked to be comments
-when the template is open statically (i.e. as a prototype), but considered
-normal markup by Thymeleaf when executing the template.
+Thymeleaf permite la definición de bloques de comentarios especiales marcados
+como comentarios cuando la plantilla está abierta estáticamente (es decir, como
+prototipo), pero que Thymeleaf considera como marcado normal al ejecutar la
+plantilla.
 
 ```html
 <span>hello!</span>
@@ -3424,9 +3426,9 @@ normal markup by Thymeleaf when executing the template.
 <span>goodbye!</span>
 ```
 
-Thymeleaf's parsing system will simply remove the `<!--/*/` and `/*/-->` markers,
-but not its contents, which will be left therefore uncommented. So when
-executing the template, Thymeleaf will actually see this:
+El sistema de análisis de Thymeleaf simplemente eliminará los marcadores
+`<!--/*/` y `/*/-->`, pero no su contenido, que quedará sin comentar. Por lo
+tanto, al ejecutar la plantilla, Thymeleaf verá esto:
 
 ```html
 <span>hello!</span>
@@ -3438,20 +3440,22 @@ executing the template, Thymeleaf will actually see this:
 <span>goodbye!</span>
 ```
 
-As with parser-level comment blocks, this feature is dialect-independent.
+Al igual que con los bloques de comentarios a nivel de analizador, esta
+característica es independiente del dialecto.
 
 11.4. Etiqueta sintética `th:block`
 -----------------------------------
 
-Thymeleaf's only element processor (not an attribute) included in the Standard
-Dialects is `th:block`.
+El único procesador de elementos (no un atributo) de Thymeleaf incluido en los
+dialectos estándar es `th:block`.
 
-`th:block` is a mere attribute container that allows template developers to
-specify whichever attributes they want. Thymeleaf will execute these attributes
-and then simply make the block, but not its contents, disappear.
+`th:block` es un simple contenedor de atributos que permite a los
+desarrolladores de plantillas especificar los atributos que deseen. Thymeleaf
+ejecutará estos atributos y luego simplemente hará que el bloque, pero no su
+contenido, desaparezca.
 
-So it could be useful, for example, when creating iterated tables that require
-more than one `<tr>` for each element:
+Por lo tanto, podría ser útil, por ejemplo, al crear tablas iteradas que
+requieren más de un `<tr>` para cada elemento:
 
 ```html
 <table>
@@ -3467,7 +3471,8 @@ more than one `<tr>` for each element:
 </table>
 ```
 
-And especially useful when used in combination with prototype-only comment blocks:
+Y especialmente útil cuando se usa en combinación con bloques de comentarios
+exclusivos de prototipos:
 
 ```html
 <table>
@@ -3483,9 +3488,10 @@ And especially useful when used in combination with prototype-only comment block
 </table>
 ```
 
-Note how this solution allows templates to be valid HTML (no need to add
-forbidden `<div>` blocks inside `<table>`), and still works OK when open
-statically in browsers as prototypes! 
+Tenga en cuenta como esta solución permite que las plantillas sean HTML válido
+(sin necesidad de agregar bloques prohibidos `<div>` dentro de `<table>`) y que
+aún funcionen correctamente cuando se abren estáticamente en navegadores como
+prototipos.
 
 12 Inserción en línea
 =====================
@@ -3493,91 +3499,93 @@ statically in browsers as prototypes!
 12.1 Inserción de expresiones en línea
 --------------------------------------
 
-Although the Standard Dialect allows us to do almost everything using tag
-attributes, there are situations in which we could prefer writing expressions
-directly into our HTML texts. For example, we could prefer writing this:
+Aunque el Dialecto Estándar nos permite hacer casi todo usando atributos de
+etiqueta, hay situaciones en las que preferiríamos escribir expresiones
+directamente en nuestros textos HTML. Por ejemplo, podríamos escribir esto:
 
 ```html
 <p>Hello, [[${session.user.name}]]!</p>
 ```
 
-...instead of this:
+...en lugar de esto:
 
 ```html
 <p>Hello, <span th:text="${session.user.name}">Sebastian</span>!</p>
 ```
 
-Expressions between `[[...]]` or `[(...)]` are considered **inlined expressions**
-in Thymeleaf, and inside them we can use any kind of expression that would also
-be valid in a `th:text` or `th:utext` attribute.
+Las expresiones entre `[[...]]` o `[(...)]` se consideran
+**expresiones en línea** en Thymeleaf, y dentro de ellas podemos usar cualquier
+tipo de expresión que también sería válida en un atributo `th:text` o
+`th:utext`.
 
-Note that, while `[[...]]` corresponds to `th:text` (i.e. result will be *HTML-escaped*), 
-`[(...)]` corresponds to `th:utext` and will not perform any HTML-escaping. So
-with a variable such as `msg = 'This is <b>great!</b>'`, given this fragment:
+Tenga en cuenta que, mientras que `[[...]]` corresponde a `th:text` (es decir,
+el resultado se escapará en HTML), `[(...)]` corresponde a `th:utext` y no se
+escapará en HTML. Por lo tanto, con una variable como
+`msg = 'This is <b>great!</b>'`, dado este fragmento:
 
 ```html
 <p>The message is "[(${msg})]"</p>
 ```
 
-The result will have those `<b>` tags unescaped, so:
+El resultado tendrá esas etiquetas `<b>` sin escapar, así que:
 
 ```html
 <p>The message is "This is <b>great!</b>"</p>
 ```
 
-Whereas if escaped like:
+Mientras que si se escapa así:
 
 ```html
 <p>The message is "[[${msg}]]"</p>
 ```
 
-The result will be HTML-escaped:
+El resultado se escapará en HTML:
 
 ```html
 <p>The message is "This is &lt;b&gt;great!&lt;/b&gt;"</p>
 ```
 
-Note that **text inlining is active by default** in the body of every tag in our
-markup –- not the tags themselves -–, so there is nothing we need to do to
-enable it.
+Tenga en cuenta que la **inserción de texto en línea está activada de forma
+predeterminada** en el cuerpo de cada etiqueta de nuestro marcado, no en las
+etiquetas en sí, por lo que no es necesario hacer nada para habilitarla.
 
 ### Plantillas en línea vs. plantillas naturales
 
-If you come from other template engines in which this way of outputting text is
-the norm, you might be asking: _Why aren't we doing this from the beginning?
-It's less code than all those_ `th:text` _attributes!_ 
+Si vienes de otros motores de plantillas donde esta forma de generar texto es la
+norma, te preguntarás: ¿Por qué no lo hacemos desde el principio?
+¡Es menos código que todos esos atributos `th:text`!
 
-Well, be careful there, because although you might find inlining quite 
-interesting, you should always remember that inlined expressions will be 
-displayed verbatim in your HTML files when you open them statically, so you 
-probably won't be able to use them as design prototypes anymore!
+Bueno, ten cuidado, porque aunque la inserción de código en línea te parezca
+bastante interesante, recuerda siempre que las expresiones de inserción en línea
+se mostrarán textualmente en tus archivos HTML al abrirlos estáticamente, por lo
+que probablemente ya no podrás usarlas como prototipos de diseño.
 
-The difference between how a browser would statically display our fragment of
-code without using inlining...
+La diferencia entre cómo un navegador mostraría estáticamente nuestro fragmento
+de código sin usar la inserción en línea...
 
 ```
 Hello, Sebastian!
 ```
 
-...and using it...
+... Y usándola...
 
 ```
 Hello, [[${session.user.name}]]!
 ```
 
-...is quite clear in terms of design usefulness.
+...es bastante clara en términos de utilidad del diseño.
 
 ### Deshabilitar la inserción en línea
 
-This mechanism can be disabled though, because there might actually be occasions
-in which we do want to output the `[[...]]` or  `[(...)]` sequences without its
-contents being processed as an expression. For that, we will use `th:inline="none"`:
+Sin embargo, este mecanismo se puede desactivar, ya que podría haber ocasiones
+en las que queramos generar las secuencias `[[...]]` o `[(...)]` sin que su
+contenido se procese como una expresión. Para ello, usaremos `th:inline="none"`:
 
 ```html
 <p th:inline="none">A double array looks like this: [[1, 2, 3], [4, 5]]!</p>
 ```
 
-This will result in:
+Esto dará como resultado:
 
 ```html
 <p>A double array looks like this: [[1, 2, 3], [4, 5]]!</p>
@@ -3586,30 +3594,34 @@ This will result in:
 12.2 Inserción de texto en línea
 --------------------------------
 
-*Text inlining* is very similar to the *expression inlining* capability we have
-just seen, but it actually adds more power. It has to be enabled explicitly with
-`th:inline="text"`.
+La *inserción de texto en línea* es muy similar a la función de
+*inserción de expresiones* que acabamos de ver, pero en realidad añade más
+potencia. Debe habilitarse explícitamente con `th:inline="text"`.
 
-Text inlining not only allows us to use the same *inlined expressions* we just
-saw, but in fact processes *tag bodies* as if they were templates processed in
-the `TEXT` template mode, which allows us to perform text-based template logic
-(not only output expressions).
+La inserción de texto en línea no solo nos permite usar las mismas *expresiones
+insertadas* que acabamos de ver, sino que procesa los *cuerpos de las etiquetas*
+como si fueran plantillas procesadas en el modo de plantilla `TEXT`, lo que nos
+permite ejecutar lógica de plantilla basada en texto (no solo expresiones de
+salida).
 
-We will see more about this in the next chapter about the *textual template modes*.
+Veremos más sobre esto en el próximo capítulo sobre los *modos de plantilla
+textual*.
 
 12.3 Inserción de JavaScript en línea
 -------------------------------------
 
-JavaScript inlining allows for a better integration of JavaScript `<script>`
-blocks in templates being processed in the `HTML` template mode.
+La inserción en línea de JavaScript permite una mejor integración de los bloques
+de código `<script>` de JavaScript en las plantillas que se procesan en el modo
+de plantilla `HTML`.
 
-As with *text inlining*, this is actually equivalent to processing the scripts
-contents as if they were templates in the `JAVASCRIPT` template mode, and
-therefore all the power of the *textual template modes* (see next chapter) will
-be at hand. However, in this section we will focus on how we can use it for 
-adding the output of our Thymeleaf expressions into our JavaScript blocks.
+Al igual que con la *inserción en línea de texto*, esto equivale a procesar el
+contenido de los scripts como si fueran plantillas en el modo de plantilla
+`JAVASCRIPT` y, por lo tanto, se aprovechará toda la potencia de los *modos de
+plantilla textuales* (véase el siguiente capítulo). Sin embargo, en esta
+sección, nos centraremos en cómo podemos usarlo para añadir la salida de
+nuestras expresiones de Thymeleaf a nuestros bloques de JavaScript.
 
-This mode has to be explicitly enabled using `th:inline="javascript"`:
+Este modo debe habilitarse explícitamente mediante `th:inline="javascript"`:
 
 ```html
 <script th:inline="javascript">
@@ -3619,7 +3631,7 @@ This mode has to be explicitly enabled using `th:inline="javascript"`:
 </script>
 ```
 
-This will result in:
+Esto dará como resultado:
 
 ```html
 <script th:inline="javascript">
@@ -3629,15 +3641,16 @@ This will result in:
 </script>
 ```
 
-Two important things to note in the code above: 
+Dos aspectos importantes a tener en cuenta en el código anterior: 
 
-*First*, that JavaScript inlining will not only output the required text, but 
-also enclose it with quotes and JavaScript-escape its contents, so that the
-expression results are output as a **well-formed JavaScript literal**.
+*Primero*, la inserción en línea de JavaScript no solo mostrará el texto
+requerido, sino que también lo encerrará entre comillas y escapará su contenido
+con JavaScript, de modo que los resultados de la expresión se muestren como un
+**literal de JavaScript bien formado**.
 
-*Second*, that this is happening because we are outputting the `${session.user.name}`
-expression as **escaped**, i.e. using a double-bracket expression: `[[${session.user.name}]]`.
-If instead we used *unescaped* like:
+*Segundo*, esto ocurre porque mostramos la expresión `${session.user.name}`
+como **escapada**, es decir, usando una expresión entre corchetes:
+`[[${session.user.name}]]`. Si, en cambio, la usáramos *sin escape*, como:
 
 ```html
 <script th:inline="javascript">
@@ -3647,7 +3660,7 @@ If instead we used *unescaped* like:
 </script>
 ```
 
-The result would look like:
+El resultado se vería así:
 
 ```html
 <script th:inline="javascript">
@@ -3657,18 +3670,18 @@ The result would look like:
 </script>
 ```
 
-...which is malformed JavaScript code. But outputting something unescaped might
-be what we need if we are building parts of our script by means of appending
-inlined expressions, so it's good to have this tool at hand.
+... Que es código JavaScript mal formado. Pero generar algo sin escape podría ser
+lo que necesitamos si construimos partes de nuestro script añadiendo expresiones
+en línea, así que es bueno tener esta herramienta a mano.
 
 ### Plantillas naturales de JavaScript
 
-The mentioned *intelligence* of the JavaScript inlining mechanism goes much
-further than just applying JavaScript-specific escaping and outputting
-expression results as valid literals.
+La mencionada *inteligencia* del mecanismo de inserción en línea de JavaScript
+va mucho más allá de simplemente aplicar escapes específicos de JavaScript y
+mostrar los resultados de las expresiones como literales válidos.
 
-For example, we can wrap our (escaped) inlined expressions in JavaScript
-comments like:
+Por ejemplo, podemos encapsular nuestras expresiones de inserción en línea
+(escapadas) en JavaScript en comentarios de JavaScript como:
 
 ```html
 <script th:inline="javascript">
@@ -3678,10 +3691,10 @@ comments like:
 </script>
 ```
 
-And Thymeleaf will ignore everything we have written *after the comment and
-before the semicolon* (in this case ` 'Gertrud Kiwifruit'`), so the result of
-executing this will look exactly like when we were not using the wrapping
-comments:
+Y Thymeleaf ignorará todo lo que hayamos escrito *después del comentario y
+antes del punto y coma* (en este caso, ` 'Gertrud Kiwifruit'`), por lo que el
+resultado de ejecutar esto se verá exactamente como cuando no usábamos los
+comentarios envolventes:
 
 ```html
 <script th:inline="javascript">
@@ -3691,7 +3704,7 @@ comments:
 </script>
 ```
 
-But have another careful look at the original template code:
+Pero eche otra mirada cuidadosa al código de la plantilla original:
 
 
 ```html
@@ -3702,27 +3715,28 @@ But have another careful look at the original template code:
 </script>
 ```
 
-Note how this is **valid JavaScript** code. And it will perfectly execute when
-you open your template file in a static manner (without executing it at a
-server).
+Tenga en cuenta que este código es **JavaScript válido**. Se ejecutará
+perfectamente al abrir el archivo de plantilla de forma estática (sin ejecutarlo
+en un servidor).
 
-So what we have here is a way to do **JavaScript natural templates**!
+¡Así que tenemos una forma de crear **plantillas naturales de JavaScript**!
 
 ### Evaluación en línea avanzada y serialización de JavaScript
 
-An important thing to note regarding JavaScript inlining is that this
-expression evaluation is intelligent and not limited to Strings. Thymeleaf will
-correctly write in JavaScript syntax the following kinds of objects:
+Un aspecto importante a tener en cuenta con respecto a la inserción de código
+en línea de JavaScript es que esta evaluación de expresiones es inteligente y
+no se limita a Strings. Thymeleaf escribirá correctamente en sintaxis JavaScript
+los siguientes tipos de objetos:
 
- * Strings
- * Numbers
- * Booleans
- * Arrays
- * Collections
- * Maps
- * Beans (objects with _getter_ and _setter_ methods)
+* Strings
+* Numbers
+* Booleanos
+* Arrays
+* Collections
+* Maps
+* Beans (objetos con métodos _getter_ y _setter_)
 
-For example, if we had the following code:
+Por ejemplo, si tuviéramos el siguiente código:
 
 ```html
 <script th:inline="javascript">
@@ -3732,8 +3746,8 @@ For example, if we had the following code:
 </script>
 ```
 
-That `${session.user}` expression will evaluate to a `User` object, and
-Thymeleaf will correctly convert it to Javascript syntax:
+Esa expresión `${session.user}` se evaluará como un objeto `User` y Thymeleaf la
+convertirá correctamente a la sintaxis de Javascript:
 
 ```html
 <script th:inline="javascript">
@@ -3744,21 +3758,22 @@ Thymeleaf will correctly convert it to Javascript syntax:
 </script>
 ```
 
-The way this JavaScript serialization is done is by means of an implementation
-of the `org.thymeleaf.standard.serializer.IStandardJavaScriptSerializer`
-interface, which can be configured at the instance of the `StandardDialect`
-being used at the template engine.
+Esta serialización de JavaScript se realiza mediante la implementación de la
+interfaz `org.thymeleaf.standard.serializer.IStandardJavaScriptSerializer`, que
+se puede configurar en la instancia de `StandardDialect` que se utiliza en el
+motor de plantillas.
 
-The default implementation of this JS serialization mechanism will look for the
-[Jackson library](https://github.com/FasterXML/jackson) in the classpath and, if
-present, will use it. If not, it will apply a built-in serialization mechanism
-that covers the needs of most scenarios and produces similar results (but is
-less flexible).
+La implementación predeterminada de este mecanismo de serialización de JS
+buscará la [biblioteca Jackson](https://github.com/FasterXML/jackson) en la ruta de clases y, si está presente,
+la usará. De lo contrario, aplicará un mecanismo de serialización integrado que
+cubre las necesidades de la mayoría de los escenarios y produce resultados
+similares (pero es menos flexible).
 
 12.4 CSS incrustado
 -------------------
 
-Thymeleaf also allows the use of inlining in CSS `<style>` tags, such as:
+Thymeleaf también permite el uso de incrustación en etiquetas CSS `<style>`,
+como:
 
 ```html
 <style th:inline="css">
@@ -3766,14 +3781,15 @@ Thymeleaf also allows the use of inlining in CSS `<style>` tags, such as:
 </style>
 ```
 
-For example, say we have two variables set to two different `String` values:
+Por ejemplo, digamos que tenemos dos variables configuradas con dos valores
+`String` diferentes:
 
 ```
 classname = 'main elems'
 align = 'center'
 ```
 
-We could use them just like:
+Podríamos usarlas así:
 
 ```html
 <style th:inline="css">
@@ -3783,7 +3799,7 @@ We could use them just like:
 </style>
 ```
 
-And the result would be:
+Y el resultado sería:
 
 ```html
 <style th:inline="css">
@@ -3793,17 +3809,18 @@ And the result would be:
 </style>
 ```
 
-Note how CSS inlining also bears some *intelligence*, just like JavaScript's.
-Specifically, expressions output via *escaped* expressions like `[[${classname}]]`
-will be escaped as **CSS identifiers**. That is why our `classname = 'main elems'`
-has turned into `main\ elems` in the fragment of code above.
+Observe cómo la inserción de CSS en línea también aporta cierta *inteligencia*,
+al igual que la de JavaScript. En concreto, las expresiones generadas mediante
+expresiones *escapadas* como `[[${classname}]]` se escaparán como
+**identificadores CSS**. Por eso, `classname = 'main elems'`
+se ha convertido en `main\ elems` en el fragmento de código anterior.
 
 ### Funciones avanzadas: plantillas naturales CSS, etc.
 
-In an equivalent way to what was explained before for JavaScript, CSS inlining
-also allows for our `<style>` tags to work both statically and dynamically, i.e.
- as **CSS natural templates** by means of wrapping inlined expressions in
- comments. See:
+De forma similar a lo explicado anteriormente para JavaScript, la inserción de
+CSS en línea también permite que nuestras etiquetas `<style>` funcionen tanto
+estática como dinámicamente, es decir, como **plantillas CSS naturales**, al
+encapsular expresiones en línea en comentarios. Véase:
 
 ```html
 <style th:inline="css">

@@ -3915,7 +3915,7 @@ de contenido adyacentes en lugar de en líneas propias.
 
 Otro ejemplo en modo de plantilla `JAVASCRIPT`: un archivo `greeter.js` que 
 procesamos como plantilla de texto y cuyo resultado invocamos desde nuestras 
-páginas HTML. Nota: Este no es un bloque `<script>` en una plantilla HTML, sino 
+páginas HTML. Nota: Este *no* es un bloque `<script>` en una plantilla HTML, sino 
 un archivo `.js` que se procesa como plantilla por sí solo:
 
 ```javascript
@@ -3957,11 +3957,12 @@ otros modos (p. ej., inserción en línea en modo `text` dentro de una plantilla
 
  * Los atributos en plantillas de modo `TEXT` no tendrán *formato HTML escapado*.
  * Los atributos en el modo de plantilla `JAVASCRIPT` no tendrán *formato de 
-escape JavaScript*.
+   escape JavaScript*.
  * Los atributos en el modo de plantilla `CSS` no tendrán *escape CSS*.
 
 Entonces esto estaría perfectamente bien en una plantilla en modo `TEXT` (tenga 
 en cuenta el `&gt;`):
+
 ```
   [# th:if="${120&lt;user.age}"]
      Congratulations!
@@ -3978,7 +3979,7 @@ apertura al abrir estáticamente el archivo como prototipo.
 -------------------
 
 Una de las ventajas de esta sintaxis es que es tan extensible como la de 
-*markup*. Los desarrolladores pueden definir sus propios dialectos con elementos 
+*marcado*. Los desarrolladores pueden definir sus propios dialectos con elementos 
 y atributos personalizados, aplicarles un prefijo (opcionalmente) y luego 
 usarlos en modos de plantilla textual:
 
@@ -3990,7 +3991,7 @@ usarlos en modos de plantilla textual:
 13.3 Bloques de comentarios de solo prototipos textuales: agregar código
 ------------------------------------------------------------------------
 
-Los modos de plantilla `JAVASCRIPT` y `CSS` (no disponibles para `TEXT`) 
+Los modos de plantilla `JAVASCRIPT` y `CSS` (no disponible para `TEXT`) 
 permiten incluir código entre una sintaxis de comentario especial `/*[+...+]*/` 
 para que Thymeleaf quite el comentario automáticamente dicho código al procesar 
 la plantilla:
@@ -4059,7 +4060,7 @@ O esto, en modo `TEXT`:
 
 ```
 ...
-/*[- Note the user is obtained from the session, which must exist -]*/
+/*[- Dese cuenta de que el usuario se obtiene de la sesión, la cual debe existir -]*/
 Welcome [(${session.user.name})]!
 ...
 ```
@@ -4077,7 +4078,7 @@ var username = /*[[${session.user.name}]]*/ "Sebastian Lychee";
 ...
 ```
 
-... La cual es JavaScript válido, y una vez ejecutado podría verse como:
+...la cual es JavaScript válido, y una vez ejecutado podría verse como:
 
 ```html
 ...
@@ -4095,8 +4096,8 @@ puede utilizar para toda la sintaxis del modo textual:
 ```
 
 Esa alerta en el código anterior se mostrará cuando la plantilla esté abierta 
-estáticamente (ya que es JavaScript 100 % válido) y también cuando se ejecute si 
-el usuario es administrador. Equivale a:
+estáticamente --ya que es JavaScript 100 % válido-- y también cuando se ejecute 
+si el usuario es administrador. Equivale a:
 
 ```
   [# th:if="${user.admin}"]
@@ -4104,19 +4105,17 @@ el usuario es administrador. Equivale a:
   [/]
 ```
 
-...Este es, en realidad, el código al que se convierte la versión inicial 
+...este es, en realidad, el código al que se convierte la versión inicial 
 durante el análisis de plantillas.
 
 Sin embargo, tenga en cuenta que encapsular elementos en comentarios no borra 
 las líneas en las que se encuentran (a la derecha hasta que se encuentra un 
-`;`) como sí lo hacen las expresiones de salida en línea.
+`;`) como sí lo hacen las expresiones de salida en línea. Este comportamiento 
+está reservado únicamente para expresiones de salida en línea.
 
-Este comportamiento está reservado únicamente para expresiones de salida en 
-línea.
-
-Por lo tanto, Thymeleaf 3.0 permite el desarrollo de 
-**scripts JavaScript complejos y hojas de estilo CSS en forma de plantillas 
-naturales**, válidas tanto como *prototipo* como *plantilla de trabajo*.
+Por lo tanto, Thymeleaf 3.0 permite el desarrollo de **scripts JavaScript 
+complejos y hojas de estilo CSS en forma de plantillas naturales**, válidas 
+tanto como *prototipo* como *plantilla de trabajo*.
 
 14 Algunas páginas más para nuestra tienda de comestibles
 =========================================================
@@ -4276,7 +4275,7 @@ En realidad no hay muchas novedades aquí, excepto esta selección de objetos an
 </body>
 ```
 
-... lo que hace que `*{name}` sea equivalente a:
+...lo que hace que `*{name}` sea equivalente a:
 
 
 ```html
@@ -4320,7 +4319,7 @@ como URL (incluso las no locales), como:
     ```
 
  * `org.thymeleaf.templateresolver.StringTemplateResolver`, que resuelve las 
-plantillas directamente como la `Cadena` especificada como `plantilla` 
+plantillas directamente como la `String` especificada como `plantilla` 
 (o *nombre de plantilla*, que en este caso es obviamente mucho más que un simple 
 nombre):
 
@@ -4361,7 +4360,7 @@ sufijo/prefijo como el alias, el alias se aplicará antes del prefijo/sufijo:
     ```
 
  * Modo predeterminado para el almacenamiento en caché de plantillas y patrones 
-para definir si plantillas específicas se pueden almacenar en caché o no:
+   para definir si plantillas específicas se pueden almacenar en caché o no:
 
     ```java
     // El valor predeterminado es verdadero
@@ -4370,9 +4369,9 @@ para definir si plantillas específicas se pueden almacenar en caché o no:
     ```
 
  * Tiempo de vida (TTL) en milisegundos para las entradas de caché de plantilla 
-analizadas originadas en este solucionador de plantillas. Si no se configura, 
-la única forma de eliminar una entrada de la caché será superar el tamaño máximo 
-de la caché (se eliminará la entrada más antigua).
+   analizadas originadas en este solucionador de plantillas. Si no se configura, 
+   la única forma de eliminar una entrada de la caché será superar el tamaño 
+   máximo de la caché (se eliminará la entrada más antigua).
 
     ```java
     // El valor predeterminado es sin TTL (solo si se excede el tamaño de caché 
@@ -4386,7 +4385,7 @@ de la caché (se eliminará la entrada más antigua).
 
 ### Encadenamiento de solucionadores de plantillas
 
-Además, un motor de plantillas puede especificar varios solucionadores de 
+Además, un Motor de Plantillas puede especificar varios solucionadores de 
 plantillas, en cuyo caso se puede establecer un orden entre ellos para la 
 resolución de la plantilla, de modo que, si el primero no puede resolver la 
 plantilla, se solicite al segundo, y así sucesivamente:
@@ -4465,7 +4464,7 @@ adaptada a las necesidades específicas de nuestra aplicación.
 > Los paquetes de integración de Thymeleaf + Spring ofrecen de forma 
 > predeterminada una implementación de `IMessageResolver` que utiliza el método 
 > estándar de Spring para recuperar mensajes externalizados, mediante beans 
-> `MessageSource` declarados en el contexto de la aplicación Spring.
+> `MessageSource` declarados en el Contexto de la Aplicación Spring.
 
 ### Solucionador de mensajes estándar
 
@@ -4509,7 +4508,7 @@ pregunta al segundo, luego al tercero, etc.
 
 El *servicio de conversión* que nos permite realizar operaciones de conversión y 
 formato de datos mediante la sintaxis de *doble llave* (`${{...}}`) es
-en realidad una característica del dialecto estándar, no del motor de plantillas 
+en realidad una característica del Dialecto Estándar, no del Motor de Plantillas 
 Thymeleaf en sí.
 
 Por lo tanto, la forma de configurarlo es configurando nuestra implementación 
@@ -4529,7 +4528,7 @@ templateEngine.setDialect(dialect);
 > Tenga en cuenta que los paquetes thymeleaf-spring3 y thymeleaf-spring4 
 > contienen `SpringStandardDialect`, y este dialecto ya viene preconfigurado con 
 > una implementación de `IStandardConversionService` que integra la 
-> infraestructura *Conversion Service* de Spring en Thymeleaf.
+> infraestructura *Servicio de Conversión* de Spring en Thymeleaf.
 
 15.4 Registro de trazas
 -----------------------

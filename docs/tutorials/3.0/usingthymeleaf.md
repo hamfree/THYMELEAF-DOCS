@@ -3836,17 +3836,19 @@ encapsular expresiones en línea en comentarios. Véase:
 13.1 Sintaxis textual
 ---------------------
 
-Three of the Thymeleaf *template modes* are considered **textual**: `TEXT`, `JAVASCRIPT`
-and `CSS`. This differentiates them from the markup template modes: `HTML` and `XML`.
+Tres de los *modos de plantilla* de Thymeleaf se consideran **textuales**:
+`TEXT`, `JAVASCRIPT` y `CSS`. Esto los diferencia de los modos de plantilla de
+marcado: `HTML` y `XML`
 
-The key difference between *textual* template modes and the markup ones is that
-in a textual template there are no tags into which to insert logic in the form
-of attributes, so we have to rely on other mechanisms.
+La diferencia clave entre los modos de plantilla *textuales* y los de marcaje
+es que en una plantilla textual no hya etiquetas en las que insertar lógica en
+forma de atributos, así que tenemos que confiar en otros mecanismos.
 
-The first and most basic of these mechanisms is **inlining**, which we have
-already detailed in the previous chapter. Inlining syntax is the most simple way
-to output results of expressions in textual template mode, so this is a
-perfectly valid template for a text email.
+El primero y más básico de estos mecanismos es la **inserción en línea**, la
+cual hemos detallado ya en el capítulo anterior. La sintaxis de la inserción en
+línea es la forma más simple de sacar resultados de expresiones en el modo de
+plantilla textual, así que esto es una plantilla perfectamente válida para un
+correo de texto.
 
 ```
   Dear [(${name})],
@@ -3858,11 +3860,12 @@ perfectly valid template for a text email.
     The Reporter.
 ```
 
-Even without tags, the example above is a complete and valid Thymeleaf template
-that can be executed in the `TEXT` template mode.
+Incluso sin etiquetas, el ejemplo de arriba es una plantilla de Thymeleaf
+completa y válida que puede ser ejecutada en el modo de plantilla `TEXT`.
 
-But in order to include more complex logic than mere *output expressions*, we
-need a new non-tag-based syntax:
+Pero para incluir una lógica más compleja que las simples
+*expresiones de salida*, necesitamos una nueva sintaxis que no se base en
+etiquetas:
 
 ```
 [# th:each="item : ${items}"]
@@ -3870,7 +3873,7 @@ need a new non-tag-based syntax:
 [/]
 ```
 
-Which is actually the *condensed* version of the more verbose:
+La cual es en realidad la versión *condensada* de la más detallada:
 
 ```
 [#th:block th:each="item : ${items}"]
@@ -3878,17 +3881,19 @@ Which is actually the *condensed* version of the more verbose:
 [/th:block]
 ```
 
-Note how this new syntax is based on elements (i.e. processable tags) that are
-declared as `[#element ...]` instead of `<element ...>`. Elements are open like
-`[#element ...]` and closed like `[/element]`, and standalone tags can be
-declared by minimizing the open element with a `/` in a way almost equivalent to
-XML tags: `[#element ... /]`.
+Observe cómo esta nueva sintaxis se basa en elementos (es decir, etiquetas
+procesables) que se declaran como `[#element ...]` en lugar de
+`<element ...>`. Los elementos son abiertos como `[#element ...]` y cerrados
+como `[/element]`, y las etiquetas independientes se pueden declarar minimizando
+el elemento abierto con `/`, de forma casi equivalente a las etiquetas XML:
+`[#element ... /]`.
 
-The Standard Dialect only contains a processor for one of these elements: the
-already-known `th:block`, though we could extend this in our dialects and create
-new elements in the usual way. Also, the `th:block` element (`[#th:block ...] ... [/th:block]`)
-is allowed to be abbreviated as the empty string (`[# ...] ... [/]`), so the
-above block is actually equivalent to:
+El Dialecto Estándar solo contiene un procesador para uno de estos elementos:
+el ya conocido `th:block`, aunque podríamos extender este en nuestros dialectos
+y crear nuevos elementos de la forma habitual. Además, se permite que el
+elemento `th:block` (`[#th:block ...] ... [/th:block]`) sea abreviado como la
+cadena vacía (`[# ...] ... [/]`), de forma que el bloque de arriba es en
+realidad equivalente a:
 
 ```
 [# th:each="item : ${items}"]
@@ -3896,9 +3901,9 @@ above block is actually equivalent to:
 [/]
 ```
 
-And given `[# th:utext="${item}" /]` is equivalent to an *inlined unescaped
-expression*, we could just use it in order to have less code. Thus we end up
-with the first fragment of code we saw above:
+Y dado que `[# th:utext="${item}" /]` es equivalente a una *expresión de
+inserción en línea no escapada*, podríamos simplemente usarla para tener menos
+código. Así, obtenemos el primer fragmento de código que vimos arriba:
 
 ```
 [# th:each="item : ${items}"]
@@ -3906,11 +3911,12 @@ with the first fragment of code we saw above:
 [/]
 ```
 
-Note that the *textual syntax requires full element balance (no unclosed tags)
-and quoted attributes* -- it's more XML-style than HTML-style.
+Tenga en cuenta que la *sintaxis textual requiere un equilibrio total de
+elementos (sin etiquetas sin cerrar) y atributos entre comillas*; es más estilo
+XML que estilo HTML.
 
-Let's have a look at a more complete example of a `TEXT` template, a *plain text*
-email template:
+Veamos un ejemplo más completo de una plantilla `TEXT`, una plantilla de correo
+electrónico de *texto sin formato*:
 
 ```
 Dear [(${customer.name})],
@@ -3925,7 +3931,7 @@ Thanks,
   The Thymeleaf Shop
 ```
 
-After executing, the result of this could be something like:
+Después de la ejecución, el resultado de esto podría ser algo como:
 
 ```
 Dear Mary Ann Blueberry,
@@ -3941,10 +3947,10 @@ Thanks,
   The Thymeleaf Shop
 ```
 
-And another example in `JAVASCRIPT` template mode, a `greeter.js` file, we
-process as a textual template and which result we call from our HTML pages. Note
-this is *not* a `<script>` block in an HTML template, but a `.js` file being
-processed as a template on its own:
+Otro ejemplo en modo de plantilla `JAVASCRIPT`: un archivo `greeter.js` que
+procesamos como plantilla de texto y cuyo resultado invocamos desde nuestras
+páginas HTML. Nota: Este *no* es un bloque `<script>` en una plantilla HTML, sino
+un archivo `.js` que se procesa como plantilla por sí solo:
 
 ```javascript
 var greeter = function() {
@@ -3958,7 +3964,7 @@ var greeter = function() {
 };
 ```
 
-After executing, the result of this could be something like:
+Después de la ejecución, el resultado de esto podría ser algo como:
 
 ```javascript
 var greeter = function() {
@@ -3974,35 +3980,38 @@ var greeter = function() {
 
 ### Atributos de elementos escapados
 
-In order to avoid interactions with parts of the template that might be
-processed in other modes (e.g. `text`-mode inlining inside an `HTML` template),
-Thymeleaf 3.0 allows the attributes in elements in its *textual syntax* to be
-escaped. So:
+Para evitar interacciones con partes de la plantilla que podrían procesarse en
+otros modos (p. ej., inserción en línea en modo `text` dentro de una plantilla
+`HTML`), Thymeleaf 3.0 permite el escape de los atributos de los elementos en su
+*sintaxis textual*. Por lo tanto:
 
- * Attributes in `TEXT` template mode will be *HTML-unescaped*.
- * Attributes in `JAVASCRIPT` template mode will be *JavaScript-unescaped*.
- * Attributes in `CSS` template mode will be *CSS-unescaped*.
+ * Los atributos en plantillas de modo `TEXT` no tendrán *formato HTML escapado*.
+ * Los atributos en el modo de plantilla `JAVASCRIPT` no tendrán *formato de
+   escape JavaScript*.
+ * Los atributos en el modo de plantilla `CSS` no tendrán *escape CSS*.
 
-So this would be perfectly OK in a `TEXT`-mode template (note the `&gt;`):
+Entonces esto estaría perfectamente bien en una plantilla en modo `TEXT` (tenga
+en cuenta el `&gt;`):
+
 ```
   [# th:if="${120&lt;user.age}"]
      Congratulations!
   [/]
 ```
 
-Of course that `&lt;` would make no sense in a *real text* template, but it is a
-good idea if we are processing an HTML template with a `th:inline="text"` block
-containing the code above and we want to make sure our browser doesn't take that
-`<user.age` for the name of an open tag when statically opening the file as a
-prototype.
+Por supuesto, ese `&lt;` no tendría sentido en una plantilla de *texto real*,
+pero es una buena idea si procesamos una plantilla HTML con un bloque
+`th:inline="text"` que contiene el código anterior y queremos asegurarnos de que
+nuestro navegador no tome ese `<user.age` como nombre de una etiqueta de
+apertura al abrir estáticamente el archivo como prototipo.
 
 13.2 Extensibilidad
 -------------------
 
-One of the advantages of this syntax is that it is just as extensible as the 
-*markup* one. Developers can still define their own dialects with custom
-elements and attributes, apply a prefix to them (optionally), and then use them
-in textual template modes:
+Una de las ventajas de esta sintaxis es que es tan extensible como la de
+*marcado*. Los desarrolladores pueden definir sus propios dialectos con elementos
+y atributos personalizados, aplicarles un prefijo (opcionalmente) y luego
+usarlos en modos de plantilla textual:
 
 ```
   [#myorg:dosomething myorg:importantattr="211"]some text[/myorg:dosomething]
@@ -4011,9 +4020,10 @@ in textual template modes:
 13.3 Bloques de comentarios de solo prototipos textuales: agregar código
 ------------------------------------------------------------------------
 
-The `JAVASCRIPT` and `CSS` template modes (not available for `TEXT`) allow 
-including code between a special comment syntax `/*[+...+]*/` so that Thymeleaf
-will automatically uncomment such code when processing the template:
+Los modos de plantilla `JAVASCRIPT` y `CSS` (no disponible para `TEXT`)
+permiten incluir código entre una sintaxis de comentario especial `/*[+...+]*/`
+para que Thymeleaf quite el comentario automáticamente dicho código al procesar
+la plantilla:
 
 ```javascript
 var x = 23;
@@ -4028,7 +4038,7 @@ var f = function() {
     ...
 ```
 
-Will be executed as:
+Se ejecutará como:
 
 ```javascript
 var x = 23;
@@ -4039,7 +4049,7 @@ var f = function() {
 ...
 ```
 
-You can include expressions inside these comments, and they will be evaluated:
+Puede incluir expresiones dentro de estos comentarios, y serán evaluados:
 
 ```javascript
 var x = 23;
@@ -4057,10 +4067,10 @@ var f = function() {
 13.4 Bloques de comentarios de nivel de analizador textual: eliminación de código
 ---------------------------------------------------------------------------------
 
-In a way similar to that of prototype-only comment blocks, all the three textual
-template modes (`TEXT`, `JAVASCRIPT` and `CSS`) make it possible to instruct
-Thymeleaf to remove code between special `/*[- */` and `/* -]*/` marks, like
-this:
+De forma similar a los bloques de comentarios de solo prototipo, los tres modos
+de plantilla textual (`TEXT`, `JAVASCRIPT` y `CSS`) permiten indicar a Thymeleaf
+que elimine el código entre las marcas especiales `/*[- */` y `/* -]*/`, de la
+siguiente manera:
 
 ```javascript
 var x = 23;
@@ -4075,20 +4085,20 @@ var f = function() {
 ...
 ```
 
-Or this, in `TEXT` mode:
+O esto, en modo `TEXT`:
 
 ```
 ...
-/*[- Note the user is obtained from the session, which must exist -]*/
-Welcome [(${session.user.name})]!
+/*[- Dese cuenta de que el usuario se obtiene de la sesión, la cual debe existir -]*/
 ...
 ```
 
 13.5 Plantillas naturales de JavaScript y CSS
 ---------------------------------------------
 
-As seen in the previous chapter, JavaScript and CSS inlining offer the
-possibility to include inlined expressions inside JavaScript/CSS comments, like:
+Como se vio en el capítulo anterior, la inserción en línea de JavaScript y CSS
+ofrece la posibilidad de incluir expresiones en línea dentro de los comentarios
+de JavaScript/CSS, como:
 
 ```javascript
 ...
@@ -4096,7 +4106,7 @@ var username = /*[[${session.user.name}]]*/ "Sebastian Lychee";
 ...
 ```
 
-...which is valid JavaScript, and once executed could look like:
+...la cual es JavaScript válido, y una vez ejecutado podría verse como:
 
 ```html
 ...
@@ -4104,8 +4114,8 @@ var username = "John Apricot";
 ...
 ```
 
-This same *trick* of enclosing inlined expressions inside comments can in fact be
-used for the entire textual mode syntax:
+Este mismo *truco* de encerrar expresiones en línea dentro de comentarios se
+puede utilizar para toda la sintaxis del modo textual:
 
 ```
   /*[# th:if="${user.admin}"]*/
@@ -4113,9 +4123,9 @@ used for the entire textual mode syntax:
   /*[/]*/
 ```
 
-That alert in the code above will be shown when the template is open statically
--- because it is 100% valid JavaScript --, and also when the template is run if
-the user is an admin. It is equivalent to:
+Esa alerta en el código anterior se mostrará cuando la plantilla esté abierta
+estáticamente --ya que es JavaScript 100 % válido-- y también cuando se ejecute
+si el usuario es administrador. Equivale a:
 
 ```
   [# th:if="${user.admin}"]
@@ -4123,30 +4133,32 @@ the user is an admin. It is equivalent to:
   [/]
 ```
 
-...which is actually the code to which the initial version is converted during
-template parsing. 
+...este es, en realidad, el código al que se convierte la versión inicial
+durante el análisis de plantillas.
 
-Note however that wrapping elements in comments does not clean the lines they
-live in (to the right until a `;` is found) as inlined output expressions do.
-That behaviour is reserved for inlined output expressions only.
+Sin embargo, tenga en cuenta que encapsular elementos en comentarios no borra
+las líneas en las que se encuentran (a la derecha hasta que se encuentra un
+`;`) como sí lo hacen las expresiones de salida en línea. Este comportamiento
+está reservado únicamente para expresiones de salida en línea.
 
-So Thymeleaf 3.0 allows the development of **complex JavaScript scripts and CSS
-style sheets in the form of natural templates**, valid both as a *prototype* and
-as a *working template*.
+Por lo tanto, Thymeleaf 3.0 permite el desarrollo de **scripts JavaScript 
+complejos y hojas de estilo CSS en forma de plantillas naturales**, válidas 
+tanto como *prototipo* como *plantilla de trabajo*.
 
 14 Algunas páginas más para nuestra tienda de comestibles
 =========================================================
 
-Now we know a lot about using Thymeleaf, we can add some new pages to our
-website for order management.
+Ahora que sabemos mucho sobre el uso de Thymeleaf, podemos añadir nuevas páginas
+a nuestro sitio web para la gestión de pedidos.
 
-Note that we will focus on HTML code, but you can have a look at the bundled
-source code if you want to see the corresponding controllers.
+Ten en cuenta que nos centraremos en el código HTML, pero puedes consultar el
+código fuente incluido si quieres ver los controladores correspondientes.
 
 14.1 Lista de pedidos
 ---------------------
 
-Let's start by creating an order list page, `/WEB-INF/templates/order/list.html`:
+Comencemos creando una página de lista de pedidos,
+`/WEB-INF/templates/order/list.html`:
 
 ```html
 <!DOCTYPE html>
@@ -4191,26 +4203,26 @@ Let's start by creating an order list page, `/WEB-INF/templates/order/list.html`
 </html>
 ```
 
-There's nothing here that should surprise us, except for this little bit of OGNL
-magic:
+No hay nada aquí que deba sorprendernos, excepto este pequeño toque de magia
+OGNL:
 
 ```html
 <td th:text="${#aggregates.sum(o.orderLines.{purchasePrice * amount})}">23.32</td>
 ```
 
-What that does is, for each order line (`OrderLine` object) in the order,
-multiply its `purchasePrice` and `amount` properties (by calling the
-corresponding `getPurchasePrice()` and `getAmount()` methods) and return the
-result into a list of numbers, later aggregated by the `#aggregates.sum(...)`
-function in order to obtain the order total price.
+Lo que esto hace es, para cada línea de pedido (objeto `OrderLine`) en el
+pedido, multiplicar sus propiedades `purchasePrice` y `amount` (llamando a los
+métodos `getPurchasePrice()` y `getAmount()` correspondientes) y devolver el
+resultado en una lista de números, que luego se agrega mediante la función
+`#aggregates.sum(...)` para obtener el precio total del pedido.
 
-You've got to love the power of OGNL.
+Es imposible no admirar el poder de OGNL.
 
 14.2 Detalles del pedido
 ------------------------
 
-Now for the order details page, in which we will make a heavy use of asterisk
-syntax:
+Ahora, para la página de detalles del pedido, en la que haremos un uso intensivo
+de la sintaxis de asterisco:
 
 ```html
 <!DOCTYPE html>
@@ -4275,7 +4287,7 @@ syntax:
 </html>
 ```
 
-Not much really new here, except for this nested object selection:
+En realidad no hay muchas novedades aquí, excepto esta selección de objetos anidados:
 
 ```html
 <body th:object="${order}">
@@ -4291,7 +4303,7 @@ Not much really new here, except for this nested object selection:
 </body>
 ```
 
-...which makes that `*{name}` equivalent to:
+...lo que hace que `*{name}` sea equivalente a:
 
 
 ```html
@@ -4304,104 +4316,107 @@ Not much really new here, except for this nested object selection:
 15.1 Solucionadores de plantillas
 ---------------------------------
 
-For our Good Thymes Virtual Grocery, we chose an `ITemplateResolver`
-implementation called `ServletContextTemplateResolver` that allowed us to obtain
-templates as resources from the Servlet Context.
+Para nuestra tienda de comestibles virtual Good Thymes, elegimos una
+implementación de `ITemplateResolver` llamada `ServletContextTemplateResolver`
+que nos permitió obtener plantillas como recursos del Contexto del Servlet.
 
-Besides giving us the ability to create our own template resolver by
-implementing `ITemplateResolver,` Thymeleaf includes four implementations out of
-the box:
+Además de brindarnos la posibilidad de crear nuestro propio solucionador de
+plantillas implementando `ITemplateResolver`, Thymeleaf incluye cuatro
+implementaciones listas para usar:
 
- * `org.thymeleaf.templateresolver.ClassLoaderTemplateResolver`, which resolves
-   templates as classloader resources, like:
+ * `org.thymeleaf.templateresolver.ClassLoaderTemplateResolver`, que resuelve
+   las plantillas como recursos del cargador de clases, como:
 
     ```java
     return Thread.currentThread().getContextClassLoader().getResourceAsStream(template);
     ```
 
- * `org.thymeleaf.templateresolver.FileTemplateResolver`, which resolves
-   templates as files from the file system, like:
+ * `org.thymeleaf.templateresolver.FileTemplateResolver`, que resuelve las
+   plantillas como archivos del sistema de archivos, como:
 
     ```java
     return new FileInputStream(new File(template));
     ```
 
- * `org.thymeleaf.templateresolver.UrlTemplateResolver`, which resolves
-   templates as URLs (even non-local ones), like:
+ * `org.thymeleaf.templateresolver.UrlTemplateResolver`, que resuelve plantillas
+   como URL (incluso las no locales), como:
 
     ```java
     return (new URL(template)).openStream();
     ```
 
- * `org.thymeleaf.templateresolver.StringTemplateResolver`, which resolves
-   templates directly as the `String` being specified as `template` (or
-   *template name*, which in this case is obviously much more than a mere name):
+ * `org.thymeleaf.templateresolver.StringTemplateResolver`, que resuelve las
+   plantillas directamente como la `String` especificada como `plantilla`
+   (o *nombre de plantilla*, que en este caso es obviamente mucho más que un 
+   simple nombre):
 
     ```java
     return new StringReader(templateName);
     ```
 
-All of the pre-bundled implementations of `ITemplateResolver` allow the same set
-of configuration parameters, which include:
+Todas las implementaciones preinstaladas de `ITemplateResolver` permiten el
+mismo conjunto de parámetros de configuración, que incluyen:
 
- * Prefix and suffix (as already seen):
+ * Prefijo y sufijo (como ya vimos):
 
     ```java
     templateResolver.setPrefix("/WEB-INF/templates/");
     templateResolver.setSuffix(".html");
     ```
 
- * Template aliases that allow the use of template names that do not directly
-   correspond to file names. If both suffix/prefix and alias exist, alias will
-   be applied before prefix/suffix:
+ * Alias de plantilla que permiten el uso de nombres de plantilla que no
+   corresponden directamente a los nombres de archivo. Si existen tanto el
+   sufijo/prefijo como el alias, el alias se aplicará antes del prefijo/sufijo:
 
     ```java
     templateResolver.addTemplateAlias("adminHome","profiles/admin/home");
     templateResolver.setTemplateAliases(aliasesMap);
     ```
 
- * Encoding to be applied when reading templates:
+ * Codificación que se aplicará al leer plantillas:
 
     ```java
     templateResolver.setCharacterEncoding("UTF-8");
     ```
 
- * Template mode to be used:
+ * Modo de plantilla a utilizar:
 
     ```java
-    // Default is HTML
+    // El valor predeterminado es HTML
     templateResolver.setTemplateMode("XML");
     ```
 
- * Default mode for template cache, and patterns for defining whether specific
-   templates are cacheable or not:
+ * Modo predeterminado para el almacenamiento en caché de plantillas y patrones
+   para definir si plantillas específicas se pueden almacenar en caché o no:
 
     ```java
-    // Default is true
+    // El valor predeterminado es verdadero
     templateResolver.setCacheable(false);
     templateResolver.getCacheablePatternSpec().addPattern("/users/*");
     ```
 
- * TTL in milliseconds for parsed template cache entries originated in this
-   template resolver. If not set, the only way to remove an entry from the cache
-   will be to exceed the cache max size (oldest entry will be removed).
+ * Tiempo de vida (TTL) en milisegundos para las entradas de caché de plantilla
+   analizadas originadas en este solucionador de plantillas. Si no se configura,
+   la única forma de eliminar una entrada de la caché será superar el tamaño
+   máximo de la caché (se eliminará la entrada más antigua).
 
     ```java
-    // Default is no TTL (only cache size exceeded would remove entries)
+    // El valor predeterminado es sin TTL (solo si se excede el tamaño de caché 
+    // se eliminarán las entradas)
     templateResolver.setCacheTTLMs(60000L);
     ```
 
-> The Thymeleaf + Spring integration packages offer a `SpringResourceTemplateResolver`
-> implementation which uses all the Spring infrastructure for accessing and
-> reading resources in applications, and which is the recommended implementation
-> in Spring-enabled applications.
+> Los paquetes de integración de Thymeleaf + Spring ofrecen una implementación
+> de `SpringResourceTemplateResolver` que utiliza toda la infraestructura de
+> Spring para acceder y leer recursos en las aplicaciones, y que es la
+> implementación recomendada en las aplicaciones compatibles con Spring.
 
 ### Encadenamiento de solucionadores de plantillas
 
-Also, a Template Engine can specify several template resolvers, in which case an
-order can be established between them for template resolution so that, if the
-first one is not able to resolve the template, the second one is asked, and so
-on:
+Además, un Motor de Plantillas puede especificar varios solucionadores de
+plantillas, en cuyo caso se puede establecer un orden entre ellos para la
+resolución de la plantilla, de modo que, si el primero no puede resolver la
+plantilla, se solicite al segundo, y así sucesivamente:
 
 ```java
 ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
@@ -4415,15 +4430,15 @@ templateEngine.addTemplateResolver(classLoaderTemplateResolver);
 templateEngine.addTemplateResolver(servletContextTemplateResolver);
 ```
 
-When several template resolvers are applied, it is recommended to specify
-patterns for each template resolver so that Thymeleaf can quickly discard those
-template resolvers that are not meant to resolve the template, enhancing
-performance. Doing this is not a requirement, but a recommendation:
+Cuando se aplican varios solucionadores de plantilla, se recomienda especificar
+patrones para cada uno, de modo que Thymeleaf pueda descartar rápidamente
+aquellos que no están diseñados para resolver la plantilla, mejorando así el
+rendimiento. Esto no es un requisito, sino una recomendación:
 
 ```java
 ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
 classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
-// This classloader will not be even asked for any templates not matching these patterns 
+// A este cargador de clases ni siquiera se le solicitarán plantillas que no coincidan con estos patrones 
 classLoaderTemplateResolver.getResolvablePatternSpec().addPattern("/layout/*.html");
 classLoaderTemplateResolver.getResolvablePatternSpec().addPattern("/menu/*.html");
 
@@ -4432,18 +4447,18 @@ ServletContextTemplateResolver servletContextTemplateResolver =
 servletContextTemplateResolver.setOrder(Integer.valueOf(2));
 ```
 
-If these *resolvable patterns* are not specified, we will be relying on the
-specific capabilities of each of the `ITemplateResolver` implementations we are
-using. Note that not all implementations might be able to determine the
-existence of a template before resolving, and thus could always consider a
-template as *resolvable* and break the resolution chain (not allowing other
-resolvers to check for the same template), but then be unable to read the real
-resource.
+Si no se especifican estos *patrones resolubles*, dependeremos de las
+capacidades específicas de cada una de las implementaciones de
+`ITemplateResolver` que estemos utilizando. Tenga en cuenta que no todas las
+implementaciones pueden determinar la existencia de una plantilla antes de
+resolverla y, por lo tanto, siempre podrían considerar una plantilla como
+*resoluble* e interrumpir la cadena de resolución (impidiendo que otros
+solucionadores busquen la misma plantilla), pero no podrían leer el recurso real.
 
-All the `ITemplateResolver` implementations that are included with core
-Thymeleaf include a mechanism that will allow us to make the resolvers *really
-check* if a resource exists before considering it *resolvable*. It is the
-`checkExistence` flag, which works like:
+Todas las implementaciones de `ITemplateResolver` incluidas en el núcleo de
+Thymeleaf incluyen un mecanismo que permite que los solucionadores comprueben si
+un recurso existe antes de considerarlo resoluble. Se trata del indicador
+`checkExistence`, que funciona así:
 
 ```java
 ClassLoaderTemplateResolver classLoaderTemplateResolver = new ClassLoaderTemplateResolver();
@@ -4451,77 +4466,83 @@ classLoaderTemplateResolver.setOrder(Integer.valueOf(1));
 classLoaderTempalteResolver.setCheckExistence(true);
 ```
 
-This `checkExistence` flag forces the resolver perform a *real check* for
-resource existence during the resolution phase (and let the following resolver
-in the chain be called if existence check returns false). While this might sound
-good in every case, in most cases this will mean a double access to the resource
-itself (once for checking existence, another time for reading it), and could be
-a performance issue in some scenarios, e.g. remote URL-based template resources
--- a potential performance issue that might anyway get largely mitigated by the
-use of the template cache (in which case templates will only be *resolved* the
-first time they are accessed).
+Esta bandera `checkExistence` obliga al solucionador a realizar una
+*verificación real* de la existencia del recurso durante la fase de resolución
+(y permite que se llame al siguiente solucionador de la cadena si la comprobación
+de existencia devuelve falso). Si bien esto puede parecer correcto en todos los
+casos, en la mayoría de los casos implica un doble acceso al recurso (uno para
+comprobar su existencia y otro para leerlo), y podría representar un problema de
+rendimiento en algunos escenarios, por ejemplo, con recursos de plantilla
+remotos basados en URL. Este problema de rendimiento potencial podría mitigarse
+en gran medida mediante el uso de la caché de plantillas (en cuyo caso, las
+plantillas solo se *resuelven* la primera vez que se accede a ellas).
 
 15.2 Solucionadores de mensajes
 -------------------------------
 
-We did not explicitly specify a Message Resolver implementation for our Grocery
-application, and as it was explained before, this meant that the implementation
-being used was an `org.thymeleaf.messageresolver.StandardMessageResolver` object.
+No especificamos explícitamente una implementación de Message Resolver para
+nuestra aplicación Grocery y, como se explicó anteriormente, esto significaba
+que la implementación utilizada era un objeto
+`org.thymeleaf.messageresolver.StandardMessageResolver`.
 
-`StandardMessageResolver` is the standard implementation of the `IMessageResolver` 
-interface, but we could create our own if we wanted, adapted to the specific
-needs of our application.
+`StandardMessageResolver` es la implementación estándar de la interfaz
+`IMessageResolver`, pero podríamos crear la nuestra propia si quisiéramos,
+adaptada a las necesidades específicas de nuestra aplicación.
 
-> The Thymeleaf + Spring integration packages offer by default an `IMessageResolver`
-> implementation which uses the standard Spring way of retrieving externalized
-> messages, by using `MessageSource` beans declared at the Spring Application
-> Context.
+> Los paquetes de integración de Thymeleaf + Spring ofrecen de forma
+> predeterminada una implementación de `IMessageResolver` que utiliza el método
+> estándar de Spring para recuperar mensajes externalizados, mediante beans
+> `MessageSource` declarados en el Contexto de la Aplicación Spring.
 
 ### Solucionador de mensajes estándar
 
-So how does `StandardMessageResolver` look for the messages requested at a
-specific template?
+Entonces, ¿cómo busca `StandardMessageResolver` los mensajes solicitados en una
+plantilla específica?
 
-If the template name is `home` and it is located in `/WEB-INF/templates/home.html`,
-and the requested locale is `gl_ES` then this resolver will look for messages in
-the following files, in this order:
+Si el nombre de la plantilla es `home` y se encuentra en
+`/WEB-INF/templates/home.html`, y la configuración regional solicitada es
+`gl_ES`, este solucionador buscará mensajes en los siguientes archivos, en este
+orden:
 
  * `/WEB-INF/templates/home_gl_ES.properties`
  * `/WEB-INF/templates/home_gl.properties`
  * `/WEB-INF/templates/home.properties`
 
-Refer to the JavaDoc documentation of the `StandardMessageResolver` class for
-more detail on how the complete message resolution mechanism works.
+Consulte la documentación de JavaDoc de la clase `StandardMessageResolver` para
+obtener más detalles sobre cómo funciona el mecanismo completo de resolución de
+mensajes.
 
 ### Configuración de solucionadores de mensajes
 
-What if we wanted to add a message resolver (or more) to the Template Engine?
-Easy:
+¿Qué pasaría si quisiéramos añadir uno o más solucionadores de mensajes al motor
+de plantillas?
+Fácil:
 
 ```java
-// For setting only one
+// Para configurar solo uno
 templateEngine.setMessageResolver(messageResolver);
 
-// For setting more than one
+// Para configurar más de unoe
 templateEngine.addMessageResolver(messageResolver);
 ```
 
-And why would we want to have more than one message resolver? For the same
-reason as template resolvers: message resolvers are ordered and if the first one
-cannot resolve a specific message, the second one will be asked, then the third,
-etc.
+¿Y por qué querríamos tener más de un solucionador de mensajes? Por la misma
+razón que los solucionadores de plantillas: los solucionadores de mensajes están
+ordenados y, si el primero no puede resolver un mensaje específico, se le
+pregunta al segundo, luego al tercero, etc.
 
 15.3 Servicios de conversión
 ----------------------------
 
-The *conversion service* that enables us to perform data conversion and
-formatting operations by means of the *double-brace* syntax (`${{...}}`) is
-actually a feature of the Standard Dialect, not of the Thymeleaf Template Engine
-itself.
+El *servicio de conversión* que nos permite realizar operaciones de conversión y
+formato de datos mediante la sintaxis de *doble llave* (`${{...}}`) es
+en realidad una característica del Dialecto Estándar, no del Motor de Plantillas
+Thymeleaf en sí.
 
-As such, the way to configure it is by setting our custom implementation of the
-`IStandardConversionService` interface directly into the instance of `StandardDialect`
-that is being configured into the template engine. Like:
+Por lo tanto, la forma de configurarlo es configurando nuestra implementación
+personalizada de la interfaz `IStandardConversionService` directamente en la
+instancia de `StandardDialect` que se está configurando en el motor de
+plantillas. Por ejemplo:
 
 ```java
 IStandardConversionService customConversionService = ...
@@ -4532,38 +4553,39 @@ dialect.setConversionService(customConversionService);
 templateEngine.setDialect(dialect);
 ```
 
-> Note that the thymeleaf-spring3 and thymeleaf-spring4 packages contain the
-> `SpringStandardDialect`, and this dialect already comes pre-configured with an
-> implementation of `IStandardConversionService` that integrates Spring's own
-> *Conversion Service* infrastructure into Thymeleaf.
+> Tenga en cuenta que los paquetes thymeleaf-spring3 y thymeleaf-spring4
+> contienen `SpringStandardDialect`, y este dialecto ya viene preconfigurado con
+> una implementación de `IStandardConversionService` que integra la
+> infraestructura *Servicio de Conversión* de Spring en Thymeleaf.
 
 15.4 Registro de trazas
 -----------------------
 
-Thymeleaf pays quite a lot of attention to logging, and always tries to offer
-the maximum amount of useful information through its logging interface.
+Thymeleaf presta mucha atención al registro y siempre intenta ofrecer la máxima
+información útil a través de su interfaz.
 
-The logging library used is `slf4j,` which in fact acts as a bridge to whichever
-logging implementation we might want to use in our application (for example, `log4j`).
+La biblioteca de registro utilizada es `slf4j`, que actúa como puente hacia
+cualquier implementación de registro que queramos usar en nuestra aplicación
+(por ejemplo, `log4j`).
 
-Thymeleaf classes will log `TRACE`, `DEBUG` and `INFO`-level information,
-depending on the level of detail we desire, and besides general logging it will
-use three special loggers associated with the TemplateEngine class which we can
-configure separately for different purposes:
+Las clases de Thymeleaf registrarán información de nivel `TRACE`, `DEBUG` e
+`INFO`, según el nivel de detalle deseado. Además del registro general,
+utilizará tres registradores especiales asociados a la clase TemplateEngine, que
+podemos configurar por separado para diferentes propósitos:
 
- * `org.thymeleaf.TemplateEngine.CONFIG` will output detailed configuration of
-   the library during initialization.
- * `org.thymeleaf.TemplateEngine.TIMER` will output information about the amount
-   of time taken to process each template (useful for benchmarking!)
- * `org.thymeleaf.TemplateEngine.cache` is the prefix for a set of loggers that
-   output specific information about the caches. Although the names of the cache
-   loggers are configurable by the user and thus could change, by default they
-   are:
-    * `org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE`
-    * `org.thymeleaf.TemplateEngine.cache.EXPRESSION_CACHE`
+ * `org.thymeleaf.TemplateEngine.CONFIG` generará una configuración detallada de
+   la biblioteca durante la inicialización.
+ * `org.thymeleaf.TemplateEngine.TIMER` generará información sobre el tiempo
+   necesario para procesar cada plantilla (¡útil para la evaluación comparativa!).
+ * `org.thymeleaf.TemplateEngine.cache` es el prefijo de un conjunto de
+   registradores que generan información específica sobre las cachés. Aunque los
+   nombres de los registradores de caché son configurables por el usuario y, por lo
+   tanto, pueden cambiar, por defecto son:
+       * `org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE`
+       * `org.thymeleaf.TemplateEngine.cache.EXPRESSION_CACHE`
 
-An example configuration for Thymeleaf's logging infrastructure, using `log4j`,
-could be:
+Una configuración de ejemplo para la infraestructura de registro de Thymeleaf,
+utilizando `log4j`, podría ser:
 
 ```
 log4j.logger.org.thymeleaf=DEBUG

@@ -151,11 +151,11 @@ plantilla y reduce el esfuerzo requerido para transformar un prototipo estático
 en un fichero de plantilla funcional. La habilidad para hacer esto es una 
 funcionalidad llamada _Plantillado Natural_.
 
-2 La tienda de comestibles virtual Good Thymes
+2 La Tienda de Comestibles Virtual Good Thymes
 ==============================================
 
 El código fuente para los ejemplos mostrados en este, y futuros capítulos de 
-esta guía, se puede encontrar en el ejemplo _Good Thymes Virtual Grocery (GTVG)
+esta guía, se puede encontrar en el ejemplo _Good Thymes Virtual Grocery (GTVG)_
 el cual tiene dos versiones (equivalentes):
 
    * basado en `javax.*`: [gtvg-javax](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/core/thymeleaf-examples-gtvg-javax).
@@ -518,7 +518,7 @@ punto y coma (`:`):
 <html>
 
   <head>
-    <title>Tienda de comestibles virtual Good Thymes</title>
+    <title>Good Thymes Virtual Grocery</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" media="all" 
           href="../../css/gtvg.css" data-th-href="@{/css/gtvg.css}" />
@@ -526,7 +526,7 @@ punto y coma (`:`):
 
   <body>
   
-    <p data-th-text="#{home.welcome}">¡Bienvenido a nuestra tienda de comestibles!</p>
+    <p data-th-text="#{home.welcome}">Welcome to our grocery store!</p>
   
   </body>
 
@@ -708,7 +708,7 @@ Veamos los resultados de esto usando la configuración regional española:
 <html>
 
   <head>
-    <title>TGood Thymes Virtual Grocery</title>
+    <title>Good Thymes Virtual Grocery</title>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" type="text/css" media="all" href="/gtvg/css/gtvg.css" />
   </head>
@@ -756,7 +756,7 @@ Esto mostrará nuestro mensaje tal como lo queríamos:
 
 
 ```html
-<p>¡Bienvenido a nuestra <b>fantástica</b> tienda de comestibles!</p>
+<p>Welcome to our <b>fantastic</b> grocery store!</p>
 ```
 
 ### Uso y visualización de variables
@@ -4915,7 +4915,7 @@ de aplicación:
 
 * **param**: para recuperar los parámetros de la petición. `${param.foo}` es 
   una `String[]` con los valores del parámetro de petición `foo`, así que
-  `${param.foo[0]}` normalmente utilizado para obtener su primer valor.
+  `${param.foo[0]}` es normalmente utilizado para obtener su primer valor.
 
 ```java
 /*
@@ -4948,7 +4948,8 @@ ${session.containsKey('foo')}
 ...
 ```
 
- * **application**: para recuperar los atributos del contexto de la aplicación/servlet.
+ * **application**: para recuperar los atributos del contexto de la 
+   aplicación/servlet.
 
 ```java
 /*
@@ -4966,7 +4967,7 @@ ${application.containsKey('foo')}
 Tenga en cuenta que **no se necesita especificar un espacio de nombres para 
 acceder a los atributos de la petición** (al contrario que los *parámetros de la 
 petición*) porque todos los atributos de la petición son agregados 
-automáticamente agregados al contexto como variables en el contexto raíz:
+automáticamente al contexto como variables en el contexto raíz:
 
 ```java
 ${myRequestAttribute}
@@ -4989,7 +4990,7 @@ ${myRequestAttribute}
  */
 
 /*
- * Devuelve el nombre y modo de la plantilla 'leaf'. Esto significa la plantilla
+ * Devuelve el nombre y modo de la plantilla 'hija'. Esto significa la plantilla
  * desde donde se analizaron los eventos que se procesan. Así que si este pedazo 
  * del código no está en la plantilla raíz "A" sino en un fragmento que se está 
  * insertando en "A" desde otra plantilla llamada "B", esto devolverá "B" como
@@ -5011,17 +5012,17 @@ ${#execInfo.processedTemplateMode}
 /*
  * Devuelve las pilas (en realidad, List<String> o List<TemplateMode>) de
  * plantillas en proceso. El primer elemento será el
- * 'processedTemplate' (la raíz), la última será la 'hoja'
- * plantilla, y en el medio todos los fragmentos insertados en anidados
- * Aparecerá la forma de llegar a la hoja desde la raíz.
+ * 'processedTemplate' (la raíz), la última será la plantilla 'hija', y en el
+ * medio todos los fragmentos insertados anidados de la forma que lleguemos a 
+ * la hoja desde la raíz.
  */
 ${#execInfo.templateNames}
 ${#execInfo.templateModes}
 
 /*
  * Devuelve la pila de plantillas que se procesan de manera similar (y en el
- * mismo orden) a 'templateNames' y 'templateModes', pero regresando
- * una Lista<TemplateData> con los metadatos completos de la plantilla.
+ * mismo orden) a 'templateNames' y 'templateModes', pero devolviendo
+ * un objeto List<TemplateData> con los metadatos completos de la plantilla.
  */
 ${#execInfo.templateStack}
 ```
@@ -5071,8 +5072,8 @@ ${#messages.setMsgOrNull(messageKeySet)}
 ### URIs/URLs
 
  * **\#uris**: objeto de utilidad par realizar operaciones sobre URI/URL 
-   (especialmente el escapado/no escapado) dentro de las Expresiones Estándar de 
-   Thymeleaf.
+   (especialmente la codificación/descodificación) dentro de las Expresiones 
+   Estándar de Thymeleaf.
 
 ```java
 /*
@@ -5082,7 +5083,7 @@ ${#messages.setMsgOrNull(messageKeySet)}
  */
 
 /*
- * Realiza operaciones de escape/descodificación devolviendo rutas URI/URL o cadenas
+ * Realiza operaciones de codificación/descodificación devolviendo rutas URI/URL o cadenas
  */
 ${#uris.escapePath(uri)}
 ${#uris.escapePath(uri, encoding)}
@@ -5090,7 +5091,7 @@ ${#uris.unescapePath(uri)}
 ${#uris.unescapePath(uri, encoding)}
 
 /*
- * Realiza operaciones de escape/descodificación con segmentos de rutas URI/URL 
+ * Realiza operaciones de codificación/descodificación con segmentos de rutas URI/URL 
  * (entre símbolos '/')
  */
 ${#uris.escapePathSegment(uri)}
@@ -5099,7 +5100,7 @@ ${#uris.unescapePathSegment(uri)}
 ${#uris.unescapePathSegment(uri, encoding)}
 
 /*
- * Realiza operaciones de escape/descodificación con identificadores de 
+ * Realiza operaciones de codificación/descodificación con identificadores de 
  * fragmento (#frag)
  */
 ${#uris.escapeFragmentId(uri)}
@@ -5108,7 +5109,7 @@ ${#uris.unescapeFragmentId(uri)}
 ${#uris.unescapeFragmentId(uri, encoding)}
 
 /*
- * Realiza operaciones de escape/descodificación con parámetros de consulta 
+ * Realiza operaciones de codificación/descodificación con parámetros de consulta 
  * (?var=valor)
  */
 ${#uris.escapeQueryParam(uri)}
@@ -5130,7 +5131,7 @@ ${#uris.unescapeQueryParam(uri, encoding)}
  */
 
 /*
- * Ejecuta la conversión deseada del valor del 'objeto' a la clase especificada.
+ * Ejecuta la conversión deseada del valor del 'object' a la clase especificada.
  */
 ${#conversions.convert(object, 'java.util.TimeZone')}
 ${#conversions.convert(object, targetClass)}
@@ -5174,7 +5175,7 @@ ${#dates.arrayFormat(datesArray, 'dd/MMM/yyyy HH:mm')}
 ${#dates.listFormat(datesList, 'dd/MMM/yyyy HH:mm')}
 ${#dates.setFormat(datesSet, 'dd/MMM/yyyy HH:mm')}
 
-+/*
+/*
  * Obtiene propiedades de fecha
  * También funciona con matrices, listas o conjuntos.
  */
@@ -5403,7 +5404,7 @@ ${#temporals.createDateTime(isoDate, pattern)} // devuelve una instancia de java
 
 ### Numeros
 
- * **\#numbers** : métodos de utilidad para objetos number:
+ * **\#numbers** : métodos de utilidad para objetos de tipo numérico:
 
 ```java
 /*
@@ -5476,7 +5477,7 @@ ${#numbers.setFormatDecimal(numSet,3,'POINT',2,'COMMA')}
 
 /* 
  * =====================
- * Formatea monedas
+ * Formateo de monedas
  * =====================
  */
 
@@ -5513,7 +5514,7 @@ ${#numbers.setFormatPercent(numSet, 3, 2)}
  */
 
 /*
- * Crea una secuencia (matriz) de números enteros yendo  de x a y
+ * Crea una secuencia (matriz) de números enteros yendo de x a y
  */
 ${#numbers.sequence(from,to)}
 ${#numbers.sequence(from,to,step)}
@@ -5536,7 +5537,7 @@ ${#numbers.sequence(from,to,step)}
 ${#strings.toString(obj)}                      // también array*, list* y  set*
 
 /*
- * Comprueba si una cadena está vacía (o nula). Realiza una operación trim() 
+ * Comprueba si una String está vacía (o nula). Realiza una operación trim() 
  * antes de verificar. También funciona con matrices, listas o conjuntos.
  */
 ${#strings.isEmpty(name)}
@@ -5545,8 +5546,8 @@ ${#strings.listIsEmpty(nameList)}
 ${#strings.setIsEmpty(nameSet)}
 
 /*
- * Realiza una verificación 'isEmpty()' en una cadena y la devuelve si es falsa, 
- * de forma predeterminada otra cadena especificada si es verdadera.
+ * Realiza una verificación 'isEmpty()' en una String y la devuelve si es falsa, 
+ * de forma predeterminada otra String especificada si es verdadera.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#strings.defaultString(text,default)}
@@ -5555,14 +5556,14 @@ ${#strings.listDefaultString(textList,default)}
 ${#strings.setDefaultString(textSet,default)}
 
 /*
- * Comprueba si un fragmento está contenido en una cadena.
+ * Comprueba si un fragmento está contenido en una String.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#strings.contains(name,'ez')}                  // también array*, list* y set*
 ${#strings.containsIgnoreCase(name,'ez')}        // también array*, list* y set*
 
 /*
- * Comprueba si una cadena comienza o termina con un fragmento.
+ * Comprueba si una String comienza o termina con un fragmento.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#strings.startsWith(name,'Don')}               // también array*, list* y set*
@@ -5579,20 +5580,20 @@ ${#strings.substringBefore(name,suffix)}         // también array*, list* y set
 ${#strings.replace(name,'las','ler')}            // también array*, list* y set*
 
 /*
- * Agrega y antepone. También funciona con matrices, listas o conjuntos.
+ * Agregar y anteponer. También funciona con matrices, listas o conjuntos.
  */
 ${#strings.prepend(str,prefix)}                  // también array*, list* y set*
 ${#strings.append(str,suffix)}                   // también array*, list* y set*
 
 /*
- * Cambia el caso (mayúsculas y minúsculas).
+ * Cambios a mayúsculas y minúsculas.
  * También funciona con matrices, listas o conjuntos.
  */
 ${#strings.toUpperCase(name)}                    // también array*, list* y set*
 ${#strings.toLowerCase(name)}                    // también array*, list* y set*
 
 /*
- * Divide y une
+ * Dividir y unir
  */
 ${#strings.arrayJoin(namesArray,',')}
 ${#strings.listJoin(namesList,',')}
@@ -5602,8 +5603,8 @@ ${#strings.listSplit(namesStr,',')}              // devuelve List<String>
 ${#strings.setSplit(namesStr,',')}               // devuelve Set<String>
 
 /*
- * Recorta (elimina los caracteres en blanco al principio y al final de la 
- * cadena). También funciona con matrices, listas o conjuntos.
+ * Recortar (eliminando los caracteres en blanco al principio y al final de la 
+ * String). También funciona con matrices, listas o conjuntos.
  */
 ${#strings.trim(str)}                            // también array*, list* y set*
 
@@ -5633,7 +5634,7 @@ ${#strings.capitalizeWords(str)}                 // también array*, list* y set
 ${#strings.capitalizeWords(str,delimiters)}      // también array*, list* y set*
 
 /*
- * Realiza el escapado de cadenas
+ * Realiza la codificación/decodificación de cadenas
  */
 ${#strings.escapeXml(str)}                       // también array*, list* y set*
 ${#strings.escapeJava(str)}                      // también array*, list* y set*
@@ -5809,9 +5810,9 @@ ${#lists.sort(list)}
 ${#lists.sort(list, comparator)}
 ```
 
-### Conjuntos (Sets)
+### Conjuntos
 
- * **\#sets** : métodos de utilidad para conjuntos (sets).
+ * **\#sets** : métodos de utilidad para conjuntos.
 
 ```java
 /*
@@ -5917,13 +5918,13 @@ ${#aggregates.avg(collection)}
 ${#ids.seq('someId')}
 
 /*
- * Normalmente se usa en th:for atributos en etiquetas <label>, para que estas 
- * etiquetas puedan hacer referencia a Ids.
- * Generado mediante la función #ids.seq(...).
+ * Normalmente se usa en los atributos th:for en etiquetas <label>, para que 
+ * estas etiquetas puedan hacer referencia a Ids. Generado mediante la 
+ * función #ids.seq(...).
  *
  * Dependiendo de si la <label> va antes o después del elemento con la función 
- * #ids.seq(...), la función "next" (la etiqueta va antes de "seq") o la 
- * función "prev" (la etiqueta va después. Se debe llamar a la función "seq").
+ * #ids.seq(...), se debe llamar a la función "next" (la etiqueta va antes de 
+ * "seq") o la función "prev" (la etiqueta va después de "seq").
  */
 ${#ids.next('someId')}
 ${#ids.prev('someId')}
@@ -6020,7 +6021,7 @@ Selectores directos _tipo jQuery_:
  * Se pueden mezclar selectores directos y selectores de atributos: 
  `a.external[@href^='https']`.
 
-Entonces la expresión anterior del Selector de marcado:
+Entonces la expresión anterior del Selector de Marcado:
 
 ```html
 <div th:insert="~{mytemplate :: //div[@class='content']}">...</div>
@@ -6046,12 +6047,12 @@ es así en HTML). Note la diferencia con:
 <div th:replace="~{mytemplate :: .myfrag}">...</div>
 ```
 
-... Que realmente buscará cualquier elemento con `class="myfrag"`, sin
+...que realmente buscará cualquier elemento con `class="myfrag"`, sin
 preocuparse por las firmas `th:fragment` (o referencias `th:ref`). 
 
 ### Coincidencia de clases multivalor
 
-Los selectores de marcado entienden que el atributo de clase es **multivalor**, 
+Los Selectores de Marcado entienden que el atributo de clase es **multivalor**, 
 por lo que permiten la aplicación de selectores en este atributo incluso si el 
 elemento tiene varios valores de clase.
 

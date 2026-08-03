@@ -4569,17 +4569,17 @@ log4j.logger.org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE=TRACE
 16 Caché de plantillas
 ======================
 
-Thymeleaf funciona gracias a un conjunto de analizadores (para marcado y texto) 
-que analizan las plantillas en secuencias de eventos (etiqueta de apertura, 
-texto, etiqueta de cierre, comentario, etc.) y a una serie de procesadores (uno 
-para cada tipo de comportamiento que se debe aplicar) que modifican la secuencia 
-de eventos analizada de la plantilla para crear los resultados esperados al 
-combinar la plantilla original con nuestros datos.
+Thymeleaf funciona gracias a un conjunto de analizadores -- para marcado y 
+texto -- que analizan las plantillas en secuencias de eventos (etiqueta de 
+apertura, texto, etiqueta de cierre, comentario, etc.) y a una serie de 
+procesadores -- uno para cada tipo de comportamiento que se debe aplicar -- que 
+modifican la secuencia de eventos analizada de  para crear los resultados 
+esperados al combinar la plantilla original con nuestros datos.
 
-También incluye, por defecto, una caché que almacena las plantillas analizadas; 
-la secuencia de eventos resultante de la lectura y el análisis de los archivos 
-de plantilla antes de procesarlos. Esto es especialmente útil al trabajar en una 
-aplicación web y se basa en los siguientes conceptos:
+También incluye -- por defecto -- una caché que almacena las plantillas 
+analizadas; la secuencia de eventos resultante de la lectura y el análisis de 
+los archivos de plantilla antes de procesarlos. Esto es especialmente útil al 
+trabajar en una aplicación web y se basa en los siguientes conceptos:
 
 * La entrada/salida es casi siempre la parte más lenta de cualquier aplicación. 
   En comparación, el procesamiento en memoria es extremadamente rápido.
@@ -4635,7 +4635,7 @@ templateEngine.clearTemplateCacheFor("/users/userList");
 17.1 Lógica desacoplada: El concepto
 ------------------------------------
 
-Hasta ahora, hemos trabajado para nuestra tienda de comestibles con plantillas 
+Hasta ahora, hemos trabajado para nuestra Grocery Store con plantillas 
 diseñadas de la *forma habitual*, insertando la lógica en forma de atributos.
 
 Pero Thymeleaf también nos permite *desvincular* completamente el marcado de la 
@@ -4644,7 +4644,7 @@ lógica en los modos de plantilla `HTML` y `XML`.
 
 La idea principal es que la lógica de la plantilla se defina en un *archivo de 
 lógica* separado independiente (más exactamente, un *recurso lógico*, ya que no 
-necesita ser un *archivo* de plantilla). Por defecto, ese recurso lógico será un 
+necesita ser un *archivo*). Por defecto, ese recurso lógico será un 
 archivo adicional ubicado en la misma ubicación (por ejemplo, una carpeta) que 
 el archivo de plantilla, con el mismo nombre pero con la extensión `.th.xml`.:
 
@@ -4678,7 +4678,7 @@ Podría verse así:
 No hay absolutamente ningún código de Thymeleaf. Este es un archivo de plantilla 
 que un diseñador sin conocimientos de Thymeleaf ni de plantillas podría haber 
 creado, editado o entendido. O un fragmento de HTML proporcionado por un sistema 
-externo sin ningún tipo de enlace de Thymeleaf.
+externo sin ningún tipo de conexión con Thymeleaf.
 
 Ahora, convirtamos esa plantilla `home.html` en una plantilla de Thymeleaf 
 desacoplada, creando nuestro archivo `home.th.xml` adicional de esta manera:
@@ -4733,9 +4733,10 @@ Thymeleaf y, por lo tanto, una mejor mantenibilidad desde el punto de vista del
 diseño.
 
 Por supuesto, todavía serán necesarios algunos *contratos* entre diseñadores o 
-desarrolladores, por ejemplo, el hecho de que los usuarios `<table>` necesitarán 
-un `id="usersTable"`, pero en muchos escenarios, una plantilla HTML pura será un 
-artefacto de comunicación mucho mejor entre los equipos de diseño y desarrollo.
+desarrolladores -- por ejemplo, el hecho de que los usuarios `<table>` 
+necesitarán un `id="usersTable"` -- pero en muchos escenarios, una plantilla 
+HTML pura será un artefacto de comunicación mucho mejor entre los equipos de 
+diseño y desarrollo.
 
 17.2 Configuración de plantillas desacopladas
 ---------------------------------------------
@@ -4823,7 +4824,7 @@ nodos de AttoParser. Por lo tanto, los nodos analizados saldrán del analizador
 como si tuvieran sus atributos inyectados escritos en el archivo de plantilla 
 original.
 
-La mayor ventaja de esto es que cuando una plantilla se configura para 
+¿Cuál es la mayor ventaja de esto? Es que cuando una plantilla se configura para 
 almacenarse en caché, se almacenará en caché con los atributos inyectados. Por 
 lo tanto, la sobrecarga de usar *plantillas desacopladas* para plantillas 
 almacenables en caché, una vez almacenadas, será absolutamente *cero*.
@@ -4840,13 +4841,13 @@ para el cual se proporciona una *implementación predeterminada*:
 
 ¿Qué hace esta implementación estándar?
 
-* Primero, aplica un `prefijo` y un `sufijo` al *nombre base* del recurso de 
-  plantilla (obtenido mediante su método `ITemplateResource#getBaseName()`). 
-  Tanto el prefijo como el sufijo se pueden configurar y, por defecto, el 
-  prefijo estará vacío y el sufijo será `.th.xml`.
-* Segundo, solicita al recurso de plantilla que resuelva un *recurso relativo* 
-  con el nombre calculado mediante su método 
-  `ITemplateResource#relative(String relativeLocation)`.
+ * Primero, aplica un `prefijo` y un `sufijo` al *nombre base* del recurso de 
+   plantilla (obtenido mediante su método `ITemplateResource#getBaseName()`). 
+   Tanto el prefijo como el sufijo se pueden configurar y, por defecto, el 
+   prefijo estará vacío y el sufijo será `.th.xml`.
+ * Segundo, solicita al recurso de plantilla que resuelva un *recurso relativo* 
+   con el nombre calculado mediante su método 
+   `ITemplateResource#relative(String relativeLocation)`.
 
 La implementación específica de `IDecoupledTemplateLogicResolver` que se 
 utilizará se puede configurar fácilmente en `TemplateEngine`:

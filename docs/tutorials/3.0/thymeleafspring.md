@@ -8,180 +8,190 @@ thymeleafVersion: @projectVersion@
 
 
 
-Preface
+Prefacio
 =======
 
-This tutorial explains how Thymeleaf can be integrated with the Spring Framework, especially (but not only) Spring MVC.
+Este tutorial explica cómo integrar Thymeleaf con Spring Framework, especialmente (aunque no exclusivamente) con Spring MVC.
 
-Note that Thymeleaf has integrations for both versions 3.x and 4.x of the Spring Framework, provided by two
-separate libraries called `thymeleaf-spring3` and `thymeleaf-spring4`. These libraries are packaged in separate
-`.jar` files (`thymeleaf-spring3-{version}.jar` and `thymeleaf-spring4-{version}.jar`) and need to be added to your
-classpath in order to use Thymeleaf's Spring integrations in your application.
+Tenga en cuenta que Thymeleaf cuenta con integraciones para las versiones 3.x y 4.x de Spring Framework, proporcionadas por dos 
+bibliotecas independientes llamadas `thymeleaf-spring3` y `thymeleaf-spring4`. Estas bibliotecas se encuentran en archivos `.jar` separados 
+(`thymeleaf-spring3-{versión}.jar` y `thymeleaf-spring4-{versión}.jar`) y deben agregarse a su 
+classpath para poder usar las integraciones de Thymeleaf con Spring en su aplicación.
 
-The code samples and example application in this tutorial make use of **Spring 4.x** and its corresponding
-Thymeleaf integrations, but the contents of this text are valid also for Spring 3.x. If your application uses
-Spring 3.x, all you have to do is replace the `org.thymeleaf.spring4` package with `org.thymeleaf.spring3` in the
-code samples. 
+Los ejemplos de código y la aplicación de ejemplo de este tutorial utilizan **Spring 4.x** y sus correspondientes
+integraciones de Thymeleaf, pero el contenido de este texto también es válido para Spring 3.x. Si su aplicación utiliza
+Spring 3.x, solo tiene que reemplazar el paquete `org.thymeleaf.spring4` por `org.thymeleaf.spring3` en los
+ejemplos de código.
 
 
-1 Integrating Thymeleaf with Spring
+1 Integrando Thymeleaf con Spring
 ===================================
 
-Thymeleaf offers a set of Spring integrations that allow you to use it as a
-fully-featured substitute for JSP in Spring MVC applications.
+Thymeleaf ofrece un conjunto de integraciones con Spring que permiten usarlo como una alternativa completa a JSP en 
+aplicaciones Spring MVC.
 
-These integrations will allow you to:
+Estas integraciones le permitirán:
 
- * Make the mapped methods in your Spring MVC `@Controller` objects forward to
-   templates managed by Thymeleaf, exactly like you do with JSPs.
- * Use **Spring Expression Language** (Spring EL) instead of OGNL in your
-   templates.
- * Create forms in your templates that are completely integrated with your
-   form-backing beans and result bindings, including the use of property editors, conversion services and validation error handling.
- * Display internationalization messages from message files managed by Spring
-   (through the usual `MessageSource` objects).
- * Resolve your templates using Spring's own resource resolution mechanisms.
+ * Hacer que los métodos mapeados en sus objetos `@Controller` de Spring MVC se reenvíen a las plantillas gestionadas 
+   por Thymeleaf, exactamente como lo hace con los JSP.
+ * Utilizar **Lenguaje de Expresión de Spring** (Spring EL) en lugar de OGNL en sus plantillas.
+ * Crear formularios en sus plantillas que estén completamente integrados con sus beans de respaldo de formularios y 
+   enlaces de resultados, incluyendo el uso de editores de propiedades, servicios de conversión y manejo de errores de 
+   validación.
+ * Mostrar los mensajes de internacionalización de los archivos de mensajes gestionados por Spring (a través de los 
+   objetos `MessageSource` habituales).
+ * Resolver sus plantillas utilizando los mecanismos de resolución de recursos propios de Spring.
 
-Note that in order to fully understand this tutorial, you should have first gone
-through the _"Using Thymeleaf"_ tutorial, which explains the Standard Dialect in depth.
-
-
+Tenga en cuenta que, para comprender completamente este tutorial, primero debe haber consultado el tutorial 
+_"Uso de Thymeleaf"_, que explica el dialecto estándar en profundidad.
 
 
-2 The SpringStandard Dialect
+
+
+2 El dialecto SpringStandard
 ============================
 
-In order to achieve an easier and better integration, Thymeleaf provides a
-dialect which specifically implements all the needed features for it to work
-correctly with Spring.
+Para lograr una integración más sencilla y eficaz, Thymeleaf proporciona un 
+dialecto que implementa específicamente todas las características necesarias 
+para funcionar correctamente con Spring.
 
-This specific dialect is based on the Thymeleaf Standard Dialect and is
-implemented in a class called `org.thymeleaf.spring4.dialect.SpringStandardDialect`,
-which in fact extends from `org.thymeleaf.standard.StandardDialect`.
+Este dialecto se basa en el dialecto estándar de Thymeleaf y se implementa en 
+una clase llamada `org.thymeleaf.spring4.dialect.SpringStandardDialect`, que 
+hereda de `org.thymeleaf.standard.StandardDialect`.
 
-Besides all the features already present in the Standard Dialect --and therefore
-inherited--, the SpringStandard Dialect introduces the following specific
-features:
+Además de todas las características ya presentes en el dialecto estándar --y, 
+por lo tanto, heredadas--, el dialecto SpringStandard introduce las siguientes 
+características específicas:
 
- * Use Spring Expression Language (Spring EL or SpEL) as a variable expression
-   language, instead of OGNL. Consequently, all `${...}` and `*{...}`
-   expressions will be evaluated by Spring's Expression Language engine. Note also
-   that support for the Spring EL compiler is available (Spring 4.2.4+).
- * Access any beans in your application context using SpringEL's syntax: `${@myBean.doSomething()}`
- * New attributes for form processing: `th:field`, `th:errors` and `th:errorclass`, besides a new
-   implementation of `th:object` that allows it to be used for form command
-   selection.
- * An expression object and method, `#themes.code(...)`, which is equivalent
-   to the `spring:theme` JSP custom tag.
- * An expression object and method, `#mvc.uri(...)`, which is equivalent to 
-   the `spring:mvcUrl(...)` JSP custom function (only in Spring 4.1+). 
+ * Se utiliza el lenguaje de expresiones de Spring (Spring EL o SpEL) como lenguaje 
+   de expresiones variables, en lugar de OGNL. Por lo tanto, todas las 
+   expresiones `${...}` y `*{...}` serán evaluadas por el motor de lenguaje de 
+   expresiones de Spring. Tenga en cuenta también que se dispone de 
+   compatibilidad con el compilador de Spring EL (Spring 4.2.4 o superior).
+ * Se accede a cualquier bean en el contexto de su aplicación utilizando la 
+   sintaxis de SpringEL: `${@myBean.doSomething()}`
+ * Nuevos atributos para el procesamiento de formularios: `th:field`, `th:errors` 
+   y `th:errorclass`, además de una nueva implementación de `th:object` que 
+   permite utilizarlo para la selección de comandos de formulario.
+ * Un objeto de expresión y un método, `#themes.code(...)`, que es equivalente 
+   a la etiqueta personalizada JSP `spring:theme`.
+ * Un objeto de expresión y un método, `#mvc.uri(...)`, que es equivalente a la 
+   función personalizada JSP `spring:mvcUrl(...)` (solo en Spring 4.1+). 
 
-Note that most of the times _you shouldn't be using this dialect directly in a normal 
-`TemplateEngine` object_ as a part of its configuration. Unless you have very specific
-Spring integration needs, you should instead be creating an instance of a new template
-engine class that performs all the required configuration steps automatically: 
-`org.thymeleaf.spring4.SpringTemplateEngine`.
+Tenga en cuenta que, en la mayoría de los casos, no debería usar este dialecto 
+directamente en un _objeto_ `TemplateEngine` normal como parte de su 
+configuración. A menos que tenga necesidades de integración con Spring muy 
+específicas, debería crear una instancia de una nueva clase de motor de 
+plantillas que realice automáticamente todos los pasos de configuración 
+necesarios: `org.thymeleaf.spring4.SpringTemplateEngine`.
 
-An example bean configuration:
+Ejemplo de configuración de bean:
 
 ```java
 @Bean
 public SpringResourceTemplateResolver templateResolver(){
-    // SpringResourceTemplateResolver automatically integrates with Spring's own
-    // resource resolution infrastructure, which is highly recommended.
+    // SpringResourceTemplateResolver se integra automáticamente con la infraestructura de resolución de recursos propia de Spring,
+    // lo cual es altamente recomendable.
     SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
     templateResolver.setApplicationContext(this.applicationContext);
     templateResolver.setPrefix("/WEB-INF/templates/");
     templateResolver.setSuffix(".html");
-    // HTML is the default value, added here for the sake of clarity.
+    // HTML es el valor predeterminado, añadido aquí para mayor claridad.
     templateResolver.setTemplateMode(TemplateMode.HTML);
-    // Template cache is true by default. Set to false if you want
-    // templates to be automatically updated when modified.
+    // La caché de plantillas está activada por defecto. Desactívala si quieres 
+    // que las plantillas se actualicen automáticamente al modificarse.
     templateResolver.setCacheable(true);
     return templateResolver;
 }
 
 @Bean
 public SpringTemplateEngine templateEngine(){
-    // SpringTemplateEngine automatically applies SpringStandardDialect and
-    // enables Spring's own MessageSource message resolution mechanisms.
+    // SpringTemplateEngine aplica automáticamente SpringStandardDialect y 
+    // habilita los mecanismos de resolución de mensajes MessageSource propios de Spring.
     SpringTemplateEngine templateEngine = new SpringTemplateEngine();
     templateEngine.setTemplateResolver(templateResolver());
-    // Enabling the SpringEL compiler with Spring 4.2.4 or newer can
-    // speed up execution in most scenarios, but might be incompatible
-    // with specific cases when expressions in one template are reused
-    // across different data types, so this flag is "false" by default
-    // for safer backwards compatibility.
+    // Habilitar el compilador SpringEL con Spring 4.2.4 o posterior puede
+    // acelerar la ejecución en la mayoría de los casos, pero podría ser incompatible
+    // con casos específicos en los que se reutilizan expresiones en una plantilla
+    // en diferentes tipos de datos, por lo que esta bandera es "falsa" por defecto
+    // para una compatibilidad con versiones anteriores más segura.
     templateEngine.setEnableSpringELCompiler(true);
     return templateEngine;
 }
 ```
 
-Or, using Spring's XML-based configuration:
+O bien, utilizando la configuración basada en XML de Spring:
 
 ```xml
-<!-- SpringResourceTemplateResolver automatically integrates with Spring's own -->
-<!-- resource resolution infrastructure, which is highly recommended.          -->
+<!-- SpringResourceTemplateResolver se integra automáticamente con la          -->
+<!-- infraestructura de resolución de recursos propia de Spring lo cual es     --> 
+<!-- altamente recomendable.                                                   -->
 <bean id="templateResolver"
        class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
   <property name="prefix" value="/WEB-INF/templates/" />
   <property name="suffix" value=".html" />
-  <!-- HTML is the default value, added here for the sake of clarity.          -->
+  <!-- HTML es el valor predeterminado, añadido aquí para mayor claridad.      -->
   <property name="templateMode" value="HTML" />
-  <!-- Template cache is true by default. Set to false if you want             -->
-  <!-- templates to be automatically updated when modified.                    -->
+  <!-- La caché de plantillas está activada por defecto. Desactívala si        -->
+  <!-- quieres que las plantillas se actualicen automáticamente al             -->
+  <!-- modificarse.                                                            -->
   <property name="cacheable" value="true" />
 </bean>
-    
-<!-- SpringTemplateEngine automatically applies SpringStandardDialect and      -->
-<!-- enables Spring's own MessageSource message resolution mechanisms.         -->
+       
+<!-- SpringTemplateEngine aplica automáticamente SpringStandardDialect y       -->
+<!-- habilita los mecanismos de resolución de mensajes MessageSource propios   -->
+<!-- de Spring.                                                                -->
 <bean id="templateEngine"
       class="org.thymeleaf.spring4.SpringTemplateEngine">
   <property name="templateResolver" ref="templateResolver" />
-  <!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up  -->
-  <!-- execution in most scenarios, but might be incompatible with specific    -->
-  <!-- cases when expressions in one template are reused across different data -->
-  <!-- ypes, so this flag is "false" by default for safer backwards            -->
-  <!-- compatibility.                                                          -->
+  <!-- Habilitar el compilador SpringEL con Spring 4.2.4 o posterior puede     -->
+  <!-- acelerar la ejecución en la mayoría de los casos, pero podría ser       -->
+  <!-- incompatible con casos específicos en los que se reutilizan expresiones -->
+  <!-- de una plantilla en diferentes tipos de datos por lo que esta bandera   -->
+  <!-- está desactivada por defecto para una mayor seguridad de compatibilidad -->
+  <!-- con versiones anteriorescompatibilidad con versiones anteriores.        -->
   <property name="enableSpringELCompiler" value="true" />
 </bean>
 ```
 
 
 
-3 Views and View Resolvers
+3 Vistas y solucionadores de vistas
 ==========================
 
 
 
-3.1 Views and View Resolvers in Spring MVC
+3.1 Vistas y solucionadores de vistas en Spring MVC
 ------------------------------------------
 
-There are two interfaces in Spring MVC that conform the core of its templating
-system:
+En Spring MVC existen dos interfaces que conforman el núcleo de su sistema de 
+plantillas:
 
  * `org.springframework.web.servlet.View`
  * `org.springframework.web.servlet.ViewResolver`
 
-Views model pages in our applications and allow us to modify and predefine their
-behaviour by defining them as beans. Views are in charge of rendering the actual
-HTML interface, usually by the execution of some template engine like Thymeleaf.
+Las vistas modelan las páginas de nuestras aplicaciones y nos permiten modificar 
+y predefinir su comportamiento al definirlas como beans. Las vistas se encargan 
+de renderizar la interfaz HTML, generalmente mediante la ejecución de un motor 
+de plantillas como Thymeleaf.
 
-ViewResolvers are the objects in charge of obtaining View objects for a specific
-operation and locale. Typically, controllers ask ViewResolvers to forward to a
-view with a specific name (a String returned by the controller method), and then
-all the view resolvers in the application execute in ordered chain until one of
-them is able to resolve that view, in which case a View object is returned and
-control is passed to it for the renderization of HTML.
+Los ViewResolvers son los objetos encargados de obtener objetos View para una 
+operación y configuración regional específicas. Normalmente, los controladores 
+solicitan a los ViewResolvers que redirijan a una vista con un nombre específico 
+(una cadena de texto devuelta por el método del controlador). A continuación, 
+todos los ViewResolvers de la aplicación se ejecutan en cadena de forma ordenada 
+hasta que uno de ellos logra resolver dicha vista. En ese caso, se devuelve un 
+objeto View y se le transfiere el control para la renderización del HTML.
 
-> Note that not all pages in our applications have to be defined as Views, but
-> only those which behaviour we wish to be non-standard or configured in a
-> specific way (for example, by wiring some special beans to it). If a
-> ViewResolver is asked a view that has no corresponding bean --which is the
-> common case--, a new View object is created ad hoc and returned.
+> Tenga en cuenta que no todas las páginas de nuestras aplicaciones tienen que 
+> estar definidas como Vistas, sino  solo aquellas cuyo comportamiento deseamos 
+> no ser estándar o configurados en una de una forma específica (por ejemplo, 
+> conectándole algunos beans especiales). Si a un ViewResolver se le solicita 
+> una vista que no tiene un bean correspondiente  --que es el caso común--, se 
+> crea un nuevo objeto View ad hoc y se devuelve.
 
-A typical configuration for a JSP+JSTL ViewResolver in a Spring MVC application
-from the past looked like this:
+Una configuración típica para un ViewResolver JSP+JSTL en una aplicación Spring 
+MVC del pasado tenía este aspecto:
 
 ```xml
 <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -193,66 +203,68 @@ from the past looked like this:
 </bean>
 ```
 
-A quick look at its properties is enough to know about how it was configured:
+Un vistazo rápido a sus propiedades es suficiente para saber cómo fue configurado:
 
- * `viewClass` establishes the class of the View instances. This is needed for a
-   JSP resolver, but it will not be needed at all when we're working with Thymeleaf.
- * `prefix` and `suffix` work in a similar way to the attributes of the same
-   names in Thymeleaf's TemplateResolver objects.
- * `order` establishes the order in which the ViewResolver will be queried in
-   the chain.
- * `viewNames` allows the definition (with wildcards) of the view names that
-   will be resolved by this ViewResolver.
+ * `viewClass` establece la clase de las instancias de View. Esto es necesario 
+   para un resolvedor JSP, pero no será necesario en absoluto cuando trabajemos 
+   con Thymeleaf.
+ * Los parámetros `prefix` y `suffix` funcionan de forma similar a los atributos 
+   con los mismos nombres en los objetos TemplateResolver de Thymeleaf.
+ * `order` establece el orden en el que se consultará el ViewResolver en la cadena.
+ * `viewNames` permite definir (con comodines) los nombres de las vistas que 
+   serán resueltas por este ViewResolver.
 
 
 
-3.2 Views and View Resolvers in Thymeleaf
+3.2 Vistas y solucionadores de vistas en Thymeleaf
 -----------------------------------------
 
-Thymeleaf offers implementations for the two interfaces mentioned above:
+Thymeleaf ofrece implementaciones para las dos interfaces mencionadas 
+anteriormente:
 
  * `org.thymeleaf.spring4.view.ThymeleafView`
  * `org.thymeleaf.spring4.view.ThymeleafViewResolver`
 
-These two classes will be in charge of processing Thymeleaf templates as a
-result of the execution of controllers.
+Estas dos clases se encargarán de procesar las plantillas de Thymeleaf como 
+resultado de la ejecución de los controladores.
 
-Configuration of the Thymeleaf View Resolver is very similar to that of JSP:
+La configuración del Solucionador de Vistas de Thymeleaf es muy similar a la de 
+JSP:
 
 ```java
 @Bean
 public ThymeleafViewResolver viewResolver(){
     ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
     viewResolver.setTemplateEngine(templateEngine());
-    // NOTE 'order' and 'viewNames' are optional
+    // NOTA: 'order' y 'viewNames' son opcionales.
     viewResolver.setOrder(1);
     viewResolver.setViewNames(new String[] {".html", ".xhtml"});
     return viewResolver;
 }
 ```
 
-...or in XML:
+...o en XML:
 
 ```xml
 <bean class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
   <property name="templateEngine" ref="templateEngine" />
-  <!-- NOTE 'order' and 'viewNames' are optional -->
+  <!-- NOTA: 'order' y 'viewNames' son opcionales. -->
   <property name="order" value="1" />
   <property name="viewNames" value="*.html,*.xhtml" />
 </bean>
 ```
 
-The `templateEngine` parameter is, of course, the `SpringTemplateEngine` object
-we defined in the previous chapter. The other two (`order` and `viewNames`) are
-both optional, and have the same meaning as in the JSP ViewResolver we saw
-before.
+El parámetro `templateEngine` es, por supuesto, el objeto `SpringTemplateEngine` 
+que definimos en el capítulo anterior. Los otros dos (`order` y `viewNames`) son 
+opcionales y tienen el mismo significado que en el JSP ViewResolver que vimos 
+anteriormente.
 
-Note that we do not need `prefix` or `suffix` parameters, because these are
-already specified at the Template Resolver (which in turn is passed to the
-Template Engine).
+Tenga en cuenta que no necesitamos los parámetros `prefix` ni `suffix`, ya que 
+estos se especifican en el Template Resolver (que a su vez se pasa al Template 
+Engine).
 
-And what if we wanted to define a `View` bean and add some static variables to
-it? Easy, just define a *prototype* bean for it:
+¿Y si quisiéramos definir un bean `View` y añadirle algunas variables estáticas? 
+Es sencillo: basta con definir un bean *prototype* para ello.
 
 ```java
 @Bean
@@ -265,49 +277,50 @@ public ThymeleafView mainView() {
 }
 ```
 
-By doing this, you will be able to execute specifically this view bean
-selecting it by bean name (`mainView`, in this case).
+Al hacer esto, podrá ejecutar específicamente este bean de vista seleccionándolo 
+por su nombre (en este caso, `mainView`).
 
 
 
-4 Spring Thyme Seed Starter Manager
+4 Gestor de semillas de tomillo de Spring
 ===================================
 
-The source code for the examples shown in this and future chapters of this guide
-can be found in the [Spring Thyme Seed Starter Manager GitHub repository](https://github.com/thymeleaf/thymeleafexamples-stsm).
+El código fuente de los ejemplos que se muestran en este y en futuros capítulos 
+de esta guía se puede encontrar en el repositorio de GitHub [Spring Thyme Seed Starter Manager](https://github.com/thymeleaf/thymeleafexamples-stsm).
 
 
-4.1 The Concept
+4.1 El concepto
 ---------------
 
-At Thymeleaf we're huge fans of thyme, and every spring we prepare our seed
-starting kits with good soil and our favourite seeds, place them under the
-Spanish sun and patiently wait for our new plants to grow.
+En Thymeleaf somos grandes aficionados al tomillo, y cada primavera preparamos 
+nuestros kits de germinación con buena tierra y nuestras semillas favoritas, los 
+colocamos bajo el sol español y esperamos pacientemente a que crezcan nuestras 
+nuevas plantas.
 
-But this year we got fed up with sticking labels to the seed starter containers
-for knowing which seed was in each cell of the container, so we decided to
-prepare an application using Spring MVC and Thymeleaf to help us catalogue our
-starters: _The Spring Thyme SeedStarter Manager_.
+Pero este año nos cansamos de pegar etiquetas en los recipientes de germinación 
+para saber qué semilla había en cada compartimento, así que decidimos crear una 
+aplicación con Spring MVC y Thymeleaf para catalogar nuestros kits: _El Gestor 
+de Germinación de Semillas de Tomillo de Spring_.
 
-![STSM front page](images/thymeleafspring/stsm-view.png)
+![Portada de STSM](images/thymeleafspring/stsm-view.png)
 
-In a similar way to the Good Thymes Virtual Grocery application we developed in
-the _Using Thymeleaf_ tutorial, the STSM will allow us to exemplify the most
-important aspects of the integration of Thymeleaf as a template engine for
+De forma similar a la aplicación Good Thymes Virtual Grocery que desarrollamos 
+en el tutorial _Using Thymeleaf_, el STSM nos permitirá ejemplificar los aspectos 
+más importantes de la integración de Thymeleaf como motor de plantillas para 
 Spring MVC.
 
 
 
-4.2 Business Layer
+4.2 Capa de Negocio
 ------------------
 
-We will need a very simple business layer for our application. First of all,
-let's have a look at our model entities:
+Necesitaremos una capa de negocio muy simple para nuestra aplicación. En primer 
+lugar, veamos las entidades de nuestro modelo:
 
-![STSM model](images/thymeleafspring/stsm-model.png)
+![Modelo STSM](images/thymeleafspring/stsm-model.png)
 
-A couple of very simple service classes will provide the required business
-methods. Like:
+Un par de clases de servicio muy sencillas proporcionarán los métodos de negocio 
+necesarios. Por ejemplo:
 
 ```java
 @Service
@@ -327,7 +340,7 @@ public class SeedStarterService {
 }
 ```
 
-And:
+Y:
 
 ```java
 @Service
@@ -349,13 +362,13 @@ public class VarietyService {
 
 
 
-4.3 Spring MVC configuration
+4.3 Configuración de Spring MVC
 ----------------------------
 
-Next we need to set up the Spring MVC configuration for the application, which
-will include not only the standard Spring MVC artifacts like resource handling
-or annotation scanning, but also the creation of the Template Engine and View
-Resolver instances.
+A continuación, debemos configurar Spring MVC para la aplicación, lo que 
+incluirá no solo los elementos estándar de Spring MVC, como el manejo de 
+recursos o el escaneo de anotaciones, sino también la creación de instancias del 
+motor de plantillas y del solucionador de vistas.
 
 ```java
 @Configuration
@@ -380,8 +393,9 @@ public class SpringWebConfig
 
 
     /* ******************************************************************* */
-    /*  GENERAL CONFIGURATION ARTIFACTS                                    */
-    /*  Static Resources, i18n Messages, Formatters (Conversion Service)   */
+    /*  ARTEFACTOS DE CONFIGURACIÓN GENERAL                                */
+    /*  Recursos estáticos, Mensajes i18n, Formateadores                   */ 
+    /* (Servicio de Conversión)                                            */
     /* ******************************************************************* */
 
     @Override
@@ -419,37 +433,40 @@ public class SpringWebConfig
 
 
     /* **************************************************************** */
-    /*  THYMELEAF-SPECIFIC ARTIFACTS                                    */
+    /*  ARTEFACTOS ESPECÍFICOS DE THYMELEAF                             */
     /*  TemplateResolver <- TemplateEngine <- ViewResolver              */
     /* **************************************************************** */
 
     @Bean
     public SpringResourceTemplateResolver templateResolver(){
-        // SpringResourceTemplateResolver automatically integrates with Spring's own
-        // resource resolution infrastructure, which is highly recommended.
+        // SpringResourceTemplateResolver se integra automáticamente con la 
+        // infraestructura de resolución de recursos propia de Spring,
+        // lo cual es altamente recomendable.
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(this.applicationContext);
         templateResolver.setPrefix("/WEB-INF/templates/");
         templateResolver.setSuffix(".html");
-        // HTML is the default value, added here for the sake of clarity.
+        // HTML es el valor predeterminado, añadido aquí para mayor claridad.
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        // Template cache is true by default. Set to false if you want
-        // templates to be automatically updated when modified.
+        // La caché de plantillas está activada por defecto. Desactívala si deseas 
+        // que las plantillas se actualicen automáticamente al modificarse.
         templateResolver.setCacheable(true);
         return templateResolver;
     }
 
     @Bean
     public SpringTemplateEngine templateEngine(){
-        // SpringTemplateEngine automatically applies SpringStandardDialect and
-        // enables Spring's own MessageSource message resolution mechanisms.
+        // SpringTemplateEngine aplica automáticamente SpringStandardDialect y 
+        // habilita los mecanismos de resolución de mensajes MessageSource 
+        // propios de Spring.
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
-        // Enabling the SpringEL compiler with Spring 4.2.4 or newer can
-        // speed up execution in most scenarios, but might be incompatible
-        // with specific cases when expressions in one template are reused
-        // across different data types, so this flag is "false" by default
-        // for safer backwards compatibility.
+        // Habilitar el compilador SpringEL con Spring 4.2.4 o versiones 
+        // posteriores puede acelerar la ejecución en la mayoría de los casos, 
+        // pero podría ser incompatible con casos específicos en los que las 
+        // expresiones de una plantilla se reutilizan en diferentes tipos de 
+        // datos, por lo que esta bandera está desactivada por defecto para una 
+        // mayor seguridad y compatibilidad con versiones anteriores.
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
@@ -466,12 +483,13 @@ public class SpringWebConfig
 
 
 
-4.4 The Controller
+4.4 El controlador
 ------------------
 
-Of course, we will also need a controller for our application. As the STSM will
-only contain one web page with a list of seed starters and a form for adding new
-ones, we will write only one controller class for all the server interactions:
+Por supuesto, también necesitaremos un controlador para nuestra aplicación. Como 
+el STSM solo contendrá una página web con una lista de kits de semillas y un 
+formulario para agregar nuevas, escribiremos una sola clase de controlador para 
+todas las interacciones con el servidor:
 
 ```java
 @Controller
@@ -488,12 +506,12 @@ public class SeedStarterMngController {
 }
 ```
 
-Now let's see what we can add to this controller class.
+Ahora veamos qué podemos agregar a esta clase de controlador.
 
 
-### Model Attributes
+### Atributos del modelo
 
-First we will add some model attributes that we will need in the page:
+Primero agregaremos algunos atributos del modelo que necesitaremos en la página:
 
 ```java
 @ModelAttribute("allTypes")
@@ -518,11 +536,11 @@ public List<SeedStarter> populateSeedStarters() {
 ```
 
 
-### Mapped methods
+### Métodos mapeados
 
-And now the most important part of a controller, the mapped methods: one for
-showing the form page, and another one for processing the addition of new `SeedStarter`
-objects.
+Y ahora la parte más importante de un controlador, los métodos mapeados: uno 
+para mostrar la página del formulario y otro para procesar la adición de nuevos 
+objetos `SeedStarter`.
 
 ```java
 @RequestMapping({"/","/seedstartermng"})
@@ -545,13 +563,13 @@ public String saveSeedstarter(
 
 
 
-4.5 Configuring a Conversion Service
+4.5 Configurar un servicio de conversión
 ------------------------------------
 
-In order to allow easy formatting of `Date` and also `Variety` objects in our view layer, we 
-configured our application so that a Spring `ConversionService` object was created and
-initialized (by the `WebMvcConfigurerAdapter` we extend) with a couple of *formatter*
-objects we will need. See it again:
+Para facilitar el formato de los objetos `Date` y `Variety` en nuestra capa de 
+vista, configuramos nuestra aplicación de manera que se creará e inicializará un 
+objeto `ConversionService` de Spring (mediante el `WebMvcConfigurerAdapter` que 
+extendemos) con un par de objetos *formateadores* que necesitaremos. Véalo de nuevo:
 
 ```java
 @Override
@@ -572,12 +590,13 @@ public DateFormatter dateFormatter() {
 }
 ```
 
-Spring *formatters* are implementations of the `org.springframework.format.Formatter` 
-interface. For more information on how the Spring conversion infrastructure works, 
-see the docs at [spring.io](http://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/validation.html#core-convert).
+Los *formateadores* de Spring son implementaciones de la interfaz 
+`org.springframework.format.Formatter`. Para obtener más información sobre cómo 
+funciona la infraestructura de conversión de Spring, consulte la documentación 
+en [spring.io](http://docs.spring.io/spring/docs/4.3.x/spring-framework-reference/html/validation.html#core-convert).
 
-Let's have a look at the `DateFormatter`, which formats dates according to a format 
-string present at the `date.format` message key of our `Messages.properties`:
+Veamos el `DateFormatter`, que formatea las fechas según una cadena de formato 
+presente en la clave `date.format` de nuestro archivo `Messages.properties`:
 
 ```java
 public class DateFormatter implements Formatter<Date> {
@@ -610,7 +629,9 @@ public class DateFormatter implements Formatter<Date> {
 }
 ```
 
-The `VarietyFormatter` automatically converts between our `Variety` entities and the way we want to use them in our forms (basically, by their `id` field values):
+El `VarietyFormatter` convierte automáticamente entre nuestras entidades `Variety` 
+y la forma en que queremos usarlas en nuestros formularios (básicamente, por los 
+valores de su campo `id`):
 
 ```java
 public class VarietyFormatter implements Formatter<Variety> {
@@ -636,18 +657,19 @@ public class VarietyFormatter implements Formatter<Variety> {
 }
 ```
 
-We will learn more on how these formatters affect the way our data is displayed later on. 
+Más adelante aprenderemos más sobre cómo estos formateadores afectan la forma en 
+que se muestran nuestros datos.
 
 
 
 
-5 Listing Seed Starter Data
+5 Listado de datos del semillero
 ===========================
 
-The first thing that our `/WEB-INF/templates/seedstartermng.html` page will show
-is a listing with the seed starters currently stored. For this we will need some
-externalized messages and also some expression evaluation on model attributes.
-Like this:
+Lo primero que mostrará nuestra página `/WEB-INF/templates/seedstartermng.html` 
+es una lista con los starters de semillas almacenados actualmente. Para ello, 
+necesitaremos algunos mensajes externos y también la evaluación de expresiones 
+en los atributos del modelo. Algo así:
 
 ```html
 <div class="seedstarterlist" th:unless="${#lists.isEmpty(allSeedStarters)}">
@@ -690,19 +712,20 @@ Like this:
 </div>
 ```
 
-Lots to see here. Let's have a look at each fragment separately.
+Hay mucho que ver aquí. Analicemos cada fragmento por separado.
 
-First of all, this section will only be shown if there are any seed starters. We
-achieve that with a th:unless attribute and the `#lists.isEmpty(...)` function.
+En primer lugar, esta sección solo se mostrará si hay semillas iniciales. Esto 
+se logra con el atributo `th:unless` y la función `#lists.isEmpty(...)`.
 
 ```html
 <div class="seedstarterlist" th:unless="${#lists.isEmpty(allSeedStarters)}">
 ```
 
-Note that all utility objects like `#lists` are available in Spring EL
-expressions just as they were in OGNL expressions in the Standard Dialect.
+Tenga en cuenta que todos los objetos de utilidad como `#lists` están disponibles 
+en las expresiones de Spring EL, al igual que en las expresiones OGNL del 
+dialecto estándar.
 
-The next thing to see is a lot of internationalized (externalized) texts, like:
+Lo siguiente que veremos son muchos textos internacionalizados (externalizados), como:
 
 ```html
 <h2 th:text="#{title.list}">List of Seed Starters</h2>
@@ -718,9 +741,9 @@ The next thing to see is a lot of internationalized (externalized) texts, like:
       ...
 ```
 
-This being a Spring MVC application, we already defined a `MessageSource` bean
-in our Spring configuration (`MessageSource` objects are the standard way of
-managing externalized texts in Spring MVC):
+Al tratarse de una aplicación Spring MVC, ya hemos definido un bean 
+`MessageSource` en nuestra configuración de Spring (los objetos `MessageSource` 
+son la forma estándar de gestionar textos externos en Spring MVC):
 
 ```java
 @Bean
@@ -731,9 +754,9 @@ public ResourceBundleMessageSource messageSource() {
 }
 ```
 
-...and that `basename` property indicates that we will have files like `Messages_es.properties`
-or `Messages_en.properties` in our classpath. Let's have a look at the Spanish
-version:
+...y esa propiedad `basename` indica que tendremos archivos como 
+`Messages_es.properties` o `Messages_en.properties` en nuestro classpath. Echemos 
+un vistazo a la versión en español:
 
 ```properties
 title.list=Lista de semilleros
@@ -756,48 +779,50 @@ seedstarter.feature.FERTILIZER=Fertilizante
 seedstarter.feature.PH_CORRECTOR=Corrector de PH
 ```
 
-In the first column of the table listing we will show the date when the seed
-starter was prepared. But **we will show it formatted** in the way we defined 
-in our `DateFormatter`. In order to do that we will use the double-brace 
-syntax (`${{...}}`), which will automatically apply the Spring Conversion Service,
-including the `DateFormatter` we registered at configuration.
+En la primera columna de la tabla mostraremos la fecha en que se preparó el 
+cultivo inicial. Sin embargo, **la mostraremos formateada** según lo definido en 
+nuestro `DateFormatter`. Para ello, utilizaremos la sintaxis de doble llave 
+(`${{...}}`), que aplicará automáticamente el Servicio de Conversión de Spring, 
+incluyendo el `DateFormatter` que registramos en la configuración.
 
 ```html
 <td th:text="${{sb.datePlanted}}">13/01/2011</td>
 ```
 
-Next is showing whether the seed starter container is covered or not, by
-transforming the value of the boolean covered bean property into an
-internationalized _"yes"_ or _"no"_ with a literal substitution expression:
+A continuación se muestra si el recipiente de inicio de semillas está cubierto o 
+no, transformando el valor de la propiedad booleana bean coverd en un _"sí"_ o 
+_"no"_ internacionalizado con una expresión de sustitución literal:
 
 ```html
 <td th:text="#{|bool.${sb.covered}|}">yes</td>
 ```
 
-Now we have to show the type of seed starter container. Type is a java enum with
-two values (`WOOD` and `PLASTIC`), and that's why we defined two properties in
-our `Messages` file called `seedstarter.type.WOOD` and `seedstarter.type.PLASTIC`.
+Ahora debemos mostrar el tipo de contenedor de semillas. El tipo es una 
+enumeración Java con dos valores (`WOOD` y `PLASTIC`), y por eso definimos dos 
+propiedades en nuestro archivo `Messages` llamadas `seedstarter.type.WOOD` y 
+`seedstarter.type.PLASTIC`.
 
-But in order to obtain the internationalized names of the types, we will need to
-add the `seedstarter.type.` prefix to the enum value by means of an expression,
-which result we will then use as the message key:
+Pero para obtener los nombres internacionalizados de los tipos, necesitaremos 
+agregar el prefijo `seedstarter.type.` al valor de la enumeración mediante una 
+expresión, cuyo resultado utilizaremos como clave del mensaje:
 
 ```html
 <td th:text="#{|seedstarter.type.${sb.type}|}">Wireframe</td>
 ```
+La parte más difícil de este listado es la columna _features_. En ella queremos 
+mostrar todas las características de nuestro contenedor ---que vienen en forma 
+de un array de enumeraciones `Feature`---, separadas por comas. Por ejemplo: 
+_"Calefacción eléctrica, Césped"_.
 
-The most difficult part of this listing is the _features_ column. In it we want
-to display all the features of our container ---that come in the form of an array
-of `Feature` enums---, separated by commas. Like _"Electric Heating, Turf"_.
+Tenga en cuenta que esto es particularmente difícil porque estos valores de 
+enumeración también deben externalizarse, como hicimos con los tipos. El flujo 
+es el siguiente:
 
-Note that this is particularly difficult because these enum values also need to
-be externalized, as we did with Types. The flow is then:
+1. Anteponer el prefijo correspondiente a todos los elementos de la matriz `features`.
+2. Obtener los mensajes externalizados correspondientes a todas las claves del paso 1.
+3. Unir todos los mensajes obtenidos en el paso 2, utilizando una coma como delimitador.
 
-1. Prepend the corresponding prefix to all the elements of the `features` array.
-2. Obtain the externalized messages corresponding to all the keys from step 1.
-3. Join all the messages obtained in step 2, using a comma as a delimiter.
-
-For achieving this, we create the following code:
+Para lograr esto, creamos el siguiente código:
 
 ```html
 <td th:text="${#strings.arrayJoin(
@@ -806,8 +831,8 @@ For achieving this, we create the following code:
                    ', ')}">Electric Heating, Turf</td>
 ```
 
-The last column of our listing will be quite simple, in fact. Even if it has a
-nested table for showing the contents of each row in the container:
+La última columna de nuestra lista será bastante simple, de hecho. Incluso si 
+tiene una tabla anidada para mostrar el contenido de cada fila en el contenedor:
 
 ```html
 <td>
@@ -826,21 +851,21 @@ nested table for showing the contents of each row in the container:
 
 
 
-6 Creating a Form
+6 Crear un formulario
 =================
 
 
 
-6.1 Handling the command object
+6.1 Manejo del objeto de comando
 -------------------------------
+El _objeto command_ es el nombre que Spring MVC le da a los beans de respaldo 
+de formularios; es decir, a los objetos que modelan los campos de un formulario 
+y proporcionan métodos getter y setter que el framework utilizará para establecer 
+y obtener los valores ingresados por el usuario en el navegador.
 
-_Command object_ is the name Spring MVC gives to form-backing beans, this is, to
-objects that model a form's fields and provide getter and setter methods that
-will be used by the framework for establishing and obtaining the values input by
-the user at the browser side.
+Thymeleaf requiere que especifique el objeto command mediante el atributo 
+`th:object` en su etiqueta `<form>`:
 
-Thymeleaf requires you to specify the command object by using a `th:object`
-attribute in your `<form>` tag:
 
 ```html
 <form action="#" th:action="@{/seedstartermng}" th:object="${seedStarter}" method="post">
@@ -848,64 +873,72 @@ attribute in your `<form>` tag:
 </form>
 ```
 
-This is consistent with other uses of `th:object,` but in fact this
-specific scenario adds some limitations in order to correctly integrate with
-Spring MVC's infrastructure:
+Esto es coherente con otros usos de `th:object`, pero de hecho, este escenario 
+específico añade algunas limitaciones para integrarse correctamente con la 
+infraestructura de Spring MVC:
 
- * Values for `th:object` attributes in form tags must be variable expressions (`${...}`)
-   specifying only the name of a model attribute, without property navigation.
-   This means that an expression like `${seedStarter}` is valid, but `${seedStarter.data}`
-   would not be.
- * Once inside the `<form>` tag, no other `th:object` attribute can be specified.
-   This is consistent with the fact that HTML forms cannot be nested.
+ * Los valores para los atributos `th:object` en las etiquetas de formulario 
+   deben ser expresiones variables (`${...}`) que especifiquen únicamente el 
+   nombre de un atributo del modelo, sin navegación de propiedades. Esto 
+   significa que una expresión como `${seedStarter}` es válida, pero 
+   `${seedStarter.data}` no lo sería.
+ * Una vez dentro de la etiqueta `<form>`, no se puede especificar ningún otro 
+   atributo `th:object`. Esto es coherente con el hecho de que los formularios 
+   HTML no se pueden anidar.
 
 
 
-6.2 Inputs
+6.2 Entradas
 ----------
 
-Let's see now how to add an input to our form:
+Veamos ahora cómo agregar un campo de entrada a nuestro formulario:
 
 ```html
 <input type="text" th:field="*{datePlanted}" />
 ```
 
-As you can see, we are introducing a new attribute here: `th:field.` This is a
-very important feature for Spring MVC integration because it does all the heavy
-work of binding your input with a property in the form-backing bean. You can see
-it as an equivalent of the path attribute in a <form:input> tag from Spring
-MVC's JSP tag library.
+Como puedes ver, aquí introducimos un nuevo atributo: `th:field`. Esta es una 
+característica muy importante para la integración con Spring MVC, ya que se 
+encarga de todo el trabajo pesado de vincular tu entrada con una propiedad en el 
+bean que respalda el formulario. Puedes considerarlo como el equivalente del 
+atributo `path` en una etiqueta <form:input> de la biblioteca de etiquetas JSP 
+de Spring MVC.
 
-The `th:field` attribute behaves differently depending on whether it is attached
-to an `<input>`, `<select>` or `<textarea>` tag (and also depending on the
-specific type of `<input>` tag). In this case (`input[type=text]`), the above
-line of code is similar to:
+El atributo `th:field` se comporta de manera diferente según si está asociado a 
+una etiqueta `<input>`, `<select>` o `<textarea>` (y también según el tipo 
+específico de etiqueta `<input>`). En este caso (`input[type=text]`), la línea 
+de código anterior es similar a:
 
 ```html
 <input type="text" id="datePlanted" name="datePlanted" th:value="*{datePlanted}" />
 ```
 
-...but in fact it is a little bit more than that, because `th:field` will also apply the registered Spring Conversion Service, including the `DateFormatter` we saw before (even if the field expression is not double-bracketed). Thanks to this, the date will be shown correctly formatted.
+...pero en realidad es algo más que eso, porque `th:field` también aplicará el 
+Servicio de Conversión de Spring registrado, incluido el `DateFormatter` que 
+vimos anteriormente (incluso si la expresión del campo no está entre corchetes 
+dobles). Gracias a esto, la fecha se mostrará con el formato correcto.
 
-Values for `th:field` attributes must be selection expressions (`*{...}`), which
-makes sense given the fact that they will be evaluated on the form-backing bean
-and not on the context variables (or model attributes in Spring MVC jargon).
+Los valores para los atributos `th:field` deben ser expresiones de 
+selección (`*{...}`), lo cual tiene sentido dado que se evaluarán en el bean que 
+respalda el formulario y no en las variables de contexto (o atributos del modelo 
+en la jerga de Spring MVC).
 
-Contrary to the ones in `th:object`, these expressions can include property
-navigation (in fact any expression allowed for the path attribute of a `<form:input>`
-JSP tag will be allowed here).
+A diferencia de las que se encuentran en `th:object`, estas expresiones pueden 
+incluir la navegación de propiedades (de hecho, cualquier expresión permitida 
+para el atributo path de una etiqueta JSP `<form:input>` estará permitida aquí).
 
-Note that `th:field` also understands the new types of `<input>` element
-introduced by HTML5 like `<input type="datetime" ... />`, `<input type="color" ... />`,
-etc., effectively adding complete HTML5 support to Spring MVC.
+Tenga en cuenta que `th:field` también entiende los nuevos tipos de elementos 
+`<input>` introducidos por HTML5, como `<input type="datetime" ... />`, 
+`<input type="color" ... />`, etc., lo que efectivamente agrega soporte completo 
+para HTML5 a Spring MVC.
 
 
 
-6.3 Checkbox fields
+6.3 Campos de casilla de verificación
 -------------------
 
-`th:field` also allows us to define checkbox inputs. Let's see an example from
-our HTML page:
+`th:field` también nos permite definir campos de entrada de casilla de 
+verificación. Veamos un ejemplo de nuestra página HTML:
 
 ```html
 <div>
@@ -914,18 +947,19 @@ our HTML page:
 </div>
 ```
 
-Note there's some fine stuff here besides the checkbox itself, like an
-externalized label and also the use of the `#ids.next('covered')` function for
-obtaining the value that will be applied to the id attribute of the checkbox
-input.
+Cabe destacar que, además de la casilla de verificación en sí, hay otros 
+elementos interesantes, como una etiqueta externa y el uso de la función 
+`#ids.next('covered')` para obtener el valor que se aplicará al atributo `id` de 
+la casilla de verificación.
 
-Why do we need this dynamic generation of an id attribute for this field?
-Because checkboxes are potentially multi-valued, and thus their id values will
-always be suffixed a sequence number (by internally using the `#ids.seq(...)`
-function) in order to ensure that each of the checkbox inputs for the same
-property has a different id value.
+¿Por qué necesitamos esta generación dinámica de un atributo `id` para este 
+campo? Porque las casillas de verificación pueden tener múltiples valores, por 
+lo que sus valores `id` siempre irán seguidos de un número de secuencia 
+(mediante la función `#ids.seq(...)` internamente) para garantizar que cada 
+casilla de verificación para la misma propiedad tenga un valor `id` diferente.
 
-We can see this more easily if we look at such a multi-valued checkbox field:
+Esto se aprecia mejor al observar un campo de casilla de verificación con 
+múltiples valores:
 
 ```html
 <ul>
@@ -937,10 +971,10 @@ We can see this more easily if we look at such a multi-valued checkbox field:
 </ul>
 ```
 
-Note that we've added a `th:value` attribute this time, because the features
-field is not a boolean like covered was, but instead is an array of values.
+Ten en cuenta que esta vez hemos añadido el atributo `th:value`, ya que el 
+campo `features` no es booleano como en `covered`, sino un array de valores.
 
-Let's see the HTML output generated by this code:
+Veamos el código HTML generado:
 
 ```html
 <ul>
@@ -962,25 +996,28 @@ Let's see the HTML output generated by this code:
 </ul>
 ```
 
-We can see here how a sequence suffix is added to each input's id attribute, and
-how the `#ids.prev(...)` function allows us to retrieve the last sequence value
-generated for a specific input id.
+Aquí podemos ver cómo se agrega un sufijo de secuencia al atributo id de cada 
+entrada, y cómo la función `#ids.prev(...)` nos permite recuperar el último 
+valor de secuencia generado para un id de entrada específico.
 
-> Don't worry about those hidden inputs with `name="_features"`: they are
-> automatically added in order to avoid problems with browsers not sending
-> unchecked checkbox values to the server upon form submission.
+> No te preocupes por esos campos ocultos con `name="_features"`: se añaden 
+> automáticamente para evitar problemas con los navegadores que no envían los 
+> valores de las casillas de verificación sin marcar al servidor al enviar el 
+> formulario.
 
-Also note that if our features property contained some selected values in our
-form-backing bean, `th:field`would have taken care of that and would have added
-a `checked="checked"` attribute to the corresponding input tags.
+Tenga en cuenta también que si nuestra propiedad features contenía algunos 
+valores seleccionados en nuestro bean de respaldo del formulario, `th:field` se 
+habría encargado de eso y habría agregado un atributo `checked="checked"` a las 
+etiquetas de entrada correspondientes.
 
 
 
-6.4 Radio Button fields
+6.4 Campos de botones de opción
 -----------------------
 
-Radio button fields are specified in a similar way to non-boolean (multi-valued)
-checkboxes ---except that they are not multivalued, of course:
+Los campos de botones de opción se especifican de forma similar a las casillas 
+de verificación no booleanas (multivalor) ---excepto que, por supuesto, no son 
+multivalor:
 
 ```html
 <ul>
@@ -993,17 +1030,17 @@ checkboxes ---except that they are not multivalued, of course:
 
 
 
-6.5 Dropdown/List selectors
+6.5 Selectores desplegables/de lista
 ---------------------------
 
-Select fields have two parts: the `<select>` tag and its nested `<option>` tags.
-When creating this kind of field, only the `<select>` tag has to include a `th:field`
-attribute, but the `th:value` attributes in the nested `<option>` tags will be
-very important because they will provide the means of knowing which is the
-currently selected option (in a similar way to non-boolean checkboxes and radio
-buttons).
+Los campos de selección constan de dos partes: la etiqueta `<select>` y sus 
+etiquetas anidadas `<option>`. Al crear este tipo de campo, solo la etiqueta 
+`<select>` debe incluir el atributo `th:field`, pero los atributos `th:value` 
+de las etiquetas anidadas `<option>` serán muy importantes, ya que permitirán 
+saber cuál es la opción seleccionada (de forma similar a las casillas de 
+verificación y los botones de opción no booleanos).
 
-Let's re-build the type field as a dropdown select:
+Vamos a reconstruir el campo de tipo como un menú desplegable:
 
 ```html
 <select th:field="*{type}">
@@ -1013,23 +1050,24 @@ Let's re-build the type field as a dropdown select:
 </select>
 ```
 
-At this point, understanding this piece of code is quite easy. Just notice how
-attribute precedence allows us to set the `th:each` attribute in the `<option>`
-tag itself.
+En este punto, entender este fragmento de código es bastante sencillo. Basta con 
+observar cómo la precedencia de atributos nos permite establecer el atributo 
+`th:each` en la propia etiqueta `<option>`.
 
 
 
-6.6 Dynamic fields
+6.6 Campos dinámicos
 ------------------
 
-Thanks to the advanced form-field binding capabilities in Spring MVC, we can use
-complex Spring EL expressions to bind dynamic form fields to our form-backing
-bean. This will allow us to create new Row objects in our `SeedStarter` bean,
-and to add those rows' fields to our form at user request. 
+Gracias a las avanzadas capacidades de enlace de campos de formulario en Spring 
+MVC, podemos usar expresiones EL complejas de Spring para enlazar campos de 
+formulario dinámicos a nuestro bean de respaldo de formulario. Esto nos permitirá 
+crear nuevos objetos Row en nuestro bean `SeedStarter` y agregar los campos de 
+esas filas a nuestro formulario a petición del usuario.
 
-In order to do this, we will need a couple of new mapped methods in our
-controller, which will add or remove a row from our `SeedStarter` depending on
-the existence of specific request parameters:
+Para ello, necesitaremos un par de métodos mapeados nuevos en nuestro 
+controlador, que agregarán o eliminarán una fila de nuestro `SeedStarter` según 
+la existencia de parámetros de solicitud específicos:
 
 ```java
 @RequestMapping(value="/seedstartermng", params={"addRow"})
@@ -1048,7 +1086,7 @@ public String removeRow(
 }
 ```
 
-And now we can add a dynamic table to our form:
+Y ahora podemos añadir una tabla dinámica a nuestro formulario:
 
 ```html
 <table>
@@ -1084,8 +1122,8 @@ And now we can add a dynamic table to our form:
 </table>
 ```
 
-Quite a lot of things to see here, but not much we should not understand by now...
-except for one `strange` thing:
+Hay bastantes cosas que ver aquí, pero no mucho que no debamos entender a estas 
+alturas... excepto por una cosa `extraña`:
 
 ```html
 <select th:field="*{rows[__${rowStat.index}__].variety}">
@@ -1094,11 +1132,10 @@ except for one `strange` thing:
 
 </select>
 ```
-
-If you recall from the _"Using Thymeleaf"_ tutorial, that `__${...}__` syntax is
-a preprocessing expression, which is an inner expression that is evaluated
-before actually evaluating the whole expression. But why that way of specifying
-the row index? Wouldn't it be enough with:
+Si recuerdas del tutorial _"Usando Thymeleaf"_, la sintaxis `__${...}__` es una 
+expresión de preprocesamiento, que es una expresión interna que se evalúa antes 
+de evaluar la expresión completa. Pero, ¿por qué esa forma de especificar el 
+índice de fila? ¿No bastaría con?: 
 
 ```html
 <select th:field="*{rows[rowStat.index].variety}">
@@ -1108,14 +1145,14 @@ the row index? Wouldn't it be enough with:
 </select>
 ```
 
-...well, actually, no. The problem is that Spring EL does not evaluate variables
-inside array index brackets, so when executing the above expression we would
-obtain an error telling us that `rows[rowStat.index]` (instead of `rows[0]`,
-`rows[1]`, etc) is not a valid position in the rows collection. That's why
-preprocessing is needed here.
+...Bueno, en realidad no. El problema es que Spring EL no evalúa las variables 
+dentro de los corchetes de índice de array, por lo que al ejecutar la expresión 
+anterior obtendríamos un error que nos indica que `rows[rowStat.index]` (en 
+lugar de `rows[0]`, `rows[1]`, etc.) no es una posición válida en la colección 
+de filas. Por eso, es necesario el preprocesamiento.
 
-Let's have a look at a fragment of the resulting HTML after pressing _"Add Row"_
-a couple of times:
+Veamos un fragmento del HTML resultante tras pulsar _"Añadir fila"_
+un par de veces:
 
 ```html
 <tbody>
@@ -1161,31 +1198,31 @@ a couple of times:
 
 
 
-7 Validation and Error Messages
+7 Validación y mensajes de error
 ===============================
 
-Most of our forms will need to show validation messages in order to inform the
-user of the errors he/she has made.
+La mayoría de nuestros formularios deberán mostrar mensajes de validación para 
+informar al usuario de los errores que él o ella haya cometido.
 
-Thymeleaf offers some tools for this: a couple of functions in the `#fields`
-object, the `th:errors` and the `th:errorclass` attributes.
+Thymeleaf ofrece algunas herramientas para ello: un par de funciones en el 
+objeto `#fields`, y los atributos `th:errors` y `th:errorclass`.
 
 
-7.1 Field errors
+7.1 Errores de campo
 ----------------
-
-Let's see how we could set a specific CSS class to a field if it has an error:
+Veamos cómo podríamos asignar una clase CSS específica a un campo si este 
+presenta un error:
 
 ```html
 <input type="text" th:field="*{datePlanted}" 
                    th:class="${#fields.hasErrors('datePlanted')}? fieldError" />
 ```
 
-As you can see, the `#fields.hasErrors(...)` function receives the field
-expression as a parameter (`datePlanted`), and returns a boolean telling whether any validation
-errors exist for that field.
+Como puede verse, la función `#fields.hasErrors(...)` recibe la expresión del 
+campo como parámetro (`datePlanted`) y devuelve un valor booleano que indica si 
+existen errores de validación para ese campo.
 
-We could also obtain all the errors for that field and iterate them:
+También podríamos obtener todos los errores de ese campo e iterar sobre ellos:
 
 ```html
 <ul>
@@ -1193,7 +1230,9 @@ We could also obtain all the errors for that field and iterate them:
 </ul>
 ```
 
-Instead of iterating, we could have also used `th:errors`, a specialized attribute which builds a list with all the errors for the specified selector, separated by `<br />`:
+En lugar de iterar, también podríamos haber usado `th:errors`, un atributo 
+especializado que crea una lista con todos los errores para el selector 
+especificado, separados por `<br />`:
 
 ```html
 <input type="text" th:field="*{datePlanted}" />
@@ -1202,27 +1241,34 @@ Instead of iterating, we could have also used `th:errors`, a specialized attribu
 
 
 
-### Simplifying error-based CSS styling: `th:errorclass`
+### Simplificando el estilo CSS basado en errores: `th:errorclass`
 
-The example we saw above, *setting a CSS class to a form input if that field has errors*, is so common that Thymeleaf offers a specific attribute for doing exacly that: `th:errorclass`.
+El ejemplo anterior, *asignar una clase CSS a un campo de formulario si ese 
+campo contiene errores*, es tan común que Thymeleaf ofrece un atributo 
+específico para ello: `th:errorclass`.
 
-Applied to a form field tag (input, select, textarea...), it will read the name of the field to be examined from any existing `name` or `th:field` attributes in the same tag, and then append the specified CSS class to the tag if such field has any associated errors:
+Aplicado a la etiqueta de un campo de formulario (input, select, textarea, etc.), 
+leerá el nombre del campo a examinar de cualquier atributo `name` o `th:field` 
+existente en la misma etiqueta y, a continuación, añadirá la clase CSS 
+especificada a la etiqueta si dicho campo contiene errores.
 
 ```html
 <input type="text" th:field="*{datePlanted}" class="small" th:errorclass="fieldError" />
 ```
 
-If `datePlanted` has errors, this will render as:
+Si `datePlanted` tiene errores, se mostrará de la siguiente manera:
 
 ```html
 <input type="text" id="datePlanted" name="datePlanted" value="2013-01-01" class="small fieldError" />
 ```
 
 
-7.2 All errors
+7.2 Todos los errores
 --------------
 
-And what if we want to show all the errors in the form? We just need to query the `#fields.hasErrors(...)` and `#fields.errors(...)` methods with the `'*'` or `'all'` constants (which are equivalent):
+¿Y si queremos mostrar todos los errores del formulario? Solo necesitamos 
+consultar los métodos `#fields.hasErrors(...)` y `#fields.errors(...)` con las 
+constantes `'*'` o `'all'` (que son equivalentes):
 
 ```html
 <ul th:if="${#fields.hasErrors('*')}">
@@ -1230,20 +1276,22 @@ And what if we want to show all the errors in the form? We just need to query th
 </ul>
 ```
 
-As in the examples above, we could obtain all the errors and iterate them...
+Como en los ejemplos anteriores, podríamos obtener todos los errores e iterarlos...
 
 ```html
 <ul>
   <li th:each="err : ${#fields.errors('*')}" th:text="${err}" />
 </ul>
 ```
-...as well as build a `<br />`-separated list:
+...así como construir una lista separada por `<br />`:
 
 ```html
 <p th:if="${#fields.hasErrors('all')}" th:errors="*{all}">Incorrect date</p>
 ```
 
-Finally note that `#fields.hasErrors('*')` is equivalent to `#fields.hasAnyErrors()` and `#fields.errors('*')` is equivalent to `#fields.allErrors()`. Use whichever syntax you prefer:
+Por último, tenga en cuenta que `#fields.hasErrors('*')` es equivalente a 
+`#fields.hasAnyErrors()` y `#fields.errors('*')` es equivalente a 
+`#fields.allErrors()`. Utilice la sintaxis que prefiera:
 
 ```html
 <div th:if="${#fields.hasAnyErrors()}">
@@ -1252,12 +1300,14 @@ Finally note that `#fields.hasErrors('*')` is equivalent to `#fields.hasAnyError
 ```
 
 
-7.3 Global errors
+7.3 Errores globales
 -----------------
 
-There is a third type of error in a Spring form: *global* errors. These are errors that are not associated with any specific fields in the form, but still exist.
+Existe un tercer tipo de error en un formulario de Spring: los errores 
+*globales*. Estos errores no están asociados a ningún campo específico 
+del formulario, pero aun así existen.
 
-Thymeleaf offers the `global` constant for accessing these errors:
+Thymeleaf ofrece la constante `global` para acceder a estos errores:
 
 ```html
 <ul th:if="${#fields.hasErrors('global')}">
@@ -1269,7 +1319,8 @@ Thymeleaf offers the `global` constant for accessing these errors:
 <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Incorrect date</p>
 ```
 
-...as well as equivalent `#fields.hasGlobalErrors()` and `#fields.globalErrors()` convenience methods: 
+...así como los métodos de conveniencia equivalentes `#fields.hasGlobalErrors()` 
+y `#fields.globalErrors()`: 
 
 ```html
 <div th:if="${#fields.hasGlobalErrors()}">
@@ -1278,10 +1329,12 @@ Thymeleaf offers the `global` constant for accessing these errors:
 ```
 
 
-7.4 Displaying errors outside forms
+7.4 Mostrar errores fuera de los formularios
 -----------------------------------
 
-Form validation errors can also be displayed outside forms by using variable (`${...}`) instead of selection (`*{...}`) expressions and prefixing the name of the form-backing bean: 
+Los errores de validación de formularios también se pueden mostrar fuera de los 
+formularios utilizando variables (`${...}`) en lugar de expresiones de selección 
+(`*{...}`) y anteponiendo el nombre del bean que respalda el formulario: 
 
 ```html
 <div th:errors="${myForm}">...</div>
@@ -1298,12 +1351,15 @@ Form validation errors can also be displayed outside forms by using variable (`$
 ```
 
 
-7.5 Rich error objects
+7.5 Objetos de error enriquecidos
 ----------------------
 
-Thymeleaf offers the possibility to obtain form error information in the form of beans (instead of mere *strings*), with the `fieldName` (String), `message` (String) and `global` (boolean) attributes.
+Thymeleaf ofrece la posibilidad de obtener información de errores de formulario 
+en forma de beans (en lugar de simples cadenas de texto), con los atributos 
+`fieldName` (cadena), `message` (cadena) y `global` (booleano).
 
-These errors can be obtained by means of the `#fields.detailedErrors()` utility method:
+Estos errores se pueden obtener mediante el método de utilidad 
+`#fields.detailedErrors()`:
 
 ```html
 <ul>
@@ -1315,33 +1371,37 @@ These errors can be obtained by means of the `#fields.detailedErrors()` utility 
 ```
 
 
-8 It's still a Prototype!
+8 ¡Todavía es un prototipo!
 =========================
 
-Our application is ready now. But let's have a second look at the `.html` page
-we created...
+Nuestra aplicación ya está lista. Pero echemos un segundo vistazo a la página 
+`.html` que creamos...
 
-One of the nicest consequences of working with Thymeleaf is that after all this
-functionality we have added to our HTML, we can still use it as a prototype (we say it is a _Natural Template_). Let's open `seedstartermng.html` directly in our browser without executing our application:
+Una de las ventajas de trabajar con Thymeleaf es que, después de añadir toda la 
+funcionalidad a nuestro HTML, podemos seguir usándolo como prototipo (lo 
+llamamos una _plantilla natural_). Abramos `seedstarterng.html` directamente en 
+nuestro navegador sin ejecutar la aplicación:
 
-![STSM natural templating](images/thymeleafspring/stsm-natural-templating.png)
+![Plantillas naturales STSM](images/thymeleafspring/stsm-natural-templating.png)
 
-There it is! It's not a working application, it's not real data... but it is a
-perfectly valid prototype made up of perfectly displayable HTML code.
+¡Ahí está! No es una aplicación funcional, no son datos reales... pero es un 
+prototipo perfectamente válido compuesto por código HTML perfectamente 
+visualizable.
 
 
 
 
-9 The Conversion Service
+9 El servicio de conversión
 ========================
 
-9.1 Configuration
+9.1 Configuración
 -----------------
 
-As explained before, Thymeleaf can make use of a Conversion Service registered at the Application Context. Our
-application configuration class, by extending Spring's own `WebMvcConfigurerAdapter` helper, will automatically
-register such conversion service, which we can configure by adding the *formatters* that we need. Let's see 
-again what it looks like:
+Como se explicó anteriormente, Thymeleaf puede utilizar un servicio de conversión 
+registrado en el contexto de la aplicación. Nuestra clase de configuración de la 
+aplicación, al extender la clase auxiliar `WebMvcConfigurerAdapter` de Spring, 
+registrará automáticamente dicho servicio de conversión, que podemos configurar 
+añadiendo los *formateadores* que necesitemos. Veamos de nuevo cómo se ve:
 
 ```java
 @Override
@@ -1362,23 +1422,25 @@ public DateFormatter dateFormatter() {
 }
 ```
 
-9.1 Double-brace syntax
+9.1 Sintaxis de doble llave
 -----------------------
 
-The Conversion Service can be easily applied in order to convert/format any object into String. This 
-is done by means of the double-brace expression syntax:
+El servicio de conversión se puede aplicar fácilmente para convertir/formatear 
+cualquier objeto a cadena de texto. Esto se realiza mediante la sintaxis de 
+expresiones con doble llave:
 
-  * For variable expressions: `${{...}}`
-  * For selection expressions: `*{{...}}`
-  
-So, for example, given an Integer-to-String converter that adds commas as a thousands separator, this:
+* Para expresiones de variables: `${{...}}`
+* Para expresiones de selección: `*{{...}}`
+
+Por ejemplo, dado un convertidor de entero a cadena que agrega comas como 
+separador de miles, se obtiene lo siguiente:
 
 ```html
 <p th:text="${val}">...</p>
 <p th:text="${{val}}">...</p>
 ```
 
-...should result in:
+...debería dar como resultado:
 
 ```html
 <p>1234567890</p>
@@ -1387,61 +1449,75 @@ So, for example, given an Integer-to-String converter that adds commas as a thou
 
 
 
-9.2 Use in forms
+9.2 Uso en formularios
 ----------------
 
 
-We saw before that every `th:field` attribute will always apply the conversion service, so this:
+Ya vimos anteriormente que a cada atributo `th:field` siempre se le aplicará el 
+servicio de conversión, por lo que:
 
 ```html
 <input type="text" th:field="*{datePlanted}" />
 ```
 
-...is actually equivalent to:
+...es en realidad equivalente a:
 
 ```html
 <input type="text" th:field="*{{datePlanted}}" />
 ```
 
-Note that, per requirement of Spring, this is the only scenario in which the Conversion Service 
-is applied in expressions using single-brace syntax.
+Tenga en cuenta que, según los requisitos de Spring, este es el único escenario 
+en el que se aplica el Servicio de Conversión en expresiones que utilizan 
+sintaxis de una sola llave.
 
 
 
-9.3 `#conversions` utility object
+9.3 Objeto de utilidad `#conversions`
 --------------------------------- 
 
-The `#conversions` expression utility object allows the manual execution of the Conversion Service wherever needed:
+El objeto de utilidad de expresión `#conversions` permite la ejecución manual 
+del Servicio de conversión donde sea necesario:
 
 ```html
 <p th:text="${'Val: ' + #conversions.convert(val,'String')}">...</p>
 ```
 
-Syntax for this utility object:
+Sintaxis para este objeto de utilidad:
 
-  * `#conversions.convert(Object,Class)`: converts the object to the specified class.
-  * `#conversions.convert(Object,String)`: same as above, but specifying the target class as a String (note the `java.lang.` package can be ommitted).
+* `#conversions.convert(Object,Class)`: convierte el objeto a la clase especificada.
+* `#conversions.convert(Object,String)`: igual que la anterior, pero especificando 
+  la clase de destino como una cadena (tenga en cuenta que se puede omitir el 
+  paquete `java.lang.`).
 
 
 
 
-10 Rendering Template Fragments
+10 Fragmentos de plantilla de renderizado
 ===============================
 
-Thymeleaf offers the possibility to render only part of a template as the result of its execution: a *fragment*. 
+Thymeleaf ofrece la posibilidad de renderizar solo una parte de una plantilla 
+como resultado de su ejecución: un *fragmento*.
 
-This can be a useful componentization tool. For example, it can be used at controllers that execute on AJAX calls, which might return markup fragments of a page that is already loaded at the browser (for updating a select, enabling/disabling buttons...).
+Esta puede ser una herramienta útil para la modularización. Por ejemplo, se puede 
+usar en controladores que se ejecutan en llamadas AJAX, las cuales podrían 
+devolver fragmentos de marcado de una página ya cargada en el navegador (para 
+actualizar un selector, habilitar/deshabilitar botones, etc.).
 
-Fragmentary rendering can be achieved by using Thymeleaf's *fragment specs*: objects implementing the `org.thymeleaf.fragment.IFragmentSpec` interface.
+La renderización fragmentaria se puede lograr utilizando las *especificaciones 
+de fragmento* de Thymeleaf: objetos que implementan la interfaz 
+`org.thymeleaf.fragment.IFragmentSpec`.
 
-The most common of these implementations is `org.thymeleaf.standard.fragment.StandardDOMSelectorFragmentSpec`, which allows specifying a fragment using a DOM Selector exactly like the ones used at `th:include` or `th:replace`.
+La implementación más común es 
+`org.thymeleaf.standard.fragment.StandardDOMSelectorFragmentSpec`, que permite 
+especificar un fragmento usando un selector DOM, similar a los que se usan en 
+`th:include` o `th:replace`.
 
-
-10.1 Specifying fragments in view beans
+10.1 Especificar fragmentos en beans de vista
 ----------------------------------------
 
-*View beans* are beans of the `org.thymeleaf.spring4.view.ThymeleafView` class declared at the application 
-context (`@Bean` declarations if you are using Java configuration). They allow the specification of fragments like this:
+Los *beans de vista* son beans de la clase `org.thymeleaf.spring4.view.ThymeleafView` 
+declarados en el contexto de la aplicación (declaraciones `@Bean` si se utiliza 
+la configuración Java). Permiten especificar fragmentos como este:
 
 ```java
 @Bean(name="content-part")
@@ -1453,7 +1529,8 @@ public ThymeleafView someViewBean() {
 }
 ``` 
 
-Given the above bean definition, if our controller returns `content-part` (the name of the above bean)...
+Dada la definición de bean anterior, si nuestro controlador devuelve 
+`content-part` (el nombre del bean anterior)...
 
 ```java    
 @RequestMapping("/showContentPart")
@@ -1463,9 +1540,11 @@ public String showContentPart() {
 }
 ```
 
-...thymeleaf will return only the `content` fragment of the `index` template -- which location will 
-probably be something like `/WEB-INF/templates/index.html`, once prefix and suffix are applied. So 
-the result will be completely equivalent to specifying `index :: content`:
+...Thymeleaf devolverá únicamente el fragmento `content` de la plantilla 
+`index`, cuya ubicación probablemente será algo como 
+`/WEB-INF/templates/index.html`, una vez aplicados el prefijo y el sufijo. Por 
+lo tanto, el resultado será completamente equivalente a especificar 
+`index :: content`:
 
 ```html
 <!DOCTYPE html>
@@ -1481,10 +1560,11 @@ the result will be completely equivalent to specifying `index :: content`:
 </html>
 ```
 
-Note also that, thanks to the power of Thymeleaf Markup Selectors, we could select a fragment in a 
-template without needing any `th:fragment` attributes at all. Let's use the `id` attribute, for example:
+Cabe destacar también que, gracias a la potencia de los selectores de marcado de 
+Thymeleaf, podríamos seleccionar un fragmento en una plantilla sin necesidad de 
+utilizar ningún atributo `th:fragment`. Usemos el atributo `id`, por ejemplo:
 
-```xml
+```java
 @Bean(name="content-part")
 @Scope("prototype")
 public ThymeleafView someViewBean() {
@@ -1494,7 +1574,7 @@ public ThymeleafView someViewBean() {
 }
 ``` 
 
-...which will perfectly select:
+...que seleccionará perfectamente:
 
 ```html
 <!DOCTYPE html>
@@ -1513,11 +1593,12 @@ public ThymeleafView someViewBean() {
 
 
 
-10.2 Specifying fragments in controller return values
+10.2 Especificar fragmentos en los valores de retorno del controlador
 ---------------------------------------------------
 
-Instead of declaring *view beans*, fragments can be specified from the controllers themselves by using the 
-syntax of *fragment expressions*. Just like in `th:insert` or `th:replace` attributes:
+En lugar de declarar *beans de vista*, los fragmentos se pueden especificar 
+desde los propios controladores utilizando la sintaxis de *expresiones de 
+fragmento*. Al igual que en los atributos `th:insert` o `th:replace`:
 
 ```java    
 @RequestMapping("/showContentPart")
@@ -1527,8 +1608,9 @@ public String showContentPart() {
 }
 ```
 
-Of course, again the full power of DOM Selectors is available, so we could select our fragment based on 
-standard HTML attributes, like `id="content"`:
+Por supuesto, nuevamente está disponible todo el poder de los selectores DOM, 
+por lo que podríamos seleccionar nuestro fragmento basándonos en atributos HTML 
+estándar, como `id="content"`:
 
 ```java    
 @RequestMapping("/showContentPart")
@@ -1538,7 +1620,7 @@ public String showContentPart() {
 }
 ```
 
-And we can also use parameters, like:
+Y también podemos usar parámetros, como:
 
 ```java    
 @RequestMapping("/showContentPart")
@@ -1550,18 +1632,24 @@ public String showContentPart() {
 
 
 
-11 Advanced Integration Features
+11 Funciones de integración avanzadas
 ================================
 
 
-11.1 Integration with `RequestDataValueProcessor`
+11.1 Integración con `RequestDataValueProcessor`
 -------------------------------------------------
 
-Thymeleaf seamlessly integrates with Spring's `RequestDataValueProcessor` interface. This interface allows the interception of link URLs, form URLs and form field values before they are written to the markup result, as well as transparently adding hidden form fields that enable security features like e.g. protection agains CSRF (Cross-Site Request Forgery).
+Thymeleaf se integra a la perfección con la interfaz `RequestDataValueProcessor` 
+de Spring. Esta interfaz permite interceptar las URL de enlaces, las URL de 
+formularios y los valores de los campos de formulario antes de que se escriban 
+en el resultado del marcado, además de añadir de forma transparente campos de 
+formulario ocultos que habilitan funciones de seguridad como la protección 
+contra CSRF (falsificación de solicitudes entre sitios).
 
-An implementation of `RequestDataValueProcessor` can be easily configured at the Application Context. It needs to implement
-the `org.springframework.web.servlet.support.RequestDataValueProcessor` interface and have 
-`requestDataValueProcessor` as a bean name:
+Una implementación de `RequestDataValueProcessor` se puede configurar fácilmente 
+en el contexto de la aplicación. Debe implementar la interfaz 
+`org.springframework.web.servlet.support.RequestDataValueProcessor` y tener 
+`requestDataValueProcessor` como nombre de bean:
 
 ```java
 @Bean
@@ -1570,34 +1658,47 @@ public RequestDataValueProcessor requestDataValueProcessor() {
 }
 ```
 
-...and Thymeleaf will use it this way:
+...y Thymeleaf lo utilizará de esta manera:
 
-  * `th:href` and `th:src` call `RequestDataValueProcessor.processUrl(...)` before rendering the URL.
+* `th:href` y `th:src` llaman a `RequestDataValueProcessor.processUrl(...)` 
+  antes de renderizar la URL.
+* `th:action` llama a `RequestDataValueProcessor.processAction(...)` antes de 
+   renderizar el atributo `action` del formulario y, además, detecta cuándo se 
+   aplica este atributo a una etiqueta `<form>` (que, en teoría, debería ser el 
+   único lugar), y en ese caso llama a 
+   `RequestDataValueProcessor.getExtraHiddenFields(...)` y añade los campos 
+   ocultos devueltos justo antes de la etiqueta de cierre `</form>`.
+* `th:value` llama a `RequestDataValueProcessor.processFormFieldValue(...)` para 
+   renderizar el valor al que se refiere, a menos que haya un `th:field` 
+   presente en la misma etiqueta (en cuyo caso `th:field` se encargará de ello).
+* `th:field` llama a `RequestDataValueProcessor.processFormFieldValue(...)` para 
+   renderizar el valor del campo al que se aplica (o el cuerpo de la etiqueta si 
+   es un `<textarea>`).
 
-  * `th:action` calls `RequestDataValueProcessor.processAction(...)` before rendering the form's `action` attribute, and additionally it detects when this attribute is being applied on a `<form>` tag ---which should be the only place, anyway---, and in such case calls `RequestDataValueProcessor.getExtraHiddenFields(...)` and adds the returned hidden fields just before the closing `</form>` tag.
 
-  * `th:value` calls `RequestDataValueProcessor.processFormFieldValue(...)` for rendering the value it refers to, unless there is a `th:field` present in the same tag (in which case `th:field` will take care).
-
-  * `th:field` calls `RequestDataValueProcessor.processFormFieldValue(...)` for rendering the value of the field it applies to (or the tag body if it is a `<textarea>`).
-
-
-> Note there are very few scenarios in which you would need to explicitly implement `RequestDataValueProcessor`
-> in your application. In most cases, this will be used automatically by security libraries you transparently use, 
-> like e.g. Spring Security's CSRF support.
+> Cabe destacar que existen muy pocos escenarios en los que sea necesario 
+> implementar explícitamente `RequestDataValueProcessor` en su aplicación. En la 
+> mayoría de los casos, las bibliotecas de seguridad que utilice de forma 
+> transparente, como por ejemplo la compatibilidad con CSRF de Spring Security, 
+> lo usarán automáticamente.
 
 
 
-11.1 Building URIs to controllers
+11.1 Creación de URI para controladores
 ---------------------------------
 
-Since version 4.1, Spring allows the possibility to build links to annotated controllers directly from views, without the 
-need to know the URIs these controllers are mapped to.
+Desde la versión 4.1, Spring permite crear enlaces a controladores anotados 
+directamente desde las vistas, sin necesidad de conocer las URI a las que están 
+mapeados dichos controladores.
 
-In Thymeleaf, this can be achieved by means of the `#mvc.url(...)` expression object method, which allows the 
-specification of controller methods by the capital letters of the controller class they are in, followed by 
-the name of the method itself. This is equivalent to JSP's `spring:mvcUrl(...)` custom function. 
+En Thymeleaf, esto se logra mediante el método de objeto de expresión 
+`#mvc.url(...)`, que permite especificar los métodos del controlador mediante 
+las letras mayúsculas de la clase del controlador a la que pertenecen, seguidas 
+del nombre del método. Esto es equivalente a la función personalizada 
+`spring:mvcUrl(...)` de JSP.
 
-For example, for:
+Por ejemplo, para:
+
 ```java
 public class ExampleController {
 
@@ -1609,39 +1710,40 @@ public class ExampleController {
 
 }
 ```
-The following code will create a link to it:
+El siguiente código creará un enlace al mismo:
 ```html
 <a th:href="${(#mvc.url('EC#getData')).build()}">Get Data Param</a>
 <a th:href="${(#mvc.url('EC#getDataParam').arg(0,'internal')).build()}">Get Data Param</a>
 ``` 
 
-You can read more about this mechanism 
-at http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-links-to-controllers-from-views
+Puedes leer más sobre este mecanismo en 
+http://docs.spring.io/spring-framework/docs/4.1.2.RELEASE/spring-framework-reference/html/mvc.html#mvc-links-to-controllers-from-views
 
 
-12 Spring WebFlow integration
+12 Integración con Spring WebFlow
 ============================
 
 
-12.1 Basic configuration
+12.1 Configuración básica
 -----------------------
 
-The Thymeleaf + Spring integration packages include integration with Spring
-WebFlow.
+Los paquetes de integración de Thymeleaf + Spring incluyen la integración con 
+Spring WebFlow.
 
-_Note: Spring WebFlow 2.5+ is required when Thymeleaf is used with Spring 5, while only
-versions older than WebFlow 2.5 are allowed when Thymeleaf is used with earlier
-versions of Spring._
+_Nota: Se requiere Spring WebFlow 2.5 o superior al usar Thymeleaf con Spring 5, 
+mientras que solo se permiten versiones anteriores a WebFlow 2.5 al usar 
+Thymeleaf con versiones anteriores de Spring._
 
-WebFlow includes some AJAX capabilities for rendering fragments of the displayed
-page when specific events (_transitions_) are triggered, and in order to enable
-Thymeleaf to attend these AJAX requests, we will have to use a different `ViewResolver`
-implementation, configured like this (for Spring WebFlow 2.5+):
+WebFlow incluye funcionalidades AJAX para renderizar fragmentos de la página 
+mostrada cuando se activan eventos específicos (_transiciones_). Para que 
+Thymeleaf pueda gestionar estas solicitudes AJAX, será necesario usar una 
+implementación diferente de `ViewResolver`, configurada de la siguiente manera 
+(para Spring WebFlow 2.5 o superior):
 
 ```java
 @Bean
 public FlowDefinitionRegistry flowRegistry() {
-    // NOTE: Additional configuration might be needed in your app
+    // NOTA: Es posible que se requiera configuración adicional en su aplicación.
     return getFlowDefinitionRegistryBuilder()
             .addFlowLocation("...")
             .setFlowBuilderServices(flowBuilderServices())
@@ -1650,13 +1752,13 @@ public FlowDefinitionRegistry flowRegistry() {
 
 @Bean
 public FlowExecutor flowExecutor() {
-    // NOTE: Additional configuration might be needed in your app
+    // NOTA: Es posible que se requiera configuración adicional en su aplicación.
     return getFlowExecutorBuilder(flowRegistry()).build();
 }
 
 @Bean
 public FlowBuilderServices flowBuilderServices() {
-    // NOTE: Additional configuration might be needed in your app
+    // NOTA: Es posible que se requiera configuración adicional en su aplicación.
     return getFlowBuilderServicesBuilder()
             .setViewFactoryCreator(viewFactoryCreator())
             .build();
@@ -1674,7 +1776,7 @@ public ViewFactoryCreator viewFactoryCreator() {
 @Bean
 public ViewResolver thymeleafViewResolver() {
     AjaxThymeleafViewResolver viewResolver = new AjaxThymeleafViewResolver();
-    // We need to set a special ThymeleafView implementation: FlowAjaxThymeleafView
+    // Necesitamos configurar una implementación especial de ThymeleafView: FlowAjaxThymeleafView
     viewResolver.setViewClass(FlowAjaxThymeleafView.class);
     viewResolver.setTemplateEngine(templateEngine());
     return viewResolver;
@@ -1682,10 +1784,12 @@ public ViewResolver thymeleafViewResolver() {
 
 ```
 
-Note the above is not a complete configuration: you will still need to configure your handlers, etc. Refer to the
-Spring WebFlow documentation for that.
+Tenga en cuenta que la configuración anterior no está completa: aún deberá 
+configurar sus manejadores, etc. Consulte la documentación de Spring WebFlow 
+para obtener más información.
 
-From here on, you can specify Thymeleaf templates in your view-state's:
+A partir de aquí, puede especificar las plantillas de Thymeleaf en sus estados 
+de vista:
 
 ```xml
 <view-state id="detail" view="bookingDetail">
@@ -1693,22 +1797,24 @@ From here on, you can specify Thymeleaf templates in your view-state's:
 </view-state>
 ```
 
-In the above example, `bookingDetail` is a Thymeleaf template specified in the
-usual way, understandable by any of the _Template Resolvers_ configured at the `TemplateEngine`.
+En el ejemplo anterior, `bookingDetail` es una plantilla Thymeleaf especificada 
+de la forma habitual, comprensible para cualquiera de los _solucionadores de 
+plantillas_ configurados en el `TemplateEngine`.
 
 
 
-12.2 AJAX fragments in Spring WebFlow
+12.2 Fragmentos AJAX en Spring WebFlow
 -------------------------------------
 
-> Note that what is explained here is just the way to create AJAX fragments to be used
-> with Spring WebFlow. If you are not using WebFlow, creating a Spring MVC controller that
-> responds to an AJAX request and returns a chunk of HTML is as straightforward as creating
-> any other template-returning controller, with the only exception that you would probably
-> be returning a fragment like `"main :: admin"` from your controller method.
+> Tenga en cuenta que lo que se explica aquí es simplemente la forma de crear 
+> fragmentos AJAX para usar con Spring WebFlow. Si no usa WebFlow, crear un 
+> controlador Spring MVC que responda a una solicitud AJAX y devuelva un 
+> fragmento HTML es tan sencillo como crear cualquier otro controlador que 
+> devuelva una plantilla, con la única excepción de que probablemente devolverá 
+> un fragmento como `"main :: admin"` desde el método de su controlador.
 
-WebFlow allows the specification of fragments to be rendered via AJAX with `<render>`
-tags, like this:
+WebFlow permite especificar fragmentos que se renderizarán mediante AJAX con 
+etiquetas `<render>`, como esta:
 
 ```xml
 <view-state id="detail" view="bookingDetail">
@@ -1718,8 +1824,8 @@ tags, like this:
 </view-state>
 ```
 
-These fragments (`hoteldata`, in this case) can be a comma-separated list of
-fragments specified at the markup with `th:fragment`:
+Estos fragmentos (`hoteldata`, en este caso) pueden ser una lista de fragmentos 
+separados por comas, especificados en el marcado con `th:fragment`:
 
 ```xml
 <div id="data" th:fragment="hoteldata">
@@ -1727,11 +1833,11 @@ fragments specified at the markup with `th:fragment`:
 </div>
 ```
 
-_Always remember that the specified fragments must have an `id` attribute, so
-that the Spring JavaScript libraries running on the browser are capable of
-substituting the markup._
+_Recuerde siempre que los fragmentos especificados deben tener un atributo `id`, 
+para que las bibliotecas JavaScript de Spring que se ejecutan en el navegador 
+puedan sustituir el marcado._
 
-`<render>` tags can also be specified using DOM selectors:
+Las etiquetas `<render>` también se pueden especificar mediante selectores DOM:
 
 ```html
 <view-state id="detail" view="bookingDetail">
@@ -1741,7 +1847,7 @@ substituting the markup._
 </view-state>
 ```
 
-...and this will mean no `th:fragment` is needed:
+...y esto significa que no se necesita ningún `th:fragment`:
 
 ```html
 <div id="data">
@@ -1749,7 +1855,8 @@ substituting the markup._
 </div>
 ```
 
-As for the code that triggers the `updateData` transition, it looks like:
+En cuanto al código que activa la transición `updateData`, tiene el siguiente 
+aspecto:
 
 ```html
 <script type="text/javascript" th:src="@{/resources/dojo/dojo.js}"></script>

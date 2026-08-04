@@ -1,97 +1,98 @@
 ---
-title: Getting started with the Standard dialects in 5 minutes
+title: Primeros pasos con los dialectos estándar en 5 minutos
 ---
 
 
-This guide will take you through some of the most important concepts you
-need to know to understand a Thymeleaf template written in the
-*Standard* or *SpringStandard* dialects. It is not a substitute for the
-tutorials -- which are much more comprehensive -- but it will teach you
-enough for getting the feel of the technology.
+Esta guía te llevará a través de algunos de los conceptos más importantes que
+necesitas conocer para entender una plantilla de Thymeleaf escrita en los
+dialectos *Standard* o *SpringStandard*. No es un sustituto de los
+tutoriales -- que son mucho más completos -- pero te enseñará
+lo suficiente para familiarizarte con la tecnología.
 
 
-Standard dialects?
+¿Dialectos estándar?
 ------------------
 
-Thymeleaf is very, very extensible, and it allows you to define your own
-sets of template attributes (or even tags) with the names you want,
-evaluating the expressions you want in the syntax you want and applying
-the logic you want. It's more like a *template engine framework*.
+Thymeleaf es muy, muy extensible, y te permite definir tus propios
+conjuntos de atributos de plantilla (o incluso etiquetas) con los nombres que desees,
+evaluando las expresiones que quieras en la sintaxis que prefieras y aplicando
+la lógica que necesites. Es más bien un *framework de motor de plantillas*.
 
-Out of the box, nevertheless, it comes with something called *the
-standard dialects* (named *Standard* and *SpringStandard*) that define a
-set of features which should be more than enough for most scenarios. You
-can identify when these standard dialects are being used in a template
-because it will contain attributes starting with the `th` prefix, like
-`<span th:text="...">`.
+Sin embargo, de manera predeterminada, viene con algo llamado *los dialectos
+estándar* (llamados *Standard* y *SpringStandard*) que definen un conjunto de
+características que deberían ser más que suficientes para la mayoría de los
+escenarios. Puedes identificar cuándo se están utilizando estos dialectos estándar
+en una plantilla porque contendrá atributos que comienzan con el prefijo `th`,
+como `<span th:text="...">`.
 
-Note that the *Standard* and the *SpringStandard* dialects are almost
-identical, except that *SpringStandard* includes specific features for
-integrating into Spring MVC applications (like, for example, using
-*Spring Expression Language* for expression evaluation instead of
+Ten en cuenta que los dialectos *Standard* y *SpringStandard* son casi
+idénticos, excepto que *SpringStandard* incluye características específicas para
+la integración con aplicaciones Spring MVC (como, por ejemplo, el uso de
+*Spring Expression Language* para la evaluación de expresiones en lugar de
 *OGNL*).
 
-Also note we usually refer to features in the Standard dialects when we
-talk about Thymeleaf without being more specific.
+También ten en cuenta que normalmente nos referimos a las características de los 
+dialectos estándar cuando hablamos de Thymeleaf sin ser más específicos.
 
 
-Standard Expression syntax
+Sintaxis de expresiones estándar
 --------------------------
 
-Most Thymeleaf attributes allow their values to be set as or containing
-*expressions*, which we will call *Standard Expressions* because of the
-dialects they are used in. These can be of five types:
+La mayoría de los atributos de Thymeleaf permiten que sus valores se establezcan
+como *expresiones* o que las contengan, a las que llamaremos *Expresiones Estándar*
+debido a los dialectos en los que se utilizan. Estas pueden ser de cinco tipos:
 
-  - `${...}` : Variable expressions.
-  - `*{...}` : Selection expressions.
-  - `#{...}` : Message (i18n) expressions.
-  - `@{...}` : Link (URL) expressions.
-  - `~{...}` : Fragment expressions.
+  - `${...}` : Expresiones de variable.
+  - `*{...}` : Expresiones de selección.
+  - `#{...}` : Expresiones de mensajes (i18n).
+  - `@{...}` : Expresiones de enlace (URL).
+  - `~{...}` : Expresiones de fragmentos.
 
-### Variable expressions
+### Expresiones de variables
 
-Variable expressions are OGNL expressions --or Spring EL if you're integrating
-Thymeleaf with Spring-- executed on the *context variables* --- also called
-*model attributes* in Spring jargon. They look like this:
+
+Las expresiones de variable son expresiones OGNL —o Spring EL si estás integrando
+Thymeleaf con Spring— ejecutadas sobre las *variables de contexto* —también llamadas
+*atributos de modelo* en la jerga de Spring—. Se ven así:
 
 ```html
 ${session.user.name}
 ```
 
-And you will find them as attribute values or as a part of them,
-depending on the attribute:
+Y los encontrarás como valores de atributo o como parte de ellos, dependiendo 
+del atributo:
 
 ```html
 <span th:text="${book.author.name}">
 ```
 
-The expression above is equivalent (both in OGNL and SpringEL) to:
+La expresión anterior es equivalente (tanto en OGNL como en SpringEL) a:
 ```java
 ((Book)context.getVariable("book")).getAuthor().getName()
 ```
 
-But we can find variable expressions in scenarios which not only involve
-*output*, but more complex processing like *conditionals*, *iteration*...
+Pero podemos encontrar expresiones variables en escenarios que no solo involucran
+*salida*, sino un procesamiento más complejo como *condicionales*, *iteración*...
 
 ```html
 <li th:each="book : ${books}">
 ```
 
-Here `${books}` selects the variable called `books` from the context, and
-evaluates it as an *iterable* to be used at a `th:each` loop.
+Aquí, `${books}` selecciona la variable llamada `books` del contexto y la
+evalúa como un *iterable* para ser utilizada en un bucle `th:each`.
 
 
-### Selection expressions
+### Expresiones de selección
 
-Selection expressions are just like variable expressions, except they
-will be executed on a previously selected object instead of the whole
-context variables map. They look like this:
+Las expresiones de selección son exactamente como las expresiones de variable, 
+excepto que se ejecutarán sobre un objeto seleccionado previamente en lugar de 
+sobre todo el mapa de variables de contexto. Tienen este aspecto:
 
 ```html
 *{customer.name}
 ```
 
-The object they act on is specified by a `th:object` attribute:
+El objeto sobre el que actúan se especifica mediante un atributo `th:object`:
 
 ```html
 <div th:object="${book}">
@@ -101,7 +102,7 @@ The object they act on is specified by a `th:object` attribute:
 </div>
 ```
 
-So that would be equivalent to:
+Así que eso sería equivalente a:
 ```java
 {
   // th:object="${book}"
@@ -111,16 +112,17 @@ So that would be equivalent to:
 }
 ```
 
-### Message (i18n) expressions
+### Expresiones de mensajes (i18n)
 
-Message expressions (often called *text externalization*, 
-*internationalization* or *i18n*) allows us to
-retrieve locale-specific messages from external sources (`.properties`
-files), referencing them by a key and (optionally) applying a set of
-parameters.
+Las expresiones de mensajes (a menudo llamadas *externalización de textos*,
+*internacionalización* o *i18n*) nos permiten recuperar mensajes
+específicos de una configuración regional (*locale*) a partir de fuentes
+externas (archivos `.properties`), referenciándolos mediante una clave y
+(opcionalmente) aplicando un conjunto de parámetros.
 
-In Spring applications, this will automatically integrate with Spring's
-`MessageSource` mechanism.
+
+En aplicaciones Spring, esto se integrará automáticamente con el mecanismo 
+`MessageSource` de Spring.
 
 ```html
 #{main.title}
@@ -130,7 +132,7 @@ In Spring applications, this will automatically integrate with Spring's
 #{message.entrycreated(${entryId})}
 ```
 
-You can find them in templates like:
+Puedes encontrarlos en plantillas como esta:
 
 ```html
 <table>
@@ -141,102 +143,108 @@ You can find them in templates like:
 </table>
 ```
 
-Note you can use *variable expressions* inside *message expressions* if you
-want the message key to be determined by the value of a context variable,
-or you want to specify variables as parameters:
+Tenga en cuenta que puede usar *expresiones de variables* dentro de 
+*expresiones de mensajes* si desea que la clave del mensaje esté determinada por 
+el valor de una variable de contexto, o si desea especificar variables como 
+parámetros:
 
 ```html
 #{${config.adminWelcomeKey}(${session.user.name})}
 ```
 
-### Link (URL) expressions
+### Expresiones de enlace (URL)
 
-Link expressions are meant to build URLs and add useful context and session info to
-them (a process usually called *URL rewriting*).
+Las expresiones de enlace están diseñadas para construir URL y agregarles 
+contexto útil e información de sesión (un proceso que generalmente se denomina 
+*reescritura de URL*).
 
-So for a web application deployed at the `/myapp` context of your web server, an
-expression such as: 
+Por lo tanto, para una aplicación web desplegada en el contexto `/myapp` de su 
+servidor web, una expresión como esta:
 
 ```html
 <a th:href="@{/order/list}">...</a>
 ```
 
-Could be converted into something like this:
+Podría convertirse en algo como esto:
 
 ```html
 <a href="/myapp/order/list">...</a>
 ```
 
-Or even this, if we need to keep sessions and cookies are not enabled (or the server doesn't
-know yet):
+O incluso esto, si necesitamos mantener las sesiones y las cookies no están 
+habilitadas (o el servidor aún no lo sabe):
 
 ```html
 <a href="/myapp/order/list;jsessionid=23fa31abd41ea093">...</a>
 ```
 
 
-URLs can also take parameters:
+Las URL también pueden aceptar parámetros:
 
 ```html
 <a th:href="@{/order/details(id=${orderId},type=${orderType})}">...</a>
 ```
 
-Resulting in something like this:
+El resultado es algo como esto:
 
 ```html
-<!-- Note ampersands (&) should be HTML-escaped in tag attributes... -->
+<!-- Tenga en cuenta que los signos de ampersand (&) deben codificarse en HTML 
+     en los atributos de las etiquetas... -->
 <a href="/myapp/order/details?id=23&amp;type=online">...</a>
 ```
 
 
-Link expressions can be relative, in which case no application 
-context will be prefixed to the URL:
+Las expresiones de enlace pueden ser relativas, en cuyo caso no se antepondrá 
+ningún contexto de aplicación a la URL:
 
 ```html
 <a th:href="@{../documents/report}">...</a>
 ```
 
-Also server-relative (again, no application context to be prefixed):
+También relativo al servidor (de nuevo, no es necesario anteponer ningún 
+contexto de aplicación):
 
 ```html
 <a th:href="@{~/contents/main}">...</a>
 ```
-
-And protocol-relative (just like absolute URLs, but browser will
-use the same HTTP or HTTPS protocol used in the page being displayed):
+Y relativo al protocolo (igual que las URL absolutas, pero el navegador 
+utilizará el mismo protocolo HTTP o HTTPS que se usa en la página que se 
+muestra):
 
 ```html
 <a th:href="@{//static.mycompany.com/res/initial}">...</a>
 ```
 
-And of course, Link expressions can be absolute:
+Y, por supuesto, las expresiones de enlace pueden ser absolutas:
 
 ```html
 <a th:href="@{http://www.mycompany.com/main}">...</a>
 ```
 
-But wait, in an absolute (or protocol-relative) URL... what value does
-the Thymeleaf Link Expression add? easy: the possibility of URL-rewriting
-defined by *response filters*: In a Servlet-based web application, for every URL being output 
-(context-relative, relative, absolute...) Thymeleaf will always call the 
-`HttpServletResponse.encodeUrl(...)` mechanism before displaying the URL. Which
-means that a filter can perform customized URL-rewriting for the application by
-means of wrapping the `HttpServletResponse` object (a commonly used mechanism).
+Pero un momento, en una URL absoluta (o relativa al protocolo)... ¿qué valor 
+aporta la expresión de enlace de Thymeleaf? Fácil: la posibilidad de reescribir 
+la URL definida por los *filtros de respuesta*. En una aplicación web basada en 
+servlets, para cada URL que se genera (relativa al contexto, relativa, 
+absoluta...), Thymeleaf siempre llamará al mecanismo 
+`HttpServletResponse.encodeUrl(...)` antes de mostrar la URL. Esto significa que 
+un filtro puede realizar una reescritura de URL personalizada para la aplicación 
+envolviendo el objeto `HttpServletResponse` (un mecanismo de uso común).
 
 
-### Fragment expressions
 
-Fragment expressions are an easy way to represent fragments of markup and move
-them around templates. Thanks to these expressions, fragments can be replicated,
-passed to other templates as arguments, and so on.
+### Expresiones de fragmentos
 
-The most common use is for fragment insertion using `th:insert` or `th:replace`:
+Las expresiones de fragmento son una forma sencilla de representar fragmentos de 
+marcado y moverlos entre plantillas. Gracias a estas expresiones, los fragmentos 
+se pueden replicar, pasar a otras plantillas como argumentos, etc.
+
+El uso más común es para la inserción de fragmentos mediante `th:insert` o `th:replace`:
 
 ```html
 <div th:insert="~{commons :: main}">...</div>
 ```
 
-But they can be used anywhere, just as any other variable:
+Pero se pueden usar en cualquier lugar, como cualquier otra variable:
 
 ```html
 <div th:with="frag=~{footer :: #main/text()}">
@@ -244,7 +252,7 @@ But they can be used anywhere, just as any other variable:
 </div>
 ```
 
-Fragment expressions can have arguments:
+Las expresiones de fragmento pueden tener argumentos:
 
 ```html
 <div th:insert="~{commons :: #main(${title},${content})}">...</div>
@@ -261,79 +269,79 @@ context variables:
 ```
 
 
-### Literals and operations
+### Literales y operaciones
 
-A good bunch of types of literals and operations are available:
+Existe una buena variedad de tipos de literales y operaciones disponibles:
 
--   Literals:
-    -   Text literals: `'one text'`, `'Another one!'`,...
-    -   Number literals: `0`, `34`, `3.0`, `12.3`,...
-    -   Boolean literals: `true`, `false`
-    -   Null literal: `null`
-    -   Literal tokens: `one`, `sometext`, `main`,...
+-   Literales:
+    -   Literales de texto: `'one text'`, `'Another one!'`,...
+    -   Literales numéricos: `0`, `34`, `3.0`, `12.3`,...
+    -   Literales booleanos: `true`, `false`
+    -   Literal Null: `null`
+    -   Literales de tokens: `one`, `sometext`, `main`,...
 
--   Text operations:
-    -   String concatenation: `+`
-    -   Literal substitutions: `|The name is ${name}|`
+-   Operaciones de texto:
+    -   Concatenación de cadenas: `+`
+    -   Substitución de literales: `|The name is ${name}|`
 
--   Arithmetic operations:
-    -   Binary operators: `+`, `-`, `*`, `/`, `%`
-    -   Minus sign (unary operator): `-`
+-   Operaciones aritméticas:
+    -   Operadores binarios: `+`, `-`, `*`, `/`, `%`
+    -   Signo menos (operador unario): `-`
 
--   Boolean operations:
-    -   Binary operators: `and`, `or`
-    -   Boolean negation (unary operator): `!`, `not`
+-   Operaciones booleanas:
+    -   Operadores binarios: `and`, `or`
+    -   Negación booleana  (operador unario): `!`, `not`
 
--   Comparisons and equality:
-    -   Comparators: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
-    -   Equality operators: `==`, `!=` (`eq`, `ne`)
+-   Comparaciones e igualdad:
+    -   Comparadores: `>`, `<`, `>=`, `<=` (`gt`, `lt`, `ge`, `le`)
+    -   Operadores de igualdad: `==`, `!=` (`eq`, `ne`)
 
--   Conditional operators:
-    -   If-then: `(if) ? (then)`
-    -   If-then-else: `(if) ? (then) : (else)`
-    -   Default: `(value) ?: (defaultvalue)`
+-   Operadores condicionales:
+    -   Si-entonces: `(if) ? (then)`
+    -   Si-entonces-si no: `(if) ? (then) : (else)`
+    -   Defecto: `(value) ?: (defaultvalue)`
 
-### Expression preprocessing
+### Preprocesamiento de expresiones
 
-One last thing to know about expressions is there is something called
-*expression preprocessing*, specified between `__`, which looks like
-this:
+Una última cosa que debes saber sobre las expresiones es que existe algo llamado 
+*preprocesamiento de expresiones*, que se especifica entre `__` y tiene este 
+aspecto:
 
 ```html
 #{selection.__${sel.code}__}
 ```
 
-What we are seeing there is a variable expression (`${sel.code}`) that
-will be executed first and which result -- let's say, "`ALL`" -- will be
-used as a part of the real expression to be executed afterwards, in this
-case an internationalization one (which would look for the message with
-key `selection.ALL`).
+Lo que vemos ahí es una expresión variable (`${sel.code}`) que se ejecutará 
+primero y cuyo resultado —digamos, "`ALL`"— se utilizará como parte de la 
+expresión real que se ejecutará después, en este caso una expresión de 
+internacionalización (que buscaría el mensaje con la clave 
+`selection.ALL`).
 
 
-Some basic attributes
+Algunos atributos básicos
 ---------------------
 
-Let's have a look at a couple of the most basic attributes in the
-Standard Dialect. Starting with `th:text`, which just replaces the body
-of a tag (notice again the prototyping abilities here):
+Veamos algunos de los atributos más básicos del
+Dialecto Estándar. Empecemos con `th:text`, que simplemente reemplaza el cuerpo 
+de una etiqueta (nótese de nuevo la capacidad de prototipado):
 
 ```html
 <p th:text="#{msg.welcome}">Welcome everyone!</p>
 ```
 
-Now `th:each`, which repeats the element it's in as many times as
-specified by the array or list returned by its expression, creating also
-an inner variable for the iteration element with a syntax equivalent to
-that of a Java *foreach* expression:
+Ahora bien, `th:each`, que repite el elemento en el que se encuentra tantas veces 
+como especifique el array o la lista devuelta por su expresión, crea también una 
+variable interna para el elemento de iteración con una sintaxis equivalente a la 
+de una expresión *foreach* de Java::
 
 ```html
 <li th:each="book : ${books}" th:text="${book.title}">En las Orillas del Sar</li>
 ```
 
-Lastly, Thymeleaf includes lots of `th` attributes for specific XHTML
-and HTML5 attributes which just evaluate their expressions and set the
-value of these attributes to their result. Their names mimic those of
-the attributes which values they set:
+Por último, Thymeleaf incluye muchos atributos `th` para atributos específicos de 
+XHTML y HTML5 que simplemente evalúan sus expresiones y establecen el valor de 
+estos atributos al resultado. Sus nombres imitan los de los atributos cuyos 
+valores establecen:
 
 ```html
 <form th:action="@{/createOrder}">
@@ -348,8 +356,8 @@ the attributes which values they set:
 ```
 
 
-Want to know more?
+¿Quieres saber más?
 ------------------
 
-Then the [*"Using Thymeleaf"*](/documentation.html) tutorial is what
-you're looking for!
+¡Entonces el tutorial [*"Uso de Thymeleaf"*](/docs/documentation.html) es lo que 
+estás buscando!

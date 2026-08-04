@@ -1,46 +1,47 @@
 ---
-title: Sending email in Spring with Thymeleaf
+title: Envío de correos electrónicos en Spring con Thymeleaf
 author: 'Jos&eacute; Miguel Samper \<jmiguelsamper AT users.sourceforge.net\>'
 ---
 
-In this article we will show how to use Thymeleaf templates for
-composing email messages of several kinds, and we will integrate this
-with Spring's email utilities in order to configure a simple but
-powerful email system.
+En este artículo mostraremos cómo usar las plantillas de Thymeleaf para redactar 
+correos electrónicos de diversos tipos, e integraremos esto con las utilidades 
+de correo electrónico de Spring para configurar un sistema de correo electrónico 
+sencillo pero potente.
 
-Note that, although this article --and the corresponding example app--
-uses the Spring Framework, Thymeleaf can also be used for processing
-email templates in an application without Spring. Also note that the
-example application is a web application, but there is no need for an
-app to be web-enabled in order to send email with Thymeleaf.
+Cabe destacar que, si bien este artículo —y la aplicación de ejemplo 
+correspondiente— utiliza el framework Spring, Thymeleaf también puede usarse 
+para procesar plantillas de correo electrónico en una aplicación sin Spring. 
+Asimismo, tenga en cuenta que la aplicación de ejemplo es una aplicación web, 
+pero no es necesario que una aplicación esté habilitada para la web para enviar 
+correos electrónicos con Thymeleaf.
 
 
-Prerequisites
+Requisitos previos
 -------------
 
-This article assumes you are familiar with both Thymeleaf and Spring.
-We will not dive into Spring Mail details, for further information
-please take a look at the [Email chapter at the Spring
-Documentation](https://docs.spring.io/spring-framework/reference/integration/email.html).
+Este artículo presupone que usted está familiarizado con Thymeleaf y Spring.
+No profundizaremos en los detalles de Spring Mail; para obtener más información, 
+consulte el 
+[capítulo sobre correo electrónico en la documentación de Spring](https://docs.spring.io/spring-framework/reference/integration/email.html).
 
 
-Example application
+Ejemplo de aplicación
 -------------------
 
-All the code in this article comes from a working example application.  You can
-view or download the source from [its GitHub repo](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-springmail).
-Downloading this application, executing it and exploring its source code is
-highly recommended *(note that you will have to configure your SMTP user name
-and password (and your SMTP server if you are not using GMail) at 
+Todo el código de este artículo proviene de una aplicación de ejemplo funcional. 
+Puede ver o descargar el código fuente desde [su repositorio de GitHub](https://github.com/thymeleaf/thymeleaf/tree/3.1-master/examples/spring6/thymeleaf-examples-spring6-springmail). Se 
+recomienda encarecidamente descargar esta aplicación, ejecutarla y explorar su 
+código fuente *(tenga en cuenta que deberá configurar su nombre de usuario y 
+contraseña SMTP, así como su servidor SMTP si no utiliza Gmail, en 
 `src/main/resources/configuration.properties`)*.
 
 
-Sending email with Spring
+Envío de correo electrónico con Spring
 -------------------------
 
-First, you need to configure a **Mail Sender** object in your Spring
-configuration, as in the following code (your specific configuration
-needs might differ):
+Primero, debes configurar un objeto **Remitente de correo** en tu configuración 
+de Spring, como se muestra en el siguiente código (tus necesidades de 
+configuración específicas pueden variar):
 
 ```java
 @Configuration
@@ -59,14 +60,14 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 
         final JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
-        // Basic mail sender configuration, based on emailconfig.properties
+        // Configuración básica del remitente de correo, basada en emailconfig.properties
         mailSender.setHost(this.environment.getProperty(HOST));
         mailSender.setPort(Integer.parseInt(this.environment.getProperty(PORT)));
         mailSender.setProtocol(this.environment.getProperty(PROTOCOL));
         mailSender.setUsername(this.environment.getProperty(USERNAME));
         mailSender.setPassword(this.environment.getProperty(PASSWORD));
 
-        // JavaMail-specific mail sender configuration, based on javamail.properties
+        // Configuración del remitente de correo específica de JavaMail, basada en javamail.properties.
         final Properties javaMailProperties = new Properties();
         javaMailProperties.load(this.applicationContext.getResource(JAVA_MAIL_FILE).getInputStream());
         mailSender.setJavaMailProperties(javaMailProperties);
@@ -80,12 +81,13 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 }
 ```
 
-Note that the previous code is getting the configuration from the properties
-files `mail/emailconfig.properties` and `mail/javamail.properties` on your classpath.
+Tenga en cuenta que el código anterior obtiene la configuración de los archivos 
+de propiedades `mail/emailconfig.properties` y `mail/javamail.properties` en su 
+classpath.
 
-Spring provides a class called `MimeMessageHelper` to ease the creation
-of email messages. Let's see how to use it together with our
-`mailSender`.
+Spring proporciona una clase llamada `MimeMessageHelper` para facilitar la 
+creación de mensajes de correo electrónico. Veamos cómo usarla junto con 
+nuestro `mailSender`.
 
 ```java
 final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
@@ -98,41 +100,41 @@ this.mailSender.send(mimeMessage);
 ```
 
 
-Thymeleaf email templates
+Plantillas de correo electrónico de Thymeleaf
 -------------------------
 
-Using Thymeleaf for processing our email templates would allow us to use
-some interesting features:
+Utilizar Thymeleaf para procesar nuestras plantillas de correo electrónico nos 
+permitiría usar algunas funciones interesantes:
 
--   **Expressions** in Spring EL.
--   Flow control: **iterations**, **conditionals**, ...
--   **Utility functions**: date/number formatting, dealing with lists,
-    arrays...
--   Easy **i18n**, integrated with our application's Spring
-    internationalization infrastructure.
--   **Natural templating**: our email templates can be static
-    prototypes, written by UI designers.
+-   **Expresiones** en Spring EL.
+-   Control de flujo: **iteraciones**, **condicionales**, ...
+-   **Funciones de utilidad**: formato de fecha/número, manejo de listas, matrices...
+-   Fácil **i18n**, integrado con la infraestructura de internacionalización 
+    Spring de nuestra aplicación.
+-   **Plantillas naturales**: nuestras plantillas de correo electrónico pueden 
+    ser prototipos estáticos, escritos por diseñadores de interfaz de usuario.
 -   etc...
 
-Also, given the fact that Thymeleaf has no required dependencies on the servlet
-API, there would be **no need at all to create or send email
-from a web application**. The techniques explained here could be used
-with little or no change in a standalone application with no web UI.
+Además, dado que Thymeleaf no requiere dependencias de la API de servlets, 
+**no sería necesario crear ni enviar correos electrónicos desde una aplicación 
+web**. Las técnicas aquí explicadas podrían utilizarse con pocos o ningún cambio 
+en una aplicación independiente sin interfaz web.
 
-### Our goals
+### Nuestros objetivos
 
-Our example application will be sending five types of emails:
+Nuestra aplicación de ejemplo enviará cinco tipos de correos electrónicos:
 
-1.  Text (non-HTML) email.
-2.  Simple HTML (with internationalized greeting).
-3.  HTML text with an attachment.
-4.  HTML text with an inline image.
-5.  HTML text edited by the user.
+1. Correo de texto (sin HTML).
+2. HTML simple (con saludo internacionalizado).
+3. Texto HTML con un archivo adjunto.
+4. Texto HTML con una imagen insertada.
+5. Texto HTML editado por el usuario.
 
-### Spring configuration
+### Configuración de Spring
 
-In order to process our templates, we will configure a `TemplateEngine` especially
-configured for email processing, in our Spring Email configuration:
+Para procesar nuestras plantillas, configuraremos un `TemplateEngine` 
+especialmente configurado para el procesamiento de correo electrónico, en 
+nuestra configuración de Spring Email:
 
 ```java
 @Configuration
@@ -153,13 +155,13 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
     @Bean
     public TemplateEngine emailTemplateEngine() {
         final SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        // Resolver for TEXT emails
+        // Solucionador para correos electrónicos de texto
         templateEngine.addTemplateResolver(textTemplateResolver());
-        // Resolver for HTML emails (except the editable one)
+        // Solucionador para correos electrónicos HTML (excepto el editable)
         templateEngine.addTemplateResolver(htmlTemplateResolver());
-        // Resolver for HTML editable emails (which will be treated as a String)
+        // Solucionador para correos electrónicos HTML editables (que se tratarán como una cadena de texto).
         templateEngine.addTemplateResolver(stringTemplateResolver());
-        // Message source, internationalization specific to emails
+        // Fuente del mensaje, internacionalización específica para correos electrónicos
         templateEngine.setTemplateEngineMessageSource(emailMessageSource());
         return templateEngine;
     }
@@ -191,7 +193,7 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
     private ITemplateResolver stringTemplateResolver() {
         final StringTemplateResolver templateResolver = new StringTemplateResolver();
         templateResolver.setOrder(Integer.valueOf(3));
-        // No resolvable pattern, will simply process as a String template everything not previously matched
+        // No hay patrón resoluble, simplemente procesará como plantilla de cadena todo lo que no haya coincidido previamente.
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCacheable(false);
         return templateResolver;
@@ -202,45 +204,50 @@ public class SpringMailConfig implements ApplicationContextAware, EnvironmentAwa
 }
 ```
 
-Note that we have configured three *template resolvers* for our email-specific engine:
-one for the TEXT templates, another one for HTML templates, and a third one
-for editable HTML templates, which we will give the user the opportunity to modify
-and will reach the template engine as a mere `String` once modified.
+Tenga en cuenta que hemos configurado tres *resolutores de plantillas* para 
+nuestro motor específico de correo electrónico: uno para las plantillas de 
+TEXTO, otro para las plantillas HTML y un tercero para las plantillas HTML 
+editables, que daremos al usuario la oportunidad de modificar y que llegarán al 
+motor de plantillas como una simple `String` una vez modificadas.
 
-All three template resolvers are ordered so that they execute in sequence, trying to match
-their *resolvable patterns* against the name of the template and only 
-resolving the specified template if its name matches.
+Los tres solucionadores de plantillas están ordenados de manera que se ejecuten 
+en secuencia, intentando hacer coincidir sus *patrones resolubles* con el nombre 
+de la plantilla y resolviendo la plantilla especificada solo si su nombre 
+coincide.
 
-Also note how this `TemplateEngine` is specific to email processing, and completely
-separate to the one used for the web interface. This `TemplateEngine` for the web 
-interface, which will be integrated with Spring MVC by means of a `ThymeleafViewResolver`
-is in fact defined in a different `@Configuration` file implementing `WebMvcConfigurer`
-(and which we will not show here in order to focus on email processing).
+Cabe destacar también que este `TemplateEngine` es específico para el 
+procesamiento de correo electrónico y completamente independiente del utilizado 
+para la interfaz web. Este `TemplateEngine` para la interfaz web, que se 
+integrará con Spring MVC mediante un `ThymeleafViewResolver`, se define en 
+realidad en un archivo `@Configuration` diferente que implementa 
+`WebMvcConfigurer` (y que no mostraremos aquí para centrarnos en el 
+procesamiento de correo electrónico).
 
-### Executing the Template Engine
+### Ejecutando el motor de plantillas
 
-At some point in our code, we will need to execute our template engine
-in order to create the text of our messages. We have chosen to do this
-in an `EmailService` class, so that it stays clear that we consider this
-a responsibility of our *business layer* (and not the *web layer*).
+En algún punto de nuestro código, necesitaremos ejecutar nuestro motor de 
+plantillas para generar el texto de nuestros mensajes. Hemos optado por hacerlo 
+en una clase `EmailService`, para que quede claro que consideramos que esta es 
+una responsabilidad de nuestra *capa de negocio* (y no de la *capa web*).
 
-As usual in Thymeleaf, before executing we will need to populate a
-*context* containing all the variables we want to use during template
-execution. Given the fact that our email processing is not
-web-dependent, an instance of `Context` will do:
+Como es habitual en Thymeleaf, antes de ejecutar la plantilla necesitaremos 
+rellenar un *contexto* que contenga todas las variables que queremos usar 
+durante su ejecución. Dado que el procesamiento de nuestro correo electrónico no 
+depende de la web, una instancia de `Context` será suficiente:
 
 ```java
 final Context ctx = new Context(locale);
 ctx.setVariable("name", recipientName);
 ctx.setVariable("subscriptionDate", new Date());
 ctx.setVariable("hobbies", Arrays.asList("Cinema", "Sports", "Music"));
-ctx.setVariable("imageResourceName", imageResourceName); // so that we can reference it from HTML
+ctx.setVariable("imageResourceName", imageResourceName); // para que podamos hacer referencia a él desde HTML
 
 final String htmlContent = this.templateEngine.process("html/email-inlineimage.html", ctx);
 ```
 
-Our `email-inlineimage.html` is the template file we will use for
-sending emails with an inlined image, and it looks like:
+Nuestro archivo `email-inlineimage.html` es la plantilla que utilizaremos para 
+enviar correos electrónicos con una imagen insertada, y tiene el siguiente 
+aspecto:
 
 ```html
 <!DOCTYPE html>
@@ -280,27 +287,29 @@ sending emails with an inlined image, and it looks like:
 </html>
 ```
 
-Let's remark some points:
+Analicemos algunos puntos:
 
--   The former template is fully WYSIWYG; you can check how it looks
-    just by opening it with your browser. That's much better than
-    sending an email to see the result, isn't it?
+-   La plantilla anterior es totalmente WYSIWYG; puedes ver cómo queda 
+    simplemente abriéndola con tu navegador. Es mucho mejor que enviar un correo 
+    electrónico para ver el resultado, ¿verdad?
 
-![Image inlined in email](images/springmail/inline.png)
+![Imagen insertada en el correo electrónico](images/springmail/inline.png)
 
--   We can use all Thymeleaf features. Here for example we have used
-    i18n with a parameterized `#{...}` expression, `th:each` to iterate
-    over a list, `#dates` to format a date...
--   The `img` element has a hardcoded `src` value ---nice for
-    prototyping---, which will be substituted at runtime by something like
-    `cid:image.jpg` matching the attached image filename.
+-   Podemos usar todas las características de Thymeleaf. Aquí, por ejemplo, 
+    hemos usado i18n con una expresión parametrizada `#{...}`, `th:each` para 
+    iterar sobre una lista, `#dates` para formatear una fecha...
+-   El elemento `img` tiene un valor `src` codificado de forma fija (útil para 
+    la creación de prototipos), que se sustituirá en tiempo de ejecución por 
+    algo como `cid:image.jpg` que coincida con el nombre del archivo de imagen 
+    adjunto.
 
 
-### Text (non-HTML) email
+### Correo electrónico de texto (no HTML)
 
-And what about text email? Well, we have already configured a template resolver for textual
-email templates, so all we would have to do is create template using Thymeleaf's
-textual syntax, just like:
+¿Y qué pasa con el correo electrónico de texto? Bueno, ya hemos configurado un 
+resolvedor de plantillas para plantillas de correo electrónico de texto, así que 
+todo lo que tendríamos que hacer es crear una plantilla usando la sintaxis 
+textual de Thymeleaf, como por ejemplo:
 
 ```
 [( #{greeting(${name})} )]
@@ -320,13 +329,13 @@ Regards,
 
 
 
-Putting it all together
+Reuniéndolo todo
 -----------------------
 
-### The service class
+### La clase de servicio
 
-Finally, let's see how the method executing this email template at our
-`EmailService` service class would look like:
+Finalmente, veamos cómo se vería el método que ejecuta esta plantilla de correo 
+electrónico en nuestra clase de servicio `EmailService`:
 
 ```java
 public void sendMailWithInline(
@@ -334,14 +343,14 @@ public void sendMailWithInline(
   final byte[] imageBytes, final String imageContentType, final Locale locale)
   throws MessagingException {
 
-    // Prepare the evaluation context
+    // Preparar el contexto de evaluación
     final Context ctx = new Context(locale);
     ctx.setVariable("name", recipientName);
     ctx.setVariable("subscriptionDate", new Date());
     ctx.setVariable("hobbies", Arrays.asList("Cinema", "Sports", "Music"));
-    ctx.setVariable("imageResourceName", imageResourceName); // so that we can reference it from HTML
+    ctx.setVariable("imageResourceName", imageResourceName); // para que podamos hacer referencia a él desde HTML
 
-    // Prepare message using a Spring helper
+    // Preparar mensaje usando una función auxiliar de Spring.
     final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
     final MimeMessageHelper message =
         new MimeMessageHelper(mimeMessage, true, "UTF-8"); // true = multipart
@@ -349,36 +358,36 @@ public void sendMailWithInline(
     message.setFrom("thymeleaf@example.com");
     message.setTo(recipientEmail);
 
-    // Create the HTML body using Thymeleaf
+    // Crea el cuerpo HTML usando Thymeleaf.
     final String htmlContent = this.templateEngine.process("email-inlineimage.html", ctx);
     message.setText(htmlContent, true); // true = isHtml
 
-    // Add the inline image, referenced from the HTML code as "cid:${imageResourceName}"
+    // Agregue la imagen en línea, referenciada desde el código HTML como "cid:${imageResourceName}".
     final InputStreamSource imageSource = new ByteArrayResource(imageBytes);
     message.addInline(imageResourceName, imageSource, imageContentType);
 
-    // Send mail
+    // Enviar correo
     this.mailSender.send(mimeMessage);
 
 }
 ```
 
-Note that we have used an
-`org.springframework.core.io.ByteArrayResource` object to attach the
-image uploaded by the user, which we previously converted into a
+Tenga en cuenta que hemos utilizado un objeto
+`org.springframework.core.io.ByteArrayResource` para adjuntar la
+imagen subida por el usuario, que previamente convertimos en un
 `byte[]`.
 
-You could also make use of `FileSystemResource` to attach a file
-directly from the filesystem ---thus avoiding loading it into memory---, or
-`UrlResource` to attach a remote file.
+También puedes usar `FileSystemResource` para adjuntar un archivo directamente 
+desde el sistema de archivos ---evitando así cargarlo en la memoria--- o 
+`UrlResource` para adjuntar un archivo remoto.
 
-### The controller
+### El controlador
 
-Now for the controller method that calls our service:
+Ahora veamos el método del controlador que llama a nuestro servicio:
 
 ```java
 /*
-* Send HTML mail with inline image
+* Enviar correo HTML con imagen en línea
 */
 @RequestMapping(value = "/sendMailWithInlineImage", method = RequestMethod.POST)
 public String sendMailWithInline(
@@ -396,15 +405,15 @@ public String sendMailWithInline(
 }
 ```
 
-Cannot be easier. Note how we use a Spring MVC `MultipartFile` object to
-model the uploaded file and pass its contents on to the service.
+Es sumamente sencillo. Observa cómo utilizamos un objeto `MultipartFile` de 
+Spring MVC para modelar el archivo subido y pasar su contenido al servicio.
 
 
-More examples
+Más ejemplos
 -------------
 
-For the sake of brevity, we have only detailed one of the five types of
-email our application is able to send. However, you can see the source
-code required for creating all five types of emails at the `springmail`
-example application you can download from the [documentation
-page](/documentation.html).
+Para mayor brevedad, solo hemos detallado uno de los cinco tipos de correo 
+electrónico que nuestra aplicación puede enviar. Sin embargo, puede consultar el 
+código fuente necesario para crear los cinco tipos de correo electrónico en la 
+aplicación de ejemplo `springmail`, que puede descargar desde la [página de 
+documentación](/docs/documentation.html).

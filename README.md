@@ -1,19 +1,19 @@
 
-Documentacion Thymeleaf
+Documentación Thymeleaf
 =======================
 
 [![construcción](https://github.com/thymeleaf/thymeleaf-docs/actions/workflows/build.yaml/badge.svg)](https://github.com/thymeleaf/thymeleaf-docs/actions/workflows/build.yaml)
 
-La documentación de Thymeleaf está en formato Markdown, el cual es después 
-convertido a los formatos HTML, EPUB
+La documentación de Thymeleaf está en formato Markdown, la cual es después 
+convertida a los formatos HTML, EPUB
 (usando [Pandoc](https://johnmacfarlane.net/pandoc/)), 
 MOBI (usando [Calibre](https://calibre-ebook.com/))
-y PDF (usando [wkhtmltopdf](https://wkhtmltopdf.org/)) usando el script de 
-construcción de Gradle proporcionado.
+y PDF (usando [wkhtmltopdf](https://wkhtmltopdf.org/)) usando el script de construcción de Gradle 
+proporcionado.
 
-El estilo de Markdown utilizado es el Markdown de Pandoc. 
-The flavour of Markdown used is pandoc's Markdown. Sus particularidades y 
-extensiones pueden examinarse aquí.: https://pandoc.org/MANUAL.html#pandocs-markdown
+El estilo de Markdown utilizado es el Markdown de Pandoc. Sus particularidades y 
+extensiones pueden examinarse aquí.: 
+https://pandoc.org/MANUAL.html#pandocs-markdown
 
 
 Tipos de documentos gestionados

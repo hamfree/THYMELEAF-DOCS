@@ -42,8 +42,15 @@ repositories {
 	}
 }
 
+// Cross-platform helpers
+def isWindows = System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')
+def gradleWrapperCommand = isWindows ? 'gradlew.bat' : './gradlew'
+// Used both by Gretty (server) and wkhtmltopdf (client)
+def serverContextPath = '/thymeleaf-docs'
+
 gretty {
 	scanInterval 0
+	contextPath serverContextPath
 }
 
 // Replaces @projectVersion@ and @documentVersion@ placeholders in the docs
@@ -165,7 +172,7 @@ tasks.register('generateDocsHTML') {
 				def outputFile = file("${outputDir}/${docName}.html")
 				file(outputFile.parent).mkdirs()
 				exec {
-					commandLine = "c:/Program Files/Pandoc/pandoc.exe"
+					commandLine = "pandoc"
 					args = [
 						"--write=html5",
 						"--template=" + file("${templatesDir.path}/${docType}.html"),
@@ -173,7 +180,7 @@ tasks.register('generateDocsHTML') {
 						"--toc",
 						"--toc-depth=4",
 						"--section-divs",
-						"--no-highlight",
+						"--syntax-highlighting=none",
 						"--output=" + outputFile,
 						"${srcDir.path}/${docName}.md"
 					]
@@ -214,7 +221,7 @@ tasks.register('generateDocsEbook') {
 				exec {
 					// We need to set the working dir in order for pandoc to find images
 					workingDir = file(inputFile.parent)
-					commandLine = "c:/Program Files/Pandoc/pandoc.exe"
+					commandLine = "pandoc"
 					args = [
 						"--write=epub",
 						"--template=" + file("${templatesDir.path}/${docType}.epub"),
@@ -244,10 +251,13 @@ tasks.register('generateDocsEbook') {
  */
 tasks.register('startServer', ExecFork) {
 	dependsOn 'war'
+	// This task starts a long-running server in a forked process and is not suitable for Gradle state tracking.
+	doNotTrackState("Starts Gretty in a forked Gradle process")
 
-	commandLine = './gradlew.bat'
+	commandLine = gradleWrapperCommand
 	args = ['appStartWar']
-	waitForOutput = 'Run \'gradle appStop\' to stop the server'
+	// Be resilient across Gretty/Gradle versions and OS differences in the exact wording.
+	waitForOutput = 'appStop'
 }
 
 /**
@@ -262,17 +272,21 @@ tasks.register('generateDocsPDF') {
 
 	doLast {
 		// Generate the PDF documents from the modified HTML documents
-		fileTree(outputDir) { include '*/**/*.html' as Closure }.each { docFile ->
+		fileTree(outputDir) { include '*/**/*.html' }.each { docFile ->
 
 			def folderBase = relativePath(file(outputDir))
-			def docName = (relativePath(docFile).substring(folderBase.length() + 1) - ".html")
+			// Normalize path separators to match how docNames/docTypes keys are built (always with '/')
+			def docName = relativePath(docFile)
+					.substring(folderBase.length() + 1)
+					.replace('\\', '/')
+					.replaceAll(/\.html$/, '')
 			def docType = docTypes.get(docName)
 
-			if (conversions[docType].contains('pdf')) {
+			if (docType != null && conversions[docType]?.contains('pdf')) {
 				println "Generating PDF doc for ${docName} (${docType})..."
 
 				exec {
-					commandLine = 'D:/Program Files/wkhtmltopdf/bin/wkhtmltopdf.exe'
+					commandLine = 'wkhtmltopdf'
 					args = [
 						"--print-media-type",
 						"--dpi", "300",
@@ -280,10 +294,9 @@ tasks.register('generateDocsPDF') {
 						"--margin-bottom", "15",
 						"--footer-spacing", "5",
 						"--footer-font-size", "8",
-						"--footer-font-name", "'Ubuntu'",
 						"--footer-right", "Page [page] of [topage]",
 						"--quiet",
-						"http://localhost:8080/thymeleaf-docs/${docName}.html",
+						"http://localhost:8080${serverContextPath}/${docName}.html",
 						file("${outputDir}/${docName}.pdf")
 					]
 				}
@@ -291,7 +304,7 @@ tasks.register('generateDocsPDF') {
 		}
 
 		exec {
-			commandLine = './gradlew'
+			commandLine = gradleWrapperCommand
 			args = ['appStop']
 		}
 	}
